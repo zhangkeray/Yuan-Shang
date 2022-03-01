@@ -6,7 +6,6 @@
         expand-on-hover
         mini-variant-width="4em"
         fixed
-        :class="`elevation-${hover ? 24 : 8}`"
         
       >
         <v-list>
