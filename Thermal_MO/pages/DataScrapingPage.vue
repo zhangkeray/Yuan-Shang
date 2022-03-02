@@ -1,14 +1,17 @@
 <template>
-  <v-row>
-    <v-col class="text-center">
-   <v-skeleton-loader
-      class="mx-auto"
-      max-width="2000"
-      type="card, card, card"
-      
-    ></v-skeleton-loader>
-    </v-col>
-  </v-row>
+ <v-main>
+      <v-container>
+        <v-row>
+          <v-col
+            v-for="n in 24"
+            :key="n"
+            cols="4"
+          >
+            <v-card height="200"></v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
 </template>
 
 <script>

@@ -1,5 +1,8 @@
 <template>
+
   <v-app dark>
+      <v-app-bar app></v-app-bar>
+
       <v-navigation-drawer
         v-model="drawer"
         permanent
