@@ -1,7 +1,7 @@
 <template>
 
   <v-app dark>
-      <v-app-bar app></v-app-bar>
+      <!-- <v-app-bar app></v-app-bar> -->
 
       <v-navigation-drawer
         v-model="drawer"
@@ -40,7 +40,7 @@
             :key="i"
             :to="item.to"
             router
-            color="red"
+            color="primary"
             class="px-3"
           >
             <v-list-item-action>
