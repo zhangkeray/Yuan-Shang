@@ -18,7 +18,8 @@
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <h1>undefined</h1>
+            <h1>{{title}}</h1>
+            <h1>{{uid}}</h1>
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -123,7 +124,17 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: 'SetupPage',
-}
+  async asyncData ({ params }) {
+    const { data } = await axios.get(`http://192.168.0.173:8080/camera`)
+    // console.log(data);
+    return { 
+      title: data.camera1.name,
+      uid: data.camera1.uid
+    //   desc: data.description
+    }
+  }
+};
 </script>
