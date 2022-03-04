@@ -1,36 +1,40 @@
-<template lanf="html">
+<template lang="html">
   <div>
-    <v-text-field v-model="uid" label="Name"></v-text-field>
-    <v-text-field v-model="passwd" label="Password" type="password"></v-text-field>
-  <v-btn @click="handleLoginClick"> Login In </v-btn>
+    <v-text-field v-model="email" label="Email"></v-text-field>
+    <v-text-field
+      v-model="password"
+      label="Password"
+      type="password"
+    ></v-text-field>
+    <v-btn @click="handleLoginClicked"> Login </v-btn>
   </div>
-
 </template>
-
-
-
 <script>
   export default {
+      name: 'LoginPage',
     layout: 'TheSession',
-    data() {
-      return {
-        uid:'',
-        passwd:''
-      }  
-    },
-    methods: {
-      async handleLoginClick(){
-        try {
-          const response = await this.$auth.loginwith('local', { 
-            data: { uid: this.uid, passwd: this.passwd }
-            })
-            console.log(response)
-        } catch(err) {
-          console.log(err);
+      data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    async handleLoginClicked() {
+      try {
+        const response = await this.$auth.loginWith('local', {
+          data: { user: { email: this.email, password: this.password } }
+        })
+        console.log(response)
+        if (response.data.success) {
+          this.$router.replace({ name: 'blogs' })
         }
-
+      } catch (err) {
+        console.log(err)
       }
-      
     }
   }
+}
 </script>
+
+<style lang="css" scoped></style>

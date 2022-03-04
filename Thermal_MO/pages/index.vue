@@ -17,6 +17,7 @@ export default {
   name: 'IndexPage',
 
 
+
   // Vuetify components provide
   // a theme variable that is
   // used to determine dark

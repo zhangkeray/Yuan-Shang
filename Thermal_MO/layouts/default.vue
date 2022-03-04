@@ -108,6 +108,13 @@ export default {
           title: '權限管理',
           to: 'PermissionPage',
         },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'Blogs',
+          to: {
+            name: 'blogs'
+          }
+        }
 
         // {
         //   icon: 'mdi-chart-bubble',
