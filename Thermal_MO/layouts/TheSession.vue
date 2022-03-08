@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
     <v-app dark>
         <v-content>
             <v-container>
@@ -10,3 +10,4 @@
 <script>
 export default {}
 </script>
+<style lang="css" scoped></style>

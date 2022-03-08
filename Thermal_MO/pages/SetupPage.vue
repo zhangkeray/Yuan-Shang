@@ -1,4 +1,5 @@
 <template>
+<v-app>
   <v-card>
     <v-tabs vertical>
       <v-tab> 相機資訊 </v-tab>
@@ -174,6 +175,7 @@
       </v-tab-item>
     </v-tabs>
   </v-card>
+  </v-app>
 </template>
 
 
