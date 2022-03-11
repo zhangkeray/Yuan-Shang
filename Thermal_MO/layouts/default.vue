@@ -1,7 +1,13 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-app-bar app color="">
-      <v-avatar color="" size="32"></v-avatar>
+      <img
+                class=""
+                alt="logo"
+                src="/temporary-logo.png"
+                width="150em"
+              />
+      <!-- <v-avatar color="" size="32"></v-avatar> -->
       <v-tabs centered  color="grey darken-1">
         <v-tab v-for="(item, i) in items" :key="i" :to="item.to" router>
           <v-icon small>{{ item.icon }}</v-icon>
@@ -15,7 +21,7 @@
         size="32"
       ></v-avatar>
     </v-app-bar>
-    <v-main class="grey lighten-3">
+    <v-main>
         <Nuxt />
     </v-main>
   </v-app>
@@ -61,13 +67,6 @@ export default {
           title: '權限管理',
           to: 'PermissionPage',
         },
-        // {
-        //   icon: 'mdi-chart-bubble',
-        //   title: 'Blogs',
-        //   to: {
-        //     name: 'blogs'
-        //   }
-        // }
         // {
         //   icon: 'mdi-chart-bubble',
         //   title: 'Inspire',
