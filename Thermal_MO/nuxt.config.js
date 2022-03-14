@@ -41,9 +41,19 @@ export default {
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    'nuxt-socket-io'
 
   ],
+  io: {
+    // we could have multiple sockets that we identify with names
+    // one of these sockets may have set "default" to true
+    sockets: [{
+      default: true, // make this the default socket
+      name: 'main', // give it a name that we can later use to choose this socket in the .vue file
+      url: 'http://192.168.0.173:6147' // URL wherever your socket IO server runs
+    }]
+  },
   auth: {
     redirect: {
       login: '/login'

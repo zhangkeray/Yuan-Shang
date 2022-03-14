@@ -493,13 +493,15 @@
               This card will always be 4:3 (unless you put more stuff in it)
             </v-card-text>
           </v-responsive> -->
-                            <img
-                class="ttt"
-                alt=""
-                src="/forDemo/snapshot.jpg"
-                width="1050em"
-                style="display:block; margin:auto; align:center"
-              />
+          <div class="cover" id="cover">
+            <img
+              id="image"
+              src="https://dummyimage.com/640x480/969696/000000&text=loading...."
+            />
+            <div class="crosshair">
+              <img src="/images/spot(png).png" />
+            </div>
+          </div>
         </v-card>
       </v-col>
       <!--右1畫面顯示----------------------------------------------------------------------------------------------- -->
@@ -508,29 +510,29 @@
           <v-col cols="12" lg="7">
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
             <v-card class="fill-height" rounded="lg">
-               <v-subheader class="justify-center">警報紀錄</v-subheader>
-          <v-simple-table fixed-header height="300px">
-            <template #default>
-              <thead>
-                <tr>
-                  <th class="text-left">監測範圍</th>
-                  <th class="text-left">溫度</th>
-                  <th class="text-left">狀況</th>
-                  <th class="text-left">時間</th>
-                  <th class="text-left">日期</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in temps" :key="item.name">
-                  <td>{{ item.name }}</td>
-                  <td>{{ item.temperature }}°C</td>
-                  <td>{{ item.situation }}</td>
-                  <td>{{ item.time }}</td>
-                  <td>{{ item.date }}</td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
+              <v-subheader class="justify-center">警報紀錄</v-subheader>
+              <v-simple-table fixed-header height="300px">
+                <template #default>
+                  <thead>
+                    <tr>
+                      <th class="text-left">監測範圍</th>
+                      <th class="text-left">溫度</th>
+                      <th class="text-left">狀況</th>
+                      <th class="text-left">時間</th>
+                      <th class="text-left">日期</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="item in temps" :key="item.name">
+                      <td>{{ item.name }}</td>
+                      <td>{{ item.temperature }}°C</td>
+                      <td>{{ item.situation }}</td>
+                      <td>{{ item.time }}</td>
+                      <td>{{ item.date }}</td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
             </v-card>
           </v-col>
 
@@ -538,23 +540,23 @@
           <v-col cols="12" lg="5">
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
             <v-card class="mr-3 fill-height" rounded="lg">
-  <v-subheader class="justify-center">警報設置</v-subheader>
-          <v-simple-table fixed-header height="300px">
-            <template #default>
-              <thead>
-                <tr>
-                  <th class="text-left">監測範圍</th>
-                  <th class="text-left">溫度</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in temps" :key="item.name">
-                  <td>{{ item.name }}</td>
-                  <td>{{ item.temperature }}°C</td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
+              <v-subheader class="justify-center">警報設置</v-subheader>
+              <v-simple-table fixed-header height="300px">
+                <template #default>
+                  <thead>
+                    <tr>
+                      <th class="text-left">監測範圍</th>
+                      <th class="text-left">溫度</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="item in temps" :key="item.name">
+                      <td>{{ item.name }}</td>
+                      <td>{{ item.temperature }}°C</td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
             </v-card>
           </v-col>
 
@@ -562,15 +564,14 @@
           <v-col cols="12" lg="6">
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
             <v-card class="fill-height" rounded="lg">
-                       <img
+              <img
                 class="test3"
                 alt=""
                 src="/forDemo/test2.png"
                 width="200em"
-                                style="display:block; margin:auto; align:center"
-
+                style="display: block; margin: auto; align: center"
               />
-               </v-card>
+            </v-card>
           </v-col>
           <!--右4畫面顯示----------------------------------------------------------------------------------------------- -->
           <v-col cols="12" lg="6">
@@ -601,7 +602,7 @@
                         min="0"
                         :rules="[numberRule]"
                       ></v-text-field>
-                    <v-subheader class="mt-3">距離：</v-subheader>
+                      <v-subheader class="mt-3">距離：</v-subheader>
                       <v-text-field
                         ref="input"
                         v-model.number="number"
@@ -630,15 +631,13 @@
           <!--右5畫面顯示----------------------------------------------------------------------------------------------- -->
           <v-col cols="12" lg="12">
             <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
-            <v-card class="mr-3 fill-height" rounded="lg" >
+            <v-card class="mr-3 fill-height" rounded="lg">
               <img
                 class="test3"
                 alt=""
                 src="/forDemo/test3.png"
                 width="520em"
-                                style="display:block; margin:auto; align:center"
-
-
+                style="display: block; margin: auto; align: center"
               />
             </v-card>
           </v-col>
@@ -656,30 +655,30 @@ export default {
       {
         name: '點1',
         temperature: 15,
-        situation: "已超溫",
-        time: "04:30:14",
-        date: "2022/3/14"
+        situation: '已超溫',
+        time: '04:30:14',
+        date: '2022/3/14',
       },
       {
         name: '矩形1',
         temperature: 23,
-        situation: "已超溫",
-                time: "04:30:14",
-        date: "2022/3/14"
+        situation: '已超溫',
+        time: '04:30:14',
+        date: '2022/3/14',
       },
       {
         name: '點2',
         temperature: 26,
-        situation: "已超溫",
-                time: "04:30:14",
-        date: "2022/3/14"
+        situation: '已超溫',
+        time: '04:30:14',
+        date: '2022/3/14',
       },
       {
         name: '點3',
         temperature: 30,
-        situation: "已超溫",
-                time: "04:30:14",
-        date: "2022/3/14"
+        situation: '已超溫',
+        time: '04:30:14',
+        date: '2022/3/14',
       },
     ],
 
@@ -748,6 +747,18 @@ export default {
       return true
     },
   }),
+  mounted() {
+    const vm = this;
+    // use "main" socket defined in nuxt.config.js
+    vm.socket = this.$nuxtSocket({
+      name: "main", // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
+    });
+    var img = document.getElementById("image");
+    vm.socket.on("data", (data) => {
+      img.src = "data:image/jpeg;base64," + data;
+      img.style.transform = "rotate(360deg)";
+    });
+  },
 }
 </script>
 <style scoped>
@@ -778,8 +789,16 @@ export default {
 .box:hover .drawer {
   left: 0;
 }
-
-
-
-
+.cover {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+  display: inline-block;
+}
+#image {
+  /* transform:rotate(180deg); */
+  width: 100%;
+  max-width: 100%;
+  pointer-events: none;
+}
 </style>
