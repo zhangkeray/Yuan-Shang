@@ -95,9 +95,9 @@ export default {
     },
   },
   server: {
-    // host: '192.168.0.182',
+    host: '192.168.0.182',
     // host: '192.168.0.173',
-    // port: 3001,
+    port: 3001,
   },
   // Content module configuration: https://go.nuxtjs.dev/config-content
   content: {},
