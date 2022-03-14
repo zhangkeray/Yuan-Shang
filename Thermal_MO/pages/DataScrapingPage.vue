@@ -1,7 +1,7 @@
 <template>
   <v-container fluid mt-3>
     <div class="box">
-      <v-card class="drawer" rounded="lg" dark light elevation="15">
+      <v-card class="drawer" rounded="lg" light elevation="15">
         <v-row>
           <v-col>
             <!-- 監測工具monitoring tools------------------------------------------------------------------------------ -->
@@ -496,99 +496,130 @@
       <v-col cols="12" md="7">
         <!-- <v-col cols="12" md="7" style="border: 1px solid red"> -->
         <v-card class="ml-3 fill-height" rounded="lg">
-          <!-- <v-responsive :aspect-ratio="4 / 3">
+          <v-responsive :aspect-ratio="4 / 3">
             <v-card-text>
-              This card will always be 4:3 (unless you put more stuff in it)
+
+               4:3 (刪掉)
+
             </v-card-text>
-          </v-responsive> -->
-                            <img
-                class="ttt"
-                alt=""
-                src="/forDemo/snapshot.jpg"
-                width="1050em"
-                style="display:block; margin:auto; align:center"
-              />
+          </v-responsive>
         </v-card>
       </v-col>
       <!--右1畫面顯示----------------------------------------------------------------------------------------------- -->
       <v-col cols="12" md="5">
         <v-row :column="$vuetify.breakpoint.mdAndDown">
-          <v-col cols="12" lg="7">
-            <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
+          <v-col cols="12" lg="5">
+            <!-- <v-col cols="12" lg="5" style="border: 1px solid red"> -->
             <v-card class="fill-height" rounded="lg">
-               <v-subheader class="justify-center">警報紀錄</v-subheader>
-          <v-simple-table fixed-header height="300px">
-            <template #default>
-              <thead>
-                <tr>
-                  <th class="text-left">監測範圍</th>
-                  <th class="text-left">溫度</th>
-                  <th class="text-left">狀況</th>
-                  <th class="text-left">時間</th>
-                  <th class="text-left">日期</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in temps" :key="item.name">
-                  <td>{{ item.name }}</td>
-                  <td>{{ item.temperature }}°C</td>
-                  <td>{{ item.situation }}</td>
-                  <td>{{ item.time }}</td>
-                  <td>{{ item.date }}</td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
+              <v-subheader class="justify-center">警報設置</v-subheader>
+              <v-simple-table fixed-header height="300px">
+                <template #default>
+                  <thead>
+                    <tr>
+                      <th class="text-left">監測範圍</th>
+                      <th class="text-left">溫度</th>
+                      <th class="text-left">設置警報</th>
+                      <th class="text-left">刪除</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="item in temps" :key="item.name">
+                      <td>
+                        <v-badge color="black" content="1" overlap bottom>
+                          <v-btn color="" fab x-small v-bind="attrs" v-on="on">
+                            <img
+                              alt="spot"
+                              src="/left-icons/spot.png"
+                              width="18em"
+                            />
+                          </v-btn>
+                        </v-badge>
+                      </td>
+                      <td>{{ item.temperature }}°C</td>
+                      <td>
+                        <v-btn color="" fab x-small v-bind="attrs" v-on="on">
+                          <img
+                            alt="image-mode-thermal-fsx"
+                            src="/left-icons/alert.png"
+                            width="18em"
+                          />
+                        </v-btn>
+                      </td>
+                      <td>
+                        <v-btn color="" fab x-small v-bind="attrs" v-on="on">
+                          <img
+                            alt="image-mode-thermal-fsx"
+                            src="/left-icons/delete.png"
+                            width="18em"
+                          />
+                        </v-btn>
+                      </td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
             </v-card>
           </v-col>
 
           <!--右2畫面顯示----------------------------------------------------------------------------------------------- -->
-          <v-col cols="12" lg="5">
-            <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
+          <v-col cols="12" lg="7">
+            <!-- <v-col cols="12" lg="7" style="border: 1px solid red"> -->
             <v-card class="mr-3 fill-height" rounded="lg">
-  <v-subheader class="justify-center">警報設置</v-subheader>
-          <v-simple-table fixed-header height="300px">
-            <template #default>
-              <thead>
-                <tr>
-                  <th class="text-left">監測範圍</th>
-                  <th class="text-left">溫度</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in temps" :key="item.name">
-                  <td>{{ item.name }}</td>
-                  <td>{{ item.temperature }}°C</td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
+              <v-subheader class="justify-center">警報紀錄</v-subheader>
+              <v-simple-table fixed-header height="300px">
+                <template #default>
+                  <thead>
+                    <tr>
+                      <th class="text-left">監測範圍</th>
+                      <th class="text-left">溫度</th>
+                      <th class="text-left">狀況</th>
+                      <th class="text-left">時間</th>
+                      <th class="text-left">日期</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="item in temps" :key="item.name">
+                      <td>
+                        <v-badge color="black" content="1" overlap bottom>
+                          <v-btn color="" fab x-small v-bind="attrs" v-on="on">
+                            <img
+                              alt="spot"
+                              src="/left-icons/spot.png"
+                              width="18em"
+                            />
+                          </v-btn>
+                        </v-badge>
+                      </td>
+                      <td>{{ item.temperature }}°C</td>
+                      <td>{{ item.situation }}</td>
+                      <td>{{ item.time }}</td>
+                      <td>{{ item.date }}</td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
             </v-card>
           </v-col>
 
           <!--右3畫面顯示----------------------------------------------------------------------------------------------- -->
-          <v-col cols="12" lg="6">
+          <v-col cols="12" lg="7">
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
             <v-card class="fill-height" rounded="lg">
-                       <img
-                class="test3"
-                alt=""
-                src="/forDemo/test2.png"
-                width="200em"
-                                style="display:block; margin:auto; align:center"
-
-              />
-               </v-card>
+              <v-subheader class="justify-center">資訊</v-subheader>
+            </v-card>
           </v-col>
           <!--右4畫面顯示----------------------------------------------------------------------------------------------- -->
-          <v-col cols="12" lg="6">
+          <v-col cols="12" lg="5">
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
             <v-card class="mr-3 fill-height" rounded="lg">
+              <v-subheader class="justify-center">參數調整</v-subheader>
+
               <v-form>
                 <v-container grid-list-sm>
-                  <v-layout wrap>
-                    <v-subheader class="mt-3">放射率：</v-subheader>
-                    <v-flex xs1 sm1 md1>
+                  <v-row>
+                    <v-col cols="12" md="4">
+                      <p class="subtitle text-center">放射率</p>
+
                       <v-text-field
                         ref="input"
                         v-model.number="number"
@@ -597,9 +628,9 @@
                         min="0"
                         :rules="[numberRule]"
                       ></v-text-field>
-                    </v-flex>
-                    <v-subheader class="mt-3">反射率：</v-subheader>
-                    <v-flex xs1 sm1 md1>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <p class="subtitle text-center">反射率</p>
                       <v-text-field
                         ref="input"
                         v-model.number="number"
@@ -608,9 +639,9 @@
                         min="0"
                         :rules="[numberRule]"
                       ></v-text-field>
-                    </v-flex>
-                    <v-subheader class="mt-3">距離：</v-subheader>
-                    <v-flex xs1 sm1 md1>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <p class="subtitle text-center">距離</p>
                       <v-text-field
                         ref="input"
                         v-model.number="number"
@@ -619,9 +650,9 @@
                         min="0"
                         :rules="[numberRule]"
                       ></v-text-field>
-                    </v-flex>
-                    <v-subheader class="mt-3">濕度：</v-subheader>
-                    <v-flex xs1 sm1 md1>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <p class="subtitle text-center">濕度</p>
                       <v-text-field
                         ref="input"
                         v-model.number="number"
@@ -630,9 +661,9 @@
                         min="0"
                         :rules="[numberRule]"
                       ></v-text-field>
-                    </v-flex>
-                    <!-- <v-subheader class="mt-3">大氣溫度：</v-subheader>
-                    <v-flex xs1 sm1 md1>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <p class="subtitle text-center">大氣濕度</p>
                       <v-text-field
                         ref="input"
                         v-model.number="number"
@@ -641,8 +672,8 @@
                         min="0"
                         :rules="[numberRule]"
                       ></v-text-field>
-                    </v-flex> -->
-                  </v-layout>
+                    </v-col>
+                  </v-row>
                 </v-container>
               </v-form>
             </v-card>
@@ -650,16 +681,21 @@
           <!--右5畫面顯示----------------------------------------------------------------------------------------------- -->
           <v-col cols="12" lg="12">
             <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
-            <v-card class="mr-3 fill-height" rounded="lg" >
-              <img
-                class="test3"
-                alt=""
-                src="/forDemo/test3.png"
-                width="520em"
-                                style="display:block; margin:auto; align:center"
-
-
-              />
+            <v-card class="mr-3 fill-height" rounded="lg">
+              <v-subheader class="justify-center">圖表</v-subheader>
+              <v-sparkline
+                :value="value"
+                :gradient="gradient"
+                :smooth="radius || false"
+                :padding="padding"
+                :line-width="width"
+                :stroke-linecap="lineCap"
+                :gradient-direction="gradientDirection"
+                :fill="fill"
+                :type="type"
+                :auto-line-width="autoLineWidth"
+                auto-draw
+              ></v-sparkline>
             </v-card>
           </v-col>
         </v-row>
@@ -669,37 +705,59 @@
 </template>
 
 <script>
+const gradients = [
+  ['#222'],
+  ['#42b3f4'],
+  ['red', 'orange', 'yellow'],
+  ['purple', 'violet'],
+  ['#00c6ff', '#F0F', '#FF0'],
+  ['#f72047', '#ffd200', '#1feaea'],
+]
 export default {
   name: 'IndexPage',
   data: () => ({
+    // 假圖表
+
+    width: 2,
+    radius: 10,
+    padding: 8,
+    lineCap: 'round',
+    gradient: gradients[5],
+    value: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
+    gradientDirection: 'top',
+    gradients,
+    fill: false,
+    type: 'trend',
+    autoLineWidth: false,
+
     temps: [
       {
         name: '點1',
         temperature: 15,
-        situation: "已超溫",
-        time: "04:30:14",
-        date: "2022/3/14"
+        situation: '已超溫',
+        time: '04:30:14',
+        date: '2022/3/14',
       },
       {
         name: '矩形1',
         temperature: 23,
-        situation: "已超溫",
-                time: "04:30:14",
-        date: "2022/3/14"
+        situation: '已超溫',
+        time: '04:30:14',
+        date: '2022/3/14',
       },
       {
         name: '點2',
         temperature: 26,
-        situation: "已超溫",
-                time: "04:30:14",
-        date: "2022/3/14"
+        situation: '已超溫',
+        time: '04:30:14',
+        date: '2022/3/14',
       },
       {
         name: '點3',
         temperature: 30,
-        situation: "已超溫",
-                time: "04:30:14",
-        date: "2022/3/14"
+        situation: '已超溫',
+        time: '04:30:14',
+        date: '2022/3/14',
       },
     ],
 
@@ -798,8 +856,4 @@ export default {
 .box:hover .drawer {
   left: 0;
 }
-
-
-
-
 </style>
