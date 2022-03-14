@@ -8,7 +8,7 @@
                 width="150em"
               />
       <!-- <v-avatar color="" size="32"></v-avatar> -->
-      <v-tabs centered  color="grey darken-1">
+      <v-tabs centered  color="grey darken-1" >
         <v-tab v-for="(item, i) in items" :key="i" :to="item.to" router>
           <v-icon small>{{ item.icon }}</v-icon>
           <p>&nbsp;&nbsp;</p>
