@@ -250,18 +250,10 @@
                 </v-tooltip>
               </template>
               <v-btn class="" color="" fab x-small>
-                <img
-                  alt="palette-iron"
-                  src="/left-icons/light/light-on.png"
-                  width="14em"
-                />
+                <img alt="pending" src="/left-icons/.png" width="14em" />
               </v-btn>
               <v-btn class="" color="" fab x-small>
-                <img
-                  alt="palette-lava"
-                  src="/left-icons/light/light-off.png"
-                  width="14em"
-                />
+                <img alt="pending" src="/left-icons/.png" width="14em" />
               </v-btn>
             </v-speed-dial>
             <!-- 照明light -->
@@ -359,7 +351,7 @@
                   <span>自動對焦</span>
                 </v-tooltip>
               </template>
-              <v-tooltip right>
+              <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
                     <img
@@ -371,7 +363,7 @@
                 </template>
                 <span>遠景</span>
               </v-tooltip>
-              <v-tooltip right>
+              <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
                     <img
@@ -383,7 +375,7 @@
                 </template>
                 <span>近景</span>
               </v-tooltip>
-              <v-tooltip right>
+              <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
                     <img
@@ -393,7 +385,7 @@
                     />
                   </v-btn>
                 </template>
-                <span></span>
+                <span>自動對焦</span>
               </v-tooltip>
             </v-speed-dial>
             <v-divider></v-divider>
@@ -497,11 +489,7 @@
         <!-- <v-col cols="12" md="7" style="border: 1px solid red"> -->
         <v-card class="ml-3 fill-height" rounded="lg">
           <v-responsive :aspect-ratio="4 / 3">
-            <v-card-text>
-
-               4:3 (刪掉1)
-
-            </v-card-text>
+            <v-card-text> 4:3 (刪掉1) </v-card-text>
           </v-responsive>
         </v-card>
       </v-col>
@@ -681,21 +669,11 @@
           <!--右5畫面顯示----------------------------------------------------------------------------------------------- -->
           <v-col cols="12" lg="12">
             <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
-            <v-card class="mr-3 fill-height" rounded="lg">
-              <v-subheader class="justify-center">圖表</v-subheader>
-              <v-sparkline
-                :value="value"
-                :gradient="gradient"
-                :smooth="radius || false"
-                :padding="padding"
-                :line-width="width"
-                :stroke-linecap="lineCap"
-                :gradient-direction="gradientDirection"
-                :fill="fill"
-                :type="type"
-                :auto-line-width="autoLineWidth"
-                auto-draw
-              ></v-sparkline>
+            <v-card class="mr-3 fill-height" rounded="lg"> 
+
+              放圖表
+
+              
             </v-card>
           </v-col>
         </v-row>
@@ -705,31 +683,9 @@
 </template>
 
 <script>
-const gradients = [
-  ['#222'],
-  ['#42b3f4'],
-  ['red', 'orange', 'yellow'],
-  ['purple', 'violet'],
-  ['#00c6ff', '#F0F', '#FF0'],
-  ['#f72047', '#ffd200', '#1feaea'],
-]
 export default {
   name: 'IndexPage',
   data: () => ({
-    // 假圖表
-
-    width: 2,
-    radius: 10,
-    padding: 8,
-    lineCap: 'round',
-    gradient: gradients[5],
-    value: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
-    gradientDirection: 'top',
-    gradients,
-    fill: false,
-    type: 'trend',
-    autoLineWidth: false,
-
     temps: [
       {
         name: '點1',
