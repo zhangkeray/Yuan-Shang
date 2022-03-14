@@ -1,7 +1,7 @@
 <template>
   <v-container fluid mt-3>
     <div class="box">
-      <v-card class="drawer" rounded="lg" dark light elevation="15">
+      <v-card class="drawer" rounded="lg" light elevation="15">
         <v-row>
           <v-col>
             <!-- 監測工具monitoring tools------------------------------------------------------------------------------ -->
@@ -250,18 +250,10 @@
                 </v-tooltip>
               </template>
               <v-btn class="" color="" fab x-small>
-                <img
-                  alt="palette-iron"
-                  src="/left-icons/light/light-on.png"
-                  width="14em"
-                />
+                <img alt="pending" src="/left-icons/.png" width="14em" />
               </v-btn>
               <v-btn class="" color="" fab x-small>
-                <img
-                  alt="palette-lava"
-                  src="/left-icons/light/light-off.png"
-                  width="14em"
-                />
+                <img alt="pending" src="/left-icons/.png" width="14em" />
               </v-btn>
             </v-speed-dial>
             <!-- 照明light -->
@@ -586,9 +578,10 @@
             <v-card class="mr-3 fill-height" rounded="lg">
               <v-form>
                 <v-container grid-list-sm>
-                  <v-layout wrap>
-                    <v-subheader class="mt-3">放射率：</v-subheader>
-                    <v-flex xs1 sm1 md1>
+                  <v-row>
+                    <v-col cols="12" md="4">
+                      <p class="subtitle text-center">放射率</p>
+
                       <v-text-field
                         ref="input"
                         v-model.number="number"
@@ -597,9 +590,9 @@
                         min="0"
                         :rules="[numberRule]"
                       ></v-text-field>
-                    </v-flex>
-                    <v-subheader class="mt-3">反射率：</v-subheader>
-                    <v-flex xs1 sm1 md1>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <p class="subtitle text-center">反射率</p>
                       <v-text-field
                         ref="input"
                         v-model.number="number"
@@ -608,9 +601,7 @@
                         min="0"
                         :rules="[numberRule]"
                       ></v-text-field>
-                    </v-flex>
                     <v-subheader class="mt-3">距離：</v-subheader>
-                    <v-flex xs1 sm1 md1>
                       <v-text-field
                         ref="input"
                         v-model.number="number"
@@ -619,9 +610,9 @@
                         min="0"
                         :rules="[numberRule]"
                       ></v-text-field>
-                    </v-flex>
-                    <v-subheader class="mt-3">濕度：</v-subheader>
-                    <v-flex xs1 sm1 md1>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <p class="subtitle text-center">大氣濕度</p>
                       <v-text-field
                         ref="input"
                         v-model.number="number"
@@ -630,19 +621,8 @@
                         min="0"
                         :rules="[numberRule]"
                       ></v-text-field>
-                    </v-flex>
-                    <!-- <v-subheader class="mt-3">大氣溫度：</v-subheader>
-                    <v-flex xs1 sm1 md1>
-                      <v-text-field
-                        ref="input"
-                        v-model.number="number"
-                        type="number"
-                        step="any"
-                        min="0"
-                        :rules="[numberRule]"
-                      ></v-text-field>
-                    </v-flex> -->
-                  </v-layout>
+                    </v-col>
+                  </v-row>
                 </v-container>
               </v-form>
             </v-card>
