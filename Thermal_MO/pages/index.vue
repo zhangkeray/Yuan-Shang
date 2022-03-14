@@ -139,7 +139,7 @@
               :top="top_palette"
               :bottom="bottom_palette"
               :right="right_palette"
-              :left="left2_palette"
+              :left="left_palette"
               :direction="direction_palette"
               :open-on-hover="hover_palette"
               :transition="transition_palette"
@@ -359,42 +359,42 @@
                   <span>自動對焦</span>
                 </v-tooltip>
               </template>
-                              <v-tooltip right>
-                  <template v-slot:activator="{ on, attrs }">
-              <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
-                <img
-                  alt="palette-iron"
-                  src="/left-icons/autofocus/autofocus-focus-further.png"
-                  width="19em"
-                />
-              </v-btn>
-                                </template>
-                  <span>遠景</span>
-                </v-tooltip>
-                                <v-tooltip right>
-                  <template v-slot:activator="{ on, attrs }">
-              <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
-                <img
-                  alt="palette-lava"
-                  src="/left-icons/autofocus/autofocus-focus-closer.png"
-                  width="20em"
-                />
-              </v-btn>
-                                </template>
-                  <span>近景</span>
-                </v-tooltip>
-                                <v-tooltip right>
-                  <template v-slot:activator="{ on, attrs }">
-              <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
-                <img
-                  alt="palette-gray"
-                  src="/left-icons/autofocus/autofocus-autofocus.png"
-                  width="18em"
-                />
-              </v-btn>
-                                </template>
-                  <span></span>
-                </v-tooltip>
+              <v-tooltip right>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
+                    <img
+                      alt="palette-iron"
+                      src="/left-icons/autofocus/autofocus-focus-further.png"
+                      width="19em"
+                    />
+                  </v-btn>
+                </template>
+                <span>遠景</span>
+              </v-tooltip>
+              <v-tooltip right>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
+                    <img
+                      alt="palette-lava"
+                      src="/left-icons/autofocus/autofocus-focus-closer.png"
+                      width="20em"
+                    />
+                  </v-btn>
+                </template>
+                <span>近景</span>
+              </v-tooltip>
+              <v-tooltip right>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
+                    <img
+                      alt="palette-gray"
+                      src="/left-icons/autofocus/autofocus-autofocus.png"
+                      width="18em"
+                    />
+                  </v-btn>
+                </template>
+                <span></span>
+              </v-tooltip>
             </v-speed-dial>
             <v-divider></v-divider>
             <!-- 影像調整image adjustment ------------------------------------------------------------------------------ -->
@@ -492,24 +492,98 @@
     ------------------------------------------------------------------
     ------------------------------------------------------------------ -->
     <v-row>
-      <v-col cols="12" md="6">
+      <!-- 左畫面顯示----------------------------------------------------------------------------------------------- -->
+      <v-col cols="12" md="7">
+        <!-- <v-col cols="12" md="7" style="border: 1px solid red"> -->
+        <v-card class="ml-3 fill-height" rounded="lg">
+          <!-- <v-responsive :aspect-ratio="4 / 3">
+            <v-card-text>
+              This card will always be 4:3 (unless you put more stuff in it)
+            </v-card-text>
+          </v-responsive> -->
+                            <img
+                class="ttt"
+                alt=""
+                src="/forDemo/snapshot.jpg"
+                width="1050em"
+                style="display:block; margin:auto; align:center"
+              />
+        </v-card>
+      </v-col>
+      <!--右1畫面顯示----------------------------------------------------------------------------------------------- -->
+      <v-col cols="12" md="5">
         <v-row :column="$vuetify.breakpoint.mdAndDown">
-          <!-- 左上畫面顯示----------------------------------------------------------------------------------------------- -->
-          <v-col cols="12" lg="12">
-            <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
-            <v-card class="ml-3 fill-height" rounded="lg">
-              <v-responsive :aspect-ratio="4 / 3">
-                <v-card-text>
-                  This card will always be 4:3 (unless you put more stuff in it)
-                </v-card-text>
-              </v-responsive>
+          <v-col cols="12" lg="7">
+            <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
+            <v-card class="fill-height" rounded="lg">
+               <v-subheader class="justify-center">警報紀錄</v-subheader>
+          <v-simple-table fixed-header height="300px">
+            <template #default>
+              <thead>
+                <tr>
+                  <th class="text-left">監測範圍</th>
+                  <th class="text-left">溫度</th>
+                  <th class="text-left">狀況</th>
+                  <th class="text-left">時間</th>
+                  <th class="text-left">日期</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in temps" :key="item.name">
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.temperature }}°C</td>
+                  <td>{{ item.situation }}</td>
+                  <td>{{ item.time }}</td>
+                  <td>{{ item.date }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
             </v-card>
           </v-col>
 
-          <!--左下畫面顯示----------------------------------------------------------------------------------------------- -->
-          <v-col cols="12" lg="12">
-            <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
-            <v-card class="ml-3 fill-height" rounded="lg">
+          <!--右2畫面顯示----------------------------------------------------------------------------------------------- -->
+          <v-col cols="12" lg="5">
+            <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
+            <v-card class="mr-3 fill-height" rounded="lg">
+  <v-subheader class="justify-center">警報設置</v-subheader>
+          <v-simple-table fixed-header height="300px">
+            <template #default>
+              <thead>
+                <tr>
+                  <th class="text-left">監測範圍</th>
+                  <th class="text-left">溫度</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in temps" :key="item.name">
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.temperature }}°C</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+            </v-card>
+          </v-col>
+
+          <!--右3畫面顯示----------------------------------------------------------------------------------------------- -->
+          <v-col cols="12" lg="6">
+            <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
+            <v-card class="fill-height" rounded="lg">
+                       <img
+                class="test3"
+                alt=""
+                src="/forDemo/test2.png"
+                width="200em"
+                                style="display:block; margin:auto; align:center"
+
+              />
+               </v-card>
+          </v-col>
+          <!--右4畫面顯示----------------------------------------------------------------------------------------------- -->
+          <v-col cols="12" lg="6">
+            <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
+            <v-card class="mr-3 fill-height" rounded="lg">
               <v-form>
                 <v-container grid-list-sm>
                   <v-layout wrap>
@@ -525,18 +599,6 @@
                       ></v-text-field>
                     </v-flex>
                     <v-subheader class="mt-3">反射率：</v-subheader>
-                    <v-flex xs1 sm1 md1>
-                      <v-text-field
-                        ref="input"
-                        v-model.number="number"
-                        type="number"
-                        step="any"
-                        min="0"
-                        :rules="[numberRule]"
-                      ></v-text-field>
-                    </v-flex>
-
-                    <v-subheader class="mt-3">放射率：</v-subheader>
                     <v-flex xs1 sm1 md1>
                       <v-text-field
                         ref="input"
@@ -585,51 +647,22 @@
               </v-form>
             </v-card>
           </v-col>
+          <!--右5畫面顯示----------------------------------------------------------------------------------------------- -->
+          <v-col cols="12" lg="12">
+            <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
+            <v-card class="mr-3 fill-height" rounded="lg" >
+              <img
+                class="test3"
+                alt=""
+                src="/forDemo/test3.png"
+                width="520em"
+                                style="display:block; margin:auto; align:center"
+
+
+              />
+            </v-card>
+          </v-col>
         </v-row>
-      </v-col>
-
-      <!--右上畫面顯示----------------------------------------------------------------------------------------------- -->
-      <v-col cols="12" md="6">
-        <!-- <v-col cols="12" md="6" style="border: 1px solid red"> -->
-        <v-card class="mr-3 fill-height" rounded="lg">
-          <v-subheader class="justify-center">警報紀錄</v-subheader>
-          <v-simple-table fixed-header height="300px">
-            <template #default>
-              <thead>
-                <tr>
-                  <th class="text-left">監測範圍</th>
-                  <th class="text-left">溫度</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in temps" :key="item.name">
-                  <td>{{ item.name }}</td>
-                  <td>{{ item.temperature }}°C</td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
-
-          <v-divider class="mx-4"></v-divider>
-
-          <v-subheader class="justify-center">警報設置</v-subheader>
-          <v-simple-table fixed-header height="300px">
-            <template #default>
-              <thead>
-                <tr>
-                  <th class="text-left">監測範圍</th>
-                  <th class="text-left">溫度</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in temps" :key="item.name">
-                  <td>{{ item.name }}</td>
-                  <td>{{ item.temperature }}°C</td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
-        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -643,18 +676,30 @@ export default {
       {
         name: '點1',
         temperature: 15,
+        situation: "已超溫",
+        time: "04:30:14",
+        date: "2022/3/14"
       },
       {
         name: '矩形1',
         temperature: 23,
+        situation: "已超溫",
+                time: "04:30:14",
+        date: "2022/3/14"
       },
       {
         name: '點2',
         temperature: 26,
+        situation: "已超溫",
+                time: "04:30:14",
+        date: "2022/3/14"
       },
       {
         name: '點3',
         temperature: 30,
+        situation: "已超溫",
+                time: "04:30:14",
+        date: "2022/3/14"
       },
     ],
 
@@ -753,4 +798,8 @@ export default {
 .box:hover .drawer {
   left: 0;
 }
+
+
+
+
 </style>
