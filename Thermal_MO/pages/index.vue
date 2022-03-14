@@ -499,7 +499,7 @@
           <v-responsive :aspect-ratio="4 / 3">
             <v-card-text>
 
-               4:3 (刪掉)
+               4:3 (刪掉1)
 
             </v-card-text>
           </v-responsive>
