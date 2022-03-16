@@ -99,9 +99,9 @@ export default {
   },
   // 切換ip
   server: {
-    host: '192.168.0.182', // Ray
-    // host: '192.168.0.173', // Louis
-    port: 3001,
+    // host: '192.168.0.182', // Ray
+    host: '192.168.0.173', // Louis
+    port: 3002,
   },
   // Content module configuration: https://go.nuxtjs.dev/config-content
   content: {},
