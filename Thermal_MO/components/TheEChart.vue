@@ -1,15 +1,5 @@
 <template>
-  <v-app>
-    <div>
-      <v-card>
-        <v-responsive :aspect-ratio="16 / 9">
-          <v-card-text>
-            <div id="test-charts" style="height: 350px"></div>
-          </v-card-text>
-        </v-responsive>
-      </v-card>
-    </div>
-  </v-app>
+   <div id="test-charts" style="height: 350px"></div>
 </template>
 
 <script>
@@ -29,6 +19,7 @@ export default {
         const chartDom = document.getElementById('test-charts');
         const myChart = echarts.init(chartDom); // echarts初始化
         var option;
+        // -------------------------------------------
       option = {
         xAxis: {
           type: "category",
@@ -44,6 +35,7 @@ export default {
           },
         ],
       };
+              // -------------------------------------------
       
       option && myChart.setOption(option);
     },

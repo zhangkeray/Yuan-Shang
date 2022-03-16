@@ -2,7 +2,7 @@
   <v-container fluid mt-3>
     <v-row>
       <v-col cols="12" md="4">
-        <v-sheet class="ml-2" height="52em" rounded="lg"> pending </v-sheet>
+        <v-sheet class="ml-2" height="52em" rounded="lg"> <IndexDonuts/> </v-sheet>
       </v-col>
 
       <v-col cols="12" md="4">

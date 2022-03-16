@@ -19,7 +19,6 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
 
-
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
@@ -41,22 +40,27 @@ export default {
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
+    // auth 登入用
     '@nuxtjs/auth-next',
-    'nuxt-socket-io'
-
+    // socket
+    'nuxt-socket-io',
   ],
   io: {
     // we could have multiple sockets that we identify with names
     // one of these sockets may have set "default" to true
-    sockets: [{
-      default: true, // make this the default socket
-      name: 'main', // give it a name that we can later use to choose this socket in the .vue file
-      url: 'http://192.168.0.173:6147' // URL wherever your socket IO server runs
-    }]
+    sockets: [
+      {
+        default: true, // make this the default socket
+        name: 'main', // give it a name that we can later use to choose this socket in the .vue file
+        url: 'http://192.168.0.173:6147', // URL wherever your socket IO server runs
+      },
+    ],
   },
+
+  // 日後做登入參考用
   auth: {
     redirect: {
-      login: '/login'
+      login: '/login',
     },
     strategies: {
       local: {
@@ -64,21 +68,21 @@ export default {
           login: {
             url: 'https://sakko-demo-api.herokuapp.com/api/v1/user/sign_in',
             method: 'post',
-            propertyName: 'user.auth_jwt'
+            propertyName: 'user.auth_jwt',
           },
           logout: {
             url: 'https://sakko-demo-api.herokuapp.com/api/v1/user/sign_out',
-            method: 'delete'
+            method: 'delete',
           },
           user: {
             url: 'https://sakko-demo-api.herokuapp.com/api/v1/user/me',
             method: 'get',
-            propertyName: 'user'
-          }
+            propertyName: 'user',
+          },
         },
-        tokenName: 'auth-token'
-      }
-    }
+        tokenName: 'auth-token',
+      },
+    },
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -86,7 +90,6 @@ export default {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/',
   },
-  
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
@@ -94,9 +97,10 @@ export default {
       lang: 'en',
     },
   },
+  // 切換ip
   server: {
-    host: '192.168.0.182',
-    // host: '192.168.0.173',
+    host: '192.168.0.182', // Ray
+    // host: '192.168.0.173', // Louis
     port: 3001,
   },
   // Content module configuration: https://go.nuxtjs.dev/config-content
@@ -123,7 +127,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    extend(config, ctx) {}
-
+    extend(config, ctx) {},
   },
 }

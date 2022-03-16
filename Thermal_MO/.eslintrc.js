@@ -8,14 +8,21 @@ module.exports = {
     parser: '@babel/eslint-parser',
     requireConfigFile: false,
   },
-  extends: ['eslint:recommended','@nuxtjs','standard','plugin:nuxt/recommended', 'prettier',],
-  plugins: [
-    'vue'
+  extends: [
+    'eslint:recommended',
+    '@nuxtjs',
+    'standard',
+    'plugin:nuxt/recommended',
+    'prettier',
   ],
+  plugins: ['vue'],
   // add your custom rules here
-  rules: {},
+  // 加了no-var
+  rules: {
+    'no-var': 0,
+  },
   globals: {
     $: 'readonly',
-    moment: 'readonly'
-  }
+    moment: 'readonly',
+  },
 }
