@@ -10,7 +10,7 @@
         <!-- 點spot -->
         <v-tooltip right>
           <template #activator="{ on, attrs }">
-            <v-btn class="mx-3" color="" fab x-small v-bind="attrs" v-on="on">
+            <v-btn class="mx-3" color="" fab x-small v-bind="attrs" v-on="on" id="add-spot">
               <img alt="spot" src="/left-icons/spot.png" width="18em" />
             </v-btn>
           </template>
@@ -26,6 +26,7 @@
               x-small
               v-bind="attrs"
               v-on="on"
+              id="add-line"
             >
               <img alt="line" src="/left-icons/line.png" width="12em" />
             </v-btn>
@@ -42,6 +43,7 @@
               x-small
               v-bind="attrs"
               v-on="on"
+              id="add-scope"
             >
               <img
                 alt="rectangle"
@@ -533,14 +535,14 @@
           <v-responsive :aspect-ratio="4 / 3">
             <!-- <v-responsive> -->
             <v-card-text>
-              <div class="cover">
+              <div class="cover" id="cover">
                 <img
                   id="image"
                   src="https://dummyimage.com/640x480/969696/000000&text=loading...."
                 />
-                <div class="crosshair">
+                <!-- <div class="crosshair">
                   <img src="/images/spot(png).png" />
-                </div>
+                </div> -->
               </div>
             </v-card-text>
           </v-responsive>
@@ -760,6 +762,32 @@
 <script>
 export default {
   name: 'IndexPage',
+  head: {
+    title: "即時監控",
+    link: [
+      // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: "stylesheet", href: "/css/jquery-ui.css" },
+      { rel: "stylesheet", href: "/css/object.css" },
+    ],
+    script: [
+      {
+        src: "/js/jquery.js",
+        type: "text/javascript",
+      },
+      {
+        src: "/js/jquery-ui.js",
+        type: "text/javascript",
+      },
+      {
+        src: "/js/jquery-collision.js",
+        type: "text/javascript",
+      },
+      {
+        src: "/js/object.js",
+        type: "text/javascript",
+      },
+    ],
+  },
   data: () => ({
     // 右4顯示
     arrayEvents: null,
