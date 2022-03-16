@@ -71,7 +71,7 @@
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-model="fab_imageMode"
-                  class="mt-3"
+                  class="mx-3"
                   color=""
                   fab
                   x-small
@@ -92,7 +92,7 @@
           </template>
           <v-tooltip top>
             <template #activator="{ on, attrs }">
-              <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
+              <v-btn class="mt-3" color="" fab x-small v-bind="attrs" v-on="on" >
                 <img
                   alt="image-mode-thermal"
                   src="/left-icons/image-mode/image-mode-thermal.png"
@@ -104,7 +104,7 @@
           </v-tooltip>
           <v-tooltip top>
             <template #activator="{ on, attrs }">
-              <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
+              <v-btn class="mt-3" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
                   alt="image-mode-thermal-msx"
                   src="/left-icons/image-mode/image-mode-thermal-msx.png"
@@ -116,7 +116,7 @@
           </v-tooltip>
           <v-tooltip top>
             <template #activator="{ on, attrs }">
-              <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
+              <v-btn class="mt-3" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
                   alt="image-mode-digital-camera"
                   src="/left-icons/image-mode/image-mode-digital-camera.png"
@@ -128,7 +128,7 @@
           </v-tooltip>
           <v-tooltip top>
             <template #activator="{ on, attrs }">
-              <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
+              <v-btn class="mt-3" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
                   alt="image-mode-marco"
                   src="/left-icons/image-mode/image-mode-marco.png"
@@ -140,7 +140,7 @@
           </v-tooltip>
           <v-tooltip top>
             <template #activator="{ on, attrs }">
-              <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
+              <v-btn class="mt-3" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
                   alt="image-mode-thermal-fsx"
                   src="/left-icons/image-mode/image-mode-thermal-fsx.png"
@@ -167,7 +167,7 @@
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-model="fab_palette"
-                  class="my-3"
+                  class="mx-3 my-3"
                   color=""
                   fab
                   x-small
@@ -188,7 +188,7 @@
           </template>
           <v-tooltip top>
             <template #activator="{ on, attrs }">
-              <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
+              <v-btn class="mt-3" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
                   alt="palette-iron"
                   src="/left-icons/palette/palette-iron.png"
@@ -280,7 +280,7 @@
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-model="fab_calibration"
-                  class="mt-3"
+                  class="mx-3"
                   color=""
                   fab
                   x-small
@@ -322,7 +322,7 @@
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-model="fab_light"
-                  class="mt-3"
+                  class="mx-3 mt-3"
                   color=""
                   fab
                   x-small
@@ -333,7 +333,7 @@
                   <img
                     v-else
                     alt="palette"
-                    src="/left-icons/light/light-on.png"
+                    src="/left-icons/light/light.png"
                     width="14em"
                   />
                 </v-btn>
@@ -347,7 +347,7 @@
                 <img
                   alt="palette-iron"
                   src="/left-icons/light/light-on.png"
-                  width="14em"
+                  width="22em"
                 />
               </v-btn>
             </template>
@@ -359,7 +359,7 @@
                 <img
                   alt="palette-lava"
                   src="/left-icons/light/light-off.png"
-                  width="14em"
+                  width="16em"
                 />
               </v-btn>
             </template>
@@ -376,7 +376,7 @@
           :direction="direction_autofocus"
           :open-on-hover="hover_autofocus"
           :transition="transition_autofocus"
-          class="my-3"
+          class="mx-3 my-3"
         >
           <template #activator>
             <v-tooltip right>
@@ -498,7 +498,7 @@
           <span>串流暫停/持續</span>
         </v-tooltip>
         <!-- 隱藏/顯示監測項目hide/show overlay -->
-        <v-tooltip right>
+        <v-tooltip right class>
           <template #activator="{ on, attrs }">
             <v-btn
               class="mx-3 my-3"
@@ -799,59 +799,25 @@ export default {
     ],
     // 左側隱藏按鈕動作設定
     direction_imageMode: 'right',
-    fab_imageMode: false,
-    fling_imageMode: false,
-    hover_imageMode: false,
-    tabs_imageMode: null,
-    top_imageMode: false,
-    right_imageMode: false,
-    bottom_imageMode: true,
-    left_imageMode: true,
+    // bottom_imageMode: true,
     transition_imageMode: 'scale-transition',
 
     direction_palette: 'right',
-    fab_palette: false,
-    fling_palette: false,
-    hover_palette: false,
-    tabs_palette: null,
-    top_palette: false,
-    right_palette: false,
-    bottom_palette: true,
-    left_palette: true,
+    // bottom_palette: true,
     transition_palette: 'scale-transition',
 
     direction_calibration: 'right',
-    fab_calibration: false,
-    fling_calibration: false,
-    hover_calibration: false,
-    tabs_calibration: null,
-    top_calibration: false,
-    right_calibration: false,
-    bottom_calibration: true,
-    left_calibration: true,
+    // bottom_calibration: true,
     transition_calibration: 'scale-transition',
 
     direction_light: 'right',
-    fab_light: false,
-    fling_light: false,
-    hover_light: false,
-    tabs_light: null,
-    top_light: false,
-    right_light: false,
-    bottom_light: true,
-    left_light: true,
+    // bottom_light: true,
     transition_light: 'scale-transition',
 
     direction_autofocus: 'right',
-    fab_autofocus: false,
-    fling_autofocus: false,
-    hover_autofocus: false,
-    tabs_autofocus: null,
-    top_autofocus: false,
-    right_autofocus: false,
-    bottom_autofocus: true,
-    left_autofocus: true,
+    // bottom_autofocus: true,
     transition_autofocus: 'scale-transition',
+
     // 右5設定
     emissivity: 0.95,
     transmission: 1.000,
