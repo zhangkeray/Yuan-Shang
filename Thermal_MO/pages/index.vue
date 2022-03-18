@@ -10,13 +10,13 @@
         <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
             <v-btn
-              id="add-spot"
               class="mx-3"
               color=""
               fab
               x-small
               v-bind="attrs"
               v-on="on"
+              @click="spot()"
             >
               <img alt="spot" src="/left-icons/spot.png" width="18em" />
             </v-btn>
@@ -27,13 +27,13 @@
         <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
             <v-btn
-              id="add-line"
               class="mx-3 mt-3"
               color=""
               fab
               x-small
               v-bind="attrs"
               v-on="on"
+              @click="line()"
             >
               <img alt="line" src="/left-icons/line.png" width="12em" />
             </v-btn>
@@ -44,13 +44,13 @@
         <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
             <v-btn
-              id="add-scope"
               class="mx-3 my-3"
               color=""
               fab
               x-small
               v-bind="attrs"
               v-on="on"
+              @click="scope()"
             >
               <img
                 alt="rectangle"
@@ -543,9 +543,10 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="item in temps" :key="item.name">
+                    <!-- spot -->
+                    <tr v-for="(item, index) in spots" :key="index">
                       <td>
-                        <v-badge content="1" overlap color="#828C8F"
+                        <v-badge :content="item.name" overlap color="#828C8F"
                           ><v-btn fab x-small depressed
                             ><img
                               class=""
@@ -556,7 +557,7 @@
                       </td>
                       <td>{{ item.temperature }}°C</td>
                       <td>
-                        <v-btn color="" x-small depressed
+                        <v-btn color="" fab x-small depressed
                           ><img
                             class=""
                             alt="alert"
@@ -565,9 +566,81 @@
                             depressed
                         /></v-btn>
                       </td>
-
                       <td>
                         <v-btn color="" fab x-small depressed
+                          ><img
+                            class=""
+                            alt="delete"
+                            src="/left-icons/delete.png"
+                            width="18em"
+                            @click="removespot(index, item.name)"
+                        /></v-btn>
+                      </td>
+                    </tr>
+                    <!-- SCOPE -->
+                    <tr v-for="(item, index) in scopes" :key="index">
+                      <td>
+                        <v-badge :content="item.name" overlap color="#828C8F"
+                          ><v-btn fab x-small depressed
+                            ><img
+                              class=""
+                              alt="alert"
+                              src="/left-icons/rectangle.png"
+                              width="18em" /></v-btn
+                        ></v-badge>
+                      </td>
+                      <td>{{ item.temperature }}°C</td>
+                      <td>
+                        <v-btn color="" fab x-small depressed
+                          ><img
+                            class=""
+                            alt="alert"
+                            src="/left-icons/alert.png"
+                            width="18em"
+                            depressed
+                        /></v-btn>
+                      </td>
+                      <td>
+                        <v-btn color="" fab x-small depressed
+                          ><img
+                            class=""
+                            alt="delete"
+                            src="/left-icons/delete.png"
+                            width="18em"
+                            @click="removescope(index, item.name)"
+                        /></v-btn>
+                      </td>
+                    </tr>
+                    <!-- LINE -->
+                    <tr v-for="(item, index) in lines" :key="index">
+                      <td>
+                        <v-badge :content="item.name" overlap color="#828C8F"
+                          ><v-btn fab x-small depressed
+                            ><img
+                              class=""
+                              alt="alert"
+                              src="/left-icons/line.png"
+                              width="18em" /></v-btn
+                        ></v-badge>
+                      </td>
+                      <td>{{ item.temperature }}°C</td>
+                      <td>
+                        <v-btn color="" fab x-small depressed
+                          ><img
+                            class=""
+                            alt="alert"
+                            src="/left-icons/alert.png"
+                            width="18em"
+                            depressed
+                        /></v-btn>
+                      </td>
+                      <td>
+                        <v-btn
+                          color=""
+                          fab
+                          x-small
+                          depressed
+                          @click="removeline(index, item.name)"
                           ><img
                             class=""
                             alt="delete"
@@ -807,6 +880,32 @@
 <script>
 export default {
   name: 'IndexPage',
+  head: {
+    title: '即時監控',
+    link: [
+      // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: 'stylesheet', href: '/css/jquery-ui.css' },
+      { rel: 'stylesheet', href: '/css/object.css' },
+    ],
+    script: [
+      {
+        src: '/js/jquery.js',
+        type: 'text/javascript',
+      },
+      {
+        src: '/js/jquery-ui.js',
+        type: 'text/javascript',
+      },
+      {
+        src: '/js/jquery-collision.js',
+        type: 'text/javascript',
+      },
+      // {
+      //   src: '/js/object.js',
+      //   type: 'text/javascript',
+      // },
+    ],
+  },
   data: () => ({
     // 右4顯示
     arrayEvents: null,
@@ -870,6 +969,9 @@ export default {
       //   date: '2022/3/14',
       // },
     ],
+    spots: [],
+    scopes: [],
+    lines: [],
     // 左側隱藏按鈕動作設定
     direction_imageMode: 'right',
     fab_imageMode: false,
@@ -900,32 +1002,6 @@ export default {
     humidity: `${50}%`,
   }),
   // jquery-ui
-  head: {
-    title: '即時監控',
-    link: [
-      // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-      { rel: 'stylesheet', href: '/css/jquery-ui.css' },
-      { rel: 'stylesheet', href: '/css/object.css' },
-    ],
-    script: [
-      {
-        src: '/js/jquery.js',
-        type: 'text/javascript',
-      },
-      {
-        src: '/js/jquery-ui.js',
-        type: 'text/javascript',
-      },
-      {
-        src: '/js/jquery-collision.js',
-        type: 'text/javascript',
-      },
-      {
-        src: '/js/object.js',
-        type: 'text/javascript',
-      },
-    ],
-  },
   mounted() {
     const vm = this
     // use "main" socket defined in nuxt.config.js
@@ -948,6 +1024,291 @@ export default {
 
   // 右4顯示
   methods: {
+    spot() {
+      var array = this.spots
+      var totle1 = 0
+      if (array.length === 0) {
+        totle1 = 0
+      } else if (array.length >= 6) {
+        return false
+      } else {
+        totle1 = array.length
+      }
+      var spotsum = 0
+      if (array.length === 0) {
+        spotsum = totle1 + 1
+      } else {
+        var testarray = []
+        array.forEach(function (element) {
+          testarray.push(element.name)
+        })
+        spotsum = spotsum + 1
+        while (testarray.includes(spotsum)) {
+          spotsum = spotsum + 1
+        }
+      }
+      console.log(spotsum)
+      var locationA = 40 + spotsum * 20
+      var $element = `<div id="spot${spotsum}" class="spot" style="top: ${locationA}px; left: ${locationA}px;"><img src="/images/spot_1.png" /><span class="spot-span">${spotsum}</span></div>`
+      $('#cover').append($element)
+      var spottotlesum = 1
+      $('.spot').each(function () {
+        $(this).hover(
+          function () {
+            console.log('hover')
+            $(this).children('span').addClass('hover')
+          },
+          function () {
+            $(this).children('span').removeClass('hover')
+          }
+        )
+        var spotname = '#spot' + spottotlesum
+        $(spotname).draggable({
+          containment: 'parent',
+          tolerance: 'pointer',
+        })
+        spottotlesum = spottotlesum + 1
+      })
+      var content = {
+        name: spotsum,
+        temperature: Math.floor(Math.random() * 50),
+        situation: '已超溫',
+        time: '04:30:14',
+        date: '2022/3/14',
+      }
+      this.addspot(content)
+    },
+    removespot(index, name) {
+      var array = this.spots
+      array.splice(index, 1)
+      var selectspot = '#spot' + name
+      $(selectspot).remove()
+      this.$forceUpdate()
+    },
+    addspot(content) {
+      var array = this.spots
+      array.push(content)
+      array.sort(function (a, b) {
+        return a.name - b.name
+      })
+    },
+    scope() {
+      var array = this.scopes
+      var totle = 0
+      if (array.length === 0) {
+        totle = 0
+      } else if (array.length >= 6) {
+        return false
+      } else {
+        totle = array.length
+      }
+      var scopesum = 0
+      if (array.length === 0) {
+        scopesum = totle + 1
+      } else {
+        var testarray = []
+        array.forEach(function (element) {
+          testarray.push(element.name)
+        })
+        scopesum = scopesum + 1
+        while (testarray.includes(scopesum)) {
+          scopesum = scopesum + 1
+        }
+      }
+
+      var locationA = 40 + scopesum * 20
+      // var tooltip_content = '<div class="tooltip_content" >TEST TOOLTIP</div>'
+      var $element = `<div id="scope${scopesum}" class="scope" style="top:${locationA}px;left:${locationA}px;" title="Tooltip"><span class="scope-span">${scopesum}</span></div>`
+      $('#cover').append($element)
+
+      var scopetotlesum = 1
+      $('.scope').each(function () {
+        $(this).hover(
+          function () {
+            console.log('hover')
+            $(this).children('span').addClass('hover')
+          },
+          function () {
+            $(this).children('span').removeClass('hover')
+          }
+        )
+        var scopename = '#scope' + scopetotlesum
+        $(scopename)
+          .resizable({
+            containment: 'parent',
+            handles: 'all',
+            minWidth: 50,
+            minHeight: 50,
+          })
+          .draggable({
+            containment: 'parent',
+          })
+        scopetotlesum = scopetotlesum + 1
+      })
+      var content = {
+        name: scopesum,
+        temperature: Math.floor(Math.random() * 50),
+        situation: '已超溫',
+        time: '04:30:14',
+        date: '2022/3/14',
+      }
+      this.addscope(content)
+    },
+    removescope(index, name) {
+      var array = this.scopes
+      array.splice(index, 1)
+      var selectspot = '#scope' + name
+      $(selectspot).remove()
+      this.$forceUpdate()
+    },
+    addscope(content) {
+      var array = this.scopes
+      array.push(content)
+      array.sort(function (a, b) {
+        return a.name - b.name
+      })
+    },
+    line() {
+      var array = this.lines
+      var totle = 0
+      if (array.length === 0) {
+        totle = 0
+      } else if (array.length >= 6) {
+        return false
+      } else {
+        totle = array.length
+      }
+      var pointsum = 0
+      if (array.length === 0) {
+        pointsum = totle + 1
+      } else {
+        var testarray = []
+        array.forEach(function (element) {
+          testarray.push(element.name)
+        })
+        pointsum = pointsum + 1
+        while (testarray.includes(pointsum)) {
+          pointsum = pointsum + 1
+        }
+      }
+      console.log(pointsum)
+      var pointname = 'point' + pointsum
+      var pointhover = 'point_hover' + pointsum
+      var linename = 'line' + pointsum
+      var locationA = 40 + pointsum * 20
+      var locationB = 260 + pointsum * 20
+      var locationB2 = 120 + pointsum * 20
+      var $element = `<div class="${pointname} point-totle" id="pointA" style="left: ${locationA}px; top: ${locationA}px"></div><div class="${pointname} ${pointhover}" id="pointB" style="left:${locationB}px; top: ${locationB2}px"><span class="line-span">${pointsum}</span></div><div class="${linename}" id="line"></div>`
+      $('#cover').append($element)
+      var contentline = {
+        name: pointsum,
+        temperature: Math.floor(Math.random() * 50),
+        situation: '已超溫',
+        time: '04:30:14',
+        date: '2022/3/14',
+      }
+      this.addline(contentline)
+      
+      // var wrapperpointname = 0
+      // var wrapperlinename = 0
+      // array.forEach(function (element) {
+        pointname = '.point' + pointsum
+        var wrapperpointname = 'point' + pointsum
+        var wrapperlinename = 'line' + pointsum
+        // console.log(pointname)
+        wrapper(wrapperpointname, wrapperlinename)
+        $(pointname).draggable({
+          drag(e, ui) {
+            wrapper(wrapperpointname, wrapperlinename)
+            $(e.target).addClass('point-hover')
+            console.log(wrapperpointname, wrapperlinename)
+          },
+          containment: 'parent',
+          stop(event, ui) {
+            $(event.target).removeClass('point-hover')
+          },
+        })
+        var pointhoverclass = '.point_hover' + pointsum
+        $(pointname).hover(
+          function () {
+            $(pointhoverclass).children('span').addClass('hover')
+          },
+          function () {
+            $(pointhoverclass).children('span').removeClass('hover')
+          }
+        )
+      // })
+      // var pointtotle = 1
+      // $('.point-totle').each(function () {
+      //   var pointeachname = '.point' + pointtotle
+      //   $(pointeachname).draggable({
+      //     drag(e, ui) {
+      //       wrapper(pointname, linename)
+      //       $(e.target).addClass('point-hover')
+      //     },
+      //     containment: 'parent',
+      //     stop(event, ui) {
+      //       $(event.target).removeClass('point-hover')
+      //     },
+      //   })
+      //   var pointname = 'point' + pointtotle
+      //   var linename = 'line' + pointtotle
+      //   wrapper(pointname, linename)
+      //   pointtotle = pointtotle + 1
+      // })
+
+      function wrapper(pointname, linename) {
+        const point1 = document.getElementsByClassName(pointname)[0]
+        const point2 = document.getElementsByClassName(pointname)[1]
+        const line = document.getElementsByClassName(linename)[0]
+        var getline = getCoordinate(point1, point2, line)
+        line.style.width = getline.width + 'px'
+        line.style.left = getline.left + 'px'
+        line.style.top = getline.top + 'px'
+        line.style.transform = 'rotate(' + getline.angleDeg + 'deg)'
+      }
+      function getCoordinate(point1, point2) {
+        var p1 = {
+          x: point1.offsetLeft,
+          y: point1.offsetTop,
+        }
+        var p2 = {
+          x: point2.offsetLeft,
+          y: point2.offsetTop,
+        }
+        var a = p1.x - p2.x
+        var b = p1.y - p2.y
+        var length = Math.sqrt(a * a + b * b)
+        var angleDeg = (Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180) / Math.PI
+        var pointWidth = point1.clientWidth / 2
+        var pointHeight = point1.clientWidth / 2
+        var array = []
+        array.width = length
+        array.left = p1.x + pointWidth
+        array.top = p1.y + pointHeight
+        array.angleDeg = angleDeg
+        return array
+      }
+    },
+    addline(contentline) {
+      var array = this.lines
+      array.push(contentline)
+      array.sort(function (a, b) {
+        return a.name - b.name
+      })
+    },
+    removeline(index, name) {
+      var array = this.lines
+      array.splice(index, 1)
+
+      var selectline1 = '.point' + name
+      $(selectline1).each(function () {
+        $(this).remove()
+      })
+      var selectline2 = '.line' + name
+      $(selectline2).remove()
+      this.$forceUpdate()
+    },
     functionEvents(date) {
       const [, , day] = date.split('-')
       if ([2, 3, 4, 5, 7, 8, 12, 13, 14, 15, 17].includes(parseInt(day, 10)))

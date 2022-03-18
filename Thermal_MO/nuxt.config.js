@@ -109,7 +109,7 @@ export default {
   server: {
     // host: '192.168.0.182', // Ray
     // host: '192.168.0.173', // Louis
-    port: 3002,
+    port: 3000,
   },
   // Content module configuration: https://go.nuxtjs.dev/config-content
   content: {},

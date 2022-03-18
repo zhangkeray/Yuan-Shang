@@ -67,7 +67,7 @@
   z-index: 1;
 }
 
-#pointB>span {
+.line-span {
   position: absolute;
   bottom: 100%;
   left: 100%;
@@ -83,8 +83,14 @@
   font-size: 6px;
   border-radius: 20px;
   border: 1px solid #000;
+  transition: .3s;
 }
-
+.line-span.hover{
+  font-size: 18px;
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+}
 #line {
   position: absolute;
   height: 2px;
@@ -123,6 +129,14 @@
   font-size: 6px;
   border-radius: 20px;
   border: 1px solid #000;
+  transition: .3s;
+}
+
+.spot-span.hover {
+  font-size: 18px;
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
 }
 
 .tooltip_content {
@@ -131,6 +145,7 @@
   border-radius: 5px;
   background-color: rgb(224, 231, 120);
 }
-.point-hover{
-    background-color:#37484C !important;
+
+.point-hover {
+  background-color: #37484C !important;
 }
