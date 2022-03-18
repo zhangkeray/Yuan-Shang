@@ -7,7 +7,7 @@
         <!-- 監測工具monitoring tools-------------------------------------------------------------------------------- -->
         <p class="subtitle text-center"><br />監測<br />工具</p>
         <!-- 點spot -->
-        <v-tooltip right>
+        <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
             <v-btn
               id="add-spot"
@@ -24,7 +24,7 @@
           <span>點</span>
         </v-tooltip>
         <!-- 線line -->
-        <v-tooltip right>
+        <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
             <v-btn
               id="add-line"
@@ -41,7 +41,7 @@
           <span>直線</span>
         </v-tooltip>
         <!-- 矩形rectangle -->
-        <v-tooltip right>
+        <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
             <v-btn
               id="add-scope"
@@ -70,7 +70,7 @@
           :transition="transition_imageMode"
         >
           <template #activator>
-            <v-tooltip right>
+            <v-tooltip right class="tips">
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-model="fab_imageMode"
@@ -93,7 +93,7 @@
               <span>影像模式</span>
             </v-tooltip>
           </template>
-          <v-tooltip top>
+          <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="mt-2" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
@@ -105,7 +105,7 @@
             </template>
             <span>Thermal</span>
           </v-tooltip>
-          <v-tooltip top>
+          <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="mt-2" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
@@ -117,7 +117,7 @@
             </template>
             <span>Thermal MSX</span>
           </v-tooltip>
-          <v-tooltip top>
+          <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="mt-2" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
@@ -129,7 +129,7 @@
             </template>
             <span>Digital Camera</span>
           </v-tooltip>
-          <v-tooltip top>
+          <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="mt-2" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
@@ -141,7 +141,7 @@
             </template>
             <span>Marco</span>
           </v-tooltip>
-          <v-tooltip top>
+          <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="mt-2" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
@@ -160,7 +160,7 @@
           :transition="transition_palette"
         >
           <template #activator>
-            <v-tooltip right>
+            <v-tooltip right class="tips">
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-model="fab_palette"
@@ -183,7 +183,7 @@
               <span>色譜模式</span>
             </v-tooltip>
           </template>
-          <v-tooltip top>
+          <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
@@ -195,7 +195,7 @@
             </template>
             <span>Iron</span>
           </v-tooltip>
-          <v-tooltip top>
+          <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
@@ -207,7 +207,7 @@
             </template>
             <span>Lava</span>
           </v-tooltip>
-          <v-tooltip top>
+          <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
@@ -219,7 +219,7 @@
             </template>
             <span>Gray</span>
           </v-tooltip>
-          <v-tooltip top>
+          <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
@@ -231,7 +231,7 @@
             </template>
             <span>Rainbow</span>
           </v-tooltip>
-          <v-tooltip top>
+          <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
@@ -243,7 +243,7 @@
             </template>
             <span>Rainbow HC</span>
           </v-tooltip>
-          <v-tooltip top>
+          <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
@@ -303,7 +303,7 @@
           :transition="transition_light"
         >
           <template #activator>
-            <v-tooltip right>
+            <v-tooltip right class="tips">
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-model="fab_light"
@@ -326,7 +326,7 @@
               <span>照明</span>
             </v-tooltip>
           </template>
-          <v-tooltip top>
+          <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="mt-5" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
@@ -338,7 +338,7 @@
             </template>
             <span>開</span>
           </v-tooltip>
-          <v-tooltip top>
+          <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="mt-5" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
@@ -358,7 +358,7 @@
           class="mx-3 my-3"
         >
           <template #activator>
-            <v-tooltip right>
+            <v-tooltip right class="tips">
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-model="fab_autofocus"
@@ -380,7 +380,7 @@
               <span>自動對焦</span>
             </v-tooltip>
           </template>
-          <v-tooltip top>
+          <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
@@ -392,7 +392,7 @@
             </template>
             <span>遠景</span>
           </v-tooltip>
-          <v-tooltip top>
+          <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
@@ -404,7 +404,7 @@
             </template>
             <span>近景</span>
           </v-tooltip>
-          <v-tooltip top>
+          <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="" color="" fab x-small v-bind="attrs" v-on="on">
                 <img
@@ -421,7 +421,7 @@
         <!-- 影像調整image adjustment ------------------------------------------------------------------------------ -->
         <p class="subtitle text-center"><br />影像<br />調整</p>
         <!-- 全螢幕fullscreen -->
-        <v-tooltip right>
+        <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
             <v-btn class="mx-3" color="" fab x-small v-bind="attrs" v-on="on">
               <img
@@ -435,7 +435,7 @@
           <span>全螢幕</span>
         </v-tooltip>
         <!-- 影像快照snapshot -->
-        <v-tooltip right>
+        <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
             <v-btn
               class="mx-3 mt-3"
@@ -456,7 +456,7 @@
           <span>影像快照</span>
         </v-tooltip>
         <!-- 串流暫停freeze/持續unfreeze -->
-        <v-tooltip right>
+        <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
             <v-btn
               class="mx-3 mt-3"
@@ -477,7 +477,7 @@
           <span>串流暫停/持續</span>
         </v-tooltip>
         <!-- 隱藏/顯示監測項目hide/show overlay -->
-        <v-tooltip right class>
+        <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
             <v-btn
               class="mx-3 my-3"
@@ -544,7 +544,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="item in temps" :key="item.name">
-                      <td >
+                      <td>
                         <v-badge content="1" overlap color="#828C8F"
                           ><v-btn fab x-small depressed
                             ><img
@@ -556,11 +556,6 @@
                       </td>
                       <td>{{ item.temperature }}°C</td>
                       <td>
-                        <v-btn-toggle background-color="red" v-model="toggle_multiple"
-        dense
-
-        light
-        multiple>
                         <v-btn color="" x-small depressed
                           ><img
                             class=""
@@ -569,7 +564,6 @@
                             width="18em"
                             depressed
                         /></v-btn>
-                        </v-btn-toggle>
                       </td>
 
                       <td>
@@ -654,7 +648,9 @@
                       <v-sheet class="gg mr-11"
                         ><h4>今日</h4>
                         <br /><br />
-                        <p class="subtitle">累計 2 次</p></v-sheet
+                        <p class="subtitle">
+                          累計 {{ valueToday }} 次
+                        </p></v-sheet
                       >
                     </v-col>
 
@@ -747,7 +743,7 @@
           <v-col cols="12" lg="12">
             <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
             <v-card class="mr-3" height="8em" rounded="md">
-              <h4 >參數調整</h4>
+              <h4>參數調整</h4>
 
               <v-form class="mx-3">
                 <v-container>
@@ -858,7 +854,7 @@ export default {
         situation: '超溫',
         time: '17:15:08',
         date: '2022/3/14',
-      },          
+      },
       // {
       //   name: '點4',
       //   temperature: 30,
@@ -1011,32 +1007,25 @@ export default {
 .subtitle {
   font-size: 12px;
 }
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&display=swap'); */
 h4 {
   line-height: 1.9em;
   padding-left: 1em;
-  color: #051A1F;
-font-family: 'Noto Sans TC', sans-serif;
+  color: #051a1f;
+  font-family: 'Noto Sans TC', sans-serif;
 }
 .gg {
   float: right;
   text-align: left;
 }
-.table1, .table2 {
+.table1,
+.table2 {
   overflow-y: scroll;
 }
 .font-display {
   font-family: 'Noto Sans TC', sans-serif;
 }
 .chartTitle {
-  color: #505F62;
+  color: #505f62;
 }
-
-
-
-
-
-
-
-
 </style>
