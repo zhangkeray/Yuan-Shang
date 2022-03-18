@@ -1,5 +1,5 @@
 <template>
-  <div id="test-charts3" style="height: 100px"></div>
+  <div id="test-charts3" style="height: 120px; width: 120px"></div>
 </template>
 
 <script>
@@ -21,7 +21,7 @@ export default {
 
       // 選擇圖表樣式------------------------------------------
 
-      option = {
+ option = {
         tooltip: {
           trigger: 'item',
         },
@@ -33,12 +33,12 @@ export default {
           {
             name: 'Access From',
             type: 'pie',
-            radius: ['30%', '70%'],
+            radius: ['50%', '90%'],
             avoidLabelOverlap: false,
             itemStyle: {
-              borderRadius: 0,
+              borderRadius: 5,
               borderColor: '#fff',
-              borderWidth: 2,
+              borderWidth: 5,
             },
 
             color: colorPalette,
@@ -58,8 +58,8 @@ export default {
               show: false,
             },
             data: [
-              { value: 8, name: '超溫' },
-              { value: 6, name: '正常' },
+              { value: 25, name: '超溫' },
+              { value: 75, name: '正常' },
             ],
           },
         ],

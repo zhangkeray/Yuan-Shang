@@ -30,7 +30,15 @@ export default {
     '@nuxtjs/stylelint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    // 字體
+    '@nuxtjs/google-fonts'
   ],
+  googleFonts: {
+    families: {
+        Inter: [900,700,500],
+      },
+    },
+  
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -99,8 +107,8 @@ export default {
   },
   // 切換ip
   server: {
-    // host: '192.168.0.182', // Ray
-    host: '192.168.0.173', // Louis
+    host: '192.168.0.182', // Ray
+    // host: '192.168.0.173', // Louis
     port: 3002,
   },
   // Content module configuration: https://go.nuxtjs.dev/config-content
