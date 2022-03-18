@@ -2,7 +2,7 @@
   <v-container fluid mt-3>
     <!-- 左側浮動按鈕---------------------------------------------------------------------------------------------------- -->
     <div class="box">
-      <v-card class="drawer" rounded="lg" elevation="10" dark>
+      <v-card class="drawer" elevation="10" dark>
         <v-sheet class="arrow" elevation="5"></v-sheet>
         <!-- 監測工具monitoring tools-------------------------------------------------------------------------------- -->
         <p class="subtitle text-center"><br />監測<br />工具</p>
@@ -510,16 +510,13 @@
         <!-- <v-col cols="12" md="7" style="border: 1px solid red"> -->
         <v-card class="ml-3 fill-height" rounded="md">
           <v-responsive :aspect-ratio="4 / 3">
-            <!-- <v-responsive> -->
             <v-card-text>
               <div id="cover" class="cover">
                 <img
                   id="image"
                   src="https://dummyimage.com/640x480/969696/000000&text=loading...."
                 />
-                <!-- <div class="crosshair">
-                  <img src="/images/spot(png).png" />
-                </div> -->
+
               </div>
             </v-card-text>
           </v-responsive>
@@ -547,7 +544,7 @@
                     <tr v-for="(item, index) in spots" :key="index">
                       <td>
                         <v-badge :content="item.name" overlap color="#828C8F"
-                          ><v-btn fab x-small depressed
+                          ><v-btn fab x-small depressed 
                             ><img
                               class=""
                               alt="alert"
@@ -675,7 +672,7 @@
                   <tbody>
                     <tr v-for="item in temps" :key="item.name">
                       <td>
-                        <v-badge content="1" overlap color="#828C8F">
+                        <v-badge content="1" overlap color="#828C8F" class="badge">
                           <v-btn fab x-small depressed>
                             <img
                               class=""
@@ -716,20 +713,21 @@
                         :value="valueToday"
                         color="#37484C"
                       >
-                        {{ valueToday }}%
+                        {{ valueToday }}
                       </v-progress-circular>
-                      <v-sheet class="gg mr-11"
-                        ><h4>今日</h4>
-                        <br /><br />
+                      <v-sheet class="gg mr-2" 
+                        ><h4 class="">今日</h4>
+                        
+                        <p class="subtitle ">2022/03/12  00:00<br/>ǀ<br/>2022/03/12  24:00</p>
+
                         <p class="subtitle">
-                          累計 {{ valueToday }} 次
+                          full = 30 
                         </p></v-sheet
                       >
                     </v-col>
 
                     <!-- 左下圓餅 -->
                     <v-col cols="12" lg="12" class="ml-3">
-                      <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
                       <v-progress-circular
                         :rotate="-90"
                         :size="100"
@@ -737,12 +735,12 @@
                         :value="valueThisWeek"
                         color="#37484C"
                       >
-                        {{ valueThisWeek }}%
+                        {{ valueThisWeek }}
                       </v-progress-circular>
                       <v-sheet class="gg mr-11"
                         ><h4 class="chartTitle">本周</h4>
                         <br /><br />
-                        <p class="subtitle">累計 8 次</p></v-sheet
+                        <p class="subtitle">full = 30 </p></v-sheet
                       >
                     </v-col>
                   </v-row>
@@ -752,7 +750,6 @@
                   <v-row :column="$vuetify.breakpoint.mdAndDown">
                     <!-- 右上圓餅 -->
                     <v-col cols="12" lg="12" class="mt-5 mr-3">
-                      <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
                       <v-progress-circular
                         :rotate="-90"
                         :size="100"
@@ -760,18 +757,17 @@
                         :value="valueLastday"
                         color="#37484C"
                       >
-                        {{ valueLastday }}%
+                        {{ valueLastday }}
                       </v-progress-circular>
                       <v-sheet class="gg mr-11"
                         ><h4>昨日</h4>
                         <br /><br />
-                        <p class="subtitle">累計 3 次</p></v-sheet
+                        <p class="subtitle">full = 30 </p></v-sheet
                       >
                     </v-col>
 
                     <!-- 左下圓餅 -->
                     <v-col cols="12" lg="12" class="mr-3">
-                      <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
                       <v-progress-circular
                         :rotate="-90"
                         :size="100"
@@ -779,12 +775,12 @@
                         :value="valueThisMonth"
                         color="#37484C"
                       >
-                        {{ valueThisMonth }}%
+                        {{ valueThisMonth }}
                       </v-progress-circular>
                       <v-sheet class="gg mr-11"
                         ><h4>本月</h4>
                         <br /><br />
-                        <p class="subtitle">累計 15 次</p></v-sheet
+                        <p class="subtitle">full = 30 </p></v-sheet
                       >
                     </v-col>
                   </v-row>
@@ -794,20 +790,19 @@
           </v-col>
           <!--右4畫面顯示----------------------------------------------------------------------------------------------- -->
           <v-col cols="12" lg="5">
-            <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
             <v-card class="mr-3 fill-height" rounded="md">
               <div>
                 <h4 class="font-weight-black">歷史警報</h4>
               </div>
-
+                
               <div>
                 <v-date-picker
                   v-model="date2"
                   :event-color="(date) => (date[9] % 2 ? 'red' : 'yellow')"
                   :events="functionEvents"
                   no-title
-                  color="#37484C"
-                  width="18em"
+                 color="#9BA3A5"
+                  width="18.4em"
                 ></v-date-picker>
               </div>
             </v-card>
@@ -815,59 +810,43 @@
           <!--右5畫面顯示----------------------------------------------------------------------------------------------- -->
           <v-col cols="12" lg="12">
             <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
-            <v-card class="mr-3" height="8em" rounded="md">
+            <v-card class="mr-3" height="6em" rounded="md">
               <h4>參數調整</h4>
 
-              <v-form class="mx-3">
-                <v-container>
-                  <v-form>
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12" md="2">
-                          <v-text-field
+              <v-form class="">
+
+
+                          <v-text-field class="subtitle card5content mr-5 ml-5"
                             v-model="emissivity"
                             label="放射率"
                           ></v-text-field>
-                        </v-col>
+   
 
-                        <v-col cols="12" md="2">
-                          <v-text-field
+   
+                          <v-text-field class="subtitle card5content ml-5"
                             v-model="transmission"
                             label="穿透率"
                           ></v-text-field>
-                        </v-col>
 
-                        <v-col cols="12" md="2">
-                          <v-text-field
+                          <v-text-field class="subtitle card5content ml-5"
                             v-model="reflected"
                             label="反射溫度"
                           ></v-text-field>
-                        </v-col>
 
-                        <v-col cols="12" md="2">
-                          <v-text-field
+                          <v-text-field class="subtitle card5content ml-5"
                             v-model="distance"
                             label="量測距離"
                           ></v-text-field>
-                        </v-col>
 
-                        <v-col cols="12" md="2">
-                          <v-text-field
+                          <v-text-field class="subtitle card5content ml-5"
                             v-model="atmospheric"
                             label="環境溫度"
                           ></v-text-field>
-                        </v-col>
 
-                        <v-col cols="12" md="2">
-                          <v-text-field
+                          <v-text-field class="subtitle card5content ml-5"
                             v-model="humidity"
                             label="環境濕度"
                           ></v-text-field>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                  </v-form>
-                </v-container>
               </v-form>
             </v-card>
           </v-col>
@@ -907,23 +886,27 @@ export default {
     ],
   },
   data: () => ({
-    // 右4顯示
-    arrayEvents: null,
-    date2: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-      .toISOString()
-      .substr(0, 10),
+    // 左側隱藏按鈕動作設定
+    direction_imageMode: 'right',
+    fab_imageMode: false,
+    transition_imageMode: 'scale-transition',
 
-    // 右3顯示
-    interval: {},
-    valueToday: 37.8,
-    valueLastday: 13.2,
-    valueThisWeek: 42.5,
-    valueThisMonth: 19.4,
+    direction_palette: 'right',
+    fab_palette: false,
+    transition_palette: 'scale-transition',
 
-    // 右4顯示
-    beforeDestroy() {
-      clearInterval(this.interval)
-    },
+    direction_calibration: 'right',
+    fab_calibration: false,
+    transition_calibration: 'scale-transition',
+
+    direction_light: 'right',
+    fab_light: false,
+    transition_light: 'scale-transition',
+
+    direction_autofocus: 'right',
+    fab_autofocus: false,
+    transition_autofocus: 'scale-transition',
+
     // 右1右2假數據顯示(待刪)
     temps: [
       {
@@ -969,29 +952,26 @@ export default {
       //   date: '2022/3/14',
       // },
     ],
-    spots: [],
-    scopes: [],
-    lines: [],
-    // 左側隱藏按鈕動作設定
-    direction_imageMode: 'right',
-    fab_imageMode: false,
-    transition_imageMode: 'scale-transition',
+      // 右1點線面
+      spots: [],
+      scopes: [],
+      lines: [],
 
-    direction_palette: 'right',
-    fab_palette: false,
-    transition_palette: 'scale-transition',
-
-    direction_calibration: 'right',
-    fab_calibration: false,
-    transition_calibration: 'scale-transition',
-
-    direction_light: 'right',
-    fab_light: false,
-    transition_light: 'scale-transition',
-
-    direction_autofocus: 'right',
-    fab_autofocus: false,
-    transition_autofocus: 'scale-transition',
+    // 右3顯示
+    interval: {},
+    valueToday: 3,
+    valueLastday: 4,
+    valueThisWeek: 10,
+    valueThisMonth: 15,
+    
+    // 右4顯示
+    arrayEvents: null,
+    date2: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+      .toISOString()
+      .substr(0, 10),
+    beforeDestroy() {
+      clearInterval(this.interval)
+    },
 
     // 右5設定
     emissivity: 0.95,
@@ -1001,8 +981,9 @@ export default {
     atmospheric: `${20}°C`,
     humidity: `${50}%`,
   }),
-  // jquery-ui
+
   mounted() {
+    // jquery-ui
     const vm = this
     // use "main" socket defined in nuxt.config.js
     vm.socket = this.$nuxtSocket({
@@ -1022,7 +1003,6 @@ export default {
     }, 1000)
   },
 
-  // 右4顯示
   methods: {
     spot() {
       var array = this.spots
@@ -1309,11 +1289,12 @@ export default {
       $(selectline2).remove()
       this.$forceUpdate()
     },
+    // 右4方法
     functionEvents(date) {
       const [, , day] = date.split('-')
       if ([2, 3, 4, 5, 7, 8, 12, 13, 14, 15, 17].includes(parseInt(day, 10)))
-        return ['grey']
-      if ([1, 6, 9, 10, 11, 16].includes(parseInt(day, 10))) return ['red']
+        return ['#697679']
+      if ([1, 6, 9, 10, 11, 16].includes(parseInt(day, 10))) return ['#E26D6D']
       return false
     },
   },
@@ -1323,15 +1304,17 @@ export default {
 /* 左側浮動按鈕 */
 .drawer {
   position: fixed;
-  width: 3.52em;
-  left: -3.52em;
+  width: 3.6em;
+  left: -3.599em;
   height: 51.8em;
-  /* width: 60px;
-  left: -60px; */
   transition: all 0.5s;
+  border-radius: 0px 10px 10px 0px;
   z-index: 99999;
+  /* background-color: #031316; */
 }
 .box {
+  height: 0;
+  width: 0;
   background-color: #fff;
 }
 .box:hover .drawer {
@@ -1367,21 +1350,18 @@ export default {
 /* 區塊標題文字 */
 .subtitle {
   font-size: 12px;
+  color: #9BA3A5;
 }
 /* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&display=swap'); */
 h4 {
   line-height: 1.9em;
   padding-left: 1em;
-  color: #051a1f;
+  color: #031418;
   font-family: 'Noto Sans TC', sans-serif;
 }
 .gg {
   float: right;
   text-align: left;
-}
-.table1,
-.table2 {
-  overflow-y: scroll;
 }
 .font-display {
   font-family: 'Noto Sans TC', sans-serif;
@@ -1389,4 +1369,26 @@ h4 {
 .chartTitle {
   color: #505f62;
 }
+
+.badge {
+  font-size: 20px;
+}
+
+.card5 {
+    display: flex;
+  /* 水平置中 */
+  justify-content: center;    
+  /* 垂直置中 */
+  align-content: center;      
+  flex-wrap: wrap;
+}
+.card5content {
+  width:6em;
+  float: right;
+  margin: auto;
+  
+}
+
+
+
 </style>

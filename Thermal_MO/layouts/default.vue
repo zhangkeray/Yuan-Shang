@@ -10,15 +10,16 @@
           {{ item.title }}
         </v-tab>
       </v-tabs>
-      <h4>user001</h4>
-          <v-btn
-      class="ma-2"
+      <h4 class="subtitle">user001</h4>
+          <v-btn 
+      class="ma-2 logout"
       :loading="loading"
       :disabled="loading"
-      color="secondary"
+      color="#9BA3A5" fab
+      x-small outlined
       @click="loader = 'loading'"
     >
-      登出
+      <v-icon small>mdi-logout</v-icon>
     </v-btn>
       <!-- <v-avatar
         class="hidden-sm-and-down"
@@ -36,7 +37,7 @@ export default {
   name: 'DefaultLayout',
   data() {
     return {
-      // 登出
+      
       loader: null,
       loading: false,
       items: [
@@ -97,5 +98,12 @@ export default {
 }
 </script>
 <style scoped>
-
+.subtitle {
+  font-size: 12px;
+  color: #9BA3A5;
+}
+.logout {
+  border: #9BA3A5 2px solid;
+  font-weight: 900;
+}
 </style>

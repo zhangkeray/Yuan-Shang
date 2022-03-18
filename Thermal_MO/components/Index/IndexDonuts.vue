@@ -29,9 +29,10 @@ export default {
         //   top: '5%',
         //   left: 'center'
         // },
+
         series: [
           {
-            name: 'Access From',
+            name: '本日',
             type: 'pie',
             radius: ['50%', '90%'],
             avoidLabelOverlap: false,
@@ -44,8 +45,14 @@ export default {
             color: colorPalette,
 
             label: {
-              show: false,
+              show: true,
               position: 'center',
+              // formatter(d) {
+              // return d.value;
+              formatter: '{c}'
+
+
+    
             },
             emphasis: {
               label: {
@@ -58,8 +65,8 @@ export default {
               show: false,
             },
             data: [
-              { value: 20, name: '超溫' },
-              { value: 80, name: '正常' },
+              { name: '超溫', value: 5  },
+              { name: '正常', value: 15  },
             ],
           },
         ],
