@@ -2,8 +2,10 @@
   <v-container fluid mt-3>
     <v-row>
       <v-col cols="12" md="4">
-        <v-sheet class="ml-2" height="52em" rounded="lg">pending</v-sheet>
-      </v-col>
+        <v-sheet class="ml-2" height="52em" rounded="lg">
+         {{currentDateTime()}}
+        </v-sheet>
+      </v-col> 
 
       <v-col cols="12" md="4">
         <v-sheet min-height="52em" rounded="lg"> pending </v-sheet>
@@ -19,6 +21,21 @@
 <script>
 export default {
   name: 'DeepLearningPage',
+
+    methods: {
+    currentDateTime() {
+      const current = new Date();
+      const date = current.getFullYear()+'/'+(current.getMonth()+1)+'/'+current.getDate();
+      // const time = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
+      const dateTime = date;
+
+      return dateTime;
+    }
+    }
+
+
+   
+  
 }
 </script>
 <style scoped>

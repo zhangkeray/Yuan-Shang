@@ -708,39 +708,37 @@
                       <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
                       <v-progress-circular
                         :rotate="-90"
-                        :size="100"
+                        :size="95"
                         :width="10"
                         :value="valueToday"
-                        color="#37484C"
+                        color="#828C8F"
                       >
-                        {{ valueToday }}
+                       <h3> {{ valueToday }}</h3>
                       </v-progress-circular>
-                      <v-sheet class="gg mr-2" 
-                        ><h4 class="">今日</h4>
+                      <v-sheet class="gg " 
+                        ><h4 class="chartTitle mr-6">今日</h4>
                         
-                        <p class="subtitle ">2022/03/12  00:00<br/>ǀ<br/>2022/03/12  24:00</p>
+                        <p class="subtitle mr-2">{{currentDateTime()}}00:00<br/>ǀ<br/>{{currentDateTime()}}24:00</p>
 
-                        <p class="subtitle">
-                          full = 30 
-                        </p></v-sheet
+                      </v-sheet
                       >
-                    </v-col>
+                    </v-col> 
 
                     <!-- 左下圓餅 -->
                     <v-col cols="12" lg="12" class="ml-3">
                       <v-progress-circular
                         :rotate="-90"
-                        :size="100"
+                        :size="95"
                         :width="10"
                         :value="valueThisWeek"
-                        color="#37484C"
+                        color="#828C8F"
                       >
-                        {{ valueThisWeek }}
+                       <h3>  {{ valueThisWeek }} </h3>
                       </v-progress-circular>
-                      <v-sheet class="gg mr-11"
-                        ><h4 class="chartTitle">本周</h4>
-                        <br /><br />
-                        <p class="subtitle">full = 30 </p></v-sheet
+                      <v-sheet class="gg"
+                        ><h4 class="chartTitle mr-6">本周</h4>
+                        <p class="subtitle mr-2">{{currentDateTime()}}00:00<br/>ǀ<br/>{{currentDateTime()}}24:00</p>
+</v-sheet
                       >
                     </v-col>
                   </v-row>
@@ -749,20 +747,20 @@
                 <v-col cols="12" md="6">
                   <v-row :column="$vuetify.breakpoint.mdAndDown">
                     <!-- 右上圓餅 -->
-                    <v-col cols="12" lg="12" class="mt-5 mr-3">
+                    <v-col cols="12" lg="12" class="mt-5 mr-10">
                       <v-progress-circular
                         :rotate="-90"
-                        :size="100"
+                        :size="95"
                         :width="10"
                         :value="valueLastday"
-                        color="#37484C"
+                        color="#828C8F"
                       >
-                        {{ valueLastday }}
+                      <h3>  {{ valueLastday }} </h3>
                       </v-progress-circular>
-                      <v-sheet class="gg mr-11"
-                        ><h4>昨日</h4>
-                        <br /><br />
-                        <p class="subtitle">full = 30 </p></v-sheet
+                      <v-sheet class="gg "
+                        ><h4 class="chartTitle mr-6">昨日</h4>
+                        <p class="subtitle mr-2">{{lastDateTime()}}00:00<br/>ǀ<br/>{{lastDateTime()}}24:00</p>
+</v-sheet
                       >
                     </v-col>
 
@@ -770,17 +768,18 @@
                     <v-col cols="12" lg="12" class="mr-3">
                       <v-progress-circular
                         :rotate="-90"
-                        :size="100"
+                        :size="95"
                         :width="10"
                         :value="valueThisMonth"
-                        color="#37484C"
+                        color="#828C8F"
                       >
-                        {{ valueThisMonth }}
+                       <h3> {{ valueThisMonth }} </h3>
                       </v-progress-circular>
-                      <v-sheet class="gg mr-11"
-                        ><h4>本月</h4>
-                        <br /><br />
-                        <p class="subtitle">full = 30 </p></v-sheet
+                      <v-sheet class="gg "
+                        ><h4 class="chartTitle mr-6">本月</h4>
+                        <p class="subtitle mr-2">{{currentDateTime()}}00:00<br/>ǀ<br/>{{currentDateTime()}}24:00</p>
+
+                        </v-sheet
                       >
                     </v-col>
                   </v-row>
@@ -1297,7 +1296,27 @@ export default {
       if ([1, 6, 9, 10, 11, 16].includes(parseInt(day, 10))) return ['#E26D6D']
       return false
     },
-  },
+    // 今天
+    currentDateTime() {
+      const current = new Date();
+      const date = current.getFullYear()+'/'+(current.getMonth()+1)+'/'+(current.getDate());
+      // const time = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
+      const dateTime = date +' ';
+      return dateTime;
+    },
+      // 昨天
+    lastDateTime() {
+      const current = new Date();
+      const date = current.getFullYear()+'/'+(current.getMonth()+1)+'/'+(current.getDate()-1);
+      // const time = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
+     const dateTime = date +' ';
+      return dateTime;
+    },
+      // 本週
+
+
+  
+  }
 }
 </script>
 <style scoped>
@@ -1351,6 +1370,7 @@ export default {
 .subtitle {
   font-size: 12px;
   color: #9BA3A5;
+  text-align:center
 }
 /* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&display=swap'); */
 h4 {
@@ -1361,7 +1381,8 @@ h4 {
 }
 .gg {
   float: right;
-  text-align: left;
+  text-align:center;
+
 }
 .font-display {
   font-family: 'Noto Sans TC', sans-serif;
@@ -1370,9 +1391,9 @@ h4 {
   color: #505f62;
 }
 
-.badge {
-  font-size: 20px;
-}
+
+
+
 
 .card5 {
     display: flex;
