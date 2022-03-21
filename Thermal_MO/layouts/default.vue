@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="" style="background: linear-gradient(to right, rgba(89, 89, 91, 1), rgba(5, 26, 31, 1))" dark>
-      <img class="" alt="logo" src="/logo.png" width="150em" />
+      <img class="" alt="logo" src="/logo.png" width="125em" />
       <!-- <v-avatar color="" size="32"></v-avatar> -->
       <v-tabs centered color="white">
         <v-tab v-for="(item, i) in items" :key="i" :to="item.to" router>

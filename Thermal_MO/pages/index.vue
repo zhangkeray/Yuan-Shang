@@ -509,7 +509,7 @@
       <v-col cols="12" md="7">
         <!-- <v-col cols="12" md="7" style="border: 1px solid red"> -->
         <v-card class="ml-3 fill-height" rounded="md">
-          <v-responsive :aspect-ratio="4 / 3">
+          <!-- <v-responsive :aspect-ratio="4 / 3"> -->
             <v-card-text>
               <div id="cover" class="cover">
                 <img
@@ -519,7 +519,7 @@
 
               </div>
             </v-card-text>
-          </v-responsive>
+          <!-- </v-responsive> -->
         </v-card>
       </v-col>
       <!--右1畫面顯示----------------------------------------------------------------------------------------------- -->
