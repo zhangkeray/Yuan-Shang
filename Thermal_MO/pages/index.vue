@@ -543,7 +543,7 @@
                     <!-- spot -->
                     <tr v-for="(item, index) in spots" :key="index">
                       <td>
-                        <v-badge :content="item.name" overlap color="#828C8F"
+                        <v-badge :content="item.name" overlap color="#828C8F"  class="my-4"
                           ><v-btn fab x-small depressed 
                             ><img
                               class=""
@@ -577,7 +577,7 @@
                     <!-- SCOPE -->
                     <tr v-for="(item, index) in scopes" :key="index">
                       <td>
-                        <v-badge :content="item.name" overlap color="#828C8F"
+                        <v-badge :content="item.name" overlap color="#828C8F" class="my-4"
                           ><v-btn fab x-small depressed
                             ><img
                               class=""
@@ -611,7 +611,7 @@
                     <!-- LINE -->
                     <tr v-for="(item, index) in lines" :key="index">
                       <td>
-                        <v-badge :content="item.name" overlap color="#828C8F"
+                        <v-badge :content="item.name" overlap color="#828C8F" class="my-4"
                           ><v-btn fab x-small depressed
                             ><img
                               class=""
@@ -672,8 +672,9 @@
                   <tbody>
                     <tr v-for="item in temps" :key="item.name">
                       <td>
-                        <v-badge content="1" overlap color="#828C8F" class="badge">
-                          <v-btn fab x-small depressed>
+                        <v-badge content="1" overlap 
+   color="#828C8F" class="badge my-4" >
+                          <v-btn fab x-small depressed >
                             <img
                               class=""
                               alt="alert"
@@ -686,7 +687,7 @@
                       <td>{{ item.temperature }}°C</td>
                       <td>{{ item.situation }}</td>
                       <td>{{ item.time }}</td>
-                      <td>{{ item.date }}</td>
+                      <td >{{ item.date }}</td>
                     </tr>
                   </tbody>
                 </template>
@@ -777,7 +778,7 @@
                       </v-progress-circular>
                       <v-sheet class="gg "
                         ><h4 class="chartTitle mr-6">本月</h4>
-                        <p class="subtitle mr-2">{{currentDateTime()}}00:00<br/>ǀ<br/>{{currentDateTime()}}24:00</p>
+                        <p class="subtitle mr-2">2022/3/1 00:00<br/>ǀ<br/>{{currentDateTime()}}24:00</p>
 
                         </v-sheet
                       >
@@ -809,7 +810,7 @@
           <!--右5畫面顯示----------------------------------------------------------------------------------------------- -->
           <v-col cols="12" lg="12">
             <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
-            <v-card class="mr-3" height="6em" rounded="md">
+            <v-card class="mr-3" height="6.7em" rounded="md">
               <h4>參數調整</h4>
 
               <v-form class="">
@@ -819,9 +820,7 @@
                             v-model="emissivity"
                             label="放射率"
                           ></v-text-field>
-   
 
-   
                           <v-text-field class="subtitle card5content ml-5"
                             v-model="transmission"
                             label="穿透率"
@@ -1351,7 +1350,7 @@ export default {
   width: 70.5em;
   pointer-events: none;
   margin-left: 2.1em;
-  margin-top: 2em;
+  margin-top: 1.3em;
 }
 .arrow {
   height: 23px;
