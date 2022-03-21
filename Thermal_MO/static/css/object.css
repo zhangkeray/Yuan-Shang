@@ -26,6 +26,7 @@
   text-align: center;
   font-size: 6px;
   border-radius: 20px;
+  line-height: 1.5;
 }
 
 .scope-span.hover {
@@ -33,6 +34,26 @@
   width: 25px;
   height: 25px;
   border-radius: 25px;
+}
+
+.scope-test-xy-TL {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 700;
+  z-index: 100;
+  color: rgb(255, 255, 255);
+}
+
+.scope-test-xy-BR {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: right;
+  font-size: 16px;
+  font-weight: 700;
+  color: rgb(255, 255, 255);
 }
 
 .wrapper {
@@ -84,13 +105,16 @@
   border-radius: 20px;
   border: 1px solid #000;
   transition: .3s;
+  line-height: 1.5;
 }
-.line-span.hover{
+
+.line-span.hover {
   font-size: 18px;
   width: 25px;
   height: 25px;
   border-radius: 25px;
 }
+
 #line {
   position: absolute;
   height: 2px;
@@ -130,6 +154,7 @@
   border-radius: 20px;
   border: 1px solid #000;
   transition: .3s;
+  line-height: 1.5;
 }
 
 .spot-span.hover {

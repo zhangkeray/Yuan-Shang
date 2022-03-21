@@ -511,12 +511,13 @@
         <v-card class="ml-3 fill-height" rounded="md">
           <!-- <v-responsive :aspect-ratio="4 / 3"> -->
             <v-card-text>
-              <div id="cover" class="cover">
-                <img
-                  id="image"
-                  src="https://dummyimage.com/640x480/969696/000000&text=loading...."
-                />
-
+              <div class="frame">
+                <div id="cover" class="cover">
+                  <img
+                    id="image"
+                    src="https://dummyimage.com/640x480/969696/000000&text=loading...."
+                  />
+                </div>
               </div>
             </v-card-text>
           <!-- </v-responsive> -->
@@ -855,6 +856,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'IndexPage',
   head: {
@@ -950,7 +952,7 @@ export default {
       //   date: '2022/3/14',
       // },
     ],
-      // 右1點線面
+      // 右1點線面_宣告變數陣列
       spots: [],
       scopes: [],
       lines: [],
@@ -1002,7 +1004,19 @@ export default {
   },
 
   methods: {
+    // 點-主程式
     spot() {
+      axios({
+        method: 'get',
+        url: `http://192.168.0.173:8080/camera`,
+        // data: data,
+        // headers: headers,
+      })
+        .then(function (response) {
+          console.log(response.data.temperature)
+        })
+        .catch((error) => console.log(error))
+
       var array = this.spots
       var totle1 = 0
       if (array.length === 0) {
@@ -1025,7 +1039,6 @@ export default {
           spotsum = spotsum + 1
         }
       }
-      console.log(spotsum)
       var locationA = 40 + spotsum * 20
       var $element = `<div id="spot${spotsum}" class="spot" style="top: ${locationA}px; left: ${locationA}px;"><img src="/images/spot_1.png" /><span class="spot-span">${spotsum}</span></div>`
       $('#cover').append($element)
@@ -1033,7 +1046,6 @@ export default {
       $('.spot').each(function () {
         $(this).hover(
           function () {
-            console.log('hover')
             $(this).children('span').addClass('hover')
           },
           function () {
@@ -1056,6 +1068,7 @@ export default {
       }
       this.addspot(content)
     },
+    // 點-刪除程式
     removespot(index, name) {
       var array = this.spots
       array.splice(index, 1)
@@ -1063,6 +1076,7 @@ export default {
       $(selectspot).remove()
       this.$forceUpdate()
     },
+    // 點-新增程式(為主程式延伸)
     addspot(content) {
       var array = this.spots
       array.push(content)
@@ -1070,6 +1084,7 @@ export default {
         return a.name - b.name
       })
     },
+    // 範圍-主程式
     scope() {
       var array = this.scopes
       var totle = 0
@@ -1096,14 +1111,13 @@ export default {
 
       var locationA = 40 + scopesum * 20
       // var tooltip_content = '<div class="tooltip_content" >TEST TOOLTIP</div>'
-      var $element = `<div id="scope${scopesum}" class="scope" style="top:${locationA}px;left:${locationA}px;" title="Tooltip"><span class="scope-span">${scopesum}</span></div>`
+      var $element = `<div id="scope${scopesum}" class="scope" style="top:${locationA}px;left:${locationA}px;" title="Tooltip"><span class="scope-span">${scopesum}</span><span class="scope-test-xy-TL">X:Y:</span><span class="scope-test-xy-BR">X:Y:</span></div>`
       $('#cover').append($element)
 
       var scopetotlesum = 1
       $('.scope').each(function () {
         $(this).hover(
           function () {
-            console.log('hover')
             $(this).children('span').addClass('hover')
           },
           function () {
@@ -1111,15 +1125,77 @@ export default {
           }
         )
         var scopename = '#scope' + scopetotlesum
+        var cover = 0
+        var coverwidthTL = 0
+        var coverheightTL = 0
+        var coverwidthBR = 0
+        var coverheightBR = 0
         $(scopename)
           .resizable({
             containment: 'parent',
             handles: 'all',
             minWidth: 50,
             minHeight: 50,
+            resize(event, ui) {
+              cover = $('.cover')
+              coverwidthTL = ui.position.left / cover.width()
+              coverheightTL = ui.position.top / cover.height()
+              coverwidthBR =
+                (ui.position.left + this.offsetWidth) / cover.width()
+              coverheightBR =
+                (ui.position.top + this.offsetHeight) / cover.height()
+              coverwidthTL = coverwidthTL.toFixed(3)
+              coverheightTL = coverheightTL.toFixed(3)
+              coverwidthBR = coverwidthBR.toFixed(3)
+              coverheightBR = coverheightBR.toFixed(3)
+              $(this)
+                .find('.scope-test-xy-TL')
+                .html('X:' + coverwidthTL + ' Y:' + coverheightTL)
+              $(this)
+                .find('.scope-test-xy-BR')
+                .html('X:' + coverwidthBR + ' Y:' + coverheightBR)
+            },
           })
           .draggable({
             containment: 'parent',
+            drag(event, ui) {
+              cover = $('.cover')
+              coverwidthTL = ui.position.left / cover.width()
+              coverheightTL = ui.position.top / cover.height()
+              coverwidthBR =
+                (ui.position.left + this.offsetWidth) / cover.width()
+              coverheightBR =
+                (ui.position.top + this.offsetHeight) / cover.height()
+              coverwidthTL = coverwidthTL.toFixed(3)
+              coverheightTL = coverheightTL.toFixed(3)
+              coverwidthBR = coverwidthBR.toFixed(3)
+              coverheightBR = coverheightBR.toFixed(3)
+              $(this)
+                .find('.scope-test-xy-TL')
+                .html('X:' + coverwidthTL + ' Y:' + coverheightTL)
+              $(this)
+                .find('.scope-test-xy-BR')
+                .html('X:' + coverwidthBR + ' Y:' + coverheightBR)
+            },
+            create(event, ui) {
+              cover = $('.cover')
+              coverwidthTL = this.offsetLeft / cover.width()
+              coverheightTL = this.offsetTop / cover.height()
+              coverwidthBR =
+                (this.offsetLeft + this.offsetWidth) / cover.width()
+              coverheightBR =
+                (this.offsetTop + this.offsetHeight) / cover.height()
+              coverwidthTL = coverwidthTL.toFixed(3)
+              coverheightTL = coverheightTL.toFixed(3)
+              coverwidthBR = coverwidthBR.toFixed(3)
+              coverheightBR = coverheightBR.toFixed(3)
+              $(this)
+                .find('.scope-test-xy-TL')
+                .html('X:' + coverwidthTL + ' Y:' + coverheightTL)
+              $(this)
+                .find('.scope-test-xy-BR')
+                .html('X:' + coverwidthBR + ' Y:' + coverheightBR)
+            },
           })
         scopetotlesum = scopetotlesum + 1
       })
@@ -1132,6 +1208,7 @@ export default {
       }
       this.addscope(content)
     },
+    // 範圍-刪除程式
     removescope(index, name) {
       var array = this.scopes
       array.splice(index, 1)
@@ -1139,6 +1216,7 @@ export default {
       $(selectspot).remove()
       this.$forceUpdate()
     },
+    // 範圍-新增程式(為主程式延伸)
     addscope(content) {
       var array = this.scopes
       array.push(content)
@@ -1146,6 +1224,7 @@ export default {
         return a.name - b.name
       })
     },
+    // 線-主程式
     line() {
       var array = this.lines
       var totle = 0
@@ -1169,7 +1248,6 @@ export default {
           pointsum = pointsum + 1
         }
       }
-      console.log(pointsum)
       var pointname = 'point' + pointsum
       var pointhover = 'point_hover' + pointsum
       var linename = 'line' + pointsum
@@ -1186,54 +1264,30 @@ export default {
         date: '2022/3/14',
       }
       this.addline(contentline)
-      
-      // var wrapperpointname = 0
-      // var wrapperlinename = 0
-      // array.forEach(function (element) {
-        pointname = '.point' + pointsum
-        var wrapperpointname = 'point' + pointsum
-        var wrapperlinename = 'line' + pointsum
-        // console.log(pointname)
-        wrapper(wrapperpointname, wrapperlinename)
-        $(pointname).draggable({
-          drag(e, ui) {
-            wrapper(wrapperpointname, wrapperlinename)
-            $(e.target).addClass('point-hover')
-            console.log(wrapperpointname, wrapperlinename)
-          },
-          containment: 'parent',
-          stop(event, ui) {
-            $(event.target).removeClass('point-hover')
-          },
-        })
-        var pointhoverclass = '.point_hover' + pointsum
-        $(pointname).hover(
-          function () {
-            $(pointhoverclass).children('span').addClass('hover')
-          },
-          function () {
-            $(pointhoverclass).children('span').removeClass('hover')
-          }
-        )
-      // })
-      // var pointtotle = 1
-      // $('.point-totle').each(function () {
-      //   var pointeachname = '.point' + pointtotle
-      //   $(pointeachname).draggable({
-      //     drag(e, ui) {
-      //       wrapper(pointname, linename)
-      //       $(e.target).addClass('point-hover')
-      //     },
-      //     containment: 'parent',
-      //     stop(event, ui) {
-      //       $(event.target).removeClass('point-hover')
-      //     },
-      //   })
-      //   var pointname = 'point' + pointtotle
-      //   var linename = 'line' + pointtotle
-      //   wrapper(pointname, linename)
-      //   pointtotle = pointtotle + 1
-      // })
+
+      pointname = '.point' + pointsum
+      var wrapperpointname = 'point' + pointsum
+      var wrapperlinename = 'line' + pointsum
+      wrapper(wrapperpointname, wrapperlinename)
+      $(pointname).draggable({
+        drag(e, ui) {
+          wrapper(wrapperpointname, wrapperlinename)
+          $(e.target).addClass('point-hover')
+        },
+        containment: 'parent',
+        stop(event, ui) {
+          $(event.target).removeClass('point-hover')
+        },
+      })
+      var pointhoverclass = '.point_hover' + pointsum
+      $(pointname).hover(
+        function () {
+          $(pointhoverclass).children('span').addClass('hover')
+        },
+        function () {
+          $(pointhoverclass).children('span').removeClass('hover')
+        }
+      )
 
       function wrapper(pointname, linename) {
         const point1 = document.getElementsByClassName(pointname)[0]
@@ -1267,7 +1321,9 @@ export default {
         array.angleDeg = angleDeg
         return array
       }
+      // Refer to : https://stackoverflow.com/questions/66879479/draw-a-diagonal-line-between-two-points-with-css-and-js
     },
+    // 線-新增程式(為主程式延伸)
     addline(contentline) {
       var array = this.lines
       array.push(contentline)
@@ -1275,6 +1331,7 @@ export default {
         return a.name - b.name
       })
     },
+    // 線-刪除程式
     removeline(index, name) {
       var array = this.lines
       array.splice(index, 1)
@@ -1287,7 +1344,6 @@ export default {
       $(selectline2).remove()
       this.$forceUpdate()
     },
-    // 右4方法
     functionEvents(date) {
       const [, , day] = date.split('-')
       if ([2, 3, 4, 5, 7, 8, 12, 13, 14, 15, 17].includes(parseInt(day, 10)))
@@ -1339,18 +1395,25 @@ export default {
   left: 0;
 }
 /* 影像串流 */
+.frame {
+  width: 70.5em;
+  margin-left: 2.1em;
+  margin-top: 2em;
+}
 .cover {
   position: relative;
   max-width: 100%;
   width: 100%;
   display: inline-block;
+  isolation: isolate;
 }
 #image {
-  /* width: 94.5%; */
-  width: 70.5em;
+  width: 100%;
+  /* width: 70.5em; */
   pointer-events: none;
-  margin-left: 2.1em;
-  margin-top: 1.3em;
+  /* margin-left: 2.1em; */
+  /* margin-top: 2em; */
+  isolation: isolate;
 }
 .arrow {
   height: 23px;
