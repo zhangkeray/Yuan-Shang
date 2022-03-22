@@ -29,7 +29,7 @@
 
 .scope-span>div {
   position: absolute;
-  top: 53%;
+  top: 50%;
   left: 46%;
   transform: translate(-50%, -50%);
 }
@@ -116,7 +116,7 @@
 
 .line-span>div {
   position: absolute;
-  top: 53%;
+  top: 49.5%;
   left: 46%;
   transform: translate(-50%, -50%);
 }
@@ -172,7 +172,7 @@
 
 .spot-span>div {
   position: absolute;
-  top: 53%;
+  top: 50%;
   left: 46%;
   transform: translate(-50%, -50%);
 }

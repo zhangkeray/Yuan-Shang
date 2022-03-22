@@ -510,16 +510,16 @@
         <!-- <v-col cols="12" md="7" style="border: 1px solid red"> -->
         <v-card class="ml-3 fill-height" rounded="md">
           <!-- <v-responsive :aspect-ratio="4 / 3"> -->
-            <v-card-text>
-              <div class="frame">
-                <div id="cover" class="cover">
-                  <img
-                    id="image"
-                    src="https://dummyimage.com/640x480/969696/000000&text=loading...."
-                  />
-                </div>
+          <v-card-text>
+            <div class="frame">
+              <div id="cover" class="cover">
+                <img
+                  id="image"
+                  src="https://dummyimage.com/640x480/969696/000000&text=loading...."
+                />
               </div>
-            </v-card-text>
+            </div>
+          </v-card-text>
           <!-- </v-responsive> -->
         </v-card>
       </v-col>
@@ -529,7 +529,7 @@
           <v-col cols="12" lg="5">
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
             <v-card class="" rounded="md">
-              <h4 class="font-weight-black">警報設置</h4>
+              <h4 class="cardtitle ml-3">警報設置</h4>
               <v-simple-table fixed-header height="300px" class="mx-3 table1">
                 <template #default>
                   <thead>
@@ -544,8 +544,12 @@
                     <!-- spot -->
                     <tr v-for="(item, index) in spots" :key="index">
                       <td>
-                        <v-badge :content="item.name" overlap color="#828C8F"  class="my-4"
-                          ><v-btn fab x-small depressed 
+                        <v-badge
+                          :content="item.name"
+                          overlap
+                          color="#828C8F"
+                          class="my-4"
+                          ><v-btn fab x-small depressed
                             ><img
                               class=""
                               alt="alert"
@@ -578,7 +582,11 @@
                     <!-- SCOPE -->
                     <tr v-for="(item, index) in scopes" :key="index">
                       <td>
-                        <v-badge :content="item.name" overlap color="#828C8F" class="my-4"
+                        <v-badge
+                          :content="item.name"
+                          overlap
+                          color="#828C8F"
+                          class="my-4"
                           ><v-btn fab x-small depressed
                             ><img
                               class=""
@@ -612,7 +620,11 @@
                     <!-- LINE -->
                     <tr v-for="(item, index) in lines" :key="index">
                       <td>
-                        <v-badge :content="item.name" overlap color="#828C8F" class="my-4"
+                        <v-badge
+                          :content="item.name"
+                          overlap
+                          color="#828C8F"
+                          class="my-4"
                           ><v-btn fab x-small depressed
                             ><img
                               class=""
@@ -658,7 +670,7 @@
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
 
             <v-card class="mr-3 fill-height" rounded="md">
-              <h4 class="font-weight-black">警報紀錄</h4>
+              <h4 class="cardtitle ml-3">警報紀錄</h4>
               <v-simple-table fixed-header height="300px" class="mx-3 table2">
                 <template #default>
                   <thead>
@@ -673,9 +685,13 @@
                   <tbody>
                     <tr v-for="item in temps" :key="item.name">
                       <td>
-                        <v-badge content="1" overlap 
-   color="#828C8F" class="badge my-4" >
-                          <v-btn fab x-small depressed >
+                        <v-badge
+                          content="1"
+                          overlap
+                          color="#828C8F"
+                          class="badge my-4"
+                        >
+                          <v-btn fab x-small depressed>
                             <img
                               class=""
                               alt="alert"
@@ -688,7 +704,7 @@
                       <td>{{ item.temperature }}°C</td>
                       <td>{{ item.situation }}</td>
                       <td>{{ item.time }}</td>
-                      <td >{{ item.date }}</td>
+                      <td>{{ item.date }}</td>
                     </tr>
                   </tbody>
                 </template>
@@ -700,7 +716,7 @@
           <v-col cols="12" lg="7">
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
             <v-card class="fill-height" rounded="md">
-              <h4 class="font-weight-black">警報統計</h4>
+              <h4 class="cardtitle ml-3">警報統計</h4>
               <!-- <v-row :column="$vuetify.breakpoint.mdAndDown"> -->
               <v-row>
                 <v-col cols="12" md="6">
@@ -715,16 +731,18 @@
                         :value="valueToday"
                         color="#828C8F"
                       >
-                       <h3> {{ valueToday }}</h3>
+                        <h3>{{ valueToday }}</h3>
                       </v-progress-circular>
-                      <v-sheet class="gg " 
-                        ><h4 class="chartTitle mr-6">今日</h4>
-                        
-                        <p class="subtitle mr-2">{{currentDateTime()}}00:00<br/>ǀ<br/>{{currentDateTime()}}24:00</p>
+                      <v-sheet class="gg"
+                        ><h4 class="chartTitle mr-16">今日</h4>
 
-                      </v-sheet
-                      >
-                    </v-col> 
+                        <p class="subtitle mr-2">
+                          {{ currentDateTime() }}00:00<br />ǀ<br />{{
+                            currentDateTime()
+                          }}24:00
+                        </p>
+                      </v-sheet>
+                    </v-col>
 
                     <!-- 左下圓餅 -->
                     <v-col cols="12" lg="12" class="ml-3">
@@ -735,13 +753,16 @@
                         :value="valueThisWeek"
                         color="#828C8F"
                       >
-                       <h3>  {{ valueThisWeek }} </h3>
+                        <h3>{{ valueThisWeek }}</h3>
                       </v-progress-circular>
                       <v-sheet class="gg"
-                        ><h4 class="chartTitle mr-6">本周</h4>
-                        <p class="subtitle mr-2">{{currentDateTime()}}00:00<br/>ǀ<br/>{{currentDateTime()}}24:00</p>
-</v-sheet
-                      >
+                        ><h4 class="chartTitle mr-16">本周</h4>
+                        <p class="subtitle mr-2">
+                          {{ currentDateTime() }}00:00<br />ǀ<br />{{
+                            currentDateTime()
+                          }}24:00
+                        </p>
+                      </v-sheet>
                     </v-col>
                   </v-row>
                 </v-col>
@@ -757,13 +778,16 @@
                         :value="valueLastday"
                         color="#828C8F"
                       >
-                      <h3>  {{ valueLastday }} </h3>
+                        <h3>{{ valueLastday }}</h3>
                       </v-progress-circular>
-                      <v-sheet class="gg "
-                        ><h4 class="chartTitle mr-6">昨日</h4>
-                        <p class="subtitle mr-2">{{lastDateTime()}}00:00<br/>ǀ<br/>{{lastDateTime()}}24:00</p>
-</v-sheet
-                      >
+                      <v-sheet class="gg"
+                        ><h4 class="chartTitle mr-16">昨日</h4>
+                        <p class="subtitle mr-2">
+                          {{ lastDateTime() }}00:00<br />ǀ<br />{{
+                            lastDateTime()
+                          }}24:00
+                        </p>
+                      </v-sheet>
                     </v-col>
 
                     <!-- 左下圓餅 -->
@@ -775,14 +799,16 @@
                         :value="valueThisMonth"
                         color="#828C8F"
                       >
-                       <h3> {{ valueThisMonth }} </h3>
+                        <h3>{{ valueThisMonth }}</h3>
                       </v-progress-circular>
-                      <v-sheet class="gg "
-                        ><h4 class="chartTitle mr-6">本月</h4>
-                        <p class="subtitle mr-2">2022/3/1 00:00<br/>ǀ<br/>{{currentDateTime()}}24:00</p>
-
-                        </v-sheet
-                      >
+                      <v-sheet class="gg"
+                        ><h4 class="chartTitle mr-16">本月</h4>
+                        <p class="subtitle mr-2">
+                          2022/3/1 00:00<br />ǀ<br />{{
+                            currentDateTime()
+                          }}24:00
+                        </p>
+                      </v-sheet>
                     </v-col>
                   </v-row>
                 </v-col>
@@ -793,16 +819,16 @@
           <v-col cols="12" lg="5">
             <v-card class="mr-3 fill-height" rounded="md">
               <div>
-                <h4 class="font-weight-black">歷史警報</h4>
+                <h4 class="cardtitle ml-3">歷史警報</h4>
               </div>
-                
+
               <div>
                 <v-date-picker
                   v-model="date2"
                   :event-color="(date) => (date[9] % 2 ? 'red' : 'yellow')"
                   :events="functionEvents"
                   no-title
-                 color="#9BA3A5"
+                  color="#9BA3A5"
                   width="18.4em"
                 ></v-date-picker>
               </div>
@@ -812,41 +838,66 @@
           <v-col cols="12" lg="12">
             <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
             <v-card class="mr-3" height="6.7em" rounded="md">
-              <h4>參數調整</h4>
+              <div>
+                <v-btn small icon class="btn reset" color="#9BA3A5">
+                  <v-icon small class="icon">mdi-cached</v-icon>
+                </v-btn>
+                <h4 class="cardtitle ml-3">參數調整</h4>
+              </div>
 
               <v-form class="">
+                <v-text-field
+                  class="subtitle card5content ml-16 mt-1 mr-5 text-color"
+                  v-model="temperature"
+                  label="一般溫度"
+                  color="#828c8f"
+                ></v-text-field>
 
+                <v-text-field
+                  class="subtitle card5content mt-1 mr-5 text-color"
+                  v-model="reflected"
+                  label="反射溫度"
+                  color="#828c8f"
+                ></v-text-field>
 
-                          <v-text-field class="subtitle card5content mr-5 ml-5"
-                            v-model="emissivity"
-                            label="放射率"
-                          ></v-text-field>
+                <v-text-field
+                  class="subtitle card5content mt-1 mr-5 text-color"
+                  v-model="atmospheric"
+                  label="環境溫度"
+                  color="#828c8f"
+                ></v-text-field>
 
-                          <v-text-field class="subtitle card5content ml-5"
-                            v-model="transmission"
-                            label="穿透率"
-                          ></v-text-field>
+                <v-text-field
+                  class="subtitle card5content mt-1 mr-5 text-color"
+                  v-model="humidity"
+                  label="環境濕度"
+                  color="#828c8f"
+                ></v-text-field>
 
-                          <v-text-field class="subtitle card5content ml-5"
-                            v-model="reflected"
-                            label="反射溫度"
-                          ></v-text-field>
+                <v-text-field
+                  class="subtitle card5content mt-1 mr-5 text-color"
+                  v-model="distance"
+                  label="量測距離"
+                  color="#828c8f"
+                ></v-text-field>
 
-                          <v-text-field class="subtitle card5content ml-5"
-                            v-model="distance"
-                            label="量測距離"
-                          ></v-text-field>
+                <v-text-field
+                  class="subtitle card5content mt-1 mr-5 text-color"
+                  v-model="emissivity"
+                  label="放射率"
+                  color="#828c8f"
+                ></v-text-field>
 
-                          <v-text-field class="subtitle card5content ml-5"
-                            v-model="atmospheric"
-                            label="環境溫度"
-                          ></v-text-field>
-
-                          <v-text-field class="subtitle card5content ml-5"
-                            v-model="humidity"
-                            label="環境濕度"
-                          ></v-text-field>
+                <v-text-field
+                  class="subtitle card5content mt-1 mr-5 text-color font-weight-large"
+                  v-model="transmission"
+                  label="穿透率"
+                  color="#828c8f"
+                ></v-text-field>
               </v-form>
+              <!-- <v-btn icon class="btn reset" color="#9BA3A5"> 
+                  <v-icon  class="icon">mdi-cached</v-icon>
+                </v-btn> -->
             </v-card>
           </v-col>
         </v-row>
@@ -952,10 +1003,10 @@ export default {
       //   date: '2022/3/14',
       // },
     ],
-      // 右1點線面_宣告變數陣列
-      spots: [],
-      scopes: [],
-      lines: [],
+    // 右1點線面_宣告變數陣列
+    spots: [],
+    scopes: [],
+    lines: [],
 
     // 右3顯示
     interval: {},
@@ -963,7 +1014,7 @@ export default {
     valueLastday: 4,
     valueThisWeek: 10,
     valueThisMonth: 15,
-    
+
     // 右4顯示
     arrayEvents: null,
     date2: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
@@ -980,6 +1031,7 @@ export default {
     distance: `${1.0}m`,
     atmospheric: `${20}°C`,
     humidity: `${50}%`,
+    temperature: `${20}°C`,
   }),
 
   mounted() {
@@ -1353,25 +1405,32 @@ export default {
     },
     // 今天
     currentDateTime() {
-      const current = new Date();
-      const date = current.getFullYear()+'/'+(current.getMonth()+1)+'/'+(current.getDate());
+      const current = new Date()
+      const date =
+        current.getFullYear() +
+        '/' +
+        (current.getMonth() + 1) +
+        '/' +
+        current.getDate()
       // const time = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
-      const dateTime = date +' ';
-      return dateTime;
+      const dateTime = date + ' '
+      return dateTime
     },
-      // 昨天
+    // 昨天
     lastDateTime() {
-      const current = new Date();
-      const date = current.getFullYear()+'/'+(current.getMonth()+1)+'/'+(current.getDate()-1);
+      const current = new Date()
+      const date =
+        current.getFullYear() +
+        '/' +
+        (current.getMonth() + 1) +
+        '/' +
+        (current.getDate() - 1)
       // const time = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
-     const dateTime = date +' ';
-      return dateTime;
+      const dateTime = date + ' '
+      return dateTime
     },
-      // 本週
-
-
-  
-  }
+    // 本週
+  },
 }
 </script>
 <style scoped>
@@ -1387,13 +1446,11 @@ export default {
   /* background-color: #031316; */
 }
 .box {
-
   background-color: #fff;
 }
 .box:hover .drawer {
   left: 0;
 }
-
 
 /* 影像串流 */
 .frame {
@@ -1432,47 +1489,57 @@ export default {
 /* 區塊標題文字 */
 .subtitle {
   font-size: 12px;
-  color: #9BA3A5;
-  text-align:center
+  color: #9ba3a5;
+  text-align: center;
 }
-/* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&display=swap'); */
-h4 {
-  line-height: 1.9em;
+/* h4 {
+  line-height: 2em;
   padding-left: 1em;
   color: #031418;
   font-family: 'Noto Sans TC', sans-serif;
-}
+  font-weight: bold;
+} */
 .gg {
   float: right;
-  text-align:center;
-
+  text-align: center;
 }
 .font-display {
   font-family: 'Noto Sans TC', sans-serif;
 }
 .chartTitle {
-  color: #505f62;
+  color: #828c8f;
 }
 
-
-
-
-
 .card5 {
-    display: flex;
+  display: flex;
   /* 水平置中 */
-  justify-content: center;    
+  justify-content: center;
   /* 垂直置中 */
-  align-content: center;      
+  align-content: center;
   flex-wrap: wrap;
 }
 .card5content {
-  width:6em;
-  float: right;
+  width: 6em;
+  float: left;
   margin: auto;
-  
+}
+.btn {
+  background-color: #f2f4f4;
+}
+.reset {
+  float: right;
+  margin-top: 0.5em;
+  margin-right: 0.5em;
+}
+.cardtitle {
+  line-height: 2.5em;
+  font-weight: 900;
+  color: #505F62;
 }
 
+  .text-color >>> .v-text-field__slot input {
+    color: #9ba3a5;
+  }
 
-
+  
 </style>
