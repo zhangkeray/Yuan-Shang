@@ -1040,16 +1040,16 @@ export default {
         }
       }
       var locationA = 40 + spotsum * 20
-      var $element = `<div id="spot${spotsum}" class="spot" style="top: ${locationA}px; left: ${locationA}px;"><img src="/images/spot_1.png" /><span class="spot-span">${spotsum}</span></div>`
+      var $element = `<div id="spot${spotsum}" class="spot" style="top: ${locationA}px; left: ${locationA}px;"><img src="/images/spot_1.png" /><div class="spot-span"><div>${spotsum}</div></div></div>`
       $('#cover').append($element)
       var spottotlesum = 1
       $('.spot').each(function () {
         $(this).hover(
           function () {
-            $(this).children('span').addClass('hover')
+            $(this).children('div').addClass('hover')
           },
           function () {
-            $(this).children('span').removeClass('hover')
+            $(this).children('div').removeClass('hover')
           }
         )
         var spotname = '#spot' + spottotlesum
@@ -1111,17 +1111,17 @@ export default {
 
       var locationA = 40 + scopesum * 20
       // var tooltip_content = '<div class="tooltip_content" >TEST TOOLTIP</div>'
-      var $element = `<div id="scope${scopesum}" class="scope" style="top:${locationA}px;left:${locationA}px;" title="Tooltip"><span class="scope-span">${scopesum}</span><span class="scope-test-xy-TL">X:Y:</span><span class="scope-test-xy-BR">X:Y:</span></div>`
+      var $element = `<div id="scope${scopesum}" class="scope" style="top:${locationA}px;left:${locationA}px;" title="Tooltip"><div class="scope-span"><div>${scopesum}</div></div><span class="scope-test-xy-TL">X:Y:</span><span class="scope-test-xy-BR">X:Y:</span></div>`
       $('#cover').append($element)
 
       var scopetotlesum = 1
       $('.scope').each(function () {
         $(this).hover(
           function () {
-            $(this).children('span').addClass('hover')
+            $(this).children('div').addClass('hover')
           },
           function () {
-            $(this).children('span').removeClass('hover')
+            $(this).children('div').removeClass('hover')
           }
         )
         var scopename = '#scope' + scopetotlesum
@@ -1254,7 +1254,7 @@ export default {
       var locationA = 40 + pointsum * 20
       var locationB = 260 + pointsum * 20
       var locationB2 = 120 + pointsum * 20
-      var $element = `<div class="${pointname} point-totle" id="pointA" style="left: ${locationA}px; top: ${locationA}px"></div><div class="${pointname} ${pointhover}" id="pointB" style="left:${locationB}px; top: ${locationB2}px"><span class="line-span">${pointsum}</span></div><div class="${linename}" id="line"></div>`
+      var $element = `<div class="${pointname} point-totle" id="pointA" style="left: ${locationA}px; top: ${locationA}px"></div><div class="${pointname} ${pointhover}" id="pointB" style="left:${locationB}px; top: ${locationB2}px"><div class="line-span"><div>${pointsum}</div></div></div><div class="${linename}" id="line"></div>`
       $('#cover').append($element)
       var contentline = {
         name: pointsum,
@@ -1282,10 +1282,10 @@ export default {
       var pointhoverclass = '.point_hover' + pointsum
       $(pointname).hover(
         function () {
-          $(pointhoverclass).children('span').addClass('hover')
+          $(pointhoverclass).children('div').addClass('hover')
         },
         function () {
-          $(pointhoverclass).children('span').removeClass('hover')
+          $(pointhoverclass).children('div').removeClass('hover')
         }
       )
 
