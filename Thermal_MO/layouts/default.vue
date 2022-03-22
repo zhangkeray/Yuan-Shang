@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <v-app-bar app color="" style="background: linear-gradient(to right, rgba(89, 89, 91, 1), rgba(5, 26, 31, 1))" dark>
-      <img class="" alt="logo" src="/logo.png" width="125em" />
+      <img class="mr-5" alt="logo" src="/logo.png" width="125em" />
       <!-- <v-avatar color="" size="32"></v-avatar> -->
-      <v-tabs centered color="white">
+      <v-tabs color="white">
         <v-tab v-for="(item, i) in items" :key="i" :to="item.to" router>
           <v-icon small>{{ item.icon }}</v-icon>
           <p>&nbsp;&nbsp;</p>
@@ -12,11 +12,12 @@
       </v-tabs>
       <h4 class="subtitle">user001</h4>
           <v-btn 
-      class="ma-2 logout"
+          icon
+      class="ml-2 mr-1"
       :loading="loading"
       :disabled="loading"
-      color="#9BA3A5" fab
-      x-small outlined
+      color="#9BA3A5" 
+      small 
       @click="loader = 'loading'"
     >
       <v-icon small>mdi-logout</v-icon>
