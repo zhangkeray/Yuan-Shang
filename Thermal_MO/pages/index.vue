@@ -1387,13 +1387,14 @@ export default {
   /* background-color: #031316; */
 }
 .box {
-  height: 0;
-  width: 0;
+
   background-color: #fff;
 }
 .box:hover .drawer {
   left: 0;
 }
+
+
 /* 影像串流 */
 .frame {
   width: 70.5em;

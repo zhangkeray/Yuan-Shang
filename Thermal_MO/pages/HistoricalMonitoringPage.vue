@@ -1375,10 +1375,10 @@ h4 {
   float: right;
   text-align: left;
 }
-.table1,
+/* .table1,
 .table2 {
-  /* overflow-y: scroll; */
-}
+  overflow-y: scroll;
+} */
 .font-display {
   font-family: 'Noto Sans TC', sans-serif;
 }
