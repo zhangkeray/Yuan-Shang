@@ -10,16 +10,18 @@
         <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
             <v-btn
-              class="mx-3"
-              color=""
-              fab
-              x-small
+              class="left-btn mx-3"
+              icon
               v-bind="attrs"
               v-on="on"
               @click="spot()"
+              elevation="6"
             >
-              <img alt="spot" src="/left-icons/spot.png" width="18em" />
+              <img alt="spot" src="/left-icons/spot.png" width="20em" />
             </v-btn>
+                            <!-- <v-btn x-small icon class="btn reset" color="#9BA3A5">
+                  <v-icon x-small class="icon">mdi-restore</v-icon>
+                </v-btn> -->
           </template>
           <span>點</span>
         </v-tooltip>
@@ -27,15 +29,14 @@
         <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
             <v-btn
-              class="mx-3 mt-3"
-              color=""
-              fab
-              x-small
+              class="left-btn mx-3 mt-3"
+              icon
               v-bind="attrs"
               v-on="on"
               @click="line()"
+              elevation="6"
             >
-              <img alt="line" src="/left-icons/line.png" width="12em" />
+              <img alt="line" src="/left-icons/line.png" width="15em" />
             </v-btn>
           </template>
           <span>直線</span>
@@ -44,18 +45,17 @@
         <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
             <v-btn
-              class="mx-3 my-3"
-              color=""
-              fab
-              x-small
+              class="left-btn mx-3 my-3"
+              icon
               v-bind="attrs"
               v-on="on"
               @click="scope()"
+              elevation="6"
             >
               <img
                 alt="rectangle"
                 src="/left-icons/rectangle.png"
-                width="16em"
+                width="18em"
               />
             </v-btn>
           </template>
@@ -74,19 +74,18 @@
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-model="fab_imageMode"
-                  class="mx-3"
-                  color=""
-                  fab
-                  x-small
+                  class="left-btn mx-3"
+                  icon
                   v-bind="attrs"
                   v-on="on"
+                  elevation="6"
                 >
                   <v-icon v-if="fab_imageMode"> mdi-close </v-icon>
                   <img
                     v-else
                     alt="palette"
                     src="/left-icons/image-mode/image-mode.png"
-                    width="18em"
+                    width="21em"
                   />
                 </v-btn>
               </template>
@@ -99,7 +98,7 @@
                 <img
                   alt="image-mode-thermal"
                   src="/left-icons/image-mode/image-mode-thermal.png"
-                  width="20em"
+                  width="22em"
                 />
               </v-btn>
             </template>
@@ -111,7 +110,7 @@
                 <img
                   alt="image-mode-thermal-msx"
                   src="/left-icons/image-mode/image-mode-thermal-msx.png"
-                  width="20em"
+                  width="22em"
                 />
               </v-btn>
             </template>
@@ -123,7 +122,7 @@
                 <img
                   alt="image-mode-digital-camera"
                   src="/left-icons/image-mode/image-mode-digital-camera.png"
-                  width="20em"
+                  width="22em"
                 />
               </v-btn>
             </template>
@@ -135,7 +134,7 @@
                 <img
                   alt="image-mode-marco"
                   src="/left-icons/image-mode/image-mode-marco.png"
-                  width="17em"
+                  width="22em"
                 />
               </v-btn>
             </template>
@@ -147,7 +146,7 @@
                 <img
                   alt="image-mode-thermal-fsx"
                   src="/left-icons/image-mode/image-mode-thermal-fsx.png"
-                  width="20em"
+                  width="22em"
                 />
               </v-btn>
             </template>
@@ -164,12 +163,11 @@
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-model="fab_palette"
-                  class="mx-3 my-3"
-                  color=""
-                  fab
-                  x-small
+                  class="left-btn mx-3 my-3"
+                  icon
                   v-bind="attrs"
                   v-on="on"
+                  elevation="6"
                 >
                   <v-icon v-if="fab_palette"> mdi-close </v-icon>
                   <img
@@ -189,7 +187,7 @@
                 <img
                   alt="palette-iron"
                   src="/left-icons/palette/palette-iron.png"
-                  width="20em"
+                  width="24em"
                 />
               </v-btn>
             </template>
@@ -201,7 +199,7 @@
                 <img
                   alt="palette-lava"
                   src="/left-icons/palette/palette-lava.png"
-                  width="20em"
+                  width="24em"
                 />
               </v-btn>
             </template>
@@ -213,7 +211,7 @@
                 <img
                   alt="palette-gray"
                   src="/left-icons/palette/palette-gray.png"
-                  width="20em"
+                  width="24em"
                 />
               </v-btn>
             </template>
@@ -225,7 +223,7 @@
                 <img
                   alt="palette-rainbow"
                   src="/left-icons/palette/palette-rainbow.png"
-                  width="20em"
+                  width="24em"
                 />
               </v-btn>
             </template>
@@ -237,7 +235,7 @@
                 <img
                   alt="palette-rainbow-hc"
                   src="/left-icons/palette/palette-rainbow-hc.png"
-                  width="20em"
+                  width="24em"
                 />
               </v-btn>
             </template>
@@ -271,12 +269,11 @@
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-model="fab_calibration"
-                  class="mx-3"
-                  color=""
-                  fab
-                  x-small
+                  class="left-btn mx-3"
+                  icon
                   v-bind="attrs"
                   v-on="on"
+                  elevation="6"
                 >
                   <v-icon v-if="fab_calibration"> mdi-close </v-icon>
                   <img
@@ -305,20 +302,20 @@
           <template #activator>
             <v-tooltip right class="tips">
               <template #activator="{ on, attrs }">
+
                 <v-btn
                   v-model="fab_light"
-                  class="mx-3 mt-3"
-                  color=""
-                  fab
-                  x-small
+                  class="left-btn mx-3 mt-3"
+                  icon 
                   v-bind="attrs"
                   v-on="on"
+                  elevation="6"
                 >
                   <v-icon v-if="fab_light"> mdi-close </v-icon>
                   <img
                     v-else
                     alt="palette"
-                    src="/left-icons/light/light.png"
+                    src="/left-icons/light/light-off.png"
                     width="14em"
                   />
                 </v-btn>
@@ -328,11 +325,11 @@
           </template>
           <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
-              <v-btn class="mt-5" color="" fab x-small v-bind="attrs" v-on="on">
+              <v-btn class="mt-5" color="" fab x-small v-bind="attrs" v-on="on" elevation="6">
                 <img
                   alt="palette-iron"
                   src="/left-icons/light/light-on.png"
-                  width="22em"
+                  width="16em"
                 />
               </v-btn>
             </template>
@@ -340,7 +337,7 @@
           </v-tooltip>
           <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
-              <v-btn class="mt-5" color="" fab x-small v-bind="attrs" v-on="on">
+              <v-btn class="mt-5" color="" fab x-small v-bind="attrs" v-on="on" elevation="6">
                 <img
                   alt="palette-lava"
                   src="/left-icons/light/light-off.png"
@@ -354,19 +351,18 @@
         <!-- 自動對焦autoFocus -->
         <v-speed-dial
           :direction="direction_autofocus"
-          :transition="transition_autofocus"
-          class="mx-3 my-3"
+          :transition="transition_autofocus"     
         >
           <template #activator>
             <v-tooltip right class="tips">
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-model="fab_autofocus"
-                  color=""
-                  fab
-                  x-small
+                  class="left-btn mx-3 my-3"
+                  icon
                   v-bind="attrs"
                   v-on="on"
+                  elevation="6"
                 >
                   <v-icon v-if="fab_autofocus"> mdi-close </v-icon>
                   <img
@@ -386,7 +382,7 @@
                 <img
                   alt="palette-iron"
                   src="/left-icons/autofocus/autofocus-focus-further.png"
-                  width="19em"
+                  width="22em"
                 />
               </v-btn>
             </template>
@@ -398,7 +394,7 @@
                 <img
                   alt="palette-lava"
                   src="/left-icons/autofocus/autofocus-focus-closer.png"
-                  width="20em"
+                  width="22em"
                 />
               </v-btn>
             </template>
@@ -410,7 +406,7 @@
                 <img
                   alt="palette-gray"
                   src="/left-icons/autofocus/autofocus-autofocus.png"
-                  width="18em"
+                  width="22em"
                 />
               </v-btn>
             </template>
@@ -423,7 +419,7 @@
         <!-- 全螢幕fullscreen -->
         <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
-            <v-btn class="mx-3" color="" fab x-small v-bind="attrs" v-on="on">
+            <v-btn class="left-btn mx-3" icon v-bind="attrs" v-on="on" elevation="6">             
               <img
                 class=""
                 alt="spot"
@@ -438,12 +434,11 @@
         <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
             <v-btn
-              class="mx-3 mt-3"
-              color=""
-              fab
-              x-small
+              class="left-btn mx-3 mt-3"
+              icon
               v-bind="attrs"
               v-on="on"
+              elevation="6"
             >
               <img
                 class=""
@@ -459,12 +454,11 @@
         <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
             <v-btn
-              class="mx-3 mt-3"
-              color=""
-              fab
-              x-small
+              class="left-btn mx-3 mt-3"
+              icon
               v-bind="attrs"
               v-on="on"
+              elevation="6"
             >
               <img
                 class=""
@@ -480,12 +474,11 @@
         <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
             <v-btn
-              class="mx-3 my-3"
-              color=""
-              fab
-              x-small
+              class="left-btn mx-3 my-3"
+              icon
               v-bind="attrs"
               v-on="on"
+              elevation="6"
             >
               <img
                 class=""
@@ -534,7 +527,7 @@
                 <template #default>
                   <thead>
                     <tr>
-                      <th class="text-left">監測範圍</th>
+                      <th class="text-left">範圍</th>
                       <th class="text-left">溫度</th>
                       <th class="text-left">警報</th>
                       <th class="text-left">刪除</th>
@@ -666,7 +659,7 @@
           </v-col>
 
           <!--右2畫面顯示----------------------------------------------------------------------------------------------- -->
-          <v-col cols="12" lg="7">
+  <v-col cols="12" lg="7">
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
 
             <v-card class="mr-3 fill-height" rounded="md">
@@ -675,11 +668,10 @@
                 <template #default>
                   <thead>
                     <tr>
-                      <th class="text-left">監測範圍</th>
-                      <th class="text-left">溫度</th>
+                      <th class="text-left">範圍</th>
                       <th class="text-left">狀況</th>
+                      <th class="text-left">溫度</th>
                       <th class="text-left">時間</th>
-                      <th class="text-left">日期</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -701,10 +693,9 @@
                           </v-btn>
                         </v-badge>
                       </td>
-                      <td>{{ item.temperature }}°C</td>
                       <td>{{ item.situation }}</td>
+                      <td>{{ item.temperature }}°C</td>
                       <td>{{ item.time }}</td>
-                      <td>{{ item.date }}</td>
                     </tr>
                   </tbody>
                 </template>
@@ -839,8 +830,8 @@
             <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
             <v-card class="mr-3" height="6.7em" rounded="md">
               <div>
-                <v-btn small icon class="btn reset" color="#9BA3A5">
-                  <v-icon small class="icon">mdi-cached</v-icon>
+                <v-btn x-small icon class="btn reset" color="#9BA3A5">
+                  <v-icon x-small class="icon">mdi-restore</v-icon>
                 </v-btn>
                 <h4 class="cardtitle ml-3">參數調整</h4>
               </div>
@@ -937,6 +928,8 @@ export default {
     ],
   },
   data: () => ({
+    // 切換按鈕
+    isActive: false,
     // 左側隱藏按鈕動作設定
     direction_imageMode: 'right',
     fab_imageMode: false,
@@ -958,35 +951,32 @@ export default {
     fab_autofocus: false,
     transition_autofocus: 'scale-transition',
 
+
     // 右1右2假數據顯示(待刪)
     temps: [
       {
         name: '點3',
-        temperature: 30,
-        situation: '符合超溫',
-        time: '07:04:22',
-        date: '2022/3/17',
+        situation: '曾超溫 00:00:14',
+        temperature: "89/30",
+         time: '2022/3/17 07:04:22',
       },
       {
         name: '點2',
-        temperature: 26,
-        situation: '超溫',
-        time: '02:10:07',
-        date: '2022/3/17',
+        temperature: "45/26",
+        situation: '已超溫 00:00:38',
+         time: '2022/3/17 02:10:07',
       },
       {
         name: '矩形1',
-        temperature: 23,
-        situation: '超溫',
-        time: '18:30:14',
-        date: '2022/3/16',
+        temperature: "22/23",
+        situation: '曾超溫 00:01:42',
+        time: '2022/3/16 18:30:14',
       },
       {
         name: '點1',
-        temperature: 15,
-        situation: '超溫',
-        time: '17:15:08',
-        date: '2022/3/14',
+        temperature: "22/15",
+        situation: '已超溫 00:01:20',
+         time: '2022/3/14 17:15:08',
       },
       // {
       //   name: '點4',
@@ -1056,6 +1046,16 @@ export default {
   },
 
   methods: {
+    // 燈泡
+    toggle() {
+  // if (!this.isActive) {
+  //   this.isActive = true;
+  // } else {
+  //   this.isActive = false;
+  // }
+
+  this.isActive = !this.enable;
+},
     // 點-主程式
     spot() {
       axios({
@@ -1489,7 +1489,7 @@ export default {
 /* 區塊標題文字 */
 .subtitle {
   font-size: 12px;
-  color: #9ba3a5;
+  color: #d9dddd;
   text-align: center;
 }
 /* h4 {
@@ -1541,5 +1541,13 @@ export default {
     color: #9ba3a5;
   }
 
-  
+  .left-btn {
+    background-color: #2D2D2D;
+    width: 2.25em;
+        height: 2.25em;
+
+  }
+  .left-btn-img {
+filter:brightness(100%);
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="" style="background: linear-gradient(to right, rgba(89, 89, 91, 1), rgba(5, 26, 31, 1))" dark>
-      <img class="mr-5" alt="logo" src="/logo.png" width="125em" />
+      <img class="mr-16 logo" alt="logo" src="/logo.png" width="125em" />
       <!-- <v-avatar color="" size="32"></v-avatar> -->
       <v-tabs color="white">
         <v-tab v-for="(item, i) in items" :key="i" :to="item.to" router>
@@ -106,5 +106,8 @@ export default {
 .logout {
   border: #9BA3A5 2px solid;
   font-weight: 900;
+}
+.logo {
+  margin-left: 0.8em;
 }
 </style>
