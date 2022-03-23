@@ -310,9 +310,11 @@
                   v-bind="attrs"
                   v-on="on"
                   elevation="6"
+                  @click="light"
                 >
                   <v-icon v-if="fab_light"> mdi-close </v-icon>
                   <img
+                    id="light_img"
                     v-else
                     alt="palette"
                     src="/left-icons/light/light-off.png"
@@ -323,7 +325,7 @@
               <span>照明</span>
             </v-tooltip>
           </template>
-          <v-tooltip top class="tips">
+          <!-- <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn class="mt-5" color="" fab x-small v-bind="attrs" v-on="on" elevation="6" dark>
                 <img
@@ -346,7 +348,7 @@
               </v-btn>
             </template>
             <span>關</span>
-          </v-tooltip>
+          </v-tooltip> -->
         </v-speed-dial>
         <!-- 自動對焦autoFocus -->
         <v-speed-dial
@@ -940,7 +942,15 @@ export default {
   },
 
   methods: {
-
+    light() {
+      if (document.getElementById('light_on')) {
+        document.getElementById('light_on').src = '/left-icons/light/light-off.png'
+        document.getElementById('light_on').setAttribute('id', 'light_img')
+      } else {
+        document.getElementById('light_img').src = '/left-icons/light/light-on.png'
+        document.getElementById('light_img').setAttribute('id', 'light_on')
+      }
+    },
     // 點-主程式
     spot() {
       axios({
