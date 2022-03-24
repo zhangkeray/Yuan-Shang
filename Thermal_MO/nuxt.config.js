@@ -65,40 +65,52 @@ export default {
     ],
   },
 
-  // 日後做登入參考用
-  auth: {
-    redirect: {
-      login: '/login',
+  //登入使用之設定(開始)
+  // 補充1:AUTH認證需要裝以下額外的套件:
+  // (express)npm install express
+  // (cookie-parser)npm install cookie-parser
+  // (express-jwt)npm install express-jwt
+  // 補充2:請先檢查nuxt.config.js設定，是否跟以下設定會有衝突，
+  // 如同一個類別設定重複，可能會導致設定失效。
+  serverMiddleware: ['../api/auth'], // SERVER中間件AUTH認證使用
+    // AXIOS設定
+    axios: {
+      credentials: true, //啟用證書通過認證，在localhost認證需要啟用這個
+      proxy: true //axios啟用代理設定，為必要啟用，不然沒辦法使用api
     },
-    strategies: {
-      local: {
-        endpoints: {
-          login: {
-            url: 'https://sakko-demo-api.herokuapp.com/api/v1/user/sign_in',
-            method: 'post',
-            propertyName: 'user.auth_jwt',
-          },
-          logout: {
-            url: 'https://sakko-demo-api.herokuapp.com/api/v1/user/sign_out',
-            method: 'delete',
-          },
-          user: {
-            url: 'https://sakko-demo-api.herokuapp.com/api/v1/user/me',
-            method: 'get',
-            propertyName: 'user',
+    proxy: {
+      '/api': 'http://localhost:3000' // api代理端口，這邊會吃api裡面的Routes
+    },
+    // router為設定全域都需要經過auth認證，這可以拿掉改由單一頁面使用。
+    router: {
+      middleware: ['auth']
+    },
+    // AUTH 核心設定
+    auth: {
+      redirect: {
+        login: '/login', //登入時的頁面導向
+        home: '/', //home的路徑
+        logout: '/login', //登出後導向的頁面
+        callback: '/login', // //還沒登入時導向的路徑
+      },
+      // 認證才取的方式(方法)
+      strategies: {
+        local: { //方法名稱(可以看login底下的js)
+          token: {
+            property: 'token.accessToken', //存取cookie的名稱
           },
         },
-        tokenName: 'auth-token',
+      },
+      // cookie 存取時間，攸關使用者登入後的認證時間，但使用者可以自行刪除cookie
+      cookie: {
+        options: {
+          expires: 8,
+          maxAge: 31622400
+        }
       },
     },
-  },
-
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
-  },
-
+  //登入使用之設定(結束)
+  
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
@@ -107,9 +119,9 @@ export default {
   },
   // 切換ip
   server: {
-    host: '192.168.0.182', // Ray
+    // host: '192.168.0.182', // Ray
     // host: '192.168.0.173', // Louis
-    port: 3005,
+    port: 3000,
   },
   // Content module configuration: https://go.nuxtjs.dev/config-content
   content: {},
