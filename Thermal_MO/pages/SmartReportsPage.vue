@@ -664,46 +664,47 @@
                 <template #default>
                   <thead>
                     <tr>
-                      <th class="text-left">範圍</th>
-                      <th class="text-left">溫度</th>
-                      <th class="text-left">警報</th>
-                      <th class="text-left">刪除</th>
+                      <th class="text-center">範圍</th>
+                      <th class="text-center">溫度</th>
+                      <th class="text-center">設置</th>
+                      <th class="text-center">刪除</th>
                     </tr>
                   </thead>
                   <tbody>
                     <!-- spot -->
                     <tr v-for="(item, index) in spots" :key="index">
-                      <td>
+                      <td class="text-center">
                         <v-badge
                           :content="item.name"
                           overlap
                           color="#828C8F"
                           class="my-4"
-                          ><v-btn fab x-small depressed
+                          bordered
+                          ><v-btn icon class="right-btn"
                             ><img
                               class=""
                               alt="alert"
-                              src="/left-icons/spot.png"
-                              width="18em" /></v-btn
+                              src="/right-icons/spot2.png"
+                              width="20em" /></v-btn
                         ></v-badge>
                       </td>
-                      <td>{{ item.temperature }}°C</td>
-                      <td>
-                        <v-btn color="" fab x-small depressed
+                      <td class="text-center subtitle-right">{{ item.temperature }}°C</td>
+                      <td class="text-center">
+                        <v-btn color="" icon class="right-btn"
                           ><img
                             class=""
                             alt="alert"
-                            src="/left-icons/alert.png"
+                            src="/right-icons/alert.png"
                             width="18em"
                             depressed
                         /></v-btn>
                       </td>
-                      <td>
-                        <v-btn color="" fab x-small depressed
+                      <td class="text-center">
+                        <v-btn color="" icon class="right-btn"
                           ><img
                             class=""
                             alt="delete"
-                            src="/left-icons/delete.png"
+                            src="/right-icons/delete.png"
                             width="18em"
                             @click="removespot(index, item.name)"
                         /></v-btn>
@@ -711,37 +712,38 @@
                     </tr>
                     <!-- SCOPE -->
                     <tr v-for="(item, index) in scopes" :key="index">
-                      <td>
+                      <td class="text-center">
                         <v-badge
                           :content="item.name"
                           overlap
                           color="#828C8F"
                           class="my-4"
-                          ><v-btn fab x-small depressed
+                          bordered
+                          ><v-btn icon class="right-btn"
                             ><img
-                              class=""
+                              class="rectangle"
                               alt="alert"
-                              src="/left-icons/rectangle.png"
-                              width="18em" /></v-btn
+                              src="/right-icons/rectangle2.png"
+                              width="17em" /></v-btn
                         ></v-badge>
                       </td>
-                      <td>{{ item.temperature }}°C</td>
-                      <td>
-                        <v-btn color="" fab x-small depressed
+                      <td class="text-center subtitle-right">{{ item.temperature }}°C</td>
+                      <td class="text-center">
+                        <v-btn color="" icon class="right-btn"
                           ><img
                             class=""
                             alt="alert"
-                            src="/left-icons/alert.png"
+                            src="/right-icons/alert.png"
                             width="18em"
                             depressed
                         /></v-btn>
                       </td>
-                      <td>
-                        <v-btn color="" fab x-small depressed
+                      <td class="text-center">
+                        <v-btn color="" icon class="right-btn"
                           ><img
                             class=""
                             alt="delete"
-                            src="/left-icons/delete.png"
+                            src="/right-icons/delete.png"
                             width="18em"
                             @click="removescope(index, item.name)"
                         /></v-btn>
@@ -749,42 +751,41 @@
                     </tr>
                     <!-- LINE -->
                     <tr v-for="(item, index) in lines" :key="index">
-                      <td>
+                      <td class="text-center">
                         <v-badge
                           :content="item.name"
                           overlap
                           color="#828C8F"
                           class="my-4"
-                          ><v-btn fab x-small depressed
+                          bordered
+                          ><v-btn icon class="right-btn"
                             ><img
                               class=""
                               alt="alert"
-                              src="/left-icons/line.png"
-                              width="18em" /></v-btn
+                              src="/right-icons/line2.png"
+                              width="15em" /></v-btn
                         ></v-badge>
                       </td>
-                      <td>{{ item.temperature }}°C</td>
-                      <td>
-                        <v-btn color="" fab x-small depressed
+                      <td class="text-center subtitle-right">{{ item.temperature }}°C</td>
+                      <td class="text-center">
+                        <v-btn color="" icon class="right-btn"
                           ><img
                             class=""
                             alt="alert"
-                            src="/left-icons/alert.png"
+                            src="/right-icons/alert.png"
                             width="18em"
                             depressed
                         /></v-btn>
                       </td>
-                      <td>
+                      <td class="text-center">
                         <v-btn
                           color=""
-                          fab
-                          x-small
-                          depressed
+                          icon class="right-btn"
                           @click="removeline(index, item.name)"
                           ><img
                             class=""
                             alt="delete"
-                            src="/left-icons/delete.png"
+                            src="/right-icons/delete.png"
                             width="18em"
                         /></v-btn>
                       </td>
@@ -805,34 +806,41 @@
                 <template #default>
                   <thead>
                     <tr>
-                      <th class="text-left">範圍</th>
-                      <th class="text-left">狀況</th>
-                      <th class="text-left">溫度</th>
-                      <th class="text-left">時間</th>
+                      <th class="text-center">範圍</th>
+                      <th class="text-center">期間</th>
+                      <th class="text-center">目前</th>
+                      <th class="text-center">設置</th>
+                      <th class="text-center">時間</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="item in temps" :key="item.name">
-                      <td>
+                      <td class="text-center">
                         <v-badge
                           content="1"
                           overlap
                           color="#828C8F"
                           class="badge my-4"
+                          bordered
                         >
-                          <v-btn fab x-small depressed>
+                          <v-btn icon class="right-btn">
                             <img
                               class=""
                               alt="alert"
-                              src="/left-icons/spot.png"
+                              src="/right-icons/spot2.png"
                               width="18em"
                             />
                           </v-btn>
                         </v-badge>
                       </td>
-                      <td>{{ item.situation }}</td>
-                      <td>{{ item.temperature }}°C</td>
-                      <td>{{ item.time }}</td>
+                      <!-- <td class="text-center subtitle-right" v-if="item.temperature>30" style="color: red;">{{ item.duration2 }}s</td>
+                      <td class="text-center subtitle-right" v-else >{{ item.duration2 }}s</td> -->
+                       <td class="text-center subtitle-right" v-if="item.temperature>30" style="color: #e89595;">{{ time }}s</td>
+                        <td class="text-center subtitle-right" v-else >{{ time }}s</td>
+                      <td class="text-center subtitle-right" v-if="item.temperature>30" style="color: #e89595;">{{ item.temperature }}°C</td>
+                       <td class="text-center subtitle-right" v-else >{{ item.temperature }}°C</td>
+                       <td class="text-center subtitle-right" >{{ item.temperature2 }}°C</td>
+                      <td class="text-center subtitle-right">{{ item.time }}</td>
                     </tr>
                   </tbody>
                 </template>
@@ -840,11 +848,16 @@
             </v-card>
           </v-col>
 
-          <!--右3畫面顯示----------------------------------------------------------------------------------------------- -->
+          <!--右3, 4畫面顯示----------------------------------------------------------------------------------------------- -->
           <v-col cols="12" lg="12">
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
             <v-card class="fill-height mr-3" rounded="md">
-              <h4 class="cardtitle ml-3">警報統計</h4>
+                            <div class="reset">
+                       <v-icon  color="#d8d8d8">mdi-circle-medium</v-icon><span class="subtitle-right">正常&nbsp;&nbsp;</span>         
+                       <v-icon  color="#828c8f">mdi-circle-medium</v-icon><span class="subtitle-right">超溫&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              </div>
+              <h4 class="cardtitle ml-3">歷史次數</h4>
+
               <!-- 圖表1 -->
               <v-progress-circular
                 class="donut1 mx-5 mt-4"
@@ -852,7 +865,8 @@
                 :size="95"
                 :width="10"
                 :value="valueToday"
-                color="#828C8F"
+                color="#e89595"
+                backgroud
               >
                 <h3>{{ valueToday }}</h3>
               </v-progress-circular>
@@ -860,7 +874,7 @@
               <v-sheet class="gg mt-5"
                 ><h4 class="chartTitle mr-16">今日</h4>
 
-                <p class="subtitle mr-2">
+                <p class="subtitle-right text-center mr-2">
                   {{ currentDateTime() }}00:00<br />ǀ<br />{{
                     currentDateTime()
                   }}24:00
@@ -873,14 +887,14 @@
                 :size="95"
                 :width="10"
                 :value="valueLastday"
-                color="#828C8F"
+                color="#828c8f"
               >
                 <h3>{{ valueLastday }}</h3>
               </v-progress-circular>
 
               <v-sheet class="gg mt-5"
                 ><h4 class="chartTitle mr-16">昨日</h4>
-                <p class="subtitle mr-2">
+                <p class="subtitle-right text-center mr-2">
                   {{ lastDateTime() }}00:00<br />ǀ<br />{{
                     lastDateTime()
                   }}24:00
@@ -899,23 +913,24 @@
               ></v-date-picker>
 
               <br /><br /><br /><br /><br />
+
               <!-- 圖表3 -->
               <v-progress-circular
                 class="donut1 mx-5 mt-8"
                 :rotate="-90"
                 :size="95"
                 :width="10"
-                :value="valueLastday"
+                :value="valueThisWeek"
                 color="#828C8F"
               >
-                <h3>{{ valueLastday }}</h3>
+                <h3>{{ valueThisWeek }}</h3>
               </v-progress-circular>
 
               <v-sheet class="gg mt-9"
-                ><h4 class="chartTitle mr-16">昨日</h4>
-                <p class="subtitle mr-2">
-                  {{ lastDateTime() }}00:00<br />ǀ<br />{{
-                    lastDateTime()
+                ><h4 class="chartTitle mr-16">本周</h4>
+                <p class="subtitle-right text-center mr-2">
+                  2022/3/20 00:00<br />ǀ<br />{{
+                    currentDateTime()
                   }}24:00
                 </p>
               </v-sheet>
@@ -933,7 +948,7 @@
 
               <v-sheet class="gg mt-9"
                 ><h4 class="chartTitle mr-16">本月</h4>
-                <p class="subtitle mr-2">
+                <p class="subtitle-right text-center mr-2">
                   2022/3/1 00:00<br />ǀ<br />{{ currentDateTime() }}24:00
                 </p>
               </v-sheet>
@@ -1022,6 +1037,8 @@ export default {
       // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       { rel: 'stylesheet', href: '/css/jquery-ui.css' },
       { rel: 'stylesheet', href: '/css/object.css' },
+      { rel: 'stylesheet', href: '/css/card3.css' },
+
     ],
     script: [
       {
@@ -1043,6 +1060,9 @@ export default {
     ],
   },
   data: () => ({
+    // 右2
+    timer: null,
+    time: 20,
     // 切換按鈕
     isActive: false,
     // 左側隱藏按鈕動作設定
@@ -1075,47 +1095,59 @@ export default {
     temps: [
       {
         name: '點3',
-        situation: '曾超溫 00:00:14',
-        temperature: '89/30',
+        duration: '00:00:14',
+        duration2: 14,
+        temperature: 30,
+        temperature2: 35,
         time: '2022/3/17 07:04:22',
       },
       {
         name: '點2',
-        temperature: '45/26',
-        situation: '已超溫 00:00:38',
+        duration: '00:00:38',
+        duration2: 37,
+        temperature: 44,
+        temperature2: 35,
         time: '2022/3/17 02:10:07',
       },
       {
         name: '矩形1',
-        temperature: '22/23',
-        situation: '曾超溫 00:01:42',
+        duration: '00:01:42',
+        duration2: 120,
+        temperature: 22,
+        temperature2: 35,
         time: '2022/3/16 18:30:14',
       },
-      {
-        name: '點1',
-        temperature: '22/15',
-        situation: '已超溫 00:01:20',
-        time: '2022/3/14 17:15:08',
+            {
+        name: '矩形1',
+        duration: '00:01:42',
+        duration2: 27,
+        temperature: 36,
+        temperature2: 35,
+        time: '2022/3/16 18:30:14',
       },
-      // {
-      //   name: '點4',
-      //   temperature: 30,
-      //   situation: '超溫',
-      //   time: '04:30:14',
-      //   date: '2022/3/14',
+        {
+        name: '矩形1',
+        duration: '00:01:42',
+        duration2: 12,
+        temperature: 38,
+        temperature2: 35,
+        time: '2022/3/16 18:30:14',
+      },
+      //  {
+      //   name: '矩形1',
+      //   duration: '00:01:42',
+      //   duration2: 55,
+      //   temperature: 35,
+      //   temperature2: 35,
+      //   time: '2022/3/16 18:30:14',
       // },
-      // {
-      //   name: '點4',
-      //   temperature: 30,
-      //   situation: '超溫',
-      //   time: '04:30:14',
-      //   date: '2022/3/14',
-      // },
+
+
     ],
 
     // 右3顯示
     interval: {},
-    valueToday: 3,
+    valueToday: 5,
     valueLastday: 4,
     valueThisWeek: 10,
     valueThisMonth: 15,
@@ -1155,7 +1187,7 @@ export default {
       if (this.valueToday > 100) {
         return (this.valueToday = 0)
       }
-      this.valueToday += 1
+      // this.valueToday += 1
     }, 1000)
     // 右3圓餅顯示
     this.arrayEvents = [...Array(6)].map(() => {
@@ -1164,9 +1196,18 @@ export default {
       d.setDate(day)
       return d.toISOString().substr(0, 10)
     })
+    // 右2假資料
+    this.temps.duration2=setInterval(this.countdown, 1000);
   },
 
   methods: {
+    // 右2
+       countdown() {
+        this.time ++;
+      },   
+      
+      
+    // 左側燈泡
     light() {
       if (document.getElementById('light_on')) {
         document.getElementById('light_on').src =
@@ -1178,6 +1219,19 @@ export default {
         document.getElementById('light_img').setAttribute('id', 'light_on')
       }
     },
+        // 左側暫停
+   freeze() {
+      if (document.getElementById('light_on')) {
+        document.getElementById('light_on').src =
+          '/left-icons/light/light-off.png'
+        document.getElementById('light_on').setAttribute('id', 'light_img')
+      } else {
+        document.getElementById('light_img').src =
+          '/left-icons/light/light-on.png'
+        document.getElementById('light_img').setAttribute('id', 'light_on')
+      }
+    },
+
     // 點-主程式
     spot() {
       axios({
@@ -1554,12 +1608,6 @@ export default {
     },
     // 本週
   },
-  computed: {
-    // 右3日期
-    dateRangeText() {
-      return this.dates.join(' ~ ')
-    },
-  },
 }
 </script>
 <style scoped>
@@ -1622,6 +1670,11 @@ export default {
   color: #d9dddd;
   text-align: center;
 }
+.subtitle-right {
+  font-size: 12px;
+  color: #9ba3a5;
+  text-align: left;
+}
 /* h4 {
   line-height: 2em;
   padding-left: 1em;
@@ -1680,8 +1733,11 @@ export default {
   width: 2.25em;
   height: 2.25em;
 }
-.left-btn-img {
-  filter: brightness(100%);
+
+.right-btn {
+  background-color: #f2f4f4;
+  width: 2.25em;
+  height: 2.25em;
 }
 
 .donut1 {
@@ -1690,21 +1746,7 @@ export default {
 .donut2 {
   float: right;
 }
-.block1 {
-  height: 15px;
-  width: 15px;
-  border-radius: 50%;
-  background-color: #505f62;
-  float: left;
-}
-.block2 {
-  height: 15px;
-  width: 15px;
-  border-radius: 50%;
-  background-color: #a7a7a7;
-  /* float: left; */
-}
-.lilfont {
-  float: right;
-}
+/* .rectangle {
+  z-index: 99999;
+} */
 </style>

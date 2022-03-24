@@ -390,12 +390,153 @@
               <span>計算</span>
             </v-tooltip>
           </template>
-          <v-btn class="" color="" fab x-small elevation="6" dark>
-            <!-- <img alt="pending" src="/left-icons/.png" width="14em" /> -->
-          </v-btn>
-          <v-btn class="" color="" fab x-small elevation="6" dark>
-            <!-- <img alt="pending" src="/left-icons/.png" width="14em" /> -->
-          </v-btn>
+ <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                color=""
+                fab
+                x-small
+                v-bind="attrs"
+                v-on="on"
+                elevation="6"
+                dark
+              >
+                <img
+                  alt=""
+                  src="/left-icons/.png"
+                  width="22em"
+                />
+              </v-btn>
+            </template>
+            <span>立即計算</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                color=""
+                fab
+                x-small
+                v-bind="attrs"
+                v-on="on"
+                elevation="6"
+                dark
+              >
+                <img
+                  alt=""
+                  src="/left-icons/.png"
+                  width="22em"
+                />
+              </v-btn>
+            </template>
+            <span>自動計算</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                color=""
+                fab
+                x-small
+                v-bind="attrs"
+                v-on="on"
+                elevation="6"
+                dark
+              >
+                <img
+                  alt=""
+                  src="/left-icons/.png"
+                  width="22em"
+                />
+              </v-btn>
+            </template>
+            <span>每10分鐘</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                color=""
+                fab
+                x-small
+                v-bind="attrs"
+                v-on="on"
+                elevation="6"
+                dark
+              >
+                <img
+                  alt=""
+                  src="/left-icons/.png"
+                  width="22em"
+                />
+              </v-btn>
+            </template>
+            <span>每30分鐘</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                color=""
+                fab
+                x-small
+                v-bind="attrs"
+                v-on="on"
+                elevation="6"
+                dark
+              >
+                <img
+                  alt=""
+                  src="/left-icons/.png"
+                  width="22em"
+                />
+              </v-btn>
+            </template>
+            <span>每60分鐘</span>
+          </v-tooltip>
+                    <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                color=""
+                fab
+                x-small
+                v-bind="attrs"
+                v-on="on"
+                elevation="6"
+                dark
+              >
+                <img
+                  alt=""
+                  src="/left-icons/.png"
+                  width="22em"
+                />
+              </v-btn>
+            </template>
+            <span>手動設定</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                color=""
+                fab
+                x-small
+                v-bind="attrs"
+                v-on="on"
+                elevation="6"
+                dark
+              >
+                <img
+                  alt=""
+                  src="/left-icons/.png"
+                  width="22em"
+                />
+              </v-btn>
+            </template>
+            <span>停止計算</span>
+          </v-tooltip>
         </v-speed-dial>
         <!-- 照明light -->
         <v-speed-dial
@@ -427,30 +568,6 @@
               <span>照明</span>
             </v-tooltip>
           </template>
-          <!-- <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn class="mt-5" color="" fab x-small v-bind="attrs" v-on="on" elevation="6" dark>
-                <img
-                  alt="palette-iron"
-                  src="/left-icons/light/light-on.png"
-                  width="16em"
-                />
-              </v-btn>
-            </template>
-            <span>開</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn class="mt-5" color="" fab x-small v-bind="attrs" v-on="on" elevation="6" dark>
-                <img
-                  alt="palette-lava"
-                  src="/left-icons/light/light-off.png"
-                  width="16em"
-                />
-              </v-btn>
-            </template>
-            <span>關</span>
-          </v-tooltip> -->
         </v-speed-dial>
         <!-- 自動對焦autoFocus -->
         <v-speed-dial
@@ -596,17 +713,19 @@
               v-bind="attrs"
               v-on="on"
               elevation="6"
+              @click="freeze"
             >
               <img
-                class=""
+                id="freeze_img"
                 alt="rectangle"
-                src="/left-icons/freeze.png"
-                width="11em"
+                src="/left-icons/freeze/unfreeze.png"
+                width="9em"
               />
             </v-btn>
           </template>
           <span>串流暫停/持續</span>
         </v-tooltip>
+
         <!-- 隱藏/顯示監測項目hide/show overlay -->
         <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
@@ -666,7 +785,7 @@
                     <tr>
                       <th class="text-center">範圍</th>
                       <th class="text-center">溫度</th>
-                      <th class="text-center">警報</th>
+                      <th class="text-center">設置</th>
                       <th class="text-center">刪除</th>
                     </tr>
                   </thead>
@@ -808,7 +927,8 @@
                     <tr>
                       <th class="text-center">範圍</th>
                       <th class="text-center">期間</th>
-                      <th class="text-center">目前/警報溫度</th>
+                      <th class="text-center">目前</th>
+                      <th class="text-center">設置</th>
                       <th class="text-center">時間</th>
                     </tr>
                   </thead>
@@ -832,8 +952,13 @@
                           </v-btn>
                         </v-badge>
                       </td>
-                      <td class="text-center subtitle-right">{{ item.situation }}</td>
-                      <td class="text-center subtitle-right">{{ item.temperature }}°C</td>
+                      <!-- <td class="text-center subtitle-right" v-if="item.temperature>30" style="color: red;">{{ item.duration2 }}s</td>
+                      <td class="text-center subtitle-right" v-else >{{ item.duration2 }}s</td> -->
+                       <td class="text-center subtitle-right" v-if="item.temperature>30" style="color: #e89595;">{{ time }}s</td>
+                        <td class="text-center subtitle-right" v-else >{{ time }}s</td>
+                      <td class="text-center subtitle-right" v-if="item.temperature>30" style="color: #e89595;">{{ item.temperature }}°C</td>
+                       <td class="text-center subtitle-right" v-else >{{ item.temperature }}°C</td>
+                       <td class="text-center subtitle-right" >{{ item.temperature2 }}°C</td>
                       <td class="text-center subtitle-right">{{ item.time }}</td>
                     </tr>
                   </tbody>
@@ -848,9 +973,9 @@
             <v-card class="fill-height mr-3" rounded="md">
                             <div class="reset">
                        <v-icon  color="#d8d8d8">mdi-circle-medium</v-icon><span class="subtitle-right">正常&nbsp;&nbsp;</span>         
-                       <v-icon  color="#828C8F">mdi-circle-medium</v-icon><span class="subtitle-right">超溫&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                       <v-icon  color="#828c8f">mdi-circle-medium</v-icon><span class="subtitle-right">超溫&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
               </div>
-              <h4 class="cardtitle ml-3">歷史次數</h4>
+              <h4 class="cardtitle ml-3">警報次數及歷史</h4>
 
               <!-- 圖表1 -->
               <v-progress-circular
@@ -859,7 +984,7 @@
                 :size="95"
                 :width="10"
                 :value="valueToday"
-                color="#828C8F"
+                color="#e89595"
                 backgroud
               >
                 <h3>{{ valueToday }}</h3>
@@ -881,7 +1006,7 @@
                 :size="95"
                 :width="10"
                 :value="valueLastday"
-                color="#828C8F"
+                color="#828c8f"
               >
                 <h3>{{ valueLastday }}</h3>
               </v-progress-circular>
@@ -914,17 +1039,17 @@
                 :rotate="-90"
                 :size="95"
                 :width="10"
-                :value="valueLastday"
+                :value="valueThisWeek"
                 color="#828C8F"
               >
-                <h3>{{ valueLastday }}</h3>
+                <h3>{{ valueThisWeek }}</h3>
               </v-progress-circular>
 
               <v-sheet class="gg mt-9"
                 ><h4 class="chartTitle mr-16">本周</h4>
                 <p class="subtitle-right text-center mr-2">
-                  {{ lastDateTime() }}00:00<br />ǀ<br />{{
-                    lastDateTime()
+                  2022/3/20 00:00<br />ǀ<br />{{
+                    currentDateTime()
                   }}24:00
                 </p>
               </v-sheet>
@@ -954,9 +1079,15 @@
             <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
             <v-card class="mr-3" height="6.7em" rounded="md">
               <div>
-                <v-btn x-small icon class="btn reset" color="#9BA3A5">
+                 <v-tooltip left class="tips">
+            <template #activator="{ on, attrs }">
+                <v-btn x-small icon class="btn reset" color="#9BA3A5" v-bind="attrs"
+                v-on="on">
                   <v-icon x-small class="icon">mdi-restore</v-icon>
                 </v-btn>
+            </template>
+            <span>重置</span>
+                 </v-tooltip>
                 <h4 class="cardtitle ml-3">參數調整</h4>
               </div>
 
@@ -1054,6 +1185,9 @@ export default {
     ],
   },
   data: () => ({
+    // 右2
+    timer: null,
+    time: 20,
     // 切換按鈕
     isActive: false,
     // 左側隱藏按鈕動作設定
@@ -1086,35 +1220,59 @@ export default {
     temps: [
       {
         name: '點3',
-        situation: '00:00:14',
-        temperature: '89/30',
+        duration: '00:00:14',
+        duration2: 14,
+        temperature: 30,
+        temperature2: 35,
         time: '2022/3/17 07:04:22',
       },
       {
         name: '點2',
-        temperature: '45/26',
-        situation: '00:00:38',
+        duration: '00:00:38',
+        duration2: 37,
+        temperature: 44,
+        temperature2: 35,
         time: '2022/3/17 02:10:07',
       },
       {
         name: '矩形1',
-        temperature: '22/23',
-        situation: '00:01:42',
+        duration: '00:01:42',
+        duration2: 120,
+        temperature: 22,
+        temperature2: 35,
         time: '2022/3/16 18:30:14',
       },
             {
         name: '矩形1',
-        temperature: '22/23',
-        situation: '00:01:42',
+        duration: '00:01:42',
+        duration2: 27,
+        temperature: 36,
+        temperature2: 35,
         time: '2022/3/16 18:30:14',
       },
+        {
+        name: '矩形1',
+        duration: '00:01:42',
+        duration2: 12,
+        temperature: 38,
+        temperature2: 35,
+        time: '2022/3/16 18:30:14',
+      },
+      //  {
+      //   name: '矩形1',
+      //   duration: '00:01:42',
+      //   duration2: 55,
+      //   temperature: 35,
+      //   temperature2: 35,
+      //   time: '2022/3/16 18:30:14',
+      // },
 
 
     ],
 
     // 右3顯示
     interval: {},
-    valueToday: 3,
+    valueToday: 5,
     valueLastday: 4,
     valueThisWeek: 10,
     valueThisMonth: 15,
@@ -1154,7 +1312,7 @@ export default {
       if (this.valueToday > 100) {
         return (this.valueToday = 0)
       }
-      this.valueToday += 1
+      // this.valueToday += 1
     }, 1000)
     // 右3圓餅顯示
     this.arrayEvents = [...Array(6)].map(() => {
@@ -1163,9 +1321,18 @@ export default {
       d.setDate(day)
       return d.toISOString().substr(0, 10)
     })
+    // 右2假資料
+    this.temps.duration2=setInterval(this.countdown, 1000);
   },
 
   methods: {
+    // 右2
+       countdown() {
+        this.time ++;
+      },   
+      
+      
+    // 左側燈泡
     light() {
       if (document.getElementById('light_on')) {
         document.getElementById('light_on').src =
@@ -1177,6 +1344,19 @@ export default {
         document.getElementById('light_img').setAttribute('id', 'light_on')
       }
     },
+        // 左側暫停
+   freeze() {
+      if (document.getElementById('')) {
+        document.getElementById('freeze').src =
+          '/left-icons/freeze/unfreeze.png'
+        document.getElementById('freeze').setAttribute('id', 'freeze_img')
+      } else {
+        document.getElementById('freeze_img').src =
+          '/left-icons/freeze/freeze.png'
+        document.getElementById('freeze_img').setAttribute('id', 'freeze')
+      }
+    },
+
     // 點-主程式
     spot() {
       axios({

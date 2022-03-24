@@ -104,7 +104,7 @@ export default {
       // cookie 存取時間，攸關使用者登入後的認證時間，但使用者可以自行刪除cookie
       cookie: {
         options: {
-          expires: 8,
+          // expires: 8,
           maxAge: 31622400
         }
       },
@@ -119,7 +119,7 @@ export default {
   },
   // 切換ip
   server: {
-    // host: '192.168.0.182', // Ray
+    host: '192.168.0.182', // Ray
     // host: '192.168.0.173', // Louis
     port: 3000,
   },
