@@ -2,7 +2,9 @@
   width: 150px;
   height: 150px;
   /* padding: 0.5em; */
-  border: 2px solid rgb(255, 255, 255);
+  outline: 1px solid #000;
+  border: 1px solid rgb(255, 255, 255);
+  box-shadow: inset 0px 0px 2px 1px rgb(0 0 0);
   position: absolute;
   /* top: 0; */
   /* left: 0; */
@@ -29,7 +31,7 @@
 
 .scope-span>div {
   position: absolute;
-  top: 50%;
+  top: 53%;
   left: 46%;
   transform: translate(-50%, -50%);
 }
@@ -116,7 +118,7 @@
 
 .line-span>div {
   position: absolute;
-  top: 49.5%;
+  top: 53%;
   left: 46%;
   transform: translate(-50%, -50%);
 }
@@ -131,7 +133,8 @@
 #line {
   position: absolute;
   height: 2px;
-  background-color: #ffffff;
+  outline: 1px solid #000;
+  border: 1px solid rgb(255, 255, 255);
   /* border: 0.1px solid rgb(0, 0, 0); */
   /* box-shadow: 1px 1px 5px #4c4c4c; */
   transform-origin: left;
@@ -172,7 +175,7 @@
 
 .spot-span>div {
   position: absolute;
-  top: 50%;
+  top: 53%;
   left: 46%;
   transform: translate(-50%, -50%);
 }

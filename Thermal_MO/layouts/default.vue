@@ -10,7 +10,7 @@
           {{ item.title }}
         </v-tab>
       </v-tabs>
-      <h4 class="subtitle">user001</h4>
+      <h4 class="subtitle">{{ $auth.user.name }}</h4>
           <v-btn 
           icon
       class="ml-2 mr-1"
@@ -18,7 +18,7 @@
       :disabled="loading"
       color="#9BA3A5" 
       small 
-      @click="loader = 'loading'"
+      @click="$auth.logout()"
     >
       <v-icon small>mdi-logout</v-icon>
     </v-btn>
