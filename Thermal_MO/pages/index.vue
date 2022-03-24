@@ -1691,7 +1691,7 @@ export default {
 .donut2 {
   float: right;
 }
-.rectangle {
-  /* z-index: 99999; */
-}
+/* .rectangle {
+  z-index: 99999;
+} */
 </style>
