@@ -1,15 +1,18 @@
 <template>
-  <v-container fluid mt-3>
+
+  <div class="fluid mt-3">
+      <v-img class="bgimg " src="bgimg.png" height="93.2vh" />
+
     <!-- 左側浮動按鈕---------------------------------------------------------------------------------------------------- -->
     <div class="box">
-      <v-card class="drawer" elevation="10" color="rgba(0, 0, 0, 0.6)">
+      <v-card class="mt-6 drawer" elevation="10" color="#59595b">
         <v-sheet
           class="arrow"
           elevation="5"
-          color="rgba(94, 94, 94, 1)"
+          color="#59595b"
         ></v-sheet>
         <!-- 監測工具monitoring tools-------------------------------------------------------------------------------- -->
-        <p class="subtitle text-center"><br />監測<br />工具</p>
+        <p class="subtitle text-center"><br />監測<br />項目</p>
         <!-- 點spot -->
         <v-tooltip right class="tips">
           <template #activator="{ on, attrs }">
@@ -382,7 +385,7 @@
                   <img
                     v-else
                     alt="palette"
-                    src="/left-icons/calibration.png"
+                    src="/left-icons/calibration/calibration.png"
                     width="16em"
                   />
                 </v-btn>
@@ -404,8 +407,8 @@
               >
                 <img
                   alt=""
-                  src="/left-icons/.png"
-                  width="22em"
+                    src="/left-icons/calibration/calibration-now.png"
+                  width="23em"
                 />
               </v-btn>
             </template>
@@ -425,8 +428,8 @@
               >
                 <img
                   alt=""
-                  src="/left-icons/.png"
-                  width="22em"
+                  src="/left-icons/calibration/calibration-auto.png"
+                  width="20em"
                 />
               </v-btn>
             </template>
@@ -446,8 +449,8 @@
               >
                 <img
                   alt=""
-                  src="/left-icons/.png"
-                  width="22em"
+                  src="/left-icons/calibration/calibration-10min.png"
+                  width="20em"
                 />
               </v-btn>
             </template>
@@ -467,8 +470,8 @@
               >
                 <img
                   alt=""
-                  src="/left-icons/.png"
-                  width="22em"
+                  src="/left-icons/calibration/calibration-30min.png"
+                  width="20em"
                 />
               </v-btn>
             </template>
@@ -488,8 +491,8 @@
               >
                 <img
                   alt=""
-                  src="/left-icons/.png"
-                  width="22em"
+                  src="/left-icons/calibration/calibration-60min.png"
+                  width="20em"
                 />
               </v-btn>
             </template>
@@ -509,8 +512,8 @@
               >
                 <img
                   alt=""
-                  src="/left-icons/.png"
-                  width="22em"
+                  src="/left-icons/calibration/calibration-manual.png"
+                  width="20em"
                 />
               </v-btn>
             </template>
@@ -530,8 +533,8 @@
               >
                 <img
                   alt=""
-                  src="/left-icons/.png"
-                  width="22em"
+                  src="/left-icons/calibration/calibration-stop.png"
+                  width="20em"
                 />
               </v-btn>
             </template>
@@ -757,7 +760,7 @@
       <!-- 左畫面影像顯示----------------------------------------------------------------------------------------------- -->
       <v-col cols="12" md="7">
         <!-- <v-col cols="12" md="7" style="border: 1px solid red"> -->
-        <v-card class="ml-3 fill-height" rounded="md">
+        <v-card class="mt-3 ml-6" rounded="md" elevation="6">
           <!-- <v-responsive :aspect-ratio="4 / 3"> -->
           <v-card-text>
             <div class="frame">
@@ -777,15 +780,15 @@
         <v-row :column="$vuetify.breakpoint.mdAndDown">
           <v-col cols="12" lg="5">
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
-            <v-card class="" rounded="md">
+            <v-card class="mt-3" rounded="md" elevation="6">
               <h4 class="cardtitle ml-3">警報設置</h4>
               <v-simple-table fixed-header height="300px" class="mx-3 table1">
                 <template #default>
                   <thead>
                     <tr>
-                      <th class="text-center">範圍</th>
-                      <th class="text-center">溫度</th>
-                      <th class="text-center">設置</th>
+                      <th class="text-center">監測<br/>項目</th>
+                      <th class="text-center">監測<br/>溫度</th>
+                      <th class="text-center">設定<br/>警報</th>
                       <th class="text-center">刪除</th>
                     </tr>
                   </thead>
@@ -813,7 +816,7 @@
                           ><img
                             class=""
                             alt="alert"
-                            src="/right-icons/alert.png"
+                            src="/right-icons/alert-off.png"
                             width="18em"
                             depressed
                         /></v-btn>
@@ -852,7 +855,7 @@
                           ><img
                             class=""
                             alt="alert"
-                            src="/right-icons/alert.png"
+                            src="/right-icons/alert-off.png"
                             width="18em"
                             depressed
                         /></v-btn>
@@ -891,7 +894,7 @@
                           ><img
                             class=""
                             alt="alert"
-                            src="/right-icons/alert.png"
+                            src="/right-icons/alert-off.png"
                             width="18em"
                             depressed
                         /></v-btn>
@@ -919,16 +922,16 @@
           <v-col cols="12" lg="7">
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
 
-            <v-card class="mr-3 fill-height" rounded="md">
+            <v-card class="mt-3 mr-6" rounded="md" elevation="6">
               <h4 class="cardtitle ml-3">警報紀錄</h4>
               <v-simple-table fixed-header height="300px" class="mx-3 table2">
                 <template #default>
                   <thead>
                     <tr>
-                      <th class="text-center">範圍</th>
-                      <th class="text-center">期間</th>
-                      <th class="text-center">目前</th>
-                      <th class="text-center">設置</th>
+                      <th class="text-center">監測<br/>範圍</th>
+                      <th class="text-center">觸發<br/>時間</th>
+                      <th class="text-center">監測<br/>溫度</th>
+                      <th class="text-center">警報<br/>溫度</th>
                       <th class="text-center">時間</th>
                     </tr>
                   </thead>
@@ -970,7 +973,7 @@
           <!--右3, 4畫面顯示----------------------------------------------------------------------------------------------- -->
           <v-col cols="12" lg="12">
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
-            <v-card class="fill-height mr-3" rounded="md">
+            <v-card class="fill-height mr-6" rounded="md" elevation="6">
                             <div class="reset">
                        <v-icon  color="#d8d8d8">mdi-circle-medium</v-icon><span class="subtitle-right">正常&nbsp;&nbsp;</span>         
                        <v-icon  color="#828c8f">mdi-circle-medium</v-icon><span class="subtitle-right">超溫&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -984,7 +987,7 @@
                 :size="95"
                 :width="10"
                 :value="valueToday"
-                color="#e89595"
+                color="#828c8f"
                 backgroud
               >
                 <h3>{{ valueToday }}</h3>
@@ -1029,6 +1032,7 @@
                 readonly
                 no-title
                 color="#828c8f"
+                width="18em"
               ></v-date-picker>
 
               <br /><br /><br /><br /><br />
@@ -1077,7 +1081,7 @@
           <!--右5畫面顯示----------------------------------------------------------------------------------------------- -->
           <v-col cols="12" lg="12">
             <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
-            <v-card class="mr-3" height="6.7em" rounded="md">
+            <v-card class="mr-6" height="6.7em" rounded="md" elevation="6">
               <div>
                  <v-tooltip left class="tips">
             <template #activator="{ on, attrs }">
@@ -1149,7 +1153,7 @@
         </v-row>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -1757,9 +1761,9 @@ export default {
 
 /* 影像串流 */
 .frame {
-  width: 70.5em;
-  margin-left: 2.1em;
-  margin-top: 2em;
+  width: 74em;
+  margin-left: 0.3em;
+  margin-top: 0.7em;
 }
 .cover {
   position: relative;
@@ -1874,4 +1878,7 @@ export default {
 /* .rectangle {
   z-index: 99999;
 } */
+.bgimg {
+  position: absolute;
+}
 </style>
