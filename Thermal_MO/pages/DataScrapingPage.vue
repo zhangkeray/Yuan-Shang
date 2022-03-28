@@ -924,7 +924,15 @@
 
             <v-card class="mt-3 mr-6" rounded="md" elevation="6">
               <h4 class="cardtitle ml-3">警報紀錄</h4>
-              <v-simple-table fixed-header height="300px" class="mx-3 table2">
+                <v-data-table
+    :headers="headers"
+    :items="temps"
+    :items-per-page="5"
+    dense
+
+  ></v-data-table>
+
+              <!-- <v-simple-table fixed-header height="300px" class="mx-3 table2">
                 <template #default>
                   <thead>
                     <tr>
@@ -955,8 +963,6 @@
                           </v-btn>
                         </v-badge>
                       </td>
-                      <!-- <td class="text-center subtitle-right" v-if="item.temperature>30" style="color: red;">{{ item.duration2 }}s</td>
-                      <td class="text-center subtitle-right" v-else >{{ item.duration2 }}s</td> -->
                        <td class="text-center subtitle-right" v-if="item.temperature>30" style="color: #e89595;">{{ time }}s</td>
                         <td class="text-center subtitle-right" v-else >{{ time }}s</td>
                       <td class="text-center subtitle-right" v-if="item.temperature>30" style="color: #e89595;">{{ item.temperature }}°C</td>
@@ -966,7 +972,7 @@
                     </tr>
                   </tbody>
                 </template>
-              </v-simple-table>
+              </v-simple-table> -->
             </v-card>
           </v-col>
 
@@ -1221,57 +1227,59 @@ export default {
     lines: [],
 
     // 右2假數據顯示(待刪)
+
+            headers: [
+          {
+            // text: 'Dessert (100g serving)',
+            // align: 'start',
+            // sortable: false,
+            // value: 'name',
+          },
+          { text: '監測範圍', value: 'name' },
+          { text: '觸發時間', value: 'duration' },
+          { text: '監測溫度', value: 'temperature' },
+          { text: '警報溫度', value: 'alertTemperature' },
+          { text: '開始時間', value: 'time' },
+        ],
+
+
+
     temps: [
       {
         name: '點3',
-        duration: '00:00:14',
-        duration2: 14,
+        duration: 14,
         temperature: 30,
-        temperature2: 35,
+        alertTemperature: 35,
         time: '2022/3/17 07:04:22',
       },
       {
         name: '點2',
-        duration: '00:00:38',
-        duration2: 37,
+        duration: 37,
         temperature: 44,
-        temperature2: 35,
+        alertTemperature: 35,
         time: '2022/3/17 02:10:07',
       },
       {
         name: '矩形1',
-        duration: '00:01:42',
-        duration2: 120,
+        duration: 120,
         temperature: 22,
-        temperature2: 35,
+        alertTemperature: 35,
         time: '2022/3/16 18:30:14',
       },
             {
         name: '矩形1',
-        duration: '00:01:42',
-        duration2: 27,
+        duration: 27,
         temperature: 36,
-        temperature2: 35,
+        alertTemperature: 35,
         time: '2022/3/16 18:30:14',
       },
         {
         name: '矩形1',
-        duration: '00:01:42',
-        duration2: 12,
+        duration: 12,
         temperature: 38,
-        temperature2: 35,
+        alertTemperature: 35,
         time: '2022/3/16 18:30:14',
       },
-      //  {
-      //   name: '矩形1',
-      //   duration: '00:01:42',
-      //   duration2: 55,
-      //   temperature: 35,
-      //   temperature2: 35,
-      //   time: '2022/3/16 18:30:14',
-      // },
-
-
     ],
 
     // 右3顯示

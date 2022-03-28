@@ -924,7 +924,7 @@
 
             <v-card class="mt-3 mr-6" rounded="md" elevation="6">
               <h4 class="cardtitle ml-3">警報紀錄</h4>
-              <v-simple-table fixed-header height="300px" class="mx-3 table2">
+              <v-simple-table fixed-header height="300px" class="mx-3 table2"> 
                 <template #default>
                   <thead>
                     <tr>
@@ -932,7 +932,7 @@
                       <th class="text-center">觸發<br/>時間</th>
                       <th class="text-center">監測<br/>溫度</th>
                       <th class="text-center">警報<br/>溫度</th>
-                      <th class="text-center">時間</th>
+                      <th class="text-center">開始<br/>時間</th>
                     </tr>
                   </thead>
                   <tbody>
