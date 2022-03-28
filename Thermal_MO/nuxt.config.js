@@ -151,4 +151,6 @@ export default {
   build: {
     extend(config, ctx) {},
   },
-}
+  // 關閉eslint校驗提醒
+  lintOnSave: false 
+  }

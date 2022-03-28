@@ -18,11 +18,11 @@
           <template #activator="{ on, attrs }">
             <v-btn
               class="left-btn mx-3"
+              elevation="6"
               icon
               v-bind="attrs"
               v-on="on"
               @click="spot()"
-              elevation="6"
             >
               <img alt="spot" src="/left-icons/spot.png" width="20em" />
             </v-btn>
@@ -37,11 +37,11 @@
           <template #activator="{ on, attrs }">
             <v-btn
               class="left-btn mx-3 mt-3"
+              elevation="6"
               icon
               v-bind="attrs"
               v-on="on"
               @click="line()"
-              elevation="6"
             >
               <img alt="line" src="/left-icons/line.png" width="15em" />
             </v-btn>
@@ -53,11 +53,11 @@
           <template #activator="{ on, attrs }">
             <v-btn
               class="left-btn mx-3 my-3"
+              elevation="6"
               icon
               v-bind="attrs"
               v-on="on"
               @click="scope()"
-              elevation="6"
             >
               <img
                 alt="rectangle"
@@ -81,11 +81,11 @@
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-model="fab_imageMode"
+                  elevation="6"
                   class="left-btn mx-3"
                   icon
                   v-bind="attrs"
                   v-on="on"
-                  elevation="6"
                 >
                   <v-icon v-if="fab_imageMode"> mdi-close </v-icon>
                   <img
@@ -103,13 +103,12 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class="mt-2"
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt="image-mode-thermal"
@@ -124,13 +123,12 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class="mt-2"
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt="image-mode-thermal-msx"
@@ -145,13 +143,12 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class="mt-2"
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt="image-mode-digital-camera"
@@ -166,13 +163,12 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class="mt-2"
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt="image-mode-marco"
@@ -187,13 +183,12 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class="mt-2"
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt="image-mode-thermal-fsx"
@@ -216,10 +211,10 @@
                 <v-btn
                   v-model="fab_palette"
                   class="left-btn mx-3 my-3"
+                  elevation="6"
                   icon
                   v-bind="attrs"
                   v-on="on"
-                  elevation="6"
                 >
                   <v-icon v-if="fab_palette"> mdi-close </v-icon>
                   <img
@@ -237,13 +232,12 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class=""
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt="palette-iron"
@@ -258,13 +252,12 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class=""
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt="palette-lava"
@@ -279,13 +272,12 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class=""
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt="palette-gray"
@@ -300,13 +292,12 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class=""
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt="palette-rainbow"
@@ -321,13 +312,12 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class=""
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt="palette-rainbow-hc"
@@ -342,13 +332,12 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class=""
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt="palette-arctic"
@@ -363,7 +352,7 @@
         <v-divider></v-divider>
 
         <!-- 計算工具calibration tools------------------------------------------------------------------------------ -->
-        <p class="subtitle text-center"><br />計算<br />工具</p>
+        <p class="subtitle text-center"><br />校正<br />工具</p>
 
         <!-- 計算calibration -->
         <v-speed-dial
@@ -376,10 +365,10 @@
                 <v-btn
                   v-model="fab_calibration"
                   class="left-btn mx-3"
+                  elevation="6"
                   icon
                   v-bind="attrs"
                   v-on="on"
-                  elevation="6"
                 >
                   <v-icon v-if="fab_calibration"> mdi-close </v-icon>
                   <img
@@ -390,20 +379,19 @@
                   />
                 </v-btn>
               </template>
-              <span>計算</span>
+              <span>校正</span>
             </v-tooltip>
           </template>
  <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn
                 class="mt-2"
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt=""
@@ -412,19 +400,18 @@
                 />
               </v-btn>
             </template>
-            <span>立即計算</span>
+            <span>立即校正</span>
           </v-tooltip>
           <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn
                 class="mt-2"
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt=""
@@ -433,19 +420,18 @@
                 />
               </v-btn>
             </template>
-            <span>自動計算</span>
+            <span>自動校正</span>
           </v-tooltip>
           <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn
                 class="mt-2"
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt=""
@@ -460,13 +446,12 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class="mt-2"
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt=""
@@ -481,13 +466,12 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class="mt-2"
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt=""
@@ -502,13 +486,12 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class="mt-2"
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt=""
@@ -517,19 +500,18 @@
                 />
               </v-btn>
             </template>
-            <span>手動設定</span>
+            <span>手動校正</span>
           </v-tooltip>
           <v-tooltip top class="tips">
             <template #activator="{ on, attrs }">
               <v-btn
                 class="mt-2"
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt=""
@@ -538,7 +520,7 @@
                 />
               </v-btn>
             </template>
-            <span>停止計算</span>
+            <span>停止校正</span>
           </v-tooltip>
         </v-speed-dial>
         <!-- 照明light -->
@@ -552,16 +534,16 @@
                 <v-btn
                   v-model="fab_light"
                   class="left-btn mx-3 mt-3"
+                  elevation="6"
                   icon
                   v-bind="attrs"
                   v-on="on"
-                  elevation="6"
                   @click="light"
                 >
                   <v-icon v-if="fab_light"> mdi-close </v-icon>
                   <img
-                    id="light_img"
                     v-else
+                    id="light_img"
                     alt="palette"
                     src="/left-icons/light/light-off.png"
                     width="14em"
@@ -583,10 +565,10 @@
                 <v-btn
                   v-model="fab_autofocus"
                   class="left-btn mx-3 my-3"
+                  elevation="6"
                   icon
                   v-bind="attrs"
                   v-on="on"
-                  elevation="6"
                 >
                   <v-icon v-if="fab_autofocus"> mdi-close </v-icon>
                   <img
@@ -604,18 +586,17 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class=""
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt="palette-iron"
                   src="/left-icons/autofocus/autofocus-focus-further.png"
-                  width="22em"
+                  width="18em"
                 />
               </v-btn>
             </template>
@@ -625,18 +606,17 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class=""
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt="palette-lava"
                   src="/left-icons/autofocus/autofocus-focus-closer.png"
-                  width="22em"
+                  width="18em"
                 />
               </v-btn>
             </template>
@@ -646,18 +626,17 @@
             <template #activator="{ on, attrs }">
               <v-btn
                 class=""
-                color=""
-                fab
+                elevation="6"
                 x-small
+                dark
+                fab
                 v-bind="attrs"
                 v-on="on"
-                elevation="6"
-                dark
               >
                 <img
                   alt="palette-gray"
                   src="/left-icons/autofocus/autofocus-autofocus.png"
-                  width="22em"
+                  width="18em"
                 />
               </v-btn>
             </template>
@@ -672,10 +651,10 @@
           <template #activator="{ on, attrs }">
             <v-btn
               class="left-btn mx-3"
+              elevation="6"
               icon
               v-bind="attrs"
               v-on="on"
-              elevation="6"
             >
               <img
                 class=""
@@ -692,10 +671,10 @@
           <template #activator="{ on, attrs }">
             <v-btn
               class="left-btn mx-3 mt-3"
+              elevation="6"
               icon
               v-bind="attrs"
               v-on="on"
-              elevation="6"
             >
               <img
                 class=""
@@ -714,12 +693,12 @@
               class="left-btn mx-3 mt-3"
               icon
               v-bind="attrs"
-              v-on="on"
               elevation="6"
+              v-on="on"
               @click="freeze"
             >
               <img
-                id="freeze_img"
+                id="unfreeze"
                 alt="rectangle"
                 src="/left-icons/freeze/unfreeze.png"
                 width="9em"
@@ -734,10 +713,10 @@
           <template #activator="{ on, attrs }">
             <v-btn
               class="left-btn mx-3 my-3"
+              elevation="6"
               icon
               v-bind="attrs"
               v-on="on"
-              elevation="6"
             >
               <img
                 class=""
@@ -957,10 +936,10 @@
                       </td>
                       <!-- <td class="text-center subtitle-right" v-if="item.temperature>30" style="color: red;">{{ item.duration2 }}s</td>
                       <td class="text-center subtitle-right" v-else >{{ item.duration2 }}s</td> -->
-                       <td class="text-center subtitle-right" v-if="item.temperature>30" style="color: #e89595;">{{ time }}s</td>
-                        <td class="text-center subtitle-right" v-else >{{ time }}s</td>
-                      <td class="text-center subtitle-right" v-if="item.temperature>30" style="color: #e89595;">{{ item.temperature }}°C</td>
-                       <td class="text-center subtitle-right" v-else >{{ item.temperature }}°C</td>
+                       <td v-if="item.temperature>30" class="text-center subtitle-right"  style="color: #e89595;">{{ time }}s</td>
+                        <td v-else class="text-center subtitle-right" >{{ time }}s</td>
+                      <td v-if="item.temperature>30" class="text-center subtitle-right"  style="color: #e89595;">{{ item.temperature }}°C</td>
+                       <td v-else class="text-center subtitle-right" >{{ item.temperature }}°C</td>
                        <td class="text-center subtitle-right" >{{ item.temperature2 }}°C</td>
                       <td class="text-center subtitle-right">{{ item.time }}</td>
                     </tr>
@@ -1025,8 +1004,8 @@
 
               <!-- 日期 -->
               <v-date-picker
-                class="date-picker"
                 v-model="date2"
+                class="date-picker"
                 :event-color="(date) => (date[9] % 2 ? 'red' : 'yellow')"
                 :events="functionEvents"
                 readonly
@@ -1097,50 +1076,50 @@
 
               <v-form class="">
                 <v-text-field
-                  class="subtitle card5content ml-16 mt-1 mr-5 text-color"
                   v-model="temperature"
+                  class="subtitle card5content ml-16 mt-1 mr-5 text-color"
                   label="一般溫度"
                   color="#828c8f"
                 ></v-text-field>
 
                 <v-text-field
-                  class="subtitle card5content mt-1 mr-5 text-color"
                   v-model="reflected"
+                  class="subtitle card5content mt-1 mr-5 text-color"
                   label="反射溫度"
                   color="#828c8f"
                 ></v-text-field>
 
                 <v-text-field
-                  class="subtitle card5content mt-1 mr-5 text-color"
                   v-model="atmospheric"
+                  class="subtitle card5content mt-1 mr-5 text-color"
                   label="環境溫度"
                   color="#828c8f"
                 ></v-text-field>
 
                 <v-text-field
-                  class="subtitle card5content mt-1 mr-5 text-color"
                   v-model="humidity"
+                  class="subtitle card5content mt-1 mr-5 text-color"
                   label="環境濕度"
                   color="#828c8f"
                 ></v-text-field>
 
                 <v-text-field
-                  class="subtitle card5content mt-1 mr-5 text-color"
                   v-model="distance"
+                  class="subtitle card5content mt-1 mr-5 text-color"
                   label="量測距離"
                   color="#828c8f"
                 ></v-text-field>
 
                 <v-text-field
-                  class="subtitle card5content mt-1 mr-5 text-color"
                   v-model="emissivity"
+                  class="subtitle card5content mt-1 mr-5 text-color"
                   label="放射率"
                   color="#828c8f"
                 ></v-text-field>
 
                 <v-text-field
-                  class="subtitle card5content mt-1 mr-5 text-color font-weight-large"
                   v-model="transmission"
+                  class="subtitle card5content mt-1 mr-5 text-color font-weight-large"
                   label="穿透率"
                   color="#828c8f"
                 ></v-text-field>
@@ -1350,16 +1329,17 @@ export default {
     },
         // 左側暫停
    freeze() {
-      if (document.getElementById('')) {
+      if (document.getElementById('freeze')) {
         document.getElementById('freeze').src =
           '/left-icons/freeze/unfreeze.png'
-        document.getElementById('freeze').setAttribute('id', 'freeze_img')
+        document.getElementById('freeze').setAttribute('id', 'unfreeze')
       } else {
-        document.getElementById('freeze_img').src =
+        document.getElementById('unfreeze').src =
           '/left-icons/freeze/freeze.png'
-        document.getElementById('freeze_img').setAttribute('id', 'freeze')
+        document.getElementById('unfreeze').setAttribute('id', 'freeze')
       }
     },
+    
 
     // 點-主程式
     spot() {
