@@ -1,1164 +1,95 @@
 <template>
-
   <div class="fluid mt-3">
-      <v-img class="bgimg " src="bgimg.png" height="93.2vh" />
+    <v-img class="bgimg" src="bgimg.png" height="93.2vh" />
 
-    <!-- 左側浮動按鈕---------------------------------------------------------------------------------------------------- -->
-    <div class="box">
-      <v-card class="mt-6 drawer" elevation="10" color="#59595b">
-        <v-sheet
-          class="arrow"
-          elevation="5"
-          color="#59595b"
-        ></v-sheet>
-        <!-- 監測工具monitoring tools-------------------------------------------------------------------------------- -->
-        <p class="subtitle text-center"><br />監測<br />項目</p>
-        <!-- 點spot -->
-        <v-tooltip right class="tips">
-          <template #activator="{ on, attrs }">
-            <v-btn
-              class="left-btn mx-3"
-              icon
-              v-bind="attrs"
-              v-on="on"
-              @click="spot()"
-              elevation="6"
-            >
-              <img alt="spot" src="/left-icons/spot.png" width="20em" />
-            </v-btn>
-            <!-- <v-btn x-small icon class="btn reset" color="#9BA3A5">
-                  <v-icon x-small class="icon">mdi-restore</v-icon>
-                </v-btn> -->
-          </template>
-          <span>點</span>
-        </v-tooltip>
-        <!-- 線line -->
-        <v-tooltip right class="tips">
-          <template #activator="{ on, attrs }">
-            <v-btn
-              class="left-btn mx-3 mt-3"
-              icon
-              v-bind="attrs"
-              v-on="on"
-              @click="line()"
-              elevation="6"
-            >
-              <img alt="line" src="/left-icons/line.png" width="15em" />
-            </v-btn>
-          </template>
-          <span>直線</span>
-        </v-tooltip>
-        <!-- 矩形rectangle -->
-        <v-tooltip right class="tips">
-          <template #activator="{ on, attrs }">
-            <v-btn
-              class="left-btn mx-3 my-3"
-              icon
-              v-bind="attrs"
-              v-on="on"
-              @click="scope()"
-              elevation="6"
-            >
-              <img
-                alt="rectangle"
-                src="/left-icons/rectangle.png"
-                width="18em"
-              />
-            </v-btn>
-          </template>
-          <span>矩形</span>
-        </v-tooltip>
-        <v-divider></v-divider>
-        <!-- 影像呈現image presentation------------------------------------------------------------------------------ -->
-        <p class="subtitle text-center"><br />影像<br />呈現</p>
-        <!-- 影像模式image mode -->
-        <v-speed-dial
-          :direction="direction_imageMode"
-          :transition="transition_imageMode"
-        >
-          <template #activator>
-            <v-tooltip right class="tips">
-              <template #activator="{ on, attrs }">
-                <v-btn
-                  v-model="fab_imageMode"
-                  class="left-btn mx-3"
-                  icon
-                  v-bind="attrs"
-                  v-on="on"
-                  elevation="6"
-                >
-                  <v-icon v-if="fab_imageMode"> mdi-close </v-icon>
-                  <img
-                    v-else
-                    alt="palette"
-                    src="/left-icons/image-mode/image-mode.png"
-                    width="21em"
-                  />
-                </v-btn>
-              </template>
-              <span>影像模式</span>
-            </v-tooltip>
-          </template>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class="mt-2"
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt="image-mode-thermal"
-                  src="/left-icons/image-mode/image-mode-thermal.png"
-                  width="22em"
-                />
-              </v-btn>
-            </template>
-            <span>Thermal</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class="mt-2"
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt="image-mode-thermal-msx"
-                  src="/left-icons/image-mode/image-mode-thermal-msx.png"
-                  width="22em"
-                />
-              </v-btn>
-            </template>
-            <span>Thermal MSX</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class="mt-2"
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt="image-mode-digital-camera"
-                  src="/left-icons/image-mode/image-mode-digital-camera.png"
-                  width="22em"
-                />
-              </v-btn>
-            </template>
-            <span>Digital Camera</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class="mt-2"
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt="image-mode-marco"
-                  src="/left-icons/image-mode/image-mode-marco.png"
-                  width="22em"
-                />
-              </v-btn>
-            </template>
-            <span>Marco</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class="mt-2"
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt="image-mode-thermal-fsx"
-                  src="/left-icons/image-mode/image-mode-thermal-fsx.png"
-                  width="22em"
-                />
-              </v-btn>
-            </template>
-            <span>Thermal FSX</span>
-          </v-tooltip>
-        </v-speed-dial>
-        <!-- 色譜模式palette -->
-        <v-speed-dial
-          :direction="direction_palette"
-          :transition="transition_palette"
-        >
-          <template #activator>
-            <v-tooltip right class="tips">
-              <template #activator="{ on, attrs }">
-                <v-btn
-                  v-model="fab_palette"
-                  class="left-btn mx-3 my-3"
-                  icon
-                  v-bind="attrs"
-                  v-on="on"
-                  elevation="6"
-                >
-                  <v-icon v-if="fab_palette"> mdi-close </v-icon>
-                  <img
-                    v-else
-                    alt="palette"
-                    src="/left-icons/palette/palette.png"
-                    width="18em"
-                  />
-                </v-btn>
-              </template>
-              <span>色譜模式</span>
-            </v-tooltip>
-          </template>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class=""
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt="palette-iron"
-                  src="/left-icons/palette/palette-iron.png"
-                  width="24em"
-                />
-              </v-btn>
-            </template>
-            <span>Iron</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class=""
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt="palette-lava"
-                  src="/left-icons/palette/palette-lava.png"
-                  width="24em"
-                />
-              </v-btn>
-            </template>
-            <span>Lava</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class=""
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt="palette-gray"
-                  src="/left-icons/palette/palette-gray.png"
-                  width="24em"
-                />
-              </v-btn>
-            </template>
-            <span>Gray</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class=""
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt="palette-rainbow"
-                  src="/left-icons/palette/palette-rainbow.png"
-                  width="24em"
-                />
-              </v-btn>
-            </template>
-            <span>Rainbow</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class=""
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt="palette-rainbow-hc"
-                  src="/left-icons/palette/palette-rainbow-hc.png"
-                  width="24em"
-                />
-              </v-btn>
-            </template>
-            <span>Rainbow HC</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class=""
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt="palette-arctic"
-                  src="/left-icons/palette/palette-arctic.png"
-                  width="20em"
-                />
-              </v-btn>
-            </template>
-            <span>Arctic</span>
-          </v-tooltip>
-        </v-speed-dial>
-        <v-divider></v-divider>
-
-        <!-- 計算工具calibration tools------------------------------------------------------------------------------ -->
-        <p class="subtitle text-center"><br />計算<br />工具</p>
-
-        <!-- 計算calibration -->
-        <v-speed-dial
-          :direction="direction_calibration"
-          :transition="transition_calibration"
-        >
-          <template #activator>
-            <v-tooltip right class="tips">
-              <template #activator="{ on, attrs }">
-                <v-btn
-                  v-model="fab_calibration"
-                  class="left-btn mx-3"
-                  icon
-                  v-bind="attrs"
-                  v-on="on"
-                  elevation="6"
-                >
-                  <v-icon v-if="fab_calibration"> mdi-close </v-icon>
-                  <img
-                    v-else
-                    alt="palette"
-                    src="/left-icons/calibration/calibration.png"
-                    width="16em"
-                  />
-                </v-btn>
-              </template>
-              <span>計算</span>
-            </v-tooltip>
-          </template>
- <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class="mt-2"
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt=""
-                    src="/left-icons/calibration/calibration-now.png"
-                  width="23em"
-                />
-              </v-btn>
-            </template>
-            <span>立即計算</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class="mt-2"
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt=""
-                  src="/left-icons/calibration/calibration-auto.png"
-                  width="20em"
-                />
-              </v-btn>
-            </template>
-            <span>自動計算</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class="mt-2"
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt=""
-                  src="/left-icons/calibration/calibration-10min.png"
-                  width="20em"
-                />
-              </v-btn>
-            </template>
-            <span>每10分鐘</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class="mt-2"
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt=""
-                  src="/left-icons/calibration/calibration-30min.png"
-                  width="20em"
-                />
-              </v-btn>
-            </template>
-            <span>每30分鐘</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class="mt-2"
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt=""
-                  src="/left-icons/calibration/calibration-60min.png"
-                  width="20em"
-                />
-              </v-btn>
-            </template>
-            <span>每60分鐘</span>
-          </v-tooltip>
-                    <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class="mt-2"
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt=""
-                  src="/left-icons/calibration/calibration-manual.png"
-                  width="20em"
-                />
-              </v-btn>
-            </template>
-            <span>手動設定</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class="mt-2"
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt=""
-                  src="/left-icons/calibration/calibration-stop.png"
-                  width="20em"
-                />
-              </v-btn>
-            </template>
-            <span>停止計算</span>
-          </v-tooltip>
-        </v-speed-dial>
-        <!-- 照明light -->
-        <v-speed-dial
-          :direction="direction_light"
-          :transition="transition_light"
-        >
-          <template #activator>
-            <v-tooltip right class="tips">
-              <template #activator="{ on, attrs }">
-                <v-btn
-                  v-model="fab_light"
-                  class="left-btn mx-3 mt-3"
-                  icon
-                  v-bind="attrs"
-                  v-on="on"
-                  elevation="6"
-                  @click="light"
-                >
-                  <v-icon v-if="fab_light"> mdi-close </v-icon>
-                  <img
-                    id="light_img"
-                    v-else
-                    alt="palette"
-                    src="/left-icons/light/light-off.png"
-                    width="14em"
-                  />
-                </v-btn>
-              </template>
-              <span>照明</span>
-            </v-tooltip>
-          </template>
-        </v-speed-dial>
-        <!-- 自動對焦autoFocus -->
-        <v-speed-dial
-          :direction="direction_autofocus"
-          :transition="transition_autofocus"
-        >
-          <template #activator>
-            <v-tooltip right class="tips">
-              <template #activator="{ on, attrs }">
-                <v-btn
-                  v-model="fab_autofocus"
-                  class="left-btn mx-3 my-3"
-                  icon
-                  v-bind="attrs"
-                  v-on="on"
-                  elevation="6"
-                >
-                  <v-icon v-if="fab_autofocus"> mdi-close </v-icon>
-                  <img
-                    v-else
-                    alt="palette"
-                    src="/left-icons/autofocus/autofocus.png"
-                    width="16em"
-                  />
-                </v-btn>
-              </template>
-              <span>自動對焦</span>
-            </v-tooltip>
-          </template>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class=""
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt="palette-iron"
-                  src="/left-icons/autofocus/autofocus-focus-further.png"
-                  width="22em"
-                />
-              </v-btn>
-            </template>
-            <span>遠景</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class=""
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt="palette-lava"
-                  src="/left-icons/autofocus/autofocus-focus-closer.png"
-                  width="22em"
-                />
-              </v-btn>
-            </template>
-            <span>近景</span>
-          </v-tooltip>
-          <v-tooltip top class="tips">
-            <template #activator="{ on, attrs }">
-              <v-btn
-                class=""
-                color=""
-                fab
-                x-small
-                v-bind="attrs"
-                v-on="on"
-                elevation="6"
-                dark
-              >
-                <img
-                  alt="palette-gray"
-                  src="/left-icons/autofocus/autofocus-autofocus.png"
-                  width="22em"
-                />
-              </v-btn>
-            </template>
-            <span>自動對焦</span>
-          </v-tooltip>
-        </v-speed-dial>
-        <v-divider></v-divider>
-        <!-- 影像調整image adjustment ------------------------------------------------------------------------------ -->
-        <p class="subtitle text-center"><br />影像<br />調整</p>
-        <!-- 全螢幕fullscreen -->
-        <v-tooltip right class="tips">
-          <template #activator="{ on, attrs }">
-            <v-btn
-              class="left-btn mx-3"
-              icon
-              v-bind="attrs"
-              v-on="on"
-              elevation="6"
-            >
-              <img
-                class=""
-                alt="spot"
-                src="/left-icons/fullscreen.png"
-                width="19em"
-              />
-            </v-btn>
-          </template>
-          <span>全螢幕</span>
-        </v-tooltip>
-        <!-- 影像快照snapshot -->
-        <v-tooltip right class="tips">
-          <template #activator="{ on, attrs }">
-            <v-btn
-              class="left-btn mx-3 mt-3"
-              icon
-              v-bind="attrs"
-              v-on="on"
-              elevation="6"
-            >
-              <img
-                class=""
-                alt="line"
-                src="/left-icons/snapshot.png"
-                width="19em"
-              />
-            </v-btn>
-          </template>
-          <span>影像快照</span>
-        </v-tooltip>
-        <!-- 串流暫停freeze/持續unfreeze -->
-        <v-tooltip right class="tips">
-          <template #activator="{ on, attrs }">
-            <v-btn
-              class="left-btn mx-3 mt-3"
-              icon
-              v-bind="attrs"
-              v-on="on"
-              elevation="6"
-              @click="freeze"
-            >
-              <img
-                id="freeze_img"
-                alt="rectangle"
-                src="/left-icons/freeze/unfreeze.png"
-                width="9em"
-              />
-            </v-btn>
-          </template>
-          <span>串流暫停/持續</span>
-        </v-tooltip>
-
-        <!-- 隱藏/顯示監測項目hide/show overlay -->
-        <v-tooltip right class="tips">
-          <template #activator="{ on, attrs }">
-            <v-btn
-              class="left-btn mx-3 my-3"
-              icon
-              v-bind="attrs"
-              v-on="on"
-              elevation="6"
-            >
-              <img
-                class=""
-                alt="rectangle"
-                src="/left-icons/hide-overlay.png"
-                width="18em"
-              />
-            </v-btn>
-          </template>
-          <span>隱藏/顯示監測項目</span>
-        </v-tooltip>
-      </v-card>
-    </div>
-
-    <!-- ------------------------------------------------------------------
-    ------------------------------------------------------------------
-    ------------------------------------------------------------------ -->
 
     <v-row>
       <!-- 左畫面影像顯示----------------------------------------------------------------------------------------------- -->
-      <v-col cols="12" md="7">
+      <v-col cols="12" md="12">
         <!-- <v-col cols="12" md="7" style="border: 1px solid red"> -->
-        <v-card class="mt-3 ml-6" rounded="md" elevation="6">
-          <!-- <v-responsive :aspect-ratio="4 / 3"> -->
+        <v-card class="mt-3 mx-6" rounded="md" elevation="6" height="51.55em">
+
+
+    <v-tabs vertical>
+      <v-tab>
+        <v-icon left>
+          mdi-account
+        </v-icon>
+        Option 1
+      </v-tab>
+      <v-tab>
+        <v-icon left>
+          mdi-lock
+        </v-icon>
+        Option 2
+      </v-tab>
+      <v-tab>
+        <v-icon left>
+          mdi-access-point
+        </v-icon>
+        Option 3
+      </v-tab>
+
+      <v-tab-item>
+        <v-card flat>
           <v-card-text>
-            <div class="frame">
-              <div id="cover" class="cover">
-                <img
-                  id="image"
-                  src="https://dummyimage.com/640x480/969696/000000&text=loading...."
-                />
-              </div>
-            </div>
+            <p>
+              Sed aliquam ultrices mauris. Donec posuere vulputate arcu. Morbi ac felis. Etiam feugiat lorem non metus. Sed a libero.
+            </p>
+
+            <p>
+              Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Aenean tellus metus, bibendum sed, posuere ac, mattis non, nunc. Aliquam lobortis. Aliquam lobortis. Suspendisse non nisl sit amet velit hendrerit rutrum.
+            </p>
+
+            <p class="mb-0">
+              Phasellus dolor. Fusce neque. Fusce fermentum odio nec arcu. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam. Phasellus blandit leo ut odio.
+            </p>
           </v-card-text>
-          <!-- </v-responsive> -->
+        </v-card>
+      </v-tab-item>
+      <v-tab-item>
+        <v-card flat>
+          <v-card-text>
+            <p>
+              Morbi nec metus. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Sed mollis, eros et ultrices tempus, mauris ipsum aliquam libero, non adipiscing dolor urna a orci. Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Nunc sed turpis.
+            </p>
+
+            <p>
+              Suspendisse feugiat. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Proin viverra, ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In hac habitasse platea dictumst. Fusce ac felis sit amet ligula pharetra condimentum.
+            </p>
+
+            <p>
+              Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Nam commodo suscipit quam. In consectetuer turpis ut velit. Sed cursus turpis vitae tortor. Aliquam eu nunc.
+            </p>
+
+            <p>
+              Etiam ut purus mattis mauris sodales aliquam. Ut varius tincidunt libero. Aenean viverra rhoncus pede. Duis leo. Fusce fermentum odio nec arcu.
+            </p>
+
+            <p class="mb-0">
+              Donec venenatis vulputate lorem. Aenean viverra rhoncus pede. In dui magna, posuere eget, vestibulum et, tempor auctor, justo. Fusce commodo aliquam arcu. Suspendisse enim turpis, dictum sed, iaculis a, condimentum nec, nisi.
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+      <v-tab-item>
+        <v-card flat>
+          <v-card-text>
+            <p>
+              Fusce a quam. Phasellus nec sem in justo pellentesque facilisis. Nam eget dui. Proin viverra, ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In dui magna, posuere eget, vestibulum et, tempor auctor, justo.
+            </p>
+
+            <p class="mb-0">
+              Cras sagittis. Phasellus nec sem in justo pellentesque facilisis. Proin sapien ipsum, porta a, auctor quis, euismod ut, mi. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nam at tortor in tellus interdum sagittis.
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+    </v-tabs>
         </v-card>
       </v-col>
-      <!--右1畫面顯示----------------------------------------------------------------------------------------------- -->
-      <v-col cols="12" md="5">
-        <v-row :column="$vuetify.breakpoint.mdAndDown">
-          <v-col cols="12" lg="5">
-            <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
-            <v-card class="mt-3" rounded="md" elevation="6">
-              <h4 class="cardtitle ml-3">警報設置</h4>
-              <v-simple-table fixed-header height="300px" class="mx-3 table1">
-                <template #default>
-                  <thead>
-                    <tr>
-                      <th class="text-center">監測<br/>項目</th>
-                      <th class="text-center">監測<br/>溫度</th>
-                      <th class="text-center">設定<br/>警報</th>
-                      <th class="text-center">刪除</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <!-- spot -->
-                    <tr v-for="(item, index) in spots" :key="index">
-                      <td class="text-center">
-                        <v-badge
-                          :content="item.name"
-                          overlap
-                          color="#828C8F"
-                          class="my-4"
-                          bordered
-                          ><v-btn icon class="right-btn"
-                            ><img
-                              class=""
-                              alt="alert"
-                              src="/right-icons/spot2.png"
-                              width="20em" /></v-btn
-                        ></v-badge>
-                      </td>
-                      <td class="text-center subtitle-right">{{ item.temperature }}°C</td>
-                      <td class="text-center">
-                        <v-btn color="" icon class="right-btn"
-                          ><img
-                            class=""
-                            alt="alert"
-                            src="/right-icons/alert-off.png"
-                            width="18em"
-                            depressed
-                        /></v-btn>
-                      </td>
-                      <td class="text-center">
-                        <v-btn color="" icon class="right-btn"
-                          ><img
-                            class=""
-                            alt="delete"
-                            src="/right-icons/delete.png"
-                            width="18em"
-                            @click="removespot(index, item.name)"
-                        /></v-btn>
-                      </td>
-                    </tr>
-                    <!-- SCOPE -->
-                    <tr v-for="(item, index) in scopes" :key="index">
-                      <td class="text-center">
-                        <v-badge
-                          :content="item.name"
-                          overlap
-                          color="#828C8F"
-                          class="my-4"
-                          bordered
-                          ><v-btn icon class="right-btn"
-                            ><img
-                              class="rectangle"
-                              alt="alert"
-                              src="/right-icons/rectangle2.png"
-                              width="17em" /></v-btn
-                        ></v-badge>
-                      </td>
-                      <td class="text-center subtitle-right">{{ item.temperature }}°C</td>
-                      <td class="text-center">
-                        <v-btn color="" icon class="right-btn"
-                          ><img
-                            class=""
-                            alt="alert"
-                            src="/right-icons/alert-off.png"
-                            width="18em"
-                            depressed
-                        /></v-btn>
-                      </td>
-                      <td class="text-center">
-                        <v-btn color="" icon class="right-btn"
-                          ><img
-                            class=""
-                            alt="delete"
-                            src="/right-icons/delete.png"
-                            width="18em"
-                            @click="removescope(index, item.name)"
-                        /></v-btn>
-                      </td>
-                    </tr>
-                    <!-- LINE -->
-                    <tr v-for="(item, index) in lines" :key="index">
-                      <td class="text-center">
-                        <v-badge
-                          :content="item.name"
-                          overlap
-                          color="#828C8F"
-                          class="my-4"
-                          bordered
-                          ><v-btn icon class="right-btn"
-                            ><img
-                              class=""
-                              alt="alert"
-                              src="/right-icons/line2.png"
-                              width="15em" /></v-btn
-                        ></v-badge>
-                      </td>
-                      <td class="text-center subtitle-right">{{ item.temperature }}°C</td>
-                      <td class="text-center">
-                        <v-btn color="" icon class="right-btn"
-                          ><img
-                            class=""
-                            alt="alert"
-                            src="/right-icons/alert-off.png"
-                            width="18em"
-                            depressed
-                        /></v-btn>
-                      </td>
-                      <td class="text-center">
-                        <v-btn
-                          color=""
-                          icon class="right-btn"
-                          @click="removeline(index, item.name)"
-                          ><img
-                            class=""
-                            alt="delete"
-                            src="/right-icons/delete.png"
-                            width="18em"
-                        /></v-btn>
-                      </td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
-            </v-card>
-          </v-col>
-
-          <!--右2畫面顯示----------------------------------------------------------------------------------------------- -->
-          <v-col cols="12" lg="7">
-            <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
-
-            <v-card class="mt-3 mr-6" rounded="md" elevation="6">
-              <h4 class="cardtitle ml-3">警報紀錄</h4>
-                <v-data-table
-    :headers="headers"
-    :items="temps"
-    :items-per-page="5"
-    dense
-
-  ></v-data-table>
-
-              <!-- <v-simple-table fixed-header height="300px" class="mx-3 table2">
-                <template #default>
-                  <thead>
-                    <tr>
-                      <th class="text-center">監測<br/>範圍</th>
-                      <th class="text-center">觸發<br/>時間</th>
-                      <th class="text-center">監測<br/>溫度</th>
-                      <th class="text-center">警報<br/>溫度</th>
-                      <th class="text-center">時間</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="item in temps" :key="item.name">
-                      <td class="text-center">
-                        <v-badge
-                          content="1"
-                          overlap
-                          color="#828C8F"
-                          class="badge my-4"
-                          bordered
-                        >
-                          <v-btn icon class="right-btn">
-                            <img
-                              class=""
-                              alt="alert"
-                              src="/right-icons/spot2.png"
-                              width="18em"
-                            />
-                          </v-btn>
-                        </v-badge>
-                      </td>
-                       <td class="text-center subtitle-right" v-if="item.temperature>30" style="color: #e89595;">{{ time }}s</td>
-                        <td class="text-center subtitle-right" v-else >{{ time }}s</td>
-                      <td class="text-center subtitle-right" v-if="item.temperature>30" style="color: #e89595;">{{ item.temperature }}°C</td>
-                       <td class="text-center subtitle-right" v-else >{{ item.temperature }}°C</td>
-                       <td class="text-center subtitle-right" >{{ item.temperature2 }}°C</td>
-                      <td class="text-center subtitle-right">{{ item.time }}</td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table> -->
-            </v-card>
-          </v-col>
-
-          <!--右3, 4畫面顯示----------------------------------------------------------------------------------------------- -->
-          <v-col cols="12" lg="12">
-            <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
-            <v-card class="fill-height mr-6" rounded="md" elevation="6">
-                            <div class="reset">
-                       <v-icon  color="#d8d8d8">mdi-circle-medium</v-icon><span class="subtitle-right">正常&nbsp;&nbsp;</span>         
-                       <v-icon  color="#828c8f">mdi-circle-medium</v-icon><span class="subtitle-right">超溫&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-              </div>
-              <h4 class="cardtitle ml-3">警報次數及歷史</h4>
-
-              <!-- 圖表1 -->
-              <v-progress-circular
-                class="donut1 mx-5 mt-4"
-                :rotate="-90"
-                :size="95"
-                :width="10"
-                :value="valueToday"
-                color="#828c8f"
-                backgroud
-              >
-                <h3>{{ valueToday }}</h3>
-              </v-progress-circular>
-
-              <v-sheet class="gg mt-5"
-                ><h4 class="chartTitle mr-16">今日</h4>
-
-                <p class="subtitle-right text-center mr-2">
-                  {{ currentDateTime() }}00:00<br />ǀ<br />{{
-                    currentDateTime()
-                  }}24:00
-                </p>
-              </v-sheet>
-              <!-- 圖表2 -->
-              <v-progress-circular
-                class="donut1 mx-5 mt-4"
-                :rotate="-90"
-                :size="95"
-                :width="10"
-                :value="valueLastday"
-                color="#828c8f"
-              >
-                <h3>{{ valueLastday }}</h3>
-              </v-progress-circular>
-
-              <v-sheet class="gg mt-5"
-                ><h4 class="chartTitle mr-16">昨日</h4>
-                <p class="subtitle-right text-center mr-2">
-                  {{ lastDateTime() }}00:00<br />ǀ<br />{{
-                    lastDateTime()
-                  }}24:00
-                </p>
-              </v-sheet>
-
-              <!-- 日期 -->
-              <v-date-picker
-                class="date-picker"
-                v-model="date2"
-                :event-color="(date) => (date[9] % 2 ? 'red' : 'yellow')"
-                :events="functionEvents"
-                readonly
-                no-title
-                color="#828c8f"
-                width="18em"
-              ></v-date-picker>
-
-              <br /><br /><br /><br /><br />
-
-              <!-- 圖表3 -->
-              <v-progress-circular
-                class="donut1 mx-5 mt-8"
-                :rotate="-90"
-                :size="95"
-                :width="10"
-                :value="valueThisWeek"
-                color="#828C8F"
-              >
-                <h3>{{ valueThisWeek }}</h3>
-              </v-progress-circular>
-
-              <v-sheet class="gg mt-9"
-                ><h4 class="chartTitle mr-16">本周</h4>
-                <p class="subtitle-right text-center mr-2">
-                  2022/3/20 00:00<br />ǀ<br />{{
-                    currentDateTime()
-                  }}24:00
-                </p>
-              </v-sheet>
-              <!-- 圖表4 -->
-              <v-progress-circular
-                class="donut1 mx-5 mt-8"
-                :rotate="-90"
-                :size="95"
-                :width="10"
-                :value="valueThisMonth"
-                color="#828C8F"
-              >
-                <h3>{{ valueThisMonth }}</h3>
-              </v-progress-circular>
-
-              <v-sheet class="gg mt-9"
-                ><h4 class="chartTitle mr-16">本月</h4>
-                <p class="subtitle-right text-center mr-2">
-                  2022/3/1 00:00<br />ǀ<br />{{ currentDateTime() }}24:00
-                </p>
-              </v-sheet>
-            </v-card>
-          </v-col>
-
-          <!--右5畫面顯示----------------------------------------------------------------------------------------------- -->
-          <v-col cols="12" lg="12">
-            <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
-            <v-card class="mr-6" height="6.7em" rounded="md" elevation="6">
-              <div>
-                 <v-tooltip left class="tips">
-            <template #activator="{ on, attrs }">
-                <v-btn x-small icon class="btn reset" color="#9BA3A5" v-bind="attrs"
-                v-on="on">
-                  <v-icon x-small class="icon">mdi-restore</v-icon>
-                </v-btn>
-            </template>
-            <span>重置</span>
-                 </v-tooltip>
-                <h4 class="cardtitle ml-3">參數調整</h4>
-              </div>
-
-              <v-form class="">
-                <v-text-field
-                  class="subtitle card5content ml-16 mt-1 mr-5 text-color"
-                  v-model="temperature"
-                  label="一般溫度"
-                  color="#828c8f"
-                ></v-text-field>
-
-                <v-text-field
-                  class="subtitle card5content mt-1 mr-5 text-color"
-                  v-model="reflected"
-                  label="反射溫度"
-                  color="#828c8f"
-                ></v-text-field>
-
-                <v-text-field
-                  class="subtitle card5content mt-1 mr-5 text-color"
-                  v-model="atmospheric"
-                  label="環境溫度"
-                  color="#828c8f"
-                ></v-text-field>
-
-                <v-text-field
-                  class="subtitle card5content mt-1 mr-5 text-color"
-                  v-model="humidity"
-                  label="環境濕度"
-                  color="#828c8f"
-                ></v-text-field>
-
-                <v-text-field
-                  class="subtitle card5content mt-1 mr-5 text-color"
-                  v-model="distance"
-                  label="量測距離"
-                  color="#828c8f"
-                ></v-text-field>
-
-                <v-text-field
-                  class="subtitle card5content mt-1 mr-5 text-color"
-                  v-model="emissivity"
-                  label="放射率"
-                  color="#828c8f"
-                ></v-text-field>
-
-                <v-text-field
-                  class="subtitle card5content mt-1 mr-5 text-color font-weight-large"
-                  v-model="transmission"
-                  label="穿透率"
-                  color="#828c8f"
-                ></v-text-field>
-              </v-form>
-              <!-- <v-btn icon class="btn reset" color="#9BA3A5"> 
-                  <v-icon  class="icon">mdi-cached</v-icon>
-                </v-btn> -->
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
+     </v-row>
+         
   </div>
 </template>
 
@@ -1173,7 +104,6 @@ export default {
       { rel: 'stylesheet', href: '/css/jquery-ui.css' },
       { rel: 'stylesheet', href: '/css/object.css' },
       { rel: 'stylesheet', href: '/css/card3.css' },
-
     ],
     script: [
       {
@@ -1227,66 +157,50 @@ export default {
     lines: [],
 
     // 右2假數據顯示(待刪)
-
-            headers: [
-          {
-            // text: 'Dessert (100g serving)',
-            // align: 'start',
-            // sortable: false,
-            // value: 'name',
-          },
-          { text: '監測範圍', value: 'name' },
-          { text: '觸發時間', value: 'duration' },
-          { text: '監測溫度', value: 'temperature' },
-          { text: '警報溫度', value: 'alertTemperature' },
-          { text: '開始時間', value: 'time' },
-        ],
-
-
-
     temps: [
-      {
-        name: '點3',
-        duration: 14,
-        temperature: 30,
-        alertTemperature: 35,
-        time: '2022/3/17 07:04:22',
-      },
       {
         name: '點2',
         duration: 37,
         temperature: 44,
         alertTemperature: 35,
-        time: '2022/3/17 02:10:07',
+        time: '2022/03/17 02:10:07',
+      },
+    {
+      name: '矩形1',
+      duration: 27,
+      temperature: 36,
+      alertTemperature: 35,
+      time: '2022/03/16 18:30:14',
+    },
+    {
+      name: '矩形1',
+      duration: 12,
+      temperature: 33,
+      alertTemperature: 35,
+      time: '2022/03/16 18:30:14',
+    },
+      {
+        name: '點3',
+        duration: 14,
+        temperature: 30,
+        alertTemperature: 35,
+        time: '2022/03/17 07:04:22',
       },
       {
         name: '矩形1',
         duration: 120,
         temperature: 22,
         alertTemperature: 35,
-        time: '2022/3/16 18:30:14',
+        time: '2022/03/16 18:30:14',
       },
-            {
-        name: '矩形1',
-        duration: 27,
-        temperature: 36,
-        alertTemperature: 35,
-        time: '2022/3/16 18:30:14',
-      },
-        {
-        name: '矩形1',
-        duration: 12,
-        temperature: 38,
-        alertTemperature: 35,
-        time: '2022/3/16 18:30:14',
-      },
+
     ],
 
     // 右3顯示
     interval: {},
-    valueToday: 5,
-    valueLastday: 4,
-    valueThisWeek: 10,
+    valueToday: 15,
+    valueLastday: 8,
+    valueThisWeek: 55,
     valueThisMonth: 15,
 
     // 右4顯示
@@ -1334,16 +248,16 @@ export default {
       return d.toISOString().substr(0, 10)
     })
     // 右2假資料
-    this.temps.duration2=setInterval(this.countdown, 1000);
+    
+    this.temps.duration = setInterval(this.countdown, 1000)
   },
 
   methods: {
     // 右2
-       countdown() {
-        this.time ++;
-      },   
-      
-      
+    countdown() {
+      this.temps.duration++
+    },
+
     // 左側燈泡
     light() {
       if (document.getElementById('light_on')) {
@@ -1356,16 +270,16 @@ export default {
         document.getElementById('light_img').setAttribute('id', 'light_on')
       }
     },
-        // 左側暫停
-   freeze() {
-      if (document.getElementById('')) {
+    // 左側暫停
+    freeze() {
+      if (document.getElementById('freeze')) {
         document.getElementById('freeze').src =
           '/left-icons/freeze/unfreeze.png'
-        document.getElementById('freeze').setAttribute('id', 'freeze_img')
+        document.getElementById('freeze').setAttribute('id', 'unfreeze')
       } else {
-        document.getElementById('freeze_img').src =
+        document.getElementById('unfreeze').src =
           '/left-icons/freeze/freeze.png'
-        document.getElementById('freeze_img').setAttribute('id', 'freeze')
+        document.getElementById('unfreeze').setAttribute('id', 'freeze')
       }
     },
 
@@ -1718,32 +632,96 @@ export default {
       return false
     },
     // 今天
-    currentDateTime() {
-      const current = new Date()
-      const date =
-        current.getFullYear() +
-        '/' +
-        (current.getMonth() + 1) +
-        '/' +
-        current.getDate()
-      // const time = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
-      const dateTime = date + ' '
-      return dateTime
+    getCurrentDate() {
+      var now = new Date() // 当前日期
+      // var nowDayOfWeek = now.getDay() - 1 // 今天本周的第几天
+      var nowDay = now.getDate() // 当前日
+      var nowMonth = now.getMonth() // 当前月
+      var nowYear = now.getYear() // 当前年
+      nowYear += nowYear < 2000 ? 1900 : 0 //
+
+      function formatDate(date) {
+        var myyear = date.getFullYear()
+        var mymonth = date.getMonth() + 1
+        var myweekday = date.getDate()
+        if (mymonth < 10) {
+          mymonth = '0' + mymonth
+        }
+        if (myweekday < 10) {
+          myweekday = '0' + myweekday
+        }
+        return myyear + '/' + mymonth + '/' + myweekday
+      }
+      var currentDate = new Date(nowYear, nowMonth, nowDay)
+      return formatDate(currentDate)
     },
+
     // 昨天
-    lastDateTime() {
-      const current = new Date()
-      const date =
-        current.getFullYear() +
-        '/' +
-        (current.getMonth() + 1) +
-        '/' +
-        (current.getDate() - 1)
-      // const time = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
-      const dateTime = date + ' '
-      return dateTime
+    getLastDate() {
+      function getDay(num, str) {
+        var today = new Date()
+        var nowTime = today.getTime()
+        var ms = 24 * 3600 * 1000 * num
+        today.setTime(parseInt(nowTime + ms))
+        var oYear = today.getFullYear()
+        var oMoth = (today.getMonth() + 1).toString()
+        if (oMoth.length <= 1) oMoth = '0' + oMoth
+        var oDay = today.getDate().toString()
+        if (oDay.length <= 1) oDay = '0' + oDay
+        return oYear + str + oMoth + str + oDay
+      }
+      var yesterday = getDay(-1, '/');
+      return yesterday
     },
+
     // 本週
+    getWeekStartDate() {
+      var now = new Date() // 当前日期
+      var nowDayOfWeek = now.getDay() - 1 // 今天本周的第几天
+      var nowDay = now.getDate() // 当前日
+      var nowMonth = now.getMonth() // 当前月
+      var nowYear = now.getYear() // 当前年
+      nowYear += nowYear < 2000 ? 1900 : 0 //
+
+      function formatDate(date) {
+        var myyear = date.getFullYear()
+        var mymonth = date.getMonth() + 1
+        var myweekday = date.getDate()
+        if (mymonth < 10) {
+          mymonth = '0' + mymonth
+        }
+        if (myweekday < 10) {
+          myweekday = '0' + myweekday
+        }
+        return myyear + '/' + mymonth + '/' + myweekday
+      }
+      var weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek)
+      return formatDate(weekStartDate)
+    },
+    // 本月
+    getMonthStartDate() {
+      var now = new Date() // 当前日期
+      // var nowDayOfWeek = now.getDay() - 1 // 今天本周的第几天
+      // var nowDay = now.getDate() // 当前日
+      var nowMonth = now.getMonth() // 当前月
+      var nowYear = now.getYear() // 当前年
+      nowYear += nowYear < 2000 ? 1900 : 0 //
+
+      function formatDate(date) {
+        var myyear = date.getFullYear()
+        var mymonth = date.getMonth() + 1
+        var myweekday = date.getDate()
+        if (mymonth < 10) {
+          mymonth = '0' + mymonth
+        }
+        if (myweekday < 10) {
+          myweekday = '0' + myweekday
+        }
+        return myyear + '/' + mymonth + '/' + myweekday
+      }
+      var monthStartDate = new Date(nowYear, nowMonth, 1)
+      return formatDate(monthStartDate)
+    },
   },
 }
 </script>
@@ -1811,6 +789,8 @@ export default {
   font-size: 12px;
   color: #9ba3a5;
   text-align: left;
+  font-family: 'Noto Sans TC', sans-serif;
+
 }
 /* h4 {
   line-height: 2em;
@@ -1888,5 +868,27 @@ export default {
 } */
 .bgimg {
   position: absolute;
+}
+
+.scroll {
+  /* width: 20px; */
+  /* height: 200px; */
+  /* overflow: auto; */
+  /* float: right; */
+  /* margin: 0 10px; */
+}
+
+.scroll4::-webkit-scrollbar {
+  width: 10px;
+}
+ 
+.scroll4::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 20px;
+}
+
+.scroll4::-webkit-scrollbar-track {
+  background: #ddd;
+  border-radius: 20px;
 }
 </style>
