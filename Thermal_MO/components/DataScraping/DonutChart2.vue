@@ -1,5 +1,5 @@
 <template>
-  <div id="test-charts" style="height: 120px; width: 120px"></div>
+  <div id="donut-chart2" style="height: 340px; width: 250px"></div>
 </template>
 
 <script>
@@ -14,9 +14,9 @@ export default {
   },
   methods: {
     drawBar() {
-      const chartDom = document.getElementById('test-charts')
+      const chartDom = document.getElementById('donut-chart2')
       const myChart = echarts.init(chartDom) // echarts初始化
-      const colorPalette = ['#37484C', '#E6E8E9']
+      const colorPalette = ['#37484C','#9aa2a4', '#d8dddd', '#E6E8E9']
       var option
 
       // 選擇圖表樣式------------------------------------------
@@ -25,16 +25,18 @@ export default {
         tooltip: {
           trigger: 'item',
         },
-        // legend: {
-        //   top: '5%',
-        //   left: 'center'
-        // },
+        legend: {
+
+          bottom: '-2%',
+          left: 'center'
+
+        },
 
         series: [
           {
-            name: '本日',
+            name: '綜合資料完成度',
             type: 'pie',
-            radius: ['50%', '90%'],
+            radius: ['70%', '95%'],
             avoidLabelOverlap: false,
             itemStyle: {
               borderRadius: 5,
@@ -50,10 +52,8 @@ export default {
               // formatter(d) {
               // return d.value;
               formatter: '{c}'
-
-
-    
             },
+            
             emphasis: {
               label: {
                 show: true,
@@ -62,11 +62,13 @@ export default {
               },
             },
             labelLine: {
-              show: false,
+              show: true,
             },
             data: [
-              { name: '超溫', value: 5  },
-              { name: '正常', value: 15  },
+              { name: '異常筆數', value: 60  },
+              { name: '些微異常筆數', value: 20  },
+              { name: '良好總筆數', value: 15  },
+              { name: '資料總筆數', value: 15  },
             ],
           },
         ],

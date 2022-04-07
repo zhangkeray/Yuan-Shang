@@ -3,7 +3,10 @@
     <v-row>
       <v-col cols="12" md="4">
         <v-card class="ml-2 text-center" height="52em" rounded="lg">
-          pending
+          <carousel>
+            <slide> Slide 1 Content </slide>
+            <slide> Slide 2 Content </slide>
+          </carousel>
         </v-card>
       </v-col>
 
@@ -22,6 +25,7 @@
   </v-container>
 </template>
 <script>
+// import VueCarousel from 'vue-carousel';
 export default {
   name: 'DeepLearningPage',
 }

@@ -1241,35 +1241,35 @@ export default {
         duration: 37,
         temperature: 44,
         alertTemperature: 35,
-        time: '2022/03/17 02:10:07',
+        time: '2022-03-17 02:10:07',
       },
     {
       name: '矩形1',
       duration: 27,
       temperature: 36,
       alertTemperature: 35,
-      time: '2022/03/16 18:30:14',
+      time: '2022-03-16 18:30:14',
     },
     {
       name: '矩形1',
       duration: 12,
       temperature: 33,
       alertTemperature: 35,
-      time: '2022/03/16 18:30:14',
+      time: '2022-03-16 18:30:14',
     },
       {
         name: '點3',
         duration: 14,
         temperature: 30,
         alertTemperature: 35,
-        time: '2022/03/17 07:04:22',
+        time: '2022-03-17 07:04:22',
       },
       {
         name: '矩形1',
         duration: 120,
         temperature: 22,
         alertTemperature: 35,
-        time: '2022/03/16 18:30:14',
+        time: '2022-03-16 18:30:14',
       },
 
     ],
@@ -1728,7 +1728,7 @@ export default {
         if (myweekday < 10) {
           myweekday = '0' + myweekday
         }
-        return myyear + '/' + mymonth + '/' + myweekday
+        return myyear + '-' + mymonth + '-' + myweekday
       }
       var currentDate = new Date(nowYear, nowMonth, nowDay)
       return formatDate(currentDate)
@@ -1748,7 +1748,7 @@ export default {
         if (oDay.length <= 1) oDay = '0' + oDay
         return oYear + str + oMoth + str + oDay
       }
-      var yesterday = getDay(-1, '/');
+      var yesterday = getDay(-1, '-');
       return yesterday
     },
 
@@ -1771,7 +1771,7 @@ export default {
         if (myweekday < 10) {
           myweekday = '0' + myweekday
         }
-        return myyear + '/' + mymonth + '/' + myweekday
+        return myyear + '-' + mymonth + '-' + myweekday
       }
       var weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek)
       return formatDate(weekStartDate)
@@ -1795,7 +1795,7 @@ export default {
         if (myweekday < 10) {
           myweekday = '0' + myweekday
         }
-        return myyear + '/' + mymonth + '/' + myweekday
+        return myyear + '-' + mymonth + '-' + myweekday
       }
       var monthStartDate = new Date(nowYear, nowMonth, 1)
       return formatDate(monthStartDate)
