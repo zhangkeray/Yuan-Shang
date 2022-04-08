@@ -36,7 +36,7 @@ export default {
           {
             name: '',
             // bottom:'100%',
-
+            center:['50%','50%'],
             type: 'pie',
             radius: ['40%', '70%'],
             avoidLabelOverlap: false,
