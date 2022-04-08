@@ -198,37 +198,10 @@
                         <!-- 右上畫面顯示----------------------------------------------------------------------------------------------- -->
                         <!-- <v-col cols="12" lg="12"> -->
                         <v-col cols="12" lg="3" style="border: 1px solid red">
+                        <h4 class="cardtitle ml-3 ">月份資料紀錄</h4>
                           <div class="gallery">
-                            <img
-                              src="pic/iphone-12-black-select-2020.png"
-                              class="pic"
-                            />
-                            <div class="thumbs">
-                              <img
-                                src="../static/left-icons/fullscreen.png"
-                                class="thumb active"
-                              />
-                              <img
-                                src="../static/left-icons/line.png"
-                                class="thumb"
-                              />
-                              <img
-                                src="../static/left-icons/spot.png"
-                                class="thumb"
-                              />
-                              <img
-                                src="../static/left-icons/snapshot.png"
-                                class="thumb"
-                              />
-                              <img
-                                src="../static/left-icons/rectangle.png"
-                                class="thumb"
-                              />
-                              <img
-                                src="../static/left-icons/hide-overlay.png"
-                                class="thumb"
-                              />
-                            </div>
+                            <month-heat-map-1 class="ml-10" />
+                            <div class="thumbs"></div>
                           </div>
                         </v-col>
 
@@ -251,7 +224,7 @@
                               >尚未偵測&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                             >
                           </div>
-                          <h4 class="cardtitle ml-3">月份資料紀錄</h4>
+                          <h4 class="cardtitle ml-3">&nbsp;</h4>
 
                           <div class="carousel-wrapper">
                             <client-only>
@@ -259,43 +232,43 @@
                                 v-bind="options"
                                 :navigationEnabled="true"
                                 :scrollPerPage="true"
-                                class="mx-5"
+                                class="mx-5 thumbs"
                               >
                                 <slide class="img-wrapper">
-                                  <month-heat-map-1 />
+                                  <month-heat-map-1 class="thumb active" />
                                 </slide>
                                 <slide class="img-wrapper">
-                                  <month-heat-map-2 />
+                                  <month-heat-map-2 class="thumb" />
                                 </slide>
                                 <slide class="img-wrapper">
-                                  <month-heat-map-3 />
+                                  <month-heat-map-3 class="thumb" />
                                 </slide>
                                 <slide class="img-wrapper">
-                                  <month-heat-map-4 />
+                                  <month-heat-map-4 class="thumb" />
                                 </slide>
                                 <slide class="img-wrapper">
-                                  <month-heat-map-5 />
+                                  <month-heat-map-5 class="thumb" />
                                 </slide>
                                 <slide class="img-wrapper">
-                                  <month-heat-map-6 />
+                                  <month-heat-map-6 class="thumb" />
                                 </slide>
                                 <slide class="img-wrapper">
-                                  <month-heat-map-7 />
+                                  <month-heat-map-7 class="thumb" />
                                 </slide>
                                 <slide class="img-wrapper">
-                                  <month-heat-map-8 />
+                                  <month-heat-map-8 class="thumb" />
                                 </slide>
                                 <slide class="img-wrapper">
-                                  <month-heat-map-9 />
+                                  <month-heat-map-9 class="thumb" />
                                 </slide>
                                 <slide class="img-wrapper">
-                                  <month-heat-map-10 />
+                                  <month-heat-map-10 class="thumb" />
                                 </slide>
                                 <slide class="img-wrapper">
-                                  <month-heat-map-11 />
+                                  <month-heat-map-11 class="thumb" />
                                 </slide>
                                 <slide class="img-wrapper">
-                                  <month-heat-map-12 />
+                                  <month-heat-map-12 class="thumb" />
                                 </slide>
                               </carousel>
                             </client-only>
@@ -610,6 +583,6 @@ export default {
 .img-wrapper img {
   margin: auto;
   width: 3000px;
-  height: 100px;
+  // height: 0px;
 }
 </style>

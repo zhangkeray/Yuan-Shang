@@ -1,5 +1,5 @@
 <template>
-  <div ref="donutChart2" style="height: 300px; width: 250px"></div>
+  <div id="test-charts" style="height: 120px; width: 120px"></div>
 </template>
 
 <script>
@@ -14,11 +14,10 @@ export default {
   },
   methods: {
     drawBar() {
-      const chartDom = this.$refs.donutChart2
+      const chartDom = document.getElementById('test-charts')
       const myChart = echarts.init(chartDom) // echarts初始化
-      const colorPalette = ['#37484C','#9aa2a4', '#d8dddd', '#E6E8E9']
+      const colorPalette = ['#37484C', '#E6E8E9']
       var option
-
 
       // 選擇圖表樣式------------------------------------------
 
@@ -26,22 +25,18 @@ export default {
         tooltip: {
           trigger: 'item',
         },
-        legend: {
-
-          bottom: '-7px',
-          left: 'center',
-        },
+        // legend: {
+        //   top: '5%',
+        //   left: 'center'
+        // },
 
         series: [
           {
-            name: '',
-            // bottom:'100%',
-
+            name: '本日',
             type: 'pie',
-            radius: ['40%', '70%'],
+            radius: ['50%', '90%'],
             avoidLabelOverlap: false,
             itemStyle: {
-
               borderRadius: 5,
               borderColor: '#fff',
               borderWidth: 5,
@@ -55,8 +50,10 @@ export default {
               // formatter(d) {
               // return d.value;
               formatter: '{c}'
+
+
+    
             },
-            
             emphasis: {
               label: {
                 show: true,
@@ -65,13 +62,11 @@ export default {
               },
             },
             labelLine: {
-              show: true,
+              show: false,
             },
             data: [
-              { name: '異常筆數', value: 60  },
-              { name: '些微異常筆數', value: 20  },
-              { name: '良好總筆數', value: 15  },
-              { name: '資料總筆數', value: 15  },
+              { name: '超溫', value: 5  },
+              { name: '正常', value: 15  },
             ],
           },
         ],
@@ -87,4 +82,3 @@ export default {
 </script>
 
 <style></style>
-

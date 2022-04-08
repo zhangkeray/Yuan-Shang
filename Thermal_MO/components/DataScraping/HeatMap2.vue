@@ -1,5 +1,5 @@
 <template>
-  <div id="heat-map2" style="height: 300px; width: 1400px"></div>
+  <div ref="heatMap2" style="height: 300px; width: 1400px"></div>
 </template>
 
 <script>
@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     drawBar() {
-      const chartDom = document.getElementById('heat-map2')
+      const chartDom = this.$refs.heatMap2
       const myChart = echarts.init(chartDom) // echarts初始化
       // const colorPalette = ['#37484C', '#E6E8E9']
       var option
