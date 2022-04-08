@@ -1,5 +1,5 @@
 <template>
-  <div id="donut-chart2" style="height: 340px; width: 250px"></div>
+  <div id="donut-chart2" style="height: 300px; width: 250px"></div>
 </template>
 
 <script>
@@ -27,18 +27,20 @@ export default {
         },
         legend: {
 
-          bottom: '-2%',
-          left: 'center'
-
+          bottom: '-7px',
+          left: 'center',
         },
 
         series: [
           {
-            name: '綜合資料完成度',
+            name: '',
+            // bottom:'100%',
+
             type: 'pie',
-            radius: ['70%', '95%'],
+            radius: ['40%', '70%'],
             avoidLabelOverlap: false,
             itemStyle: {
+
               borderRadius: 5,
               borderColor: '#fff',
               borderWidth: 5,
@@ -84,3 +86,4 @@ export default {
 </script>
 
 <style></style>
+

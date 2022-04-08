@@ -1,5 +1,5 @@
 <template>
-  <div id="donut-chart1" style="height: 340px; width: 250px"></div>
+  <div id="donut-chart1" style="height: 300px; width: 250px"></div>
 </template>
 
 <script>
@@ -27,7 +27,7 @@ export default {
         },
         legend: {
 
-          bottom: '-2%',
+          bottom: '-7px',
           left: 'center',
         },
 
@@ -37,7 +37,7 @@ export default {
             // bottom:'100%',
 
             type: 'pie',
-            radius: ['70%', '95%'],
+            radius: ['40%', '70%'],
             avoidLabelOverlap: false,
             itemStyle: {
 

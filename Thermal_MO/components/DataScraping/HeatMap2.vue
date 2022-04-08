@@ -1,5 +1,5 @@
 <template>
-  <div id="heat-map2" style="height: 450px; width: 1500px"></div>
+  <div id="heat-map2" style="height: 300px; width: 1400px"></div>
 </template>
 
 <script>
@@ -45,9 +45,11 @@ export default {
           position: 'top',
         },
         grid: {
-          height: '92%',
-          left: '40',
+          height: '80%',
+          // left: '70',
           top: 'center',
+          left: '110px',
+          width: '1250px',
         },
         xAxis: {
           type: 'category',
@@ -68,8 +70,15 @@ export default {
           max: 10,
           calculable: true,
           orient: 'vertical',
-          left: '1355',
+          left: '1500',
           top: 'center',
+          inRange: {
+            color: ['#37484C', '#9aa2a4', '#d8dddd', '#E6E8E9'],
+          },
+                      itemStyle: {
+              borderColor: '#fff',
+            },
+
         },
         series: [
           {
@@ -79,10 +88,15 @@ export default {
             label: {
               show: true,
             },
+                itemStyle: {
+        borderWidth: 3,
+        borderColor: "#fff"
+    },
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
                 shadowColor: 'rgba(0, 0, 0, 0.5)',
+                // borderColor: '#fff',
               },
             },
           },
