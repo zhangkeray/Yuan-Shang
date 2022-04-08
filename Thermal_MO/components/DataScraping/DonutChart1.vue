@@ -1,5 +1,5 @@
 <template>
-  <div id="donut-chart1" style="height: 300px; width: 250px"></div>
+  <div ref="donutChart1" style="height: 300px; width: 250px"></div>
 </template>
 
 <script>
@@ -14,10 +14,11 @@ export default {
   },
   methods: {
     drawBar() {
-      const chartDom = document.getElementById('donut-chart1')
+      const chartDom = this.$refs.donutChart1
       const myChart = echarts.init(chartDom) // echarts初始化
       const colorPalette = ['#37484C','#9aa2a4', '#d8dddd', '#E6E8E9']
       var option
+
 
       // 選擇圖表樣式------------------------------------------
 

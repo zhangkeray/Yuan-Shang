@@ -34,7 +34,7 @@
                         <v-col cols="12" lg="12" style="border: 1px solid red">
                           <h4 class="cardtitle ml-3">當月資料完成度</h4>
 
-                          <donut-chart-1 />
+                          <donutChart1 />
                           <br />
                           <br />
                         </v-col>
@@ -44,7 +44,7 @@
                         <v-col cols="12" lg="12" style="border: 1px solid red">
                           <h4 class="cardtitle ml-3">當日資料完成度</h4>
 
-                          <donut-chart-2 />
+                          <donutChart2 />
                         </v-col>
                       </v-row>
                     </v-col>
@@ -137,7 +137,7 @@
                         <v-col cols="12" lg="12" style="border: 1px solid red">
                           <h4 class="cardtitle ml-3">當月資料完成度</h4>
 
-                          <donut-chart-1 />
+                          <donutChart1 />
                         </v-col>
 
                         <!--左下畫面顯示----------------------------------------------------------------------------------------------- -->
@@ -178,7 +178,7 @@
                         <v-col cols="12" lg="12" style="border: 1px solid red">
                           <h4 class="cardtitle ml-3">當月資料完成度</h4>
 
-                          <donut-chart-1 />
+                          <donutChart1 />
                           <br />
                           <br />
                         </v-col>
@@ -188,7 +188,7 @@
                         <v-col cols="12" lg="12" style="border: 1px solid red">
                           <h4 class="cardtitle ml-3">當日資料完成度</h4>
 
-                          <donut-chart-2 />
+                          <donutChart2 />
                         </v-col>
                       </v-row>
                     </v-col>

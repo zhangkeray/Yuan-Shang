@@ -1,5 +1,6 @@
 <template>
-  <div id="month-heat-map9" style="height: 200px; width: 220px"></div>
+  <!-- <div id="month-heat-map1" style="height: 200px; width: 220px"></div> -->
+  <div ref="monthHeatMap9" style="height: 200px; width: 220px"></div>
 </template>
 
 <script>
@@ -15,8 +16,10 @@ export default {
   },
   methods: {
     drawBar() {
-      const chartDom = document.getElementById('month-heat-map9')
+      const chartDom = this.$refs.monthHeatMap9
       const myChart = echarts.init(chartDom) // echarts初始化
+      // const myChart = echarts.init(this.$refs.month-heat-map1); // echarts初始化
+
       const colorPalette = ['#37484C', '#9aa2a4', '#d8dddd', '#E6E8E9']
       var option
 
@@ -61,7 +64,7 @@ export default {
           {
             // yearLabel: { show: false },
             orient: 'vertical',
-            range: '2018/1',
+            range: '2022/1',
             splitLine: {
               lineStyle: {
                 color: '#fff',
@@ -74,7 +77,7 @@ export default {
             type: 'heatmap',
             coordinateSystem: 'calendar',
             calendarIndex: 0,
-            data: getVirtulData('2018'),
+            data: getVirtulData('2022'),
             itemStyle: {
               borderColor: '#fff',
             },
