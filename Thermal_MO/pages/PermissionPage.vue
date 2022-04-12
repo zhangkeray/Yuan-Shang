@@ -17,7 +17,7 @@
 
           <!--左下畫面顯示----------------------------------------------------------------------------------------------- -->
           <!-- <v-col cols="12" lg="12"> -->
-          <!-- <v-col cols="12" lg="12" style="border: 1px solid red">  </v-col> -->
+          <v-col cols="12" lg="12" style="border: 1px solid red">  </v-col>
             
           
         </v-row>
@@ -33,13 +33,12 @@
 
           <!--右下畫面顯示----------------------------------------------------------------------------------------------- -->
           <!-- <v-col cols="12" lg="12"> -->
-          <!-- <v-col cols="12" lg="12" style="border: 1px solid red"></v-col> -->
+          <v-col cols="12" lg="12" style="border: 1px solid red"></v-col>
         </v-row>
       </v-col>
-
-
-
     </v-row>
+
+    
   </v-container>
 </template>
 

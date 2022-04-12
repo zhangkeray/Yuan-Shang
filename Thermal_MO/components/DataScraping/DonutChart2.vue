@@ -1,11 +1,10 @@
 <template>
-  <div ref="donutChart2" style="height: 300px; width: 250px"></div>
+  <div ref="donutChart2" style="height: 335px; width: 400px"></div>
 </template>
 
 <script>
 import * as echarts from 'echarts'
 export default {
-
   data() {
     return {}
   },
@@ -16,32 +15,37 @@ export default {
     drawBar() {
       const chartDom = this.$refs.donutChart2
       const myChart = echarts.init(chartDom) // echarts初始化
-      const colorPalette = ['#37484C','#9aa2a4', '#d8dddd', '#E6E8E9']
+      const colorPalette = ['#37484C', '#9aa2a4', '#d8dddd', '#E6E8E9']
       var option
-
 
       // 選擇圖表樣式------------------------------------------
 
- option = {
+      option = {
         tooltip: {
           trigger: 'item',
         },
         legend: {
-
-          bottom: '-7px',
-          left: 'center',
+          top: '10px',
+          width: '100px',
+          left: 'right',
+          itemWidth: 10, // 图例的宽度
+          itemHeight: 10, // 图例的高度
+          textStyle: {
+            // 图例文字的样式
+            color: '#ccc',
+            fontSize: 12,
+          },
         },
 
         series: [
           {
             name: '',
-            // bottom:'100%',
-
-            type: 'pie',
-            radius: ['40%', '70%'],
+            top: '30px',
+            right: "30px",
             avoidLabelOverlap: false,
+            type: 'pie',
+            radius: ['60%', '80%'],
             itemStyle: {
-
               borderRadius: 5,
               borderColor: '#fff',
               borderWidth: 5,
@@ -54,24 +58,30 @@ export default {
               position: 'center',
               // formatter(d) {
               // return d.value;
-              formatter: '{c}'
+              formatter: '{d}%',
+              fontSize: '30',
+              backgroundColor: 'white',
+
             },
-            
+
             emphasis: {
               label: {
                 show: true,
-                fontSize: '15',
-                fontWeight: 'bold',
+                fontSize: '30',
+                // fontWeight: 'bold',
+                backgroundColor: 'white',
+                 borderColor: '#fff',
+                 borderWidth: 5,
               },
             },
             labelLine: {
               show: true,
             },
             data: [
-              { name: '異常筆數', value: 60  },
-              { name: '些微異常筆數', value: 20  },
-              { name: '良好總筆數', value: 15  },
-              { name: '資料總筆數', value: 15  },
+              { name: '異常筆數', value: 220 },
+              { name: '些微異常筆數', value: 80},
+              { name: '良好總筆數', value: 150 },
+              { name: '資料總筆數', value: 450 },
             ],
           },
         ],
@@ -87,4 +97,3 @@ export default {
 </script>
 
 <style></style>
-

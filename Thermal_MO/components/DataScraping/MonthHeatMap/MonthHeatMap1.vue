@@ -1,6 +1,6 @@
 <template>
   <!-- <div id="month-heat-map1" style="height: 200px; width: 220px"></div> -->
-  <div ref="monthHeatMap1" style="height: 200px; width: 220px"></div>
+  <div ref="monthHeatMap1" style="height: 240px; width: 220px"></div>
 </template>
 
 <script>
@@ -63,6 +63,7 @@ export default {
         calendar: [
           {
             // yearLabel: { show: false },
+            top: '70px',
             orient: 'vertical',
             range: '2021/5',
             splitLine: {
