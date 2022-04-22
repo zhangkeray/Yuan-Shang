@@ -10,7 +10,11 @@
   /* left: 0; */
   cursor: grab;
 }
-
+#rtsp-status{
+  color: rgb(255, 0, 0);
+  font-size: 1.5em;
+  font-weight: 900;
+}
 .scope-span {
   position: absolute;
   left: 100%;

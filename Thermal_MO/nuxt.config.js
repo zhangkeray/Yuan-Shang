@@ -5,21 +5,39 @@ export default {
   head: {
     titleTemplate: '%s - Thermal_MO',
     title: 'Thermal_MO',
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' },
+    meta: [{
+        charset: 'utf-8'
+      },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: ''
+      },
+      {
+        name: 'format-detection',
+        content: 'telephone=no'
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico'
+    }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
-  transpileDependencies:['some-imported-lib'],
+  transpileDependencies: ['some-imported-lib'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: './plugins/vue-carousel.js', mode: 'client' }],
+  plugins: [{
+    src: './plugins/vue-carousel.js',
+    mode: 'client'
+  }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -37,10 +55,10 @@ export default {
   ],
   googleFonts: {
     families: {
-        Inter: [900,700,500],
-      },
+      Inter: [900, 700, 500],
     },
-  
+  },
+
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -58,13 +76,11 @@ export default {
   io: {
     // we could have multiple sockets that we identify with names
     // one of these sockets may have set "default" to true
-    sockets: [
-      {
-        default: true, // make this the default socket
-        name: 'main', // give it a name that we can later use to choose this socket in the .vue file
-        url: 'http://192.168.0.173:6147', // URL wherever your socket IO server runs
-      },
-    ],
+    sockets: [{
+      default: true, // make this the default socket
+      name: 'main', // give it a name that we can later use to choose this socket in the .vue file
+      url: 'http://192.168.0.173:6147', // URL wherever your socket IO server runs
+    }, ],
   },
 
   //登入使用之設定(開始)
@@ -74,45 +90,47 @@ export default {
   // (express-jwt)npm install express-jwt
   // 補充2:請先檢查nuxt.config.js設定，是否跟以下設定會有衝突，
   // 如同一個類別設定重複，可能會導致設定失效。
-  serverMiddleware: ['../api/auth'], // SERVER中間件AUTH認證使用
-    // AXIOS設定
-    axios: {
-      credentials: true, //啟用證書通過認證，在localhost認證需要啟用這個
-      proxy: true //axios啟用代理設定，為必要啟用，不然沒辦法使用api
+  serverMiddleware: 
+    ['../api/auth']
+  , // SERVER中間件AUTH認證使用
+  // AXIOS設定
+  axios: {
+    credentials: true, //啟用證書通過認證，在localhost認證需要啟用這個
+    proxy: true //axios啟用代理設定，為必要啟用，不然沒辦法使用api
+  },
+  proxy: {
+    '/api': 'http://localhost:3000' // api代理端口，這邊會吃api裡面的Routes
+  },
+  // router為設定全域都需要經過auth認證，這可以拿掉改由單一頁面使用。
+  router: {
+    middleware: ['auth']
+  },
+  // AUTH 核心設定
+  auth: {
+    redirect: {
+      login: '/login', //登入時的頁面導向
+      home: '/', //home的路徑
+      logout: '/login', //登出後導向的頁面
+      callback: '/login', // //還沒登入時導向的路徑
     },
-    proxy: {
-      '/api': 'http://localhost:3000' // api代理端口，這邊會吃api裡面的Routes
-    },
-    // router為設定全域都需要經過auth認證，這可以拿掉改由單一頁面使用。
-    router: {
-      middleware: ['auth']
-    },
-    // AUTH 核心設定
-    auth: {
-      redirect: {
-        login: '/login', //登入時的頁面導向
-        home: '/', //home的路徑
-        logout: '/login', //登出後導向的頁面
-        callback: '/login', // //還沒登入時導向的路徑
-      },
-      // 認證才取的方式(方法)
-      strategies: {
-        local: { //方法名稱(可以看login底下的js)
-          token: {
-            property: 'token.accessToken', //存取cookie的名稱
-          },
+    // 認證才取的方式(方法)
+    strategies: {
+      local: { //方法名稱(可以看login底下的js)
+        token: {
+          property: 'token.accessToken', //存取cookie的名稱
         },
       },
-      // cookie 存取時間，攸關使用者登入後的認證時間，但使用者可以自行刪除cookie
-      cookie: {
-        options: {
-          // expires: 8,
-          maxAge: 31622400
-        }
-      },
     },
+    // cookie 存取時間，攸關使用者登入後的認證時間，但使用者可以自行刪除cookie
+    cookie: {
+      options: {
+        // expires: 8,
+        maxAge: 31622400
+      }
+    },
+  },
   //登入使用之設定(結束)
-  
+
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
@@ -121,7 +139,7 @@ export default {
   },
   // 切換ip
   server: {
-    host: '192.168.0.182', // Ray
+    // host: '192.168.0.182', // Ray
     // host: '192.168.0.173', // Louis
     port: 3000,
   },
@@ -130,7 +148,7 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    
+
     customVariables: ['~/assets/variables.scss'],
     treeShake: true,
     theme: {
@@ -154,5 +172,5 @@ export default {
     extend(config, ctx) {},
   },
   // 關閉eslint校驗提醒
-  lintOnSave: false 
-  }
+  lintOnSave: false
+}

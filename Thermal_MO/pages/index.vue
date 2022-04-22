@@ -17,7 +17,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              @click="spot()"
+              @click="addspot()"
             >
               <img alt="spot" src="/left-icons/spot.png" width="20em" />
             </v-btn>
@@ -36,7 +36,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              @click="line()"
+              @click="addline()"
             >
               <img alt="line" src="/left-icons/line.png" width="15em" />
             </v-btn>
@@ -52,7 +52,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              @click="scope()"
+              @click="addscope()"
             >
               <img
                 alt="rectangle"
@@ -739,10 +739,82 @@
           <v-card-text>
             <div class="frame">
               <div id="cover" class="cover">
+                <div class="d-none" id="rtsp-status"></div>
+                <div class="d-none" id="rtsp-stay"></div>
                 <img
                   id="image"
                   src="https://dummyimage.com/640x480/969696/000000&text=loading...."
                 />
+                <!-- 點物件 -->
+                <div
+                  v-for="(item01, index) in spots"
+                  :key="'B' + index"
+                  :style="{
+                    top: item01.position.Y + 'px',
+                    left: item01.position.X + 'px',
+                  }"
+                  id="spot"
+                  class="spot"
+                  v-bind:data-name="item01.name"
+                >
+                  <img src="/images/spot_1.png" />
+                  <div class="spot-span">
+                    <div>{{ item01.name }}</div>
+                  </div>
+                </div>
+                <!-- 範圍物件 -->
+                <div
+                  v-for="(item02, index) in scopes"
+                  :key="'A' + index"
+                  :style="{
+                    top: item02.position.LT.Y + 'px',
+                    left: item02.position.LT.X + 'px',
+                    width: item02.position.BR.X + 'px',
+                    height: item02.position.BR.Y + 'px',
+                  }"
+                  id="scope"
+                  class="scope"
+                  v-bind:data-name="item02.name"
+                >
+                  <div class="scope-span">
+                    <div>{{ item02.name }}</div>
+                  </div>
+                  <span class="scope-test-xy-TL">X:Y:</span
+                  ><span class="scope-test-xy-BR">X:Y:</span>
+                </div>
+                <!-- 線物件 -->
+                <div
+                  v-for="(item, index) in lines"
+                  :key="'point1' + index"
+                  :style="{
+                    top: item.position.point1.Y + 'px',
+                    left: item.position.point1.X + 'px',
+                  }"
+                  id="pointA"
+                  :class="'point-totle ' + 'point' + (index + 1)"
+                  v-bind:data-name="item.name"
+                ></div>
+                <div
+                  v-for="(item, index) in lines"
+                  :key="'point2' + index"
+                  :style="{
+                    top: item.position.point2.Y + 'px',
+                    left: item.position.point2.X + 'px',
+                  }"
+                  id="pointB"
+                  :class="'point' + (index + 1) + ' point_hover' + (index + 1)"
+                  v-bind:data-name="item.name"
+                >
+                  <div class="line-span">
+                    <div>{{ item.name }}</div>
+                  </div>
+                </div>
+                <div
+                  v-for="(item, index) in lines"
+                  :key="'line' + index"
+                  :class="'line' + (index + 1)"
+                  id="line"
+                ></div>
               </div>
             </div>
           </v-card-text>
@@ -755,7 +827,12 @@
           <v-col cols="12" lg="5">
             <v-card class="mt-3" rounded="md" elevation="6">
               <h4 class="cardtitle ml-3">警報設置</h4>
-              <v-simple-table id="style-3" fixed-header height="300px" class="mx-2">
+              <v-simple-table
+                id="style-3"
+                fixed-header
+                height="300px"
+                class="mx-2"
+              >
                 <template #default>
                   <thead>
                     <tr>
@@ -767,8 +844,8 @@
                   </thead>
                   <tbody>
                     <!-- spot -->
-                    <tr v-for="(item, index) in spots" :key="index">
-                      <td class="text-center" style="padding:0px 13px">
+                    <tr v-for="(item, index) in spots" :key="'C' + index">
+                      <td class="text-center" style="padding: 0px 13px">
                         <v-badge
                           :content="item.name"
                           overlap
@@ -783,10 +860,13 @@
                               width="20em" /></v-btn
                         ></v-badge>
                       </td>
-                      <td class="text-center subtitle-right" style="padding:0px 25px">
+                      <td
+                        class="text-center subtitle-right"
+                        style="padding: 0px 25px"
+                      >
                         {{ item.temperature }}°C
                       </td>
-                      <td class="text-center" style="padding:0px 25px">
+                      <td class="text-center" style="padding: 0px 25px">
                         <v-btn color="" icon class="right-btn"
                           ><img
                             class=""
@@ -796,20 +876,20 @@
                             depressed
                         /></v-btn>
                       </td>
-                      <td class="text-center" style="padding:0px 13px">
+                      <td class="text-center" style="padding: 0px 13px">
                         <v-btn color="" icon class="right-btn"
                           ><img
                             class=""
                             alt="delete"
                             src="/right-icons/delete.png"
                             width="18em"
-                            @click="removespot(index, item.name)"
+                            @click="deletespot(item.name)"
                         /></v-btn>
                       </td>
                     </tr>
                     <!-- SCOPE -->
-                    <tr v-for="(item, index) in scopes" :key="index">
-                      <td class="text-center" style="padding:0px 13px">
+                    <tr v-for="(item, index) in scopes" :key="'D' + index">
+                      <td class="text-center" style="padding: 0px 13px">
                         <v-badge
                           :content="item.name"
                           overlap
@@ -824,10 +904,13 @@
                               width="17em" /></v-btn
                         ></v-badge>
                       </td>
-                      <td class="text-center subtitle-right" style="padding:0px 25px">
+                      <td
+                        class="text-center subtitle-right"
+                        style="padding: 0px 25px"
+                      >
                         {{ item.temperature }}°C
                       </td>
-                      <td class="text-center" style="padding:0px 25px">
+                      <td class="text-center" style="padding: 0px 25px">
                         <v-btn color="" icon class="right-btn"
                           ><img
                             class=""
@@ -837,20 +920,20 @@
                             depressed
                         /></v-btn>
                       </td>
-                      <td class="text-center" style="padding:0px 13px">
+                      <td class="text-center" style="padding: 0px 13px">
                         <v-btn color="" icon class="right-btn"
                           ><img
                             class=""
                             alt="delete"
                             src="/right-icons/delete.png"
                             width="18em"
-                            @click="removescope(index, item.name)"
+                            @click="deletescope(item.name)"
                         /></v-btn>
                       </td>
                     </tr>
                     <!-- LINE -->
-                    <tr v-for="(item, index) in lines" :key="index">
-                      <td class="text-center" style="padding:0px 13px">
+                    <tr v-for="(item, index) in lines" :key="'H' + index">
+                      <td class="text-center" style="padding: 0px 13px">
                         <v-badge
                           :content="item.name"
                           overlap
@@ -865,10 +948,13 @@
                               width="15em" /></v-btn
                         ></v-badge>
                       </td>
-                      <td class="text-center subtitle-right" style="padding:0px 25px">
+                      <td
+                        class="text-center subtitle-right"
+                        style="padding: 0px 25px"
+                      >
                         {{ item.temperature }}°C
                       </td>
-                      <td class="text-center" style="padding:0px 25px">
+                      <td class="text-center" style="padding: 0px 25px">
                         <v-btn color="" icon class="right-btn"
                           ><img
                             class=""
@@ -878,12 +964,12 @@
                             depressed
                         /></v-btn>
                       </td>
-                      <td class="text-center" style="padding:0px 13px">
+                      <td class="text-center" style="padding: 0px 13px">
                         <v-btn
                           color=""
                           icon
                           class="right-btn"
-                          @click="removeline(index, item.name)"
+                          @click="deleteline(item.name)"
                           ><img
                             class=""
                             alt="delete"
@@ -917,7 +1003,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="item in temps" :key="item.name">
-                      <td class="text-center" style="padding:0px 13px">
+                      <td class="text-center" style="padding: 0px 13px">
                         <v-badge
                           content="1"
                           overlap
@@ -940,28 +1026,41 @@
                       <td
                         v-if="item.temperature > 35"
                         class="text-center subtitle-right"
-                        style="padding:0px 29px;color: #e89595"
-                        
+                        style="padding: 0px 29px; color: #e89595"
                       >
                         {{ countdown() }}s
                       </td>
-                      <td v-else class="text-center subtitle-right" style="padding:0px 29px">
+                      <td
+                        v-else
+                        class="text-center subtitle-right"
+                        style="padding: 0px 29px"
+                      >
                         {{ item.duration }}s
                       </td>
                       <td
                         v-if="item.temperature > 35"
-                        class="text-center subtitle-right" 
-                        style="color: #e89595;padding:0px 24.7px;"
+                        class="text-center subtitle-right"
+                        style="color: #e89595; padding: 0px 24.7px"
                       >
                         {{ item.temperature }}°C
                       </td>
-                      <td v-else class="text-center subtitle-right" style="padding:0px 24.7px">
+                      <td
+                        v-else
+                        class="text-center subtitle-right"
+                        style="padding: 0px 24.7px"
+                      >
                         {{ item.temperature }}°C
                       </td>
-                      <td class="text-center subtitle-right" style="padding:0px 24.7px">
+                      <td
+                        class="text-center subtitle-right"
+                        style="padding: 0px 24.7px"
+                      >
                         {{ item.alertTemperature }}°C
                       </td>
-                      <td class="text-center subtitle-right" style="padding:0px 5px;font-size:12px">
+                      <td
+                        class="text-center subtitle-right"
+                        style="padding: 0px 5px; font-size: 12px"
+                      >
                         {{ item.time }}
                       </td>
                     </tr>
@@ -1054,7 +1153,6 @@
               >
                 <h3>{{ valueThisWeek }}</h3>
               </v-progress-circular>
-
 
               <v-sheet class="gg mt-9"
                 ><h4 class="chartTitle mr-16">本週</h4>
@@ -1155,7 +1253,14 @@
 
                 <v-text-field
                   v-model="transmission"
-                  class="subtitle card5content mt-1 mr-5 text-color font-weight-large"
+                  class="
+                    subtitle
+                    card5content
+                    mt-1
+                    mr-5
+                    text-color
+                    font-weight-large
+                  "
                   label="穿透率"
                   color="#828c8f"
                 ></v-text-field>
@@ -1203,6 +1308,11 @@ export default {
     ],
   },
   data: () => ({
+    // 防止連續get api
+    timeOutRefresh: null,
+    loader: null,
+    loading: false,
+    Interval: 0,
     // 右2
     timer: null,
     time: 20,
@@ -1243,20 +1353,20 @@ export default {
         alertTemperature: 35,
         time: '2022-03-17 02:10:07',
       },
-    {
-      name: '矩形1',
-      duration: 27,
-      temperature: 36,
-      alertTemperature: 35,
-      time: '2022-03-16 18:30:14',
-    },
-    {
-      name: '矩形1',
-      duration: 12,
-      temperature: 33,
-      alertTemperature: 35,
-      time: '2022-03-16 18:30:14',
-    },
+      {
+        name: '矩形1',
+        duration: 27,
+        temperature: 36,
+        alertTemperature: 35,
+        time: '2022-03-16 18:30:14',
+      },
+      {
+        name: '矩形1',
+        duration: 12,
+        temperature: 33,
+        alertTemperature: 35,
+        time: '2022-03-16 18:30:14',
+      },
       {
         name: '點3',
         duration: 14,
@@ -1271,7 +1381,6 @@ export default {
         alertTemperature: 35,
         time: '2022-03-16 18:30:14',
       },
-
     ],
 
     // 右3顯示
@@ -1306,10 +1415,64 @@ export default {
       name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
     })
     const img = document.getElementById('image')
-    vm.socket.on('data', (data) => {
-      img.src = 'data:image/jpeg;base64,' + data
-      img.style.transform = 'rotate(360deg)'
+    const rtspstatus = document.getElementById('rtsp-status')
+    const rtspstay = document.getElementById('rtsp-stay')
+
+    // connect()
+    // function connect() {
+    //   console.log(200)
+    var stay = 0
+    vm.socket.on('connect', () => {
+      rtspstatus.innerHTML = '伺服器已回應，連線已恢復正常，正在重啟程式!'
+      clearInterval(this.timeOutRefresh01)
+      vm.socket.on('data', (data) => {
+        stay = 0
+        rtspstatus.classList.add('d-none')
+        img.src = 'data:image/jpeg;base64,' + data
+        img.style.transform = 'rotate(360deg)'
+      })
     })
+    this.timeOutRefresh02 = setInterval(() => {
+      if (stay < 10) {
+        rtspstay.classList.add('d-none')
+      } else if (stay >= 10 && stay <= 15) {
+        rtspstay.classList.remove('d-none')
+        var tmp = 15
+        tmp = tmp - stay
+        rtspstay.innerHTML = '已偵測影像無回應，' + tmp + '秒後將重新啟動程式'
+      } else if (stay >= 16) {
+        stay = 0
+        vm.socket.disconnect()
+      }
+      stay++
+    }, 1000)
+
+    vm.socket.on('disconnect', (reason) => {
+      rtspstatus.innerHTML = '連線出現錯誤!!!'
+      let count = 0
+      this.timeOutRefresh01 = setInterval(() => {
+        vm.socket.connect()
+        if (count <= 15) {
+          var tpa = 15 - count
+          rtspstatus.innerHTML =
+            '影像處理伺服器已中斷連線，' + tpa + '秒後嘗試與伺服器連線...'
+        } else if (count > 15 && count <= 20) {
+          rtspstatus.innerHTML = '正在嘗試與伺服器連線中...'
+        } else if (count > 20 && count < 25) {
+          rtspstatus.innerHTML = '嘗試與伺服器連線失敗...'
+        } else {
+          count = 0
+        }
+      }, 1000)
+      img.src = 'https://dummyimage.com/640x480/969696/000000&text=loading....'
+      rtspstatus.classList.remove('d-none')
+    })
+
+    // let count = 0
+    // this.timeOutRefresh01 = setInterval(() => {
+    //   vm.socket.volatile.emit('ping', ++count)
+    // }, 1000)
+    // console.log(this.timeOutRefresh01)
 
     // 右3圓餅顯示
     this.interval = setInterval(() => {
@@ -1326,8 +1489,17 @@ export default {
       return d.toISOString().substr(0, 10)
     })
     // 右2假資料
-    
+
     this.temps.duration = setInterval(this.countdown, 1000)
+
+    // 定時呼叫api
+    // this.Refresh()
+    this.timeOutRefresh = window.setInterval(() => {
+      if (this.Interval === 0) {
+        this.Interval = 1
+        this.Refresh()
+      }
+    }, 1000)
   },
 
   methods: {
@@ -1360,292 +1532,265 @@ export default {
         document.getElementById('unfreeze').setAttribute('id', 'freeze')
       }
     },
-
-    // 點-主程式
-    spot() {
-      axios({
-        method: 'get',
-        url: `http://192.168.0.173:8080/camera`,
-        // data: data,
-        // headers: headers,
-      })
-        .then(function (response) {
-          console.log(response.data.temperature)
-        })
-        .catch((error) => console.log(error))
-
-      var array = this.spots
-      var totle1 = 0
-      if (array.length === 0) {
-        totle1 = 0
-      } else if (array.length >= 6) {
-        return false
-      } else {
-        totle1 = array.length
-      }
-      var spotsum = 0
-      if (array.length === 0) {
-        spotsum = totle1 + 1
-      } else {
-        var testarray = []
-        array.forEach(function (element) {
-          testarray.push(element.name)
-        })
-        spotsum = spotsum + 1
-        while (testarray.includes(spotsum)) {
-          spotsum = spotsum + 1
-        }
-      }
-      var locationA = 40 + spotsum * 20
-      var $element = `<div id="spot${spotsum}" class="spot" style="top: ${locationA}px; left: ${locationA}px;"><img src="/images/spot_1.png" /><div class="spot-span"><div>${spotsum}</div></div></div>`
-      $('#cover').append($element)
-      var spottotlesum = 1
-      $('.spot').each(function () {
-        $(this).hover(
-          function () {
-            $(this).children('div').addClass('hover')
-          },
-          function () {
-            $(this).children('div').removeClass('hover')
-          }
-        )
-        var spotname = '#spot' + spottotlesum
-        $(spotname).draggable({
-          containment: 'parent',
-          tolerance: 'pointer',
-        })
-        spottotlesum = spottotlesum + 1
-      })
-      var content = {
-        name: spotsum,
-        temperature: Math.floor(Math.random() * 50),
-        situation: '已超溫',
-        time: '04:30:14',
-        date: '2022/3/14',
-      }
-      this.addspot(content)
-    },
-    // 點-刪除程式
-    removespot(index, name) {
-      var array = this.spots
-      array.splice(index, 1)
-      var selectspot = '#spot' + name
-      $(selectspot).remove()
-      this.$forceUpdate()
-    },
-    // 點-新增程式(為主程式延伸)
-    addspot(content) {
-      var array = this.spots
-      array.push(content)
-      array.sort(function (a, b) {
-        return a.name - b.name
-      })
-    },
-    // 範圍-主程式
-    scope() {
-      var array = this.scopes
-      var totle = 0
-      if (array.length === 0) {
-        totle = 0
-      } else if (array.length >= 6) {
-        return false
-      } else {
-        totle = array.length
-      }
-      var scopesum = 0
-      if (array.length === 0) {
-        scopesum = totle + 1
-      } else {
-        var testarray = []
-        array.forEach(function (element) {
-          testarray.push(element.name)
-        })
-        scopesum = scopesum + 1
-        while (testarray.includes(scopesum)) {
-          scopesum = scopesum + 1
-        }
-      }
-
-      var locationA = 40 + scopesum * 20
-      // var tooltip_content = '<div class="tooltip_content" >TEST TOOLTIP</div>'
-      var $element = `<div id="scope${scopesum}" class="scope" style="top:${locationA}px;left:${locationA}px;" title="Tooltip"><div class="scope-span"><div>${scopesum}</div></div><span class="scope-test-xy-TL">X:Y:</span><span class="scope-test-xy-BR">X:Y:</span></div>`
-      $('#cover').append($element)
-
-      var scopetotlesum = 1
-      $('.scope').each(function () {
-        $(this).hover(
-          function () {
-            $(this).children('div').addClass('hover')
-          },
-          function () {
-            $(this).children('div').removeClass('hover')
-          }
-        )
-        var scopename = '#scope' + scopetotlesum
-        var cover = 0
-        var coverwidthTL = 0
-        var coverheightTL = 0
-        var coverwidthBR = 0
-        var coverheightBR = 0
-        $(scopename)
-          .resizable({
-            containment: 'parent',
-            handles: 'all',
-            minWidth: 50,
-            minHeight: 50,
-            resize(event, ui) {
-              cover = $('.cover')
-              coverwidthTL = ui.position.left / cover.width()
-              coverheightTL = ui.position.top / cover.height()
-              coverwidthBR =
-                (ui.position.left + this.offsetWidth) / cover.width()
-              coverheightBR =
-                (ui.position.top + this.offsetHeight) / cover.height()
-              coverwidthTL = coverwidthTL.toFixed(3)
-              coverheightTL = coverheightTL.toFixed(3)
-              coverwidthBR = coverwidthBR.toFixed(3)
-              coverheightBR = coverheightBR.toFixed(3)
-              $(this)
-                .find('.scope-test-xy-TL')
-                .html('X:' + coverwidthTL + ' Y:' + coverheightTL)
-              $(this)
-                .find('.scope-test-xy-BR')
-                .html('X:' + coverwidthBR + ' Y:' + coverheightBR)
-            },
+    // 總呼叫程序
+    Refresh() {
+      this.$axios
+        .get('http://192.168.0.173:8080/object/data')
+        .then((params) => {
+          // 取得"點"資料
+          var array = params.data.spot
+          array.forEach(function (index) {
+            // console.log(index.position.Y)
+            index.position.X =
+              index.position.X * document.getElementById('image').offsetWidth
+            index.position.Y =
+              index.position.Y * document.getElementById('image').offsetHeight
           })
-          .draggable({
-            containment: 'parent',
-            drag(event, ui) {
-              cover = $('.cover')
-              coverwidthTL = ui.position.left / cover.width()
-              coverheightTL = ui.position.top / cover.height()
-              coverwidthBR =
-                (ui.position.left + this.offsetWidth) / cover.width()
-              coverheightBR =
-                (ui.position.top + this.offsetHeight) / cover.height()
-              coverwidthTL = coverwidthTL.toFixed(3)
-              coverheightTL = coverheightTL.toFixed(3)
-              coverwidthBR = coverwidthBR.toFixed(3)
-              coverheightBR = coverheightBR.toFixed(3)
-              $(this)
-                .find('.scope-test-xy-TL')
-                .html('X:' + coverwidthTL + ' Y:' + coverheightTL)
-              $(this)
-                .find('.scope-test-xy-BR')
-                .html('X:' + coverwidthBR + ' Y:' + coverheightBR)
-            },
-            create(event, ui) {
-              cover = $('.cover')
-              coverwidthTL = this.offsetLeft / cover.width()
-              coverheightTL = this.offsetTop / cover.height()
-              coverwidthBR =
-                (this.offsetLeft + this.offsetWidth) / cover.width()
-              coverheightBR =
-                (this.offsetTop + this.offsetHeight) / cover.height()
-              coverwidthTL = coverwidthTL.toFixed(3)
-              coverheightTL = coverheightTL.toFixed(3)
-              coverwidthBR = coverwidthBR.toFixed(3)
-              coverheightBR = coverheightBR.toFixed(3)
-              $(this)
-                .find('.scope-test-xy-TL')
-                .html('X:' + coverwidthTL + ' Y:' + coverheightTL)
-              $(this)
-                .find('.scope-test-xy-BR')
-                .html('X:' + coverwidthBR + ' Y:' + coverheightBR)
-            },
-          })
-        scopetotlesum = scopetotlesum + 1
-      })
-      var content = {
-        name: scopesum,
-        temperature: Math.floor(Math.random() * 50),
-        situation: '已超溫',
-        time: '04:30:14',
-        date: '2022/3/14',
-      }
-      this.addscope(content)
-    },
-    // 範圍-刪除程式
-    removescope(index, name) {
-      var array = this.scopes
-      array.splice(index, 1)
-      var selectspot = '#scope' + name
-      $(selectspot).remove()
-      this.$forceUpdate()
-    },
-    // 範圍-新增程式(為主程式延伸)
-    addscope(content) {
-      var array = this.scopes
-      array.push(content)
-      array.sort(function (a, b) {
-        return a.name - b.name
-      })
-    },
-    // 線-主程式
-    line() {
-      var array = this.lines
-      var totle = 0
-      if (array.length === 0) {
-        totle = 0
-      } else if (array.length >= 6) {
-        return false
-      } else {
-        totle = array.length
-      }
-      var pointsum = 0
-      if (array.length === 0) {
-        pointsum = totle + 1
-      } else {
-        var testarray = []
-        array.forEach(function (element) {
-          testarray.push(element.name)
-        })
-        pointsum = pointsum + 1
-        while (testarray.includes(pointsum)) {
-          pointsum = pointsum + 1
-        }
-      }
-      var pointname = 'point' + pointsum
-      var pointhover = 'point_hover' + pointsum
-      var linename = 'line' + pointsum
-      var locationA = 40 + pointsum * 20
-      var locationB = 260 + pointsum * 20
-      var locationB2 = 120 + pointsum * 20
-      var $element = `<div class="${pointname} point-totle" id="pointA" style="left: ${locationA}px; top: ${locationA}px"></div><div class="${pointname} ${pointhover}" id="pointB" style="left:${locationB}px; top: ${locationB2}px"><div class="line-span"><div>${pointsum}</div></div></div><div class="${linename}" id="line"></div>`
-      $('#cover').append($element)
-      var contentline = {
-        name: pointsum,
-        temperature: Math.floor(Math.random() * 50),
-        situation: '已超溫',
-        time: '04:30:14',
-        date: '2022/3/14',
-      }
-      this.addline(contentline)
+          this.spots = params.data.spot
+          this.getspot()
+          // 取得"點"資料 end
+          // 取得"範圍"資料
+          var scopes = params.data.scopes
+          scopes.forEach(function (index) {
+            index.position.BR.X =
+              document.getElementById('image').offsetWidth *
+              (index.position.BR.X - index.position.LT.X)
+            index.position.BR.Y =
+              document.getElementById('image').offsetHeight *
+              (index.position.BR.Y - index.position.LT.Y)
 
-      pointname = '.point' + pointsum
-      var wrapperpointname = 'point' + pointsum
-      var wrapperlinename = 'line' + pointsum
-      wrapper(wrapperpointname, wrapperlinename)
-      $(pointname).draggable({
-        drag(e, ui) {
-          wrapper(wrapperpointname, wrapperlinename)
-          $(e.target).addClass('point-hover')
-        },
-        containment: 'parent',
-        stop(event, ui) {
-          $(event.target).removeClass('point-hover')
-        },
-      })
-      var pointhoverclass = '.point_hover' + pointsum
-      $(pointname).hover(
+            index.position.LT.X =
+              index.position.LT.X * document.getElementById('image').offsetWidth
+            index.position.LT.Y =
+              index.position.LT.Y *
+              document.getElementById('image').offsetHeight
+          })
+          this.scopes = params.data.scopes
+          this.scope()
+          // 取得"範圍"資料 end
+          // 取得"線"資料
+          var lines = params.data.line
+          lines.forEach(function (index) {
+            index.position.point1.X =
+              index.position.point1.X *
+              document.getElementById('image').offsetWidth
+            index.position.point1.Y =
+              index.position.point1.Y *
+              document.getElementById('image').offsetHeight
+
+            index.position.point2.X =
+              index.position.point2.X *
+              document.getElementById('image').offsetWidth
+            index.position.point2.Y =
+              index.position.point2.Y *
+              document.getElementById('image').offsetHeight
+          })
+          this.lines = params.data.line
+          this.line()
+          // 取得"線"資料 end
+        })
+        .catch((error) => console.log('error from axios', error))
+    },
+    // 定義點物件
+    getspot() {
+      $('.spot').hover(
         function () {
-          $(pointhoverclass).children('div').addClass('hover')
+          $(this).children('.spot-span').addClass('hover')
         },
         function () {
-          $(pointhoverclass).children('div').removeClass('hover')
+          $(this).children('.spot-span').removeClass('hover')
         }
       )
-
+      $('.spot').draggable({
+        containment: 'parent',
+        stop(event, ui) {
+          var SpotY =
+            ui.position.top / document.getElementById('image').offsetHeight
+          var SpotX =
+            ui.position.left / document.getElementById('image').offsetWidth
+          SpotY = SpotY.toFixed(4)
+          SpotX = SpotX.toFixed(4)
+          var thisSpotData = {
+            name: parseInt($(this).attr('data-name')),
+            Y: SpotY,
+            X: SpotX,
+          }
+          put(thisSpotData)
+          console.log('stop')
+        },
+      })
+      function put(data) {
+        axios({
+          method: 'post',
+          url: `http://192.168.0.173:8080/object/putSpot`,
+          data,
+        }).catch((error) => console.log('error from axios', error))
+      }
+      this.Interval = 0
+    },
+    // POST 新增點物件
+    addspot() {
+      // window.clearInterval(this.timeOutRefresh)
+      const l = this.loader
+      this[l] = !this[l]
+      setTimeout(() => (this[l] = false), 3000)
+      this.loader = null
+      this.$axios
+        .post('http://192.168.0.173:8080/object/spot/add', { name: '' })
+        .then((response) => {
+          this.Interval = 0
+        })
+        .catch((error) => console.log('error from axios', error))
+    },
+    // POST 刪除點物件
+    deletespot(index) {
+      this.$axios
+        .post('http://192.168.0.173:8080/object/deletespot', { name: index })
+        .then((response) => {
+          this.Interval = 0
+        })
+        .catch((error) => console.log('error from axios', error))
+    },
+    // POST 新增範圍
+    addscope() {
+      this.$axios
+        .post('http://192.168.0.173:8080/object/scope/add', { name: '' })
+        .then((response) => {
+          this.Interval = 0
+        })
+        .catch((error) => console.log('error from axios', error))
+    },
+    scope() {
+      $('.scope').hover(
+        function () {
+          $(this).children('.scope-span').addClass('hover')
+        },
+        function () {
+          $(this).children('.scope-span').removeClass('hover')
+        }
+      )
+      $('.scope')
+        .draggable({
+          containment: 'parent',
+          stop(event, ui) {
+            // put(thisSpotData)
+            var thisName = parseInt($(this).attr('data-name'))
+            var thisSize = {
+              width: $(this).width() + 2,
+              height: $(this).height() + 2,
+            }
+            var thisScopeData = calculate(ui, thisName, thisSize)
+            put(thisScopeData)
+          },
+        })
+        .resizable({
+          containment: 'parent',
+          handles: 'all',
+          minWidth: 50,
+          minHeight: 50,
+          stop(event, ui) {
+            var thisName = parseInt($(this).attr('data-name'))
+            var thisSize = {
+              width: $(this).width() + 2,
+              height: $(this).height() + 2,
+            }
+            var thisScopeData = calculate(ui, thisName, thisSize)
+            put(thisScopeData)
+          },
+        })
+      function calculate(ui, thisName, thisSize) {
+        var scopeltY =
+          ui.position.top / document.getElementById('image').offsetHeight
+        var scopeltX =
+          ui.position.left / document.getElementById('image').offsetWidth
+        var scopeBRY =
+          (ui.position.top + thisSize.height) /
+          document.getElementById('image').offsetHeight
+        var scopeBRX =
+          (ui.position.left + thisSize.width) /
+          document.getElementById('image').offsetWidth
+        // scopeltY = scopeltY.toFixed(4)
+        // scopeltX = scopeltX.toFixed(4)
+        var thisScopeData = {
+          name: thisName,
+          LT: {
+            Y: scopeltY,
+            X: scopeltX,
+          },
+          BR: {
+            Y: scopeBRY,
+            X: scopeBRX,
+          },
+        }
+        return thisScopeData
+      }
+      function put(data) {
+        axios({
+          method: 'post',
+          url: `http://192.168.0.173:8080/object/putScope`,
+          data,
+        }).catch((error) => console.log('error from axios', error))
+      }
+      this.Interval = 0
+    },
+    // POST 刪除範圍物件
+    deletescope(index) {
+      this.$axios
+        .post('http://192.168.0.173:8080/object/deletescope', { name: index })
+        .then((response) => {
+          this.Interval = 0
+        })
+        .catch((error) => console.log('error from axios', error))
+    },
+    // POST 線-主程式
+    line() {
+      var array = this.lines
+      array.forEach(function (line) {
+        var pointname = '.point' + line.name
+        var wrapperpointname = 'point' + line.name
+        var wrapperlinename = 'line' + line.name
+        var pointhoverclass = '.point_hover' + line.name
+        $(pointname).hover(
+          function () {
+            $(pointhoverclass).children('div').addClass('hover')
+          },
+          function () {
+            $(pointhoverclass).children('div').removeClass('hover')
+          }
+        )
+        wrapper(wrapperpointname, wrapperlinename)
+        $(pointname).draggable({
+          drag(e, ui) {
+            wrapper(wrapperpointname, wrapperlinename)
+            $(e.target).addClass('point-hover')
+          },
+          containment: 'parent',
+          stop(event, ui) {
+            $(event.target).removeClass('point-hover')
+            console.log($(this).attr('id'))
+            var lineY =
+              ui.position.top / document.getElementById('image').offsetHeight
+            var lineX =
+              ui.position.left / document.getElementById('image').offsetWidth
+            lineY = lineY.toFixed(4)
+            lineX = lineX.toFixed(4)
+            var LineData = {
+              name: parseInt($(this).attr('data-name')),
+              select: $(this).attr('id'),
+              Y: lineY,
+              X: lineX,
+            }
+            put(LineData)
+          },
+        })
+      })
+      function put(data) {
+        axios({
+          method: 'post',
+          url: `http://192.168.0.173:8080/object/putLine`,
+          data,
+        }).catch((error) => console.log('error from axios', error))
+      }
       function wrapper(pointname, linename) {
         const point1 = document.getElementsByClassName(pointname)[0]
         const point2 = document.getElementsByClassName(pointname)[1]
@@ -1656,6 +1801,7 @@ export default {
         line.style.top = getline.top + 'px'
         line.style.transform = 'rotate(' + getline.angleDeg + 'deg)'
       }
+
       function getCoordinate(point1, point2) {
         var p1 = {
           x: point1.offsetLeft,
@@ -1678,28 +1824,24 @@ export default {
         array.angleDeg = angleDeg
         return array
       }
-      // Refer to : https://stackoverflow.com/questions/66879479/draw-a-diagonal-line-between-two-points-with-css-and-js
     },
-    // 線-新增程式(為主程式延伸)
-    addline(contentline) {
-      var array = this.lines
-      array.push(contentline)
-      array.sort(function (a, b) {
-        return a.name - b.name
-      })
+    // 線-新增程式
+    addline() {
+      this.$axios
+        .post('http://192.168.0.173:8080/object/line/add', { name: '' })
+        .then((response) => {
+          this.Interval = 0
+        })
+        .catch((error) => console.log('error from axios', error))
     },
     // 線-刪除程式
-    removeline(index, name) {
-      var array = this.lines
-      array.splice(index, 1)
-
-      var selectline1 = '.point' + name
-      $(selectline1).each(function () {
-        $(this).remove()
-      })
-      var selectline2 = '.line' + name
-      $(selectline2).remove()
-      this.$forceUpdate()
+    deleteline(index) {
+      this.$axios
+        .post('http://192.168.0.173:8080/object/deleteline', { name: index })
+        .then((response) => {
+          this.Interval = 0
+        })
+        .catch((error) => console.log('error from axios', error))
     },
     // 右4日期
     functionEvents(date) {
@@ -1748,7 +1890,7 @@ export default {
         if (oDay.length <= 1) oDay = '0' + oDay
         return oYear + str + oMoth + str + oDay
       }
-      var yesterday = getDay(-1, '-');
+      var yesterday = getDay(-1, '-')
       return yesterday
     },
 
@@ -1825,9 +1967,10 @@ export default {
 
 /* 影像串流 */
 .frame {
-  width: 74em;
-  margin-left: 0.3em;
-  margin-top: 0.7em;
+  width: 100%;
+  /* margin-left: 2.1em; */
+  /* margin-top: 2em; */
+  padding: 1em;
 }
 .cover {
   position: relative;
@@ -1868,7 +2011,6 @@ export default {
   color: #9ba3a5;
   text-align: left;
   font-family: 'Noto Sans TC', sans-serif;
-
 }
 /* h4 {
   line-height: 2em;
@@ -1959,7 +2101,7 @@ export default {
 .scroll4::-webkit-scrollbar {
   width: 10px;
 }
- 
+
 .scroll4::-webkit-scrollbar-thumb {
   background: #666;
   border-radius: 20px;
