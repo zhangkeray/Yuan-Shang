@@ -313,12 +313,12 @@ export default {
         href: 'breadcrumbs_link_2',
       },
       {
-        text: '全局數據: 年度資料完成度',
+        text: '指定數據: 年度資料完成度',
         disabled: true,
         href: 'breadcrumbs_link_2',
       },
       {
-        text: '全局數據: 當月資料完成度',
+        text: '指定數據: 當月資料完成度',
         disabled: true,
         href: 'breadcrumbs_link_2',
       },

@@ -2,9 +2,9 @@
   <v-card flat>
     <v-card-text>
       <v-row>
-        <v-col cols="12" md="12">
+        <v-col cols="12" md="6">
           <v-row :column="$vuetify.breakpoint.mdAndDown">
-            <!-- (上)----------------------------------------------------------------------------------------------- -->
+            <!-- 左上畫面顯示----------------------------------------------------------------------------------------------- -->
             <!-- <v-col cols="12" lg="12"> -->
 
             <v-breadcrumbs
@@ -15,100 +15,90 @@
                 <v-icon>mdi-chevron-right</v-icon>
               </template>
             </v-breadcrumbs>
-<!-- <div style="margin-left: 20px;margin-top: 10px;position: absolute">
-            <v-btn rounded x-small depressed > 整體資料監測 </v-btn>
-            <span style="font-size:18px">&raquo;</span>
-            <v-btn rounded x-small depressed> 全局數據: 年度資料完成度 </v-btn>
-</div> -->
+
             <v-col cols="12" lg="12" style="border: 1px solid white">
               <v-row
-                class="mx-2 mt-8"
+                class="ml-2 mt-8"
                 style="
                   border: 3px solid #f1f1f1;
                   border-radius: 10px;
-                  height: 755px;
+                  margin-right: -2px;
                 "
               >
-                <v-col cols="12" md="3">
-                  <v-row :column="$vuetify.breakpoint.mdAndDown">
-                    <!-- (上)圓餅圖:當月資料完成度----------------------------------------------------------------------------------------------- -->
-                    <!-- <v-col cols="12" lg="12"> -->
-                    <v-col
-                      cols="12"
-                      lg="12"
-                      style="border: 1px solid white; border-radius: 5px"
-                    >
-                      <h4 class="cardtitle ml-3" style="position: absolute">
-                        年度資料完成度
-                      </h4>
-                      <donut-chart-1 />
-                    </v-col>
-                  </v-row>
-                </v-col>
-                <!-- original -->
-                <!-- <v-col cols="12" md="9">
-                  <v-row :column="$vuetify.breakpoint.mdAndDown">
+                <v-col cols="12" md="12">
+                  <h3 class="cardtitle ml-3" style="position: absolute">
+                    全局數據
+                  </h3>
+                  <h4 class="cardtitle ml-3 mt-7" style="position: absolute">
+                    2022/01~2022/12 資料紀錄
+                  </h4>
 
-                    <v-col cols="12" lg="12" style="border: 1px solid white">
-                      <v-row class="ma-3">
-                        <v-btn-toggle v-model="toggle_exclusive" mandatory style="position:absolute;z-index:9999">
-                          <v-btn> 2022 </v-btn>
-                          <v-btn> 2021 </v-btn>
-                          <v-btn> 2020 </v-btn>
-                          <v-btn> 2019 </v-btn>
-                        </v-btn-toggle>
-                        <LineBarChart2022 />
-                      </v-row>
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
-        </v-col> -->
-                <!-- original -->
-                <!-- incoming -->
-                <v-col cols="12" md="9">
-                  <v-row :column="$vuetify.breakpoint.mdAndDown" class="ml-5">
-                    <!-- <v-col cols="12" lg="12" style="border: 1px solid red" class="ml-3"> -->
-                    <v-tabs
-                      color="#37484C"
-                      style="border: 1px solid transparent"
-                      slider-size="3"
-                    >
-                      <v-tab> 2022 </v-tab>
-                      <v-tab> 2021 </v-tab>
-                      <v-tab> 2020 </v-tab>
-                      <v-tab> 2019 </v-tab>
-
-                      <v-tab-item>
-                        <line-bar-chart-2022 />
-                      </v-tab-item>
-                      <v-tab-item>
-                        <line-bar-chart-2021 />
-                      </v-tab-item>
-                      <v-tab-item>
-                        <line-bar-chart-2020 />
-                      </v-tab-item>
-                      <v-tab-item>
-                        <line-bar-chart-2019 />
-                      </v-tab-item>
-                    </v-tabs>
-                    <!-- </v-col> -->
-                  </v-row>
+                  <DonutChartForOverallLeft />
+                  <!-- <v-btn
+                  @click="changeTab()"
+                    color="#37484C"
+                    depressed
+                    elevation="2"
+                    style="
+                      position: absolute;
+                      bottom: 30px;
+                      right: 900px;
+                      color: white;
+                    "
+                    >查看更多</v-btn
+                  > -->
                 </v-col>
               </v-row>
             </v-col>
           </v-row>
         </v-col>
-        <!-- incoming -->
+
+        <v-col cols="12" md="6">
+          <v-row :column="$vuetify.breakpoint.mdAndDown">
+            <!-- 右上畫面顯示----------------------------------------------------------------------------------------------- -->
+            <!-- <v-col cols="12" lg="12"> -->
+            <v-col cols="12" lg="12" style="border: 1px solid white">
+              <v-row
+                class="mr-2 mt-8"
+                style="
+                  border: 3px solid #f1f1f1;
+                  border-radius: 10px;
+                  margin-left: -2px;
+                "
+              >
+                <v-col cols="12" md="12">
+                  <h3 class="cardtitle ml-3" style="position: absolute">
+                    指定數據
+                  </h3>
+                  <h4 class="cardtitle ml-3 mt-7" style="position: absolute">
+                    2022/01~2022/12 資料紀錄
+                  </h4>
+                  <DonutChartForAssignRight />
+                  <!-- <v-btn
+                  @click="changeTab()"
+                    color="#37484C"
+                    depressed
+                    elevation="2"
+                    style="
+                      position: absolute;
+                      bottom: 30px;
+                      right: 50px;
+                      color: white;
+                    "
+                    >查看更多</v-btn
+                  > -->
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-col>
       </v-row>
     </v-card-text>
   </v-card>
 </template>
 <script>
 // echarts引入
-import DonutChart1 from './DonutChart/DonutChart1.vue'
+// import DonutChart1 from './DonutChart/DonutChart1.vue'
 // import DonutChart2 from './DonutChart2.vue'
 // import HeatMap2 from './HeatMap2.vue'
 // import MonthHeatMap1 from './MonthHeatMap/MonthHeatMap1.vue'
@@ -123,15 +113,14 @@ import DonutChart1 from './DonutChart/DonutChart1.vue'
 // import MonthHeatMap10 from './MonthHeatMap/MonthHeatMap10.vue'
 // import MonthHeatMap11 from './MonthHeatMap/MonthHeatMap11.vue'
 // import MonthHeatMap12 from './MonthHeatMap/MonthHeatMap12.vue'
-import LineBarChart2022 from './LineBarChart/LineBarChart2022.vue'
-import LineBarChart2021 from './LineBarChart/LineBarChart2021.vue'
-import LineBarChart2020 from './LineBarChart/LineBarChart2020.vue'
-import LineBarChart2019 from './LineBarChart/LineBarChart2019.vue'
+// import LineBarChart from './LineBarChart/LineBarChart.vue'
+import DonutChartForOverallLeft from './DonutChart/DonutChartForOverallLeft.vue'
+import DonutChartForAssignRight from './DonutChart/DonutChartForAssignRight.vue'
 
 export default {
   // echarts引入
   components: {
-    DonutChart1,
+    // DonutChart1,
     // DonutChart2,
     // HeatMap2,
     // MonthHeatMap1,
@@ -146,10 +135,9 @@ export default {
     // MonthHeatMap10,
     // MonthHeatMap11,
     // MonthHeatMap12,
-    LineBarChart2022,
-    LineBarChart2021,
-    LineBarChart2020,
-    LineBarChart2019,
+    // LineBarChart,
+    DonutChartForOverallLeft,
+    DonutChartForAssignRight,
   },
   name: 'IndexPage',
   head: {
@@ -188,22 +176,28 @@ export default {
     items: [
       {
         text: '整體資料監測',
-        disabled: false,
-        href: '#tab-1',
-      },
-      {
-        text: '全局數據: 年度資料完成度',
         disabled: true,
-        href: '',
+        href: '../DataScrapingPage',
       },
-
+      //   {
+      //     text: '全局數據',
+      //     disabled: false,
+      //     href: 'breadcrumbs_link_2',
+      //   },
+      //   {
+      //     text: '年度資料完成度',
+      //     disabled: true,
+      //     href: '../DataScrapingPage',
+      //   },
       // {
       //   text: '當月資料完成度',
       //   disabled: false,
       //   href: 'breadcrumbs_link_2',
       // },
     ],
+
   }),
+
 
   mounted() {
     const unthumb = document.querySelectorAll('.thumb')

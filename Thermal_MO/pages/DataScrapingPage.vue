@@ -13,376 +13,119 @@
             color="#37484C"
             background-color="#f1f1f1"
             height="51.55em"
+            v-model="tab"
           >
-            <v-tab>
+            <v-tab href="#tab-1" style="font-size: 15px; justify-content: left">
               <img class="" alt="" src="/data_scraping/data.png" width="14em" />
               <p>&nbsp;&nbsp;</p>
-              全局數據2
+              整體資料監測
             </v-tab>
-            <v-tab class="mr-1">
+
+            <v-tab
+              disabled
+              style="
+                font-size: 15px;
+                justify-content: left;
+                color: black;
+                font-weight: 900;
+              "
+            >
               <img class="" alt="" src="/data_scraping/data.png" width="14em" />
               <p>&nbsp;&nbsp;</p>
               全局數據
             </v-tab>
-            <v-tab class="mr-1">
+
+            <v-tab href="#tab-2" style="font-size: 9px; height: 26px">
+              <!-- <img class="" alt="" src="/data_scraping/data.png" width="14em" /> -->
+              <!-- <v-icon>mdi-menu-right</v-icon> -->
+              年度資料完成度
+            </v-tab>
+
+            <v-tab href="#tab-3" style="font-size: 9px; height: 26px">
+              <!-- <img class="" alt="" src="/data_scraping/data.png" width="14em" /> -->
+              <!-- <v-icon>mdi-circle-medium</v-icon> -->
+              當月資料完成度
+            </v-tab>
+
+            <v-tab
+              disabled
+              style="
+                font-size: 15px;
+                justify-content: left;
+                color: black;
+                font-weight: 900;
+              "
+            >
               <img class="" alt="" src="/data_scraping/data.png" width="14em" />
               <p>&nbsp;&nbsp;</p>
-              ROI數據
+              指定數據
             </v-tab>
-            <v-tab-item>
-              <v-card flat>
-                <v-card-text>
-                  <v-row>
-                    <v-col cols="12" md="12">
-                      <v-row :column="$vuetify.breakpoint.mdAndDown">
-                        <!-- (上)----------------------------------------------------------------------------------------------- -->
-                        <!-- <v-col cols="12" lg="12"> -->
-                        <v-col cols="12" lg="12">
-                          <v-breadcrumbs :items="items">
-                            <template v-slot:item="{ item }">
-                              <v-breadcrumbs-item
-                                :href="item.href"
-                                :disabled="item.disabled"
-                              >
-                                {{ item.text.toUpperCase() }}
-                              </v-breadcrumbs-item>
-                            </template>
-                          </v-breadcrumbs>
 
-                          <v-row
-                            class="ma-2"
-                            style="
-                              border: 3px solid #f1f1f1;
-                              border-radius: 10px;
-                            "
-                          >
-                            <v-col cols="12" md="3">
-                              <v-row :column="$vuetify.breakpoint.mdAndDown">
-                                <!-- (上)圓餅圖:當月資料完成度----------------------------------------------------------------------------------------------- -->
-                                <!-- <v-col cols="12" lg="12"> -->
-                                <v-col
-                                  cols="12"
-                                  lg="12"
-                                  style="
-                                    border: 1px solid rgba(0, 0, 0, 0);
-                                    border-radius: 5px;
-                                  "
-                                >
-                                  <h4
-                                    class="cardtitle ml-3"
-                                    style="position: absolute"
-                                  >
-                                    當月資料完成度
-                                  </h4>
-                                  <donut-chart-1 />
-                                </v-col>
-                              </v-row>
-                            </v-col>
+            <v-tab href="#tab-4" style="font-size: 9px; height: 26px">
+              <!-- <img class="" alt="" src="/data_scraping/data.png" width="14em" /> -->
+              <!-- <v-icon>mdi-menu-right</v-icon> -->
+              年度資料完成度
+            </v-tab>
 
-                            <v-col cols="12" md="9">
-                              <v-row :column="$vuetify.breakpoint.mdAndDown">
-                                <!-- ------------------------------------------------------------------------------------------------- -->
-                                <!-- <v-col cols="12" lg="12"> -->
-                                <v-col
-                                  cols="12"
-                                  lg="12"
-                                  style="border: 1px solid rgba(0, 0, 0, 0)"
-                                >
-                                  <div class="reset">
-                                    <v-icon color="#d8dddd"
-                                      >mdi-square-medium</v-icon
-                                    ><span class="subtitle-right"
-                                      >良好-資料丟失率&lt;2.5%
-                                      (單日)&nbsp;&nbsp;</span
-                                    >
-                                    <v-icon color="#9aa2a4"
-                                      >mdi-square-medium</v-icon
-                                    ><span class="subtitle-right"
-                                      >些微異常-資料丟失率&lt;5%
-                                      (單日)&nbsp;&nbsp;</span
-                                    ><v-icon color="#37484C"
-                                      >mdi-square-medium</v-icon
-                                    ><span class="subtitle-right"
-                                      >異常-資料丟失率&lt;10%
-                                      (單日)&nbsp;&nbsp;</span
-                                    >
-                                    <v-icon color="#eef1f9"
-                                      >mdi-square-medium</v-icon
-                                    ><span class="subtitle-right"
-                                      >尚未偵測&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
-                                    >
-                                  </div>
-                                  <h4 class="cardtitle ml-3">當月資料紀錄</h4>
-                                  <v-row class="ma-3">
-                                    <v-col cols="12" md="3">
-                                      <v-row
-                                        :column="$vuetify.breakpoint.mdAndDown"
-                                      >
-                                        <!-- (上)(已選中)當月熱力圖展示----------------------------------------------------------------------------------------------- -->
-                                        <!-- <v-col cols="12" lg="12"> -->
-                                        <v-col
-                                          cols="12"
-                                          lg="12"
-                                          style="
-                                            border: 1px solid rgba(0, 0, 0, 0);
-                                          "
-                                        >
-                                          <month-heat-map-1
-                                            style="margin-top: 10px"
-                                          />
-                                        </v-col>
-                                      </v-row>
-                                    </v-col>
+            <v-tab href="#tab-5" style="font-size: 9px; height: 26px">
+              <!-- <img class="" alt="" src="/data_scraping/data.png" width="14em" /> -->
+              <!-- <v-icon>mdi-circle-medium</v-icon> -->
+              當月資料完成度
+            </v-tab>
 
-                                    <v-col cols="12" md="9">
-                                      <v-row
-                                        :column="$vuetify.breakpoint.mdAndDown"
-                                      >
-                                        <!-- (上)(輪播)當月熱力圖顯示----------------------------------------------------------------------------------------------- -->
-                                        <!-- <v-col cols="12" lg="12"> -->
-                                        <v-col
-                                          cols="12"
-                                          lg="12"
-                                          style="
-                                            border: 1px solid rgba(0, 0, 0, 0);
-                                          "
-                                        >
-                                          <div class="carousel-wrapper">
-                                            <client-only>
-                                              <carousel
-                                                v-bind="options"
-                                                :navigationEnabled="true"
-                                                :scrollPerPage="true"
-                                                class="mx-5"
-                                              >
-                                                <slide class="img-wrapper">
-                                                  <month-heat-map-1 />
-                                                </slide>
-                                                <slide class="img-wrapper">
-                                                  <month-heat-map-2 />
-                                                </slide>
-                                                <slide class="img-wrapper">
-                                                  <month-heat-map-3 />
-                                                </slide>
-                                                <slide class="img-wrapper">
-                                                  <month-heat-map-4 />
-                                                </slide>
-                                                <slide class="img-wrapper">
-                                                  <month-heat-map-5 />
-                                                </slide>
-                                                <slide class="img-wrapper">
-                                                  <month-heat-map-6 />
-                                                </slide>
-                                                <slide class="img-wrapper">
-                                                  <month-heat-map-7 />
-                                                </slide>
-                                                <slide class="img-wrapper">
-                                                  <month-heat-map-8 />
-                                                </slide>
-                                                <slide class="img-wrapper">
-                                                  <month-heat-map-9 />
-                                                </slide>
-                                                <slide class="img-wrapper">
-                                                  <month-heat-map-10 />
-                                                </slide>
-                                                <slide class="img-wrapper">
-                                                  <month-heat-map-11 />
-                                                </slide>
-                                                <slide class="img-wrapper">
-                                                  <month-heat-map-12 />
-                                                </slide>
-                                              </carousel>
-                                            </client-only>
-                                          </div>
-                                        </v-col>
-                                      </v-row>
-                                    </v-col>
-                                  </v-row>
-                                </v-col>
-                              </v-row>
-                            </v-col>
-                          </v-row>
-                        </v-col>
-                      </v-row>
-                    </v-col>
-
-                    <v-col cols="12" md="12">
-                      <v-row :column="$vuetify.breakpoint.mdAndDown">
-                        <!-- (下)----------------------------------------------------------------------------------------------- -->
-                        <!-- <v-col cols="12" lg="12"> -->
-                        <v-col cols="12" lg="12">
-                          <v-row
-                            class="ma-2"
-                            style="
-                              border: 3px solid #f1f1f1;
-                              border-radius: 10px;
-                            "
-                          >
-                            <v-col cols="12" md="3">
-                              <v-row :column="$vuetify.breakpoint.mdAndDown">
-                                <!-- (下)圓餅圖:當日資料完成度 ----------------------------------------------------------------------------------------------- -->
-                                <!-- <v-col cols="12" lg="12"> -->
-                                <v-col
-                                  cols="12"
-                                  lg="12"
-                                  style="
-                                    border: 1px solid rgba(0, 0, 0, 0);
-                                    border-radius: 5px;
-                                  "
-                                >
-                                  <h4
-                                    class="cardtitle ml-3"
-                                    style="position: absolute"
-                                  >
-                                    當日資料完成度
-                                  </h4>
-
-                                  <donut-chart-2 />
-                                </v-col>
-                              </v-row>
-                            </v-col>
-
-                            <v-col cols="12" md="9">
-                              <v-row :column="$vuetify.breakpoint.mdAndDown">
-                                <!-- ----------------------------------------------------------------------------------------------- -->
-                                <v-col
-                                  cols="12"
-                                  lg="12"
-                                  style="border: 1px solid rgba(0, 0, 0, 0)"
-                                >
-                                  <div class="reset">
-                                    <v-icon color="#d8dddd"
-                                      >mdi-square-medium</v-icon
-                                    ><span class="subtitle-right"
-                                      >良好-資料丟失率&lt;2.5%
-                                      (單日)&nbsp;&nbsp;</span
-                                    >
-                                    <v-icon color="#9aa2a4"
-                                      >mdi-square-medium</v-icon
-                                    ><span class="subtitle-right"
-                                      >些微異常-資料丟失率&lt;5%
-                                      (單日)&nbsp;&nbsp;</span
-                                    ><v-icon color="#37484C"
-                                      >mdi-square-medium</v-icon
-                                    ><span class="subtitle-right"
-                                      >異常-資料丟失率&lt;10%
-                                      (單日)&nbsp;&nbsp;</span
-                                    >
-                                    <v-icon color="#eef1f9"
-                                      >mdi-square-medium</v-icon
-                                    ><span class="subtitle-right"
-                                      >尚未偵測&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
-                                    >
-                                  </div>
-                                  <h4 class="cardtitle ml-3">
-                                    當日資料紀錄<span class="faketime"
-                                      >2022-4-12</span
-                                    >
-                                  </h4>
-                                  <v-row class="ma-3">
-                                    <v-col cols="12" md="12">
-                                      <v-row
-                                        :column="$vuetify.breakpoint.mdAndDown"
-                                      >
-                                        <!-- (下)當日熱力圖顯示----------------------------------------------------------------------------------------------- -->
-                                        <v-col
-                                          cols="12"
-                                          lg="12"
-                                          style="
-                                            border: 1px solid rgba(0, 0, 0, 0);
-                                          "
-                                        >
-                                          <heat-map-2 />
-                                          <p class="xcoordinates">(min)</p>
-                                          <p class="ycoordinates">(hr)</p>
-                                        </v-col>
-                                      </v-row>
-                                    </v-col>
-                                  </v-row>
-                                </v-col>
-                              </v-row>
-                            </v-col>
-                          </v-row>
-                        </v-col>
-                      </v-row>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-              </v-card>
+            <v-tab-item value="tab-1">
+              <OverallDataScraping />
+              <v-icon  large style="
+                  position: absolute;
+                  bottom: 30px;
+                  left: 50px;
+                ">mdi-information-outline</v-icon>
+                              <v-icon  large style="
+                  position: absolute;
+                  bottom: 30px;
+                  right: 780px;
+                ">mdi-information-outline</v-icon>
+              <v-btn
+                @click="changeTabToGlobalData()"
+                color="#37484C"
+                depressed
+                elevation="2"
+                style="
+                  position: absolute;
+                  bottom: 30px;
+                  right: 900px;
+                  color: white;
+                "
+                >查看更多</v-btn
+              >
+              <v-btn
+                @click="changeTabToSpecifiedData()"
+                color="#37484C"
+                depressed
+                elevation="2"
+                style="
+                  position: absolute;
+                  bottom: 30px;
+                  right: 50px;
+                  color: white;
+                "
+                >查看更多</v-btn
+              >
             </v-tab-item>
-
-            <v-tab-item>
-              <v-card flat>
-                <v-card-text>
-                  <v-row>
-                    <v-col cols="12" md="12">
-                      <v-row :column="$vuetify.breakpoint.mdAndDown">
-                        <!-- (上)----------------------------------------------------------------------------------------------- -->
-                        <!-- <v-col cols="12" lg="12"> -->
-                        <v-col
-                          cols="12"
-                          lg="12"
-                          style="border: 1px solid white"
-                        >
-                          <v-row class="ma-2">
-                            <v-col cols="12" md="3">
-                              <v-row :column="$vuetify.breakpoint.mdAndDown">
-                                <!-- (上)圓餅圖:當月資料完成度----------------------------------------------------------------------------------------------- -->
-                                <!-- <v-col cols="12" lg="12"> -->
-                                <v-col
-                                  cols="12"
-                                  lg="12"
-                                  style="
-                                    border: 1px solid white;
-                                    border-radius: 5px;
-                                  "
-                                >
-                                  <h4
-                                    class="cardtitle ml-3"
-                                    style="position: absolute"
-                                  >
-                                    當月資料完成度
-                                  </h4>
-                                  <donut-chart-1 />
-                                </v-col>
-                              </v-row>
-                            </v-col>
-
-                            <v-col cols="12" md="9">
-                              <v-row :column="$vuetify.breakpoint.mdAndDown">
-                                <!-- ------------------------------------------------------------------------------------------------- -->
-                                <!-- <v-col cols="12" lg="12"> -->
-                                <v-col
-                                  cols="12"
-                                  lg="12"
-                                  style="border: 1px solid white"
-                                >
-                                  <v-row class="ma-3">
-                                    <LineAndBarChart2022vs2021 />
-                                  </v-row>
-                                </v-col>
-                              </v-row>
-                            </v-col>
-                          </v-row>
-                        </v-col>
-                      </v-row>
-                    </v-col>
-
-                    <v-col cols="12" md="12">
-                      <v-row :column="$vuetify.breakpoint.mdAndDown">
-                        <!-- (下)----------------------------------------------------------------------------------------------- -->
-                        <!-- <v-col cols="12" lg="12"> -->
-                        <v-col cols="12" lg="12">
-                          <v-row class="ma-2"> </v-row>
-                        </v-col>
-                      </v-row>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-              </v-card>
-            </v-tab-item>
-
             <v-tab-item> </v-tab-item>
+            <v-tab-item value="tab-2">
+              <completion-of-the-year />
+            </v-tab-item>
+            <v-tab-item value="tab-3">
+              <completion-of-the-month />
+            </v-tab-item>
+            <v-tab-item> </v-tab-item>
+            <v-tab-item value="tab-4">
+              <completion-of-the-year-2 />
+            </v-tab-item>
+            <v-tab-item value="tab-5">
+              <completion-of-the-month-2 />
+            </v-tab-item>
           </v-tabs>
         </v-card>
       </v-col>
@@ -392,42 +135,52 @@
 
 <script>
 // echarts引入
-import DonutChart1 from '../components/DataScraping/DonutChart1.vue'
-import DonutChart2 from '../components/DataScraping/DonutChart2.vue'
-import HeatMap2 from '../components/DataScraping/HeatMap2.vue'
-import MonthHeatMap1 from '../components/DataScraping/MonthHeatMap/MonthHeatMap1.vue'
-import MonthHeatMap2 from '../components/DataScraping/MonthHeatMap/MonthHeatMap2.vue'
-import MonthHeatMap3 from '../components/DataScraping/MonthHeatMap/MonthHeatMap3.vue'
-import MonthHeatMap4 from '../components/DataScraping/MonthHeatMap/MonthHeatMap4.vue'
-import MonthHeatMap5 from '../components/DataScraping/MonthHeatMap/MonthHeatMap5.vue'
-import MonthHeatMap6 from '../components/DataScraping/MonthHeatMap/MonthHeatMap6.vue'
-import MonthHeatMap7 from '../components/DataScraping/MonthHeatMap/MonthHeatMap7.vue'
-import MonthHeatMap8 from '../components/DataScraping/MonthHeatMap/MonthHeatMap8.vue'
-import MonthHeatMap9 from '../components/DataScraping/MonthHeatMap/MonthHeatMap9.vue'
-import MonthHeatMap10 from '../components/DataScraping/MonthHeatMap/MonthHeatMap10.vue'
-import MonthHeatMap11 from '../components/DataScraping/MonthHeatMap/MonthHeatMap11.vue'
-import MonthHeatMap12 from '../components/DataScraping/MonthHeatMap/MonthHeatMap12.vue'
-import LineAndBarChart2022vs2021 from '../components/DataScraping/LineAndBarChart/LineAndBarChart2022vs2021.vue'
+// import DonutChart1 from '../components/DataScraping/DonutChart1.vue'
+// import DonutChart2 from '../components/DataScraping/DonutChart2.vue'
+// import HeatMap2 from '../components/DataScraping/HeatMap2.vue'
+// import MonthHeatMap1 from '../components/DataScraping/MonthHeatMap/MonthHeatMap1.vue'
+// import MonthHeatMap2 from '../components/DataScraping/MonthHeatMap/MonthHeatMap2.vue'
+// import MonthHeatMap3 from '../components/DataScraping/MonthHeatMap/MonthHeatMap3.vue'
+// import MonthHeatMap4 from '../components/DataScraping/MonthHeatMap/MonthHeatMap4.vue'
+// import MonthHeatMap5 from '../components/DataScraping/MonthHeatMap/MonthHeatMap5.vue'
+// import MonthHeatMap6 from '../components/DataScraping/MonthHeatMap/MonthHeatMap6.vue'
+// import MonthHeatMap7 from '../components/DataScraping/MonthHeatMap/MonthHeatMap7.vue'
+// import MonthHeatMap8 from '../components/DataScraping/MonthHeatMap/MonthHeatMap8.vue'
+// import MonthHeatMap9 from '../components/DataScraping/MonthHeatMap/MonthHeatMap9.vue'
+// import MonthHeatMap10 from '../components/DataScraping/MonthHeatMap/MonthHeatMap10.vue'
+// import MonthHeatMap11 from '../components/DataScraping/MonthHeatMap/MonthHeatMap11.vue'
+// import MonthHeatMap12 from '../components/DataScraping/MonthHeatMap/MonthHeatMap12.vue'
+// import LineAndBarChart2022vs2021 from '../components/DataScraping/LineAndBarChart/LineAndBarChart2022vs2021.vue'
+import CompletionOfTheMonth from '../components/DataScraping/CompletionOfTheMonth.vue'
+import CompletionOfTheMonth2 from '../components/DataScraping/CompletionOfTheMonth2.vue'
+import CompletionOfTheYear from '../components/DataScraping/CompletionOfTheYear.vue'
+import CompletionOfTheYear2 from '../components/DataScraping/CompletionOfTheYear2.vue'
+import OverallDataScraping from '../components/DataScraping/OverallDataScraping.vue'
 
 export default {
   // echarts引入
   components: {
-    HeatMap2,
-    DonutChart1,
-    DonutChart2,
-    MonthHeatMap1,
-    MonthHeatMap2,
-    MonthHeatMap3,
-    MonthHeatMap4,
-    MonthHeatMap5,
-    MonthHeatMap6,
-    MonthHeatMap7,
-    MonthHeatMap8,
-    MonthHeatMap9,
-    MonthHeatMap10,
-    MonthHeatMap11,
-    MonthHeatMap12,
-    LineAndBarChart2022vs2021,
+    // HeatMap2,
+    // DonutChart1,
+    // DonutChart2,
+    // MonthHeatMap1,
+    // MonthHeatMap2,
+    // MonthHeatMap3,
+    // MonthHeatMap4,
+    // MonthHeatMap5,
+    // MonthHeatMap6,
+    // MonthHeatMap7,
+    // MonthHeatMap8,
+    // MonthHeatMap9,
+    // MonthHeatMap10,
+    // MonthHeatMap11,
+    // MonthHeatMap12,
+    // LineAndBarChart2022vs2021,
+    CompletionOfTheMonth,
+    CompletionOfTheYear,
+    OverallDataScraping,
+    CompletionOfTheMonth2,
+    CompletionOfTheYear2,
   },
   name: 'IndexPage',
   head: {
@@ -463,30 +216,17 @@ export default {
       perPage: 3,
       paginationEnabled: false,
     },
-    items: [
-      {
-        text: '資料記錄狀況',
-        disabled: false,
-        href: 'breadcrumbs_link_2',
-      },
-      {
-        text: '全局數據',
-        disabled: false,
-        href: 'breadcrumbs_link_2',
-      },
-      {
-        text: '年度資料完成度',
-        disabled: false,
-        href: '../DataScrapingPage',
-      },
-      {
-        text: '當月資料完成度',
-        disabled: false,
-        href: 'breadcrumbs_link_2',
-      },
-    ],
+    tab: 'tab-1',
   }),
-
+  methods: {
+    // 查看更多
+    changeTabToGlobalData() {
+      this.tab = 'tab-2'
+    },
+    changeTabToSpecifiedData() {
+      this.tab = 'tab-4'
+    },
+  },
   mounted() {
     const unthumb = document.querySelectorAll('.thumb')
     for (const unthumbs of unthumb) {

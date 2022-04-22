@@ -192,7 +192,7 @@ export default {
         href: '#tab-1',
       },
       {
-        text: '全局數據: 年度資料完成度',
+        text: '指定數據: 年度資料完成度',
         disabled: true,
         href: '',
       },
