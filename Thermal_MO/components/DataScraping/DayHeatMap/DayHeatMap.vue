@@ -34,6 +34,11 @@ export default {
     '0','10', '20', '30',
     '40', '50', 
 ];
+      for (var i = 0; i < 6; i++) {
+        for (var j = 0; j < 23; j++) {
+          console.log("123")
+        }
+      }
       // prettier-ignore
       const data = [
         [0, 0, 0], [0, 1, 4], [0, 2, 5], [0, 3, 5], [0, 4, 5],
@@ -79,20 +84,74 @@ export default {
         tooltip: {
           position: 'top',
           // trigger: 'item',
-     formatter(params) {
-       if (params.value[2]<=2){
-         return params.value[0] + ":" + params.value[1] + "0" + '<br/>' + "已收集了" + params.value[2] + "/5筆資料" + '<br/>' + "• 異常-資料丟失率<10% (單日)";
-       }else if(params.value[2]<=3){
-        return params.value[0] + ":" + params.value[1] + "0" + '<br/>' + "已收集了" + params.value[0] + "/5筆資料"  + '<br/>' + "• 些微異常-資料丟失率<5% (單日)";
-       }else if(params.value[2]<=4){
-        return params.value[0] + ":" + params.value[1] + "0" + '<br/>' + "已收集了" + params.value[0] + "/5筆資料"  + '<br/>' + "• 良好-資料丟失率<2.5% (單日)";
-       }else if(params.value[2]===""){
-        return params.value[0] + ":" + params.value[1] + "0" + '<br/>' + "已收集了" + params.value[0] + "/5筆資料"  + '<br/>' + "• 資料丟失";
-       }
-       else{
-         return params.value[0] + ":" + params.value[1] + "0" + '<br/>' + "已收集了" + params.value[2] + "/5筆資料"  + '<br/>' + "• 良好-資料丟失率<2.5% (單日)";
-       }
-        },          
+          formatter(params) {
+            if (params.value[2] <= 2) {
+              return (
+                params.value[0] +
+                ':' +
+                params.value[1] +
+                '0' +
+                '<br/>' +
+                '已收集了' +
+                params.value[2] +
+                '/5筆資料' +
+                '<br/>' +
+                '• 異常-資料丟失率<10% (單日)'
+              )
+            } else if (params.value[2] <= 3) {
+              return (
+                params.value[0] +
+                ':' +
+                params.value[1] +
+                '0' +
+                '<br/>' +
+                '已收集了' +
+                params.value[0] +
+                '/5筆資料' +
+                '<br/>' +
+                '• 些微異常-資料丟失率<5% (單日)'
+              )
+            } else if (params.value[2] <= 4) {
+              return (
+                params.value[0] +
+                ':' +
+                params.value[1] +
+                '0' +
+                '<br/>' +
+                '已收集了' +
+                params.value[0] +
+                '/5筆資料' +
+                '<br/>' +
+                '• 良好-資料丟失率<2.5% (單日)'
+              )
+            } else if (params.value[2] === '') {
+              return (
+                params.value[0] +
+                ':' +
+                params.value[1] +
+                '0' +
+                '<br/>' +
+                '已收集了' +
+                params.value[0] +
+                '/5筆資料' +
+                '<br/>' +
+                '• 資料丟失'
+              )
+            } else {
+              return (
+                params.value[0] +
+                ':' +
+                params.value[1] +
+                '0' +
+                '<br/>' +
+                '已收集了' +
+                params.value[2] +
+                '/5筆資料' +
+                '<br/>' +
+                '• 良好-資料丟失率<2.5% (單日)'
+              )
+            }
+          },
         },
         grid: {
           height: '80%',
@@ -130,7 +189,6 @@ export default {
             borderColor: '#fff',
           },
         },
-        
 
         series: [
           {
