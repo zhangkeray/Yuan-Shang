@@ -1182,6 +1182,8 @@ export default {
       { rel: 'stylesheet', href: '/css/jquery-ui.css' },
       { rel: 'stylesheet', href: '/css/object.css' },
       { rel: 'stylesheet', href: '/css/card3.css' },
+      { rel: 'stylesheet', href: 'css/details.css' },
+
     ],
     script: [
       {
@@ -1948,25 +1950,7 @@ export default {
   position: absolute;
 }
 
-.scroll {
-  /* width: 20px; */
-  /* height: 200px; */
-  /* overflow: auto; */
-  /* float: right; */
-  /* margin: 0 10px; */
-}
 
-.scroll4::-webkit-scrollbar {
-  width: 10px;
-}
- 
-.scroll4::-webkit-scrollbar-thumb {
-  background: #666;
-  border-radius: 20px;
-}
 
-.scroll4::-webkit-scrollbar-track {
-  background: #ddd;
-  border-radius: 20px;
-}
+
 </style>
