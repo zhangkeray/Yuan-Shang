@@ -75,16 +75,35 @@
 
             <v-tab-item value="tab-1">
               <OverallDataScraping />
-              <v-icon  large style="
-                  position: absolute;
-                  bottom: 30px;
-                  left: 50px;
-                ">mdi-information-outline</v-icon>
-                              <v-icon  large style="
-                  position: absolute;
-                  bottom: 30px;
-                  right: 780px;
-                ">mdi-information-outline</v-icon>
+              <div>
+                <v-img
+                  max-width="30em"
+                  class="place-image"
+                  src="data_scraping/img/globalData.png"
+                />
+              </div>
+              <v-btn
+                icon
+                class="hoverimg1"
+                style="position: absolute; bottom: 30px; left: 50px"
+              >
+                <v-icon large>mdi-information-outline</v-icon>
+              </v-btn>
+              <div>
+                <v-img
+                  max-width="30em"
+                  class="place-image2"
+                  src="data_scraping/img/roiData.png"
+                />
+              </div>
+              <v-btn
+                icon
+                class="hoverimg2"
+                style="position: absolute; bottom: 30px; right: 780px"
+              >
+                <v-icon large>mdi-information-outline</v-icon>
+              </v-btn>
+
               <v-btn
                 @click="changeTabToGlobalData()"
                 color="#37484C"
@@ -190,6 +209,7 @@ export default {
       { rel: 'stylesheet', href: '/css/jquery-ui.css' },
       { rel: 'stylesheet', href: '/css/object.css' },
       { rel: 'stylesheet', href: '/css/card3.css' },
+      { rel: 'stylesheet', href: 'css/details.css' },
     ],
     script: [
       {
@@ -242,6 +262,23 @@ export default {
         e.target.classList.add('active')
       }
     }
+    $('.hoverimg1').hover(
+      function () {
+        $('.place-image').fadeIn('slow')
+      },
+      function () {
+        $('.place-image').fadeOut('slow')
+      }
+    )
+
+    $('.hoverimg2').hover(
+      function () {
+        $('.place-image2').fadeIn('slow')
+      },
+      function () {
+        $('.place-image2').fadeOut('slow')
+      }
+    )
   },
 }
 </script>
@@ -389,14 +426,6 @@ export default {
   position: absolute;
 }
 
-.scroll {
-  /* width: 20px; */
-  /* height: 200px; */
-  /* overflow: auto; */
-  /* float: right; */
-  /* margin: 0 10px; */
-}
-
 .scroll4::-webkit-scrollbar {
   width: 10px;
 }
@@ -434,5 +463,24 @@ export default {
 .faketime {
   font-weight: 500;
   margin-left: 10px;
+}
+
+// 熱圖影像
+.place-image {
+  display: none;
+  position: absolute;
+  // width: 126px;
+  // z-index: 9999;
+  bottom: 80px;
+  left: 100px;
+}
+
+.place-image2 {
+  display: none;
+  position: absolute;
+  // width: 126px;
+  // z-index: 9999;
+  bottom: 80px;
+  right: 290px;
 }
 </style>

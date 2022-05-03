@@ -855,7 +855,7 @@
                           ><v-btn icon class="right-btn"
                             ><img
                               class=""
-                              alt="alert"
+                              alt=""
                               src="/right-icons/spot2.png"
                               width="20em" /></v-btn
                         ></v-badge>
@@ -867,20 +867,96 @@
                         {{ item.temperature }}°C
                       </td>
                       <td class="text-center" style="padding: 0px 25px">
-                        <v-btn color="" icon class="right-btn"
+                        <!-- 點:警報對話框 -->
+                        <v-btn
+                          color=""
+                          icon
+                          class="right-btn"
+                          @click="dialog = true"
+                          
                           ><img
                             class=""
-                            alt="alert"
+                            alt=""
                             src="/right-icons/alert-off.png"
                             width="18em"
                             depressed
                         /></v-btn>
+                        <v-dialog :content="item.name" v-model="dialog" max-width="290" hide-overlay>
+                          <v-card>
+                            <h4 class="cardtitle ml-3">設定警報</h4>
+                            <!-- <v-divider></v-divider> -->
+                            <v-card-text>
+                              <v-select
+                                class="subtitle text-color"
+                                v-model="conditionSelect"
+                                :items="conditionItems"
+                                :rules="[(v) => !!v || 'Item is required']"
+                                label="條件"
+                                required
+                              ></v-select>
+                              <v-text-field
+                                v-model="threshold"
+                                class="subtitle text-color"
+                                label="閾值"
+                                color="#828c8f"
+                              ></v-text-field>
+                              <v-text-field
+                                v-model="hysteresis"
+                                class="subtitle text-color"
+                                label="滯後"
+                                color="#828c8f"
+                              ></v-text-field>
+                              <v-text-field
+                                v-model="thresholdTime"
+                                class="subtitle text-color"
+                                label="閾值時間(毫秒)"
+                                color="#828c8f"
+                              ></v-text-field>
+                              <v-select
+                                class="subtitle text-color"
+                                v-model="captureSelect"
+                                :items="captureItems"
+                                :rules="[(v) => !!v || 'Item is required']"
+                                label="捕捉"
+                                required
+                              ></v-select>
+                              <v-text-field
+                                disabled
+                                v-model="pulseTime"
+                                class="subtitle text-color"
+                                label="脈衝時間(毫秒)"
+                                color="#828c8f"
+                              ></v-text-field>
+                            </v-card-text>
+
+                            <v-card-actions>
+                              <v-switch label="" color="#828c8f"></v-switch>
+                              <v-spacer></v-spacer>
+
+                              <v-btn
+                                color="#828C8F"
+                                text
+                                @click="dialog = false"
+                              >
+                                取消
+                              </v-btn>
+
+                              <v-btn
+                                color="#828C8F"
+                                text
+                                @click="dialog = false"
+                              >
+                                確定
+                              </v-btn>
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
                       </td>
                       <td class="text-center" style="padding: 0px 13px">
                         <v-btn color="" icon class="right-btn"
                           ><img
                             class=""
-                            alt="delete"
+                            alt=""
                             src="/right-icons/delete.png"
                             width="18em"
                             @click="deletespot(item.name)"
@@ -899,7 +975,7 @@
                           ><v-btn icon class="right-btn"
                             ><img
                               class="rectangle"
-                              alt="alert"
+                              alt=""
                               src="/right-icons/rectangle2.png"
                               width="17em" /></v-btn
                         ></v-badge>
@@ -911,14 +987,85 @@
                         {{ item.temperature }}°C
                       </td>
                       <td class="text-center" style="padding: 0px 25px">
-                        <v-btn color="" icon class="right-btn"
+                          <!-- 面:警報對話框 -->
+                        <v-btn color="" icon class="right-btn" @click="dialog = true"
                           ><img
                             class=""
-                            alt="alert"
+                            alt=""
                             src="/right-icons/alert-off.png"
                             width="18em"
                             depressed
                         /></v-btn>
+                        <v-dialog v-model="dialog" max-width="290" hide-overlay>
+                          <v-card>
+                            <h4 class="cardtitle ml-3">設定警報</h4>
+                            <!-- <v-divider></v-divider> -->
+                            <v-card-text>
+                              <v-select
+                                class="subtitle text-color"
+                                v-model="conditionSelect"
+                                :items="conditionItems"
+                                :rules="[(v) => !!v || 'Item is required']"
+                                label="條件"
+                                required
+                              ></v-select>
+                              <v-text-field
+                                v-model="threshold"
+                                class="subtitle text-color"
+                                label="閾值"
+                                color="#828c8f"
+                              ></v-text-field>
+                              <v-text-field
+                                v-model="hysteresis"
+                                class="subtitle text-color"
+                                label="滯後"
+                                color="#828c8f"
+                              ></v-text-field>
+                              <v-text-field
+                                v-model="thresholdTime"
+                                class="subtitle text-color"
+                                label="閾值時間(毫秒)"
+                                color="#828c8f"
+                              ></v-text-field>
+                              <v-select
+                                class="subtitle text-color"
+                                v-model="captureSelect"
+                                :items="captureItems"
+                                :rules="[(v) => !!v || 'Item is required']"
+                                label="捕捉"
+                                required
+                              ></v-select>
+                              <v-text-field
+                                disabled
+                                v-model="pulseTime"
+                                class="subtitle text-color"
+                                label="脈衝時間(毫秒)"
+                                color="#828c8f"
+                              ></v-text-field>
+                            </v-card-text>
+
+                            <v-card-actions>
+                              <v-switch label="" color="#828c8f"></v-switch>
+                              <v-spacer></v-spacer>
+
+                              <v-btn
+                                color="#828C8F"
+                                text
+                                @click="dialog = false"
+                              >
+                                取消
+                              </v-btn>
+
+                              <v-btn
+                                color="#828C8F"
+                                text
+                                @click="dialog = false"
+                              >
+                                確定
+                              </v-btn>
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
                       </td>
                       <td class="text-center" style="padding: 0px 13px">
                         <v-btn color="" icon class="right-btn"
@@ -955,14 +1102,86 @@
                         {{ item.temperature }}°C
                       </td>
                       <td class="text-center" style="padding: 0px 25px">
+                        <!-- 線:警報對話框 -->
                         <v-btn color="" icon class="right-btn"
                           ><img
                             class=""
                             alt="alert"
                             src="/right-icons/alert-off.png"
+                            @click="dialog = true"
                             width="18em"
                             depressed
                         /></v-btn>
+                        <v-dialog v-model="dialog" max-width="290" hide-overlay>
+                          <v-card>
+                            <h4 class="cardtitle ml-3">設定警報</h4>
+                            <!-- <v-divider></v-divider> -->
+                            <v-card-text>
+                              <v-select
+                                class="subtitle text-color"
+                                v-model="conditionSelect"
+                                :items="conditionItems"
+                                :rules="[(v) => !!v || 'Item is required']"
+                                label="條件"
+                                required
+                              ></v-select>
+                              <v-text-field
+                                v-model="threshold"
+                                class="subtitle text-color"
+                                label="閾值"
+                                color="#828c8f"
+                              ></v-text-field>
+                              <v-text-field
+                                v-model="hysteresis"
+                                class="subtitle text-color"
+                                label="滯後"
+                                color="#828c8f"
+                              ></v-text-field>
+                              <v-text-field
+                                v-model="thresholdTime"
+                                class="subtitle text-color"
+                                label="閾值時間(毫秒)"
+                                color="#828c8f"
+                              ></v-text-field>
+                              <v-select
+                                class="subtitle text-color"
+                                v-model="captureSelect"
+                                :items="captureItems"
+                                :rules="[(v) => !!v || 'Item is required']"
+                                label="捕捉"
+                                required
+                              ></v-select>
+                              <v-text-field
+                                disabled
+                                v-model="pulseTime"
+                                class="subtitle text-color"
+                                label="脈衝時間(毫秒)"
+                                color="#828c8f"
+                              ></v-text-field>
+                            </v-card-text>
+
+                            <v-card-actions>
+                              <v-switch label="" color="#828c8f"></v-switch>
+                              <v-spacer></v-spacer>
+
+                              <v-btn
+                                color="#828C8F"
+                                text
+                                @click="dialog = false"
+                              >
+                                取消
+                              </v-btn>
+
+                              <v-btn
+                                color="#828C8F"
+                                text
+                                @click="dialog = false"
+                              >
+                                確定
+                              </v-btn>
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
                       </td>
                       <td class="text-center" style="padding: 0px 13px">
                         <v-btn
@@ -1253,14 +1472,7 @@
 
                 <v-text-field
                   v-model="transmission"
-                  class="
-                    subtitle
-                    card5content
-                    mt-1
-                    mr-5
-                    text-color
-                    font-weight-large
-                  "
+                  class="subtitle card5content mt-1 mr-5 text-color font-weight-large"
                   label="穿透率"
                   color="#828c8f"
                 ></v-text-field>
@@ -1288,7 +1500,6 @@ export default {
       { rel: 'stylesheet', href: '/css/object.css' },
       { rel: 'stylesheet', href: '/css/card3.css' },
       { rel: 'stylesheet', href: 'css/details.css' },
-
     ],
     script: [
       {
@@ -1310,6 +1521,11 @@ export default {
     ],
   },
   data: () => ({
+    // 警報溫度對話框設置
+    dialog: false,
+    showMessages: false,
+    switch1: false,
+    switch2: true,
     // 防止連續get api
     timeOutRefresh: null,
     loader: null,
@@ -1340,6 +1556,18 @@ export default {
     direction_autofocus: 'right',
     fab_autofocus: false,
     transition_autofocus: 'scale-transition',
+
+    // 對話框
+    conditionSelect: '以下',
+    conditionItems: ['以下', '以上'],
+    checkbox: false,
+    threshold: `${0}°C`,
+    hysteresis: `${1}°C`,
+    thresholdTime: `${1000}ms`,
+    captureSelect: '無',
+    captureItems: ['無', '照片', '影片'],
+    // capture: 15,
+    pulseTime: 0,
 
     // 右1點線面_宣告變數陣列
     spots: [],
@@ -1503,7 +1731,12 @@ export default {
       }
     }, 1000)
   },
-
+  // 對話框
+  computed: {
+    messages() {
+      return this.showMessages ? ['已開啟'] : ['未開啟']
+    },
+  },
   methods: {
     // 右2
     countdown() {
@@ -1537,7 +1770,7 @@ export default {
     // 總呼叫程序
     Refresh() {
       this.$axios
-        .get('http://192.168.0.173:8080/object/data')
+        .get('http://localhost:8080/object/data')
         .then((params) => {
           // 取得"點"資料
           var array = params.data.spot
@@ -1624,7 +1857,7 @@ export default {
       function put(data) {
         axios({
           method: 'post',
-          url: `http://192.168.0.173:8080/object/putSpot`,
+          url: `http://localhost:8080/object/putSpot`,
           data,
         }).catch((error) => console.log('error from axios', error))
       }
@@ -1638,7 +1871,7 @@ export default {
       setTimeout(() => (this[l] = false), 3000)
       this.loader = null
       this.$axios
-        .post('http://192.168.0.173:8080/object/spot/add', { name: '' })
+        .post('http://localhost:8080/object/spot/add', { name: '' })
         .then((response) => {
           this.Interval = 0
         })
@@ -1647,7 +1880,7 @@ export default {
     // POST 刪除點物件
     deletespot(index) {
       this.$axios
-        .post('http://192.168.0.173:8080/object/deletespot', { name: index })
+        .post('http://localhost:8080/object/deletespot', { name: index })
         .then((response) => {
           this.Interval = 0
         })
@@ -1656,7 +1889,7 @@ export default {
     // POST 新增範圍
     addscope() {
       this.$axios
-        .post('http://192.168.0.173:8080/object/scope/add', { name: '' })
+        .post('http://localhost:8080/object/scope/add', { name: '' })
         .then((response) => {
           this.Interval = 0
         })
@@ -1729,7 +1962,7 @@ export default {
       function put(data) {
         axios({
           method: 'post',
-          url: `http://192.168.0.173:8080/object/putScope`,
+          url: `http://localhost:8080/object/putScope`,
           data,
         }).catch((error) => console.log('error from axios', error))
       }
@@ -1738,7 +1971,7 @@ export default {
     // POST 刪除範圍物件
     deletescope(index) {
       this.$axios
-        .post('http://192.168.0.173:8080/object/deletescope', { name: index })
+        .post('http://localhost:8080/object/deletescope', { name: index })
         .then((response) => {
           this.Interval = 0
         })
@@ -1789,7 +2022,7 @@ export default {
       function put(data) {
         axios({
           method: 'post',
-          url: `http://192.168.0.173:8080/object/putLine`,
+          url: `http://localhost:8080/object/putLine`,
           data,
         }).catch((error) => console.log('error from axios', error))
       }
@@ -1830,7 +2063,7 @@ export default {
     // 線-新增程式
     addline() {
       this.$axios
-        .post('http://192.168.0.173:8080/object/line/add', { name: '' })
+        .post('http://localhost:8080/object/line/add', { name: '' })
         .then((response) => {
           this.Interval = 0
         })
@@ -1839,7 +2072,7 @@ export default {
     // 線-刪除程式
     deleteline(index) {
       this.$axios
-        .post('http://192.168.0.173:8080/object/deleteline', { name: index })
+        .post('http://localhost:8080/object/deleteline', { name: index })
         .then((response) => {
           this.Interval = 0
         })
@@ -2091,8 +2324,4 @@ export default {
 .bgimg {
   position: absolute;
 }
-
-
-
-
 </style>

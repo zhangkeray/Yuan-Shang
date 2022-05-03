@@ -1,20 +1,48 @@
 <template>
   <v-card flat>
-    <v-card-text>
-      <v-row>
-        <v-col cols="12" md="6">
-          <v-row :column="$vuetify.breakpoint.mdAndDown">
-            <!-- 左上畫面顯示----------------------------------------------------------------------------------------------- -->
-            <!-- <v-col cols="12" lg="12"> -->
 
-            <v-breadcrumbs
+    <v-card-text>
+
+                  <!-- 刷新按鈕 -->
+            <v-tooltip left class="tips">
+              <template #activator="{ on, attrs }">
+                <v-btn
+                  small
+                  icon
+                  class="btn reset"
+                  color="#9BA3A5"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon small class="icon">mdi-restore</v-icon>
+                </v-btn>
+              </template>
+              <span>重置</span>
+            </v-tooltip>
+
+
+            <!-- 麵包屑 -->
+            <!-- <v-breadcrumbs
               :items="items"
-              style="padding-top: 10px; position: absolute"
+              style="padding-top: 0px; position: absolute"
             >
               <template v-slot:divider>
                 <v-icon>mdi-chevron-right</v-icon>
               </template>
-            </v-breadcrumbs>
+            </v-breadcrumbs> -->
+
+
+                  <div style="margin-left: 20px; top: 12px; position: absolute">
+        <v-btn color="#9BA3A5" rounded x-small depressed style="color:#fff"> 整體資料監測 </v-btn>
+      </div>
+
+
+
+      <v-row>
+        <!-- 全局數據 -->
+        <v-col cols="12" md="6">
+          <v-row :column="$vuetify.breakpoint.mdAndDown">
+
 
             <v-col cols="12" lg="12" style="border: 1px solid white">
               <v-row
@@ -52,7 +80,7 @@
             </v-col>
           </v-row>
         </v-col>
-
+<!-- 指定數據 -->
         <v-col cols="12" md="6">
           <v-row :column="$vuetify.breakpoint.mdAndDown">
             <!-- 右上畫面顯示----------------------------------------------------------------------------------------------- -->
@@ -195,9 +223,7 @@ export default {
       //   href: 'breadcrumbs_link_2',
       // },
     ],
-
   }),
-
 
   mounted() {
     const unthumb = document.querySelectorAll('.thumb')
@@ -406,5 +432,17 @@ export default {
 .faketime {
   font-weight: 500;
   margin-left: 10px;
+}
+
+.btn {
+  background-color: #f2f4f4;
+}
+.reset {
+  // float: right;
+  // margin-top: 0.5em;
+  // margin-right: 0.5em;
+  right: 0.5em;
+  top:0.5em;
+  position: absolute;
 }
 </style>

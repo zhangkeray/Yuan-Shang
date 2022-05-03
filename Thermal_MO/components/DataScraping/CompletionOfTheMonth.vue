@@ -1,17 +1,48 @@
 <template>
   <v-card flat>
     <v-card-text>
+      <!-- 刷新按鈕 -->
+      <v-tooltip left class="tips">
+        <template #activator="{ on, attrs }">
+          <v-btn
+            small
+            icon
+            class="btn reset"
+            color="#9BA3A5"
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon small class="icon">mdi-restore</v-icon>
+          </v-btn>
+        </template>
+        <span>重置</span>
+      </v-tooltip>
+
+      <!-- 麵包屑 -->
+      <!-- <v-breadcrumbs
+              :items="items"
+              style="padding-top: 0px; position: absolute"
+            >
+              <template v-slot:divider>
+                <v-icon>mdi-chevron-right</v-icon>
+              </template>
+            </v-breadcrumbs> -->
+
+      <div style="margin-left: 20px; top: 12px; position: absolute">
+        <v-btn rounded x-small depressed style="color:#9BA3A5"> 整體資料監測 </v-btn>
+        <span style="font-size: 18px">&raquo;</span>
+        <v-btn rounded x-small depressed style="color:#9BA3A5"> 全局數據: 年度資料完成度 </v-btn>
+        <span style="font-size: 18px">&raquo;</span>
+        <v-btn color="#9BA3A5" rounded x-small depressed style="color:#fff"> 全局數據: 當月資料完成度 </v-btn>
+      </div>
+
+
+
       <v-row>
         <v-col cols="12" md="12">
           <v-row :column="$vuetify.breakpoint.mdAndDown">
             <!-- (上)----------------------------------------------------------------------------------------------- -->
             <!-- <v-col cols="12" lg="12"> -->
-
-            <v-breadcrumbs :items="items" style="padding-top:10px;position:absolute">
-              <template v-slot:divider>
-                <v-icon>mdi-chevron-right</v-icon>
-              </template>
-            </v-breadcrumbs>
 
             <v-col cols="12" lg="12">
               <v-row
@@ -47,7 +78,7 @@
                       lg="12"
                       style="border: 1px solid rgba(0, 0, 0, 0)"
                     >
-                      <div class="reset">
+                      <div class="legend">
                         <v-icon color="#d8dddd">mdi-square-medium</v-icon
                         ><span class="subtitle-right"
                           >良好-資料丟失率&lt;2.5% (單日)&nbsp;&nbsp;</span
@@ -186,7 +217,7 @@
                       lg="12"
                       style="border: 1px solid rgba(0, 0, 0, 0)"
                     >
-                      <div class="reset">
+                      <div class="legend">
                         <v-icon color="#d8dddd">mdi-square-medium</v-icon
                         ><span class="subtitle-right"
                           >良好-資料丟失率&lt;2.5% (單日)&nbsp;&nbsp;</span
@@ -447,7 +478,7 @@ export default {
 .btn {
   background-color: #f2f4f4;
 }
-.reset {
+.legend {
   float: right;
   margin-top: 0.5em;
   margin-right: 0.5em;
@@ -532,5 +563,20 @@ export default {
 .faketime {
   font-weight: 500;
   margin-left: 10px;
+}
+
+.btn {
+  background-color: #f2f4f4;
+}
+.reset {
+  // float: right;
+  // margin-top: 0.5em;
+  // margin-right: 0.5em;
+  right: 0.5em;
+  top: 0.5em;
+  position: absolute;
+  float: right;
+  margin-top: 0.5em;
+  margin-right: 0.5em;
 }
 </style>
