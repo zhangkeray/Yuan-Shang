@@ -1770,7 +1770,7 @@ export default {
     // 總呼叫程序
     Refresh() {
       this.$axios
-        .get('http://localhost:8080/object/data')
+        .get('http://localhost:8080/api/monitor/object/data')
         .then((params) => {
           // 取得"點"資料
           var array = params.data.spot
