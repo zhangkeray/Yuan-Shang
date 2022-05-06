@@ -36,7 +36,7 @@ app.post('/login', (req, res) => {
   // const valid = username.length && password === '123'
   const userid = username === 'admin' //設定帳號
   const passwd = password === 'admin' //設定密碼
-  const expiresIn = 3600 //使用者登入存活時間(s)
+  const expiresIn = 2592000 //使用者登入存活時間(s)
   // 產生亂數
   const refreshToken =
     Math.floor(Math.random() * (1000000000000000 - 1 + 1)) + 1
