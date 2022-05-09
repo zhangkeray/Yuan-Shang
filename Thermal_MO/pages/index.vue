@@ -768,17 +768,17 @@
                   v-for="(item02, index) in scopes"
                   :key="'A' + index"
                   :style="{
-                    top: item02.position.LT.Y + 'px',
-                    left: item02.position.LT.X + 'px',
-                    width: item02.position.BR.X + 'px',
-                    height: item02.position.BR.Y + 'px',
+                    top: item02.scope_position_LT.y + 'px',
+                    left: item02.scope_position_LT.x + 'px',
+                    width: item02.scope_position_BR.x + 'px',
+                    height: item02.scope_position_BR.y + 'px',
                   }"
                   id="scope"
                   class="scope"
-                  v-bind:data-name="item02.name"
+                  v-bind:data-name="item02.scope_number"
                 >
                   <div class="scope-span">
-                    <div>{{ item02.name }}</div>
+                    <div>{{ item02.scope_number }}</div>
                   </div>
                   <span class="scope-test-xy-TL">X:Y:</span
                   ><span class="scope-test-xy-BR">X:Y:</span>
@@ -972,7 +972,7 @@
                     <tr v-for="(item, index) in scopes" :key="'D' + index">
                       <td class="text-center" style="padding: 0px 13px">
                         <v-badge
-                          :content="item.name"
+                          :content="item.scope_number"
                           overlap
                           color="#828C8F"
                           class="my-4"
@@ -989,7 +989,7 @@
                         class="text-center subtitle-right"
                         style="padding: 0px 25px"
                       >
-                        {{ item.temperature }}°C
+                        {{ item.scope_temperature_max }}°C
                       </td>
                       <td class="text-center" style="padding: 0px 25px">
                         <!-- 面:警報對話框 -->
@@ -1083,7 +1083,7 @@
                             alt="delete"
                             src="/right-icons/delete.png"
                             width="18em"
-                            @click="deletescope(item.name)"
+                            @click="deletescope(item.scope_number,item.scope_id)"
                         /></v-btn>
                       </td>
                     </tr>
@@ -1805,17 +1805,17 @@ export default {
           // 取得"範圍"資料
           var scopes = params.data.scopes
           scopes.forEach(function (index) {
-            index.position.BR.X =
+            index.scope_position_BR.x =
               document.getElementById('image').offsetWidth *
-              (index.position.BR.X - index.position.LT.X)
-            index.position.BR.Y =
+              (index.scope_position_BR.x - index.scope_position_LT.x)
+            index.scope_position_BR.y =
               document.getElementById('image').offsetHeight *
-              (index.position.BR.Y - index.position.LT.Y)
+              (index.scope_position_BR.y - index.scope_position_LT.y)
 
-            index.position.LT.X =
-              index.position.LT.X * document.getElementById('image').offsetWidth
-            index.position.LT.Y =
-              index.position.LT.Y *
+            index.scope_position_LT.x =
+              index.scope_position_LT.x * document.getElementById('image').offsetWidth
+            index.scope_position_LT.y =
+              index.scope_position_LT.y *
               document.getElementById('image').offsetHeight
           })
           this.scopes = params.data.scopes
@@ -1914,7 +1914,7 @@ export default {
         },
       }
       this.$axios
-        .post('http://localhost:8080/object/deletespot', thisSpotData)
+        .post('http://localhost:8080/api/monitor/object/spot/change', thisSpotData)
         .then((response) => {
           this.Interval = 0
         })
