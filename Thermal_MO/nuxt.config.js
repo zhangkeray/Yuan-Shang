@@ -36,7 +36,11 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [{
     src: './plugins/vue-carousel.js',
-    mode: 'client'
+    mode: 'client',
+    src: './plugins/vue-product-zoomer.js',
+    src: './plugins/vue-image-magnifier',
+
+
   }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
