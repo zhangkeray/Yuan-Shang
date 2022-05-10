@@ -750,16 +750,17 @@
                   v-for="(item01, index) in spots"
                   :key="'B' + index"
                   :style="{
-                    top: item01.position.Y + 'px',
-                    left: item01.position.X + 'px',
+                    top: item01.spot_position.y + 'px',
+                    left: item01.spot_position.x + 'px',
                   }"
                   id="spot"
                   class="spot"
-                  v-bind:data-name="item01.name"
+                  v-bind:data-name="item01.spot_number"
+                  v-bind:data-id="item01.spot_id"
                 >
                   <img src="/images/spot_1.png" />
                   <div class="spot-span">
-                    <div>{{ item01.name }}</div>
+                    <div>{{ item01.spot_number }}</div>
                   </div>
                 </div>
                 <!-- 範圍物件 -->
@@ -767,17 +768,17 @@
                   v-for="(item02, index) in scopes"
                   :key="'A' + index"
                   :style="{
-                    top: item02.position.LT.Y + 'px',
-                    left: item02.position.LT.X + 'px',
-                    width: item02.position.BR.X + 'px',
-                    height: item02.position.BR.Y + 'px',
+                    top: item02.scope_position_LT.y + 'px',
+                    left: item02.scope_position_LT.x + 'px',
+                    width: item02.scope_position_BR.x + 'px',
+                    height: item02.scope_position_BR.y + 'px',
                   }"
                   id="scope"
                   class="scope"
-                  v-bind:data-name="item02.name"
+                  v-bind:data-name="item02.scope_number"
                 >
                   <div class="scope-span">
-                    <div>{{ item02.name }}</div>
+                    <div>{{ item02.scope_number }}</div>
                   </div>
                   <span class="scope-test-xy-TL">X:Y:</span
                   ><span class="scope-test-xy-BR">X:Y:</span>
@@ -847,7 +848,7 @@
                     <tr v-for="(item, index) in spots" :key="'C' + index">
                       <td class="text-center" style="padding: 0px 13px">
                         <v-badge
-                          :content="item.name"
+                          :content="item.spot_number"
                           overlap
                           color="#828C8F"
                           class="my-4"
@@ -864,7 +865,7 @@
                         class="text-center subtitle-right"
                         style="padding: 0px 25px"
                       >
-                        {{ item.temperature }}°C
+                        {{ item.spot_temperature }}°C
                       </td>
                       <td class="text-center" style="padding: 0px 25px">
                         <!-- 點:警報對話框 -->
@@ -873,7 +874,6 @@
                           icon
                           class="right-btn"
                           @click="dialog = true"
-                          
                           ><img
                             class=""
                             alt=""
@@ -881,7 +881,12 @@
                             width="18em"
                             depressed
                         /></v-btn>
-                        <v-dialog :content="item.name" v-model="dialog" max-width="290" hide-overlay>
+                        <v-dialog
+                          :content="item.name"
+                          v-model="dialog"
+                          max-width="290"
+                          hide-overlay
+                        >
                           <v-card>
                             <h4 class="cardtitle ml-3">設定警報</h4>
                             <!-- <v-divider></v-divider> -->
@@ -959,7 +964,7 @@
                             alt=""
                             src="/right-icons/delete.png"
                             width="18em"
-                            @click="deletespot(item.name)"
+                            @click="deletespot(item.spot_number, item.spot_id)"
                         /></v-btn>
                       </td>
                     </tr>
@@ -967,7 +972,7 @@
                     <tr v-for="(item, index) in scopes" :key="'D' + index">
                       <td class="text-center" style="padding: 0px 13px">
                         <v-badge
-                          :content="item.name"
+                          :content="item.scope_number"
                           overlap
                           color="#828C8F"
                           class="my-4"
@@ -984,11 +989,15 @@
                         class="text-center subtitle-right"
                         style="padding: 0px 25px"
                       >
-                        {{ item.temperature }}°C
+                        {{ item.scope_temperature_max }}°C
                       </td>
                       <td class="text-center" style="padding: 0px 25px">
-                          <!-- 面:警報對話框 -->
-                        <v-btn color="" icon class="right-btn" @click="dialog = true"
+                        <!-- 面:警報對話框 -->
+                        <v-btn
+                          color=""
+                          icon
+                          class="right-btn"
+                          @click="dialog = true"
                           ><img
                             class=""
                             alt=""
@@ -1074,7 +1083,7 @@
                             alt="delete"
                             src="/right-icons/delete.png"
                             width="18em"
-                            @click="deletescope(item.name)"
+                            @click="deletescope(item.scope_number,item.scope_id)"
                         /></v-btn>
                       </td>
                     </tr>
@@ -1472,7 +1481,14 @@
 
                 <v-text-field
                   v-model="transmission"
-                  class="subtitle card5content mt-1 mr-5 text-color font-weight-large"
+                  class="
+                    subtitle
+                    card5content
+                    mt-1
+                    mr-5
+                    text-color
+                    font-weight-large
+                  "
                   label="穿透率"
                   color="#828c8f"
                 ></v-text-field>
@@ -1776,10 +1792,12 @@ export default {
           var array = params.data.spot
           array.forEach(function (index) {
             // console.log(index.position.Y)
-            index.position.X =
-              index.position.X * document.getElementById('image').offsetWidth
-            index.position.Y =
-              index.position.Y * document.getElementById('image').offsetHeight
+            index.spot_position.x =
+              index.spot_position.x *
+              document.getElementById('image').offsetWidth
+            index.spot_position.y =
+              index.spot_position.y *
+              document.getElementById('image').offsetHeight
           })
           this.spots = params.data.spot
           this.getspot()
@@ -1787,17 +1805,17 @@ export default {
           // 取得"範圍"資料
           var scopes = params.data.scopes
           scopes.forEach(function (index) {
-            index.position.BR.X =
+            index.scope_position_BR.x =
               document.getElementById('image').offsetWidth *
-              (index.position.BR.X - index.position.LT.X)
-            index.position.BR.Y =
+              (index.scope_position_BR.x - index.scope_position_LT.x)
+            index.scope_position_BR.y =
               document.getElementById('image').offsetHeight *
-              (index.position.BR.Y - index.position.LT.Y)
+              (index.scope_position_BR.y - index.scope_position_LT.y)
 
-            index.position.LT.X =
-              index.position.LT.X * document.getElementById('image').offsetWidth
-            index.position.LT.Y =
-              index.position.LT.Y *
+            index.scope_position_LT.x =
+              index.scope_position_LT.x * document.getElementById('image').offsetWidth
+            index.scope_position_LT.y =
+              index.scope_position_LT.y *
               document.getElementById('image').offsetHeight
           })
           this.scopes = params.data.scopes
@@ -1846,18 +1864,22 @@ export default {
           SpotY = SpotY.toFixed(4)
           SpotX = SpotX.toFixed(4)
           var thisSpotData = {
-            name: parseInt($(this).attr('data-name')),
-            Y: SpotY,
-            X: SpotX,
+            spot_id: $(this).attr('data-id'),
+            spot_number: parseInt($(this).attr('data-name')),
+            status: '0',
+            spot_position: {
+              y: SpotY,
+              x: SpotX,
+            },
           }
           put(thisSpotData)
-          console.log('stop')
+          // console.log(thisSpotData)
         },
       })
       function put(data) {
         axios({
           method: 'post',
-          url: `http://localhost:8080/object/putSpot`,
+          url: `http://localhost:8080/api/monitor/object/spot/change`,
           data,
         }).catch((error) => console.log('error from axios', error))
       }
@@ -1871,16 +1893,28 @@ export default {
       setTimeout(() => (this[l] = false), 3000)
       this.loader = null
       this.$axios
-        .post('http://localhost:8080/object/spot/add', { name: '' })
+        .post('http://localhost:8080/api/monitor/object/spot/add', {
+          status: 'add',
+        })
         .then((response) => {
           this.Interval = 0
         })
         .catch((error) => console.log('error from axios', error))
     },
     // POST 刪除點物件
-    deletespot(index) {
+    deletespot(number, id) {
+      console.log(number, id)
+      var thisSpotData = {
+        spot_id: id,
+        spot_number: parseInt(number),
+        status: '1',
+        spot_position: {
+          y: "",
+          x: "",
+        },
+      }
       this.$axios
-        .post('http://localhost:8080/object/deletespot', { name: index })
+        .post('http://localhost:8080/api/monitor/object/spot/change', thisSpotData)
         .then((response) => {
           this.Interval = 0
         })
@@ -1889,7 +1923,7 @@ export default {
     // POST 新增範圍
     addscope() {
       this.$axios
-        .post('http://localhost:8080/object/scope/add', { name: '' })
+        .post('http://localhost:8080/object/scope/add', { status: 'add' })
         .then((response) => {
           this.Interval = 0
         })
