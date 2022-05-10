@@ -1,26 +1,25 @@
 <template>
-  <div class="fluid mt-3">
-    <v-row>
-      <v-col cols="12">
-        <div id="month-heat-map1" style="height: 300px; width: 3000px"></div>
-      </v-col>
-      <v-col cols="12">
-        <div id="main" style="height: 300px; width: 100%"></div>
-      </v-col>
-    </v-row>
-  </div>
+  <!-- <div id="month-heat-map1" style="height: 200px; width: 220px"></div> -->
+  <div ref="monthHeatMap12" style="height: 200px; width: 220px"></div>
 </template>
+
 <script>
 import * as echarts from 'echarts'
 export default {
-  name: 'HistoricalMonitoringPage',
+  name: 'HeatMap',
+
+  data() {
+    return {}
+  },
   mounted() {
-    this.mount()
+    this.drawBar()
   },
   methods: {
-    mount() {
-      const chartDom = document.getElementById('month-heat-map1')
+    drawBar() {
+      const chartDom = this.$refs.monthHeatMap12
       const myChart = echarts.init(chartDom) // echarts初始化
+      // const myChart = echarts.init(this.$refs.month-heat-map1); // echarts初始化
+
       const colorPalette = ['#37484C', '#9aa2a4', '#d8dddd', '#E6E8E9']
       var option
 
@@ -37,12 +36,12 @@ export default {
             Math.floor(Math.random() * 1000),
           ])
         }
-        console.log(data)
         return data
       }
 
       option = {
         color: colorPalette,
+
         tooltip: {
           position: 'top',
           formatter(p) {
@@ -63,9 +62,10 @@ export default {
         },
         calendar: [
           {
+            top: '70px',
             // yearLabel: { show: false },
             orient: 'vertical',
-            range: '2018/1',
+            range: '2022/4',
             splitLine: {
               lineStyle: {
                 color: '#fff',
@@ -78,7 +78,7 @@ export default {
             type: 'heatmap',
             coordinateSystem: 'calendar',
             calendarIndex: 0,
-            data: getVirtulData('2018'),
+            data: getVirtulData('2022'),
             itemStyle: {
               borderColor: '#fff',
             },
@@ -87,48 +87,12 @@ export default {
       }
 
       // -------------------------------------------------------------
-      myChart.setOption(option)
-      myChart.on('click', function (params) {
-        console.log(params.data)
-        var data = {
-          categories: ['比例尺(假)','點擊的數據','比例尺(假)'],
-          values: [150,params.data[1],300],
-        }
-        myChart01.setOption({
-          xAxis: {
-            data: data.categories,
-          },
-          series: [
-            {
-              name: 'data',
-              data: data.values,
-            },
-          ],
-        })
-      })
-      option && myChart.setOption(option)
 
-      //   ______
-      const myChart01 = echarts.init(document.getElementById('main'))
-      myChart01.setOption({
-        tooltip: {},
-        legend: {
-          data: ['data'],
-        },
-        xAxis: {
-          data: [],
-        },
-        yAxis: {},
-        series: [
-          {
-            name: 'data',
-            type: 'bar',
-            data: [],
-          },
-        ],
-      })
+      option && myChart.setOption(option)
     },
   },
 }
+// let myChart = echarts.init(document.getElementById('charts'));
 </script>
-<style scoped></style>
+
+<style></style>

@@ -1,134 +1,292 @@
 <template>
   <div class="fluid mt-3">
+    <v-img class="bgimg" src="bgimg.png" height="93.2vh" />
+
     <v-row>
-      <v-col cols="12">
-        <div id="month-heat-map1" style="height: 300px; width: 3000px"></div>
-      </v-col>
-      <v-col cols="12">
-        <div id="main" style="height: 300px; width: 100%"></div>
+      <!-- 左測選項----------------------------------------------------------------------------------------------- -->
+      <v-col cols="12" md="12">
+        <!-- <v-col cols="12" md="7" style="border: 1px solid red"> -->
+        <v-card class="mt-3 mx-6" rounded="md" elevation="6" height="51.55em">
+          <v-tabs
+            vertical
+            slider-size="3"
+            color="#37484C"
+            background-color="#f1f1f1"
+            height="51.55em"
+            v-model="tab"
+          >
+            <v-tab style="font-size: 15px; justify-content: left">
+              <v-icon small>mdi-clipboard-text-clock</v-icon>
+              <p>&nbsp;</p>
+              警報狀況
+            </v-tab>
+
+            <v-tab style="font-size: 15px; justify-content: left">
+              <v-icon small>mdi-clipboard-text-clock</v-icon>
+              <p>&nbsp;</p>
+              溫度分佈
+            </v-tab>
+
+            <v-tab-item>
+              <alert-condition />
+            </v-tab-item>
+            <v-tab-item>
+              <temperature-distribution />
+            </v-tab-item>
+          </v-tabs>
+        </v-card>
       </v-col>
     </v-row>
   </div>
 </template>
+
 <script>
-import * as echarts from 'echarts'
+// echarts引入
+import AlertCondition from '../components/HistoricalMonitoring/AlertCondition.vue'
+import TemperatureDistribution from '../components/HistoricalMonitoring/TemperatureDistribution.vue'
+
 export default {
-  name: 'HistoricalMonitoringPage',
-  mounted() {
-    this.mount()
+  // echarts引入
+  components: {
+
+    AlertCondition,
+    TemperatureDistribution,
   },
+  name: 'HistoricalMonitoringPage',
+  head: {
+    title: '即時監控',
+    link: [
+      { rel: 'stylesheet', href: '/css/jquery-ui.css' },
+      { rel: 'stylesheet', href: '/css/object.css' },
+      { rel: 'stylesheet', href: '/css/card3.css' },
+      { rel: 'stylesheet', href: 'css/details.css' },
+    ],
+    script: [
+      {
+        src: '/js/jquery.js',
+        type: 'text/javascript',
+      },
+      {
+        src: '/js/jquery-ui.js',
+        type: 'text/javascript',
+      },
+      {
+        src: '/js/jquery-collision.js',
+        type: 'text/javascript',
+      },
+
+    ],
+  },
+  data: () => ({
+
+  }),
   methods: {
-    mount() {
-      const chartDom = document.getElementById('month-heat-map1')
-      const myChart = echarts.init(chartDom) // echarts初始化
-      const colorPalette = ['#37484C', '#9aa2a4', '#d8dddd', '#E6E8E9']
-      var option
 
-      // 選擇圖表樣式------------------------------------------
-      function getVirtulData(year) {
-        year = year || '2017'
-        var date = +echarts.number.parseDate(year + '-01-01')
-        var end = +echarts.number.parseDate(+year + 1 + '-01-01')
-        var dayTime = 3600 * 24 * 1000
-        var data = []
-        for (var time = date; time < end; time += dayTime) {
-          data.push([
-            echarts.format.formatTime('yyyy-MM-dd', time),
-            Math.floor(Math.random() * 1000),
-          ])
-        }
-        console.log(data)
-        return data
-      }
+  },
+  mounted() {
 
-      option = {
-        color: colorPalette,
-        tooltip: {
-          position: 'top',
-          formatter(p) {
-            var format = echarts.format.formatTime('yyyy-MM-dd', p.data[0])
-            return format + ': ' + p.data[1]
-          },
-        },
-        visualMap: {
-          top: '30px',
-          min: 0,
-          max: 1000,
-          calculable: true,
-          orient: 'vertical',
-          left: '2660',
-          inRange: {
-            color: ['#37484C', '#9aa2a4', '#d8dddd', '#E6E8E9'],
-          },
-        },
-        calendar: [
-          {
-            // yearLabel: { show: false },
-            orient: 'vertical',
-            range: '2018/1',
-            splitLine: {
-              lineStyle: {
-                color: '#fff',
-              },
-            },
-          },
-        ],
-        series: [
-          {
-            type: 'heatmap',
-            coordinateSystem: 'calendar',
-            calendarIndex: 0,
-            data: getVirtulData('2018'),
-            itemStyle: {
-              borderColor: '#fff',
-            },
-          },
-        ],
-      }
-
-      // -------------------------------------------------------------
-      myChart.setOption(option)
-      myChart.on('click', function (params) {
-        console.log(params.data)
-        var data = {
-          categories: ['比例尺(假)','點擊的數據','比例尺(假)'],
-          values: [150,params.data[1],300],
-        }
-        myChart01.setOption({
-          xAxis: {
-            data: data.categories,
-          },
-          series: [
-            {
-              name: 'data',
-              data: data.values,
-            },
-          ],
-        })
-      })
-      option && myChart.setOption(option)
-
-      //   ______
-      const myChart01 = echarts.init(document.getElementById('main'))
-      myChart01.setOption({
-        tooltip: {},
-        legend: {
-          data: ['data'],
-        },
-        xAxis: {
-          data: [],
-        },
-        yAxis: {},
-        series: [
-          {
-            name: 'data',
-            type: 'bar',
-            data: [],
-          },
-        ],
-      })
-    },
   },
 }
 </script>
-<style scoped></style>
+<style scoped>
+/* 左側浮動按鈕 */
+.drawer {
+  position: fixed;
+  width: 3.6em;
+  left: -3.599em;
+  height: 51.8em;
+  transition: all 0.5s;
+  border-radius: 0px 10px 10px 0px;
+  z-index: 99999;
+  /* background-color: #031316; */
+  color: rgba(89, 89, 91, 1);
+}
+.box {
+  background-color: #fff;
+}
+.box:hover .drawer {
+  left: 0;
+}
+
+/* 影像串流 */
+.frame {
+  width: 74em;
+  margin-left: 0.3em;
+  margin-top: 0.7em;
+}
+.cover {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+  display: inline-block;
+  isolation: isolate;
+}
+#image {
+  width: 100%;
+  /* width: 70.5em; */
+  pointer-events: none;
+  /* margin-left: 2.1em; */
+  /* margin-top: 2em; */
+  isolation: isolate;
+}
+.arrow {
+  height: 23px;
+  width: 100px;
+  position: absolute;
+  margin-left: 1.16em;
+  margin-top: 25.5em;
+  transform: rotate(270deg);
+  border-radius: 0 0 100px 100px;
+}
+/* 按鈕提示 */
+.tips {
+  z-index: 100000;
+}
+/* 區塊標題文字 */
+.subtitle {
+  font-size: 12px;
+  color: #d9dddd;
+  text-align: center;
+}
+.subtitle-right {
+  font-size: 12px;
+  color: #9ba3a5;
+  text-align: left;
+  font-family: 'Noto Sans TC', sans-serif;
+}
+/* h4 {
+  line-height: 2em;
+  padding-left: 1em;
+  color: #031418;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: bold;
+} */
+.gg {
+  float: left;
+  text-align: center;
+}
+.font-display {
+  font-family: 'Noto Sans TC', sans-serif;
+}
+.chartTitle {
+  color: #545454;
+}
+
+.date-picker {
+  float: right;
+}
+
+.card5 {
+  display: flex;
+  /* 水平置中 */
+  justify-content: center;
+  /* 垂直置中 */
+  align-content: center;
+  flex-wrap: wrap;
+}
+.card5content {
+  width: 6em;
+  float: left;
+  margin: auto;
+}
+.btn {
+  background-color: #f2f4f4;
+}
+.reset {
+  float: right;
+  margin-top: 0.5em;
+  margin-right: 0.5em;
+}
+.cardtitle {
+  line-height: 2.5em;
+  font-weight: 900;
+  color: #505f62;
+}
+
+.text-color >>> .v-text-field__slot input {
+  color: #9ba3a5;
+}
+
+.left-btn {
+  background-color: #2d2d2d;
+  width: 2.25em;
+  height: 2.25em;
+}
+
+.right-btn {
+  background-color: #f2f4f4;
+  width: 2.25em;
+  height: 2.25em;
+}
+
+.donut1 {
+  float: left;
+}
+.donut2 {
+  float: right;
+}
+/* .rectangle {
+  z-index: 99999;
+} */
+.bgimg {
+  position: absolute;
+}
+
+.scroll4::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scroll4::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 20px;
+}
+
+.scroll4::-webkit-scrollbar-track {
+  background: #ddd;
+  border-radius: 20px;
+}
+</style>
+
+<style lang="scss">
+.carousel-wrapper {
+  margin-top: 10px;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+
+.ycoordinates {
+  position: absolute;
+  font-size: 12px;
+  right: 80px;
+  bottom: 49px;
+}
+.xcoordinates {
+  position: absolute;
+  font-size: 12px;
+  bottom: 275px;
+  left: 505px;
+}
+.faketime {
+  font-weight: 500;
+  margin-left: 10px;
+}
+
+// 熱圖影像
+.place-image {
+  display: none;
+  position: absolute;
+  // width: 126px;
+  // z-index: 9999;
+  bottom: 80px;
+  left: 100px;
+}
+
+.place-image2 {
+  display: none;
+  position: absolute;
+  // width: 126px;
+  // z-index: 9999;
+  bottom: 80px;
+  right: 290px;
+}
+</style>
