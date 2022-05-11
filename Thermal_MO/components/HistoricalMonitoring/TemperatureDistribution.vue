@@ -303,14 +303,14 @@ export default {
     //   }
     // }
 
-    $(function () {
-      $('.xzoom-2-3').xzoom({
-        position: '#zoom-target2',
-        tint: '#000',
-        tintOpacity: 0.3,
-        fadeOut: true,
-      })
-    })
+    // $(function () {
+    //   $('.xzoom-2-3').xzoom({
+    //     position: '#zoom-target2',
+    //     tint: '#000',
+    //     tintOpacity: 0.3,
+    //     fadeOut: true,
+    //   })
+    // })
   },
 }
 </script>

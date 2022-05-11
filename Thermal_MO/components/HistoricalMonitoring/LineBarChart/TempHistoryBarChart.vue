@@ -122,7 +122,7 @@ export default {
         yAxis: [
           {
             type: 'value',
-            name: '(%)',
+            name: '(°C)',
             min: 0,
             max: 60,
             show: true,
