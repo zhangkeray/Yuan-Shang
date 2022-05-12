@@ -254,13 +254,8 @@
                           </div>
                           <div
                             id="zoom-target"
-<<<<<<< HEAD
                             style="width: 300px; height: 225px"
                           ></div> -->
-=======
-                            style="width: 200px; height: 150px"
-                          ></div>
->>>>>>> 44115c93105e1b3f9906025d3e88cfa2b16b71f4
                         </v-col>
                       </v-row>
                     </v-col>
