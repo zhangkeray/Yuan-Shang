@@ -756,7 +756,6 @@
                   id="spot"
                   class="spot"
                   v-bind:data-name="item01.spot_number"
-                  v-bind:data-id="item01.spot_id"
                 >
                   <img src="/images/spot_1.png" />
                   <div class="spot-span">
@@ -780,34 +779,34 @@
                   <div class="scope-span">
                     <div>{{ item02.scope_number }}</div>
                   </div>
-                  <span class="scope-test-xy-TL">X:Y:</span
-                  ><span class="scope-test-xy-BR">X:Y:</span>
+                  <!-- <span class="scope-test-xy-TL">X:Y:</span
+                  ><span class="scope-test-xy-BR">X:Y:</span> -->
                 </div>
                 <!-- 線物件 -->
                 <div
                   v-for="(item, index) in lines"
                   :key="'point1' + index"
                   :style="{
-                    top: item.position.point1.Y + 'px',
-                    left: item.position.point1.X + 'px',
+                    top: item.line_position_point_A.y + 'px',
+                    left: item.line_position_point_A.x + 'px',
                   }"
                   id="pointA"
                   :class="'point-totle ' + 'point' + (index + 1)"
-                  v-bind:data-name="item.name"
+                  v-bind:data-name="item.line_number"
                 ></div>
                 <div
                   v-for="(item, index) in lines"
                   :key="'point2' + index"
                   :style="{
-                    top: item.position.point2.Y + 'px',
-                    left: item.position.point2.X + 'px',
+                    top: item.line_position_point_B.y + 'px',
+                    left: item.line_position_point_B.x + 'px',
                   }"
                   id="pointB"
                   :class="'point' + (index + 1) + ' point_hover' + (index + 1)"
-                  v-bind:data-name="item.name"
+                  v-bind:data-name="item.line_number"
                 >
                   <div class="line-span">
-                    <div>{{ item.name }}</div>
+                    <div>{{ item.line_number }}</div>
                   </div>
                 </div>
                 <div
@@ -881,81 +880,6 @@
                             width="18em"
                             depressed
                         /></v-btn>
-                        <v-dialog
-                          :content="item.name"
-                          v-model="dialog"
-                          max-width="290"
-                          hide-overlay
-                        >
-                          <v-card>
-                            <h4 class="cardtitle ml-3">設定警報</h4>
-                            <!-- <v-divider></v-divider> -->
-                            <v-card-text>
-                              <v-select
-                                class="subtitle text-color"
-                                v-model="conditionSelect"
-                                :items="conditionItems"
-                                :rules="[(v) => !!v || 'Item is required']"
-                                label="條件"
-                                required
-                              ></v-select>
-                              <v-text-field
-                                v-model="threshold"
-                                class="subtitle text-color"
-                                label="閾值"
-                                color="#828c8f"
-                              ></v-text-field>
-                              <v-text-field
-                                v-model="hysteresis"
-                                class="subtitle text-color"
-                                label="滯後"
-                                color="#828c8f"
-                              ></v-text-field>
-                              <v-text-field
-                                v-model="thresholdTime"
-                                class="subtitle text-color"
-                                label="閾值時間(毫秒)"
-                                color="#828c8f"
-                              ></v-text-field>
-                              <v-select
-                                class="subtitle text-color"
-                                v-model="captureSelect"
-                                :items="captureItems"
-                                :rules="[(v) => !!v || 'Item is required']"
-                                label="捕捉"
-                                required
-                              ></v-select>
-                              <v-text-field
-                                disabled
-                                v-model="pulseTime"
-                                class="subtitle text-color"
-                                label="脈衝時間(毫秒)"
-                                color="#828c8f"
-                              ></v-text-field>
-                            </v-card-text>
-
-                            <v-card-actions>
-                              <v-switch label="" color="#828c8f"></v-switch>
-                              <v-spacer></v-spacer>
-
-                              <v-btn
-                                color="#828C8F"
-                                text
-                                @click="dialog = false"
-                              >
-                                取消
-                              </v-btn>
-
-                              <v-btn
-                                color="#828C8F"
-                                text
-                                @click="dialog = false"
-                              >
-                                確定
-                              </v-btn>
-                            </v-card-actions>
-                          </v-card>
-                        </v-dialog>
                       </td>
                       <td class="text-center" style="padding: 0px 13px">
                         <v-btn color="" icon class="right-btn"
@@ -964,7 +888,7 @@
                             alt=""
                             src="/right-icons/delete.png"
                             width="18em"
-                            @click="deletespot(item.spot_number, item.spot_id)"
+                            @click="deletespot(item.spot_number)"
                         /></v-btn>
                       </td>
                     </tr>
@@ -1005,76 +929,6 @@
                             width="18em"
                             depressed
                         /></v-btn>
-                        <v-dialog v-model="dialog" max-width="290" hide-overlay>
-                          <v-card>
-                            <h4 class="cardtitle ml-3">設定警報</h4>
-                            <!-- <v-divider></v-divider> -->
-                            <v-card-text>
-                              <v-select
-                                class="subtitle text-color"
-                                v-model="conditionSelect"
-                                :items="conditionItems"
-                                :rules="[(v) => !!v || 'Item is required']"
-                                label="條件"
-                                required
-                              ></v-select>
-                              <v-text-field
-                                v-model="threshold"
-                                class="subtitle text-color"
-                                label="閾值"
-                                color="#828c8f"
-                              ></v-text-field>
-                              <v-text-field
-                                v-model="hysteresis"
-                                class="subtitle text-color"
-                                label="滯後"
-                                color="#828c8f"
-                              ></v-text-field>
-                              <v-text-field
-                                v-model="thresholdTime"
-                                class="subtitle text-color"
-                                label="閾值時間(毫秒)"
-                                color="#828c8f"
-                              ></v-text-field>
-                              <v-select
-                                class="subtitle text-color"
-                                v-model="captureSelect"
-                                :items="captureItems"
-                                :rules="[(v) => !!v || 'Item is required']"
-                                label="捕捉"
-                                required
-                              ></v-select>
-                              <v-text-field
-                                disabled
-                                v-model="pulseTime"
-                                class="subtitle text-color"
-                                label="脈衝時間(毫秒)"
-                                color="#828c8f"
-                              ></v-text-field>
-                            </v-card-text>
-
-                            <v-card-actions>
-                              <v-switch label="" color="#828c8f"></v-switch>
-                              <v-spacer></v-spacer>
-
-                              <v-btn
-                                color="#828C8F"
-                                text
-                                @click="dialog = false"
-                              >
-                                取消
-                              </v-btn>
-
-                              <v-btn
-                                color="#828C8F"
-                                text
-                                @click="dialog = false"
-                              >
-                                確定
-                              </v-btn>
-                            </v-card-actions>
-                          </v-card>
-                        </v-dialog>
                       </td>
                       <td class="text-center" style="padding: 0px 13px">
                         <v-btn color="" icon class="right-btn"
@@ -1083,7 +937,7 @@
                             alt="delete"
                             src="/right-icons/delete.png"
                             width="18em"
-                            @click="deletescope(item.scope_number,item.scope_id)"
+                            @click="deletescope(item.scope_number)"
                         /></v-btn>
                       </td>
                     </tr>
@@ -1091,7 +945,7 @@
                     <tr v-for="(item, index) in lines" :key="'H' + index">
                       <td class="text-center" style="padding: 0px 13px">
                         <v-badge
-                          :content="item.name"
+                          :content="item.line_number"
                           overlap
                           color="#828C8F"
                           class="my-4"
@@ -1108,7 +962,7 @@
                         class="text-center subtitle-right"
                         style="padding: 0px 25px"
                       >
-                        {{ item.temperature }}°C
+                        {{ item.line_temperature_ma }}°C
                       </td>
                       <td class="text-center" style="padding: 0px 25px">
                         <!-- 線:警報對話框 -->
@@ -1121,83 +975,13 @@
                             width="18em"
                             depressed
                         /></v-btn>
-                        <v-dialog v-model="dialog" max-width="290" hide-overlay>
-                          <v-card>
-                            <h4 class="cardtitle ml-3">設定警報</h4>
-                            <!-- <v-divider></v-divider> -->
-                            <v-card-text>
-                              <v-select
-                                class="subtitle text-color"
-                                v-model="conditionSelect"
-                                :items="conditionItems"
-                                :rules="[(v) => !!v || 'Item is required']"
-                                label="條件"
-                                required
-                              ></v-select>
-                              <v-text-field
-                                v-model="threshold"
-                                class="subtitle text-color"
-                                label="閾值"
-                                color="#828c8f"
-                              ></v-text-field>
-                              <v-text-field
-                                v-model="hysteresis"
-                                class="subtitle text-color"
-                                label="滯後"
-                                color="#828c8f"
-                              ></v-text-field>
-                              <v-text-field
-                                v-model="thresholdTime"
-                                class="subtitle text-color"
-                                label="閾值時間(毫秒)"
-                                color="#828c8f"
-                              ></v-text-field>
-                              <v-select
-                                class="subtitle text-color"
-                                v-model="captureSelect"
-                                :items="captureItems"
-                                :rules="[(v) => !!v || 'Item is required']"
-                                label="捕捉"
-                                required
-                              ></v-select>
-                              <v-text-field
-                                disabled
-                                v-model="pulseTime"
-                                class="subtitle text-color"
-                                label="脈衝時間(毫秒)"
-                                color="#828c8f"
-                              ></v-text-field>
-                            </v-card-text>
-
-                            <v-card-actions>
-                              <v-switch label="" color="#828c8f"></v-switch>
-                              <v-spacer></v-spacer>
-
-                              <v-btn
-                                color="#828C8F"
-                                text
-                                @click="dialog = false"
-                              >
-                                取消
-                              </v-btn>
-
-                              <v-btn
-                                color="#828C8F"
-                                text
-                                @click="dialog = false"
-                              >
-                                確定
-                              </v-btn>
-                            </v-card-actions>
-                          </v-card>
-                        </v-dialog>
                       </td>
                       <td class="text-center" style="padding: 0px 13px">
                         <v-btn
                           color=""
                           icon
                           class="right-btn"
-                          @click="deleteline(item.name)"
+                          @click="deleteline(item.line_number)"
                           ><img
                             class=""
                             alt="delete"
@@ -1211,7 +995,69 @@
               </v-simple-table>
             </v-card>
           </v-col>
+          <!-- 物件警報(共用) -->
+          <v-dialog v-model="dialog" max-width="290" hide-overlay>
+            <v-card>
+              <h4 class="cardtitle ml-3">設定警報</h4>
+              <!-- <v-divider></v-divider> -->
+              <v-card-text>
+                <v-select
+                  class="subtitle text-color"
+                  v-model="conditionSelect"
+                  :items="conditionItems"
+                  :rules="[(v) => !!v || 'Item is required']"
+                  label="條件"
+                  required
+                ></v-select>
+                <v-text-field
+                  v-model="threshold"
+                  class="subtitle text-color"
+                  label="閾值"
+                  color="#828c8f"
+                ></v-text-field>
+                <v-text-field
+                  v-model="hysteresis"
+                  class="subtitle text-color"
+                  label="滯後"
+                  color="#828c8f"
+                ></v-text-field>
+                <v-text-field
+                  v-model="thresholdTime"
+                  class="subtitle text-color"
+                  label="閾值時間(毫秒)"
+                  color="#828c8f"
+                ></v-text-field>
+                <v-select
+                  class="subtitle text-color"
+                  v-model="captureSelect"
+                  :items="captureItems"
+                  :rules="[(v) => !!v || 'Item is required']"
+                  label="捕捉"
+                  required
+                ></v-select>
+                <v-text-field
+                  disabled
+                  v-model="pulseTime"
+                  class="subtitle text-color"
+                  label="脈衝時間(毫秒)"
+                  color="#828c8f"
+                ></v-text-field>
+              </v-card-text>
 
+              <v-card-actions>
+                <v-switch label="" color="#828c8f"></v-switch>
+                <v-spacer></v-spacer>
+
+                <v-btn color="#828C8F" text @click="dialog = false">
+                  取消
+                </v-btn>
+
+                <v-btn color="#828C8F" text @click="dialog = false">
+                  確定
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
           <!--右2畫面顯示----------------------------------------------------------------------------------------------- -->
           <v-col cols="12" lg="7">
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
@@ -1654,6 +1500,11 @@ export default {
 
   mounted() {
     // jquery-ui
+    var te = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ]
+    console.log(te)
     const vm = this
 
     // use "main" socket defined in nuxt.config.js
@@ -1813,7 +1664,8 @@ export default {
               (index.scope_position_BR.y - index.scope_position_LT.y)
 
             index.scope_position_LT.x =
-              index.scope_position_LT.x * document.getElementById('image').offsetWidth
+              index.scope_position_LT.x *
+              document.getElementById('image').offsetWidth
             index.scope_position_LT.y =
               index.scope_position_LT.y *
               document.getElementById('image').offsetHeight
@@ -1824,18 +1676,18 @@ export default {
           // 取得"線"資料
           var lines = params.data.line
           lines.forEach(function (index) {
-            index.position.point1.X =
-              index.position.point1.X *
+            index.line_position_point_A.x =
+              index.line_position_point_A.x *
               document.getElementById('image').offsetWidth
-            index.position.point1.Y =
-              index.position.point1.Y *
+            index.line_position_point_A.y =
+              index.line_position_point_A.y *
               document.getElementById('image').offsetHeight
 
-            index.position.point2.X =
-              index.position.point2.X *
+            index.line_position_point_B.x =
+              index.line_position_point_B.x *
               document.getElementById('image').offsetWidth
-            index.position.point2.Y =
-              index.position.point2.Y *
+            index.line_position_point_B.y =
+              index.line_position_point_B.y *
               document.getElementById('image').offsetHeight
           })
           this.lines = params.data.line
@@ -1902,19 +1754,21 @@ export default {
         .catch((error) => console.log('error from axios', error))
     },
     // POST 刪除點物件
-    deletespot(number, id) {
-      console.log(number, id)
+    deletespot(number) {
+      console.log(number)
       var thisSpotData = {
-        spot_id: id,
         spot_number: parseInt(number),
         status: '1',
         spot_position: {
-          y: "",
-          x: "",
+          y: '',
+          x: '',
         },
       }
       this.$axios
-        .post('http://localhost:8080/api/monitor/object/spot/change', thisSpotData)
+        .post(
+          'http://localhost:8080/api/monitor/object/spot/change',
+          thisSpotData
+        )
         .then((response) => {
           this.Interval = 0
         })
@@ -1923,7 +1777,9 @@ export default {
     // POST 新增範圍
     addscope() {
       this.$axios
-        .post('http://localhost:8080/object/scope/add', { status: 'add' })
+        .post('http://localhost:8080/api/monitor/object/scope/add', {
+          status: 'add',
+        })
         .then((response) => {
           this.Interval = 0
         })
@@ -1981,14 +1837,15 @@ export default {
         // scopeltY = scopeltY.toFixed(4)
         // scopeltX = scopeltX.toFixed(4)
         var thisScopeData = {
-          name: thisName,
-          LT: {
-            Y: scopeltY,
-            X: scopeltX,
+          scope_number: thisName,
+          status: '0',
+          scope_position_LT: {
+            y: scopeltY,
+            x: scopeltX,
           },
-          BR: {
-            Y: scopeBRY,
-            X: scopeBRX,
+          scope_position_BR: {
+            y: scopeBRY,
+            x: scopeBRX,
           },
         }
         return thisScopeData
@@ -1996,7 +1853,7 @@ export default {
       function put(data) {
         axios({
           method: 'post',
-          url: `http://localhost:8080/object/putScope`,
+          url: `http://localhost:8080/api/monitor/object/scope/change`,
           data,
         }).catch((error) => console.log('error from axios', error))
       }
@@ -2004,8 +1861,20 @@ export default {
     },
     // POST 刪除範圍物件
     deletescope(index) {
+      var thisScopeData = {
+        scope_number: index,
+        status: '1',
+        scope_position_LT: {
+          y: '',
+          x: '',
+        },
+        scope_position_BR: {
+          y: '',
+          x: '',
+        },
+      }
       this.$axios
-        .post('http://localhost:8080/object/deletescope', { name: index })
+        .post('http://localhost:8080/object/deletescope', thisScopeData)
         .then((response) => {
           this.Interval = 0
         })
@@ -2015,10 +1884,10 @@ export default {
     line() {
       var array = this.lines
       array.forEach(function (line) {
-        var pointname = '.point' + line.name
-        var wrapperpointname = 'point' + line.name
-        var wrapperlinename = 'line' + line.name
-        var pointhoverclass = '.point_hover' + line.name
+        var pointname = '.point' + line.line_number
+        var wrapperpointname = 'point' + line.line_number
+        var wrapperlinename = 'line' + line.line_number
+        var pointhoverclass = '.point_hover' + line.line_number
         $(pointname).hover(
           function () {
             $(pointhoverclass).children('div').addClass('hover')
@@ -2036,18 +1905,46 @@ export default {
           containment: 'parent',
           stop(event, ui) {
             $(event.target).removeClass('point-hover')
-            console.log($(this).attr('id'))
-            var lineY =
-              ui.position.top / document.getElementById('image').offsetHeight
-            var lineX =
-              ui.position.left / document.getElementById('image').offsetWidth
-            lineY = lineY.toFixed(4)
-            lineX = lineX.toFixed(4)
+            var classA = '.point' + $(this).attr('data-name')
+            var pointAtop = 0
+            var pointAleft = 0
+            var pointBtop = 0
+            var pointBleft = 0
+            $(classA).each(function () {
+              if ($(this).attr('id') === 'pointA') {
+                pointAtop = $(this).position().top
+                pointAleft = $(this).position().left
+              }
+              if ($(this).attr('id') === 'pointB') {
+                pointBtop = $(this).position().top
+                pointBleft = $(this).position().left
+              }
+            })
+            pointAtop =
+              pointAtop / document.getElementById('image').offsetHeight
+            pointAleft =
+              pointAleft / document.getElementById('image').offsetWidth
+            pointBtop =
+              pointBtop / document.getElementById('image').offsetHeight
+            pointBleft =
+              pointBleft / document.getElementById('image').offsetWidth
+            // var lineY =
+            //   ui.position.top / document.getElementById('image').offsetHeight
+            // var lineX =
+            //   ui.position.left / document.getElementById('image').offsetWidth
+            // lineY = lineY.toFixed(4)
+            // lineX = lineX.toFixed(4)
             var LineData = {
-              name: parseInt($(this).attr('data-name')),
-              select: $(this).attr('id'),
-              Y: lineY,
-              X: lineX,
+              status: '0',
+              line_number: parseInt($(this).attr('data-name')),
+              line_position_point_A: {
+                y: pointAtop,
+                x: pointAleft,
+              },
+              line_position_point_B: {
+                y: pointBtop,
+                x: pointBleft,
+              },
             }
             put(LineData)
           },
@@ -2056,7 +1953,7 @@ export default {
       function put(data) {
         axios({
           method: 'post',
-          url: `http://localhost:8080/object/putLine`,
+          url: `http://localhost:8080/api/monitor/object/line/change`,
           data,
         }).catch((error) => console.log('error from axios', error))
       }
@@ -2097,16 +1994,30 @@ export default {
     // 線-新增程式
     addline() {
       this.$axios
-        .post('http://localhost:8080/object/line/add', { name: '' })
+        .post('http://localhost:8080/api/monitor/object/line/add', {
+          status: 'add',
+        })
         .then((response) => {
           this.Interval = 0
         })
         .catch((error) => console.log('error from axios', error))
     },
     // 線-刪除程式
-    deleteline(index) {
+    deleteline(index, id) {
+      var LineData = {
+        status: '1',
+        line_number: index,
+        line_position_point_A: {
+          y: '',
+          x: '',
+        },
+        line_position_point_B: {
+          y: '',
+          x: '',
+        },
+      }
       this.$axios
-        .post('http://localhost:8080/object/deleteline', { name: index })
+        .post('http://localhost:8080/api/monitor/object/line/change', LineData)
         .then((response) => {
           this.Interval = 0
         })
