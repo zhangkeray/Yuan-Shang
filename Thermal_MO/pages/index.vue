@@ -1327,14 +1327,7 @@
 
                 <v-text-field
                   v-model="transmission"
-                  class="
-                    subtitle
-                    card5content
-                    mt-1
-                    mr-5
-                    text-color
-                    font-weight-large
-                  "
+                  class="subtitle card5content mt-1 mr-5 text-color font-weight-large"
                   label="穿透率"
                   color="#828c8f"
                 ></v-text-field>

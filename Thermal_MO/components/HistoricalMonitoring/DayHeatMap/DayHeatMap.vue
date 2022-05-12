@@ -1,5 +1,5 @@
 <template>
-  <div ref="heatMap2" style="height: 250px; width: 1400px"></div>
+  <div ref="heatMap2" style="height: 150px; width: 750px"></div>
 </template>
 
 <script>
@@ -156,9 +156,9 @@ export default {
         grid: {
           height: '80%',
           // right: 'center',
-          left: '50px',
+          left: '0px',
           top: 'center',
-          width: '1100px',
+          width: '700px',
         },
         xAxis: {
           type: 'category',
@@ -180,7 +180,7 @@ export default {
           max: 5,
           calculable: true,
           orient: 'vertical',
-          left: '1500',
+          left: '700',
           top: 'center',
           inRange: {
             color: ['#37484C', '#9aa2a4', '#d8dddd', '#E6E8E9'],

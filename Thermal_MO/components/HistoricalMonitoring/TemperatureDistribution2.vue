@@ -1,0 +1,522 @@
+<template>
+  <v-card flat>
+    <v-card-text>
+      <!-- 刷新按鈕 -->
+      <v-tooltip left class="tips">
+        <template #activator="{ on, attrs }">
+          <v-btn
+            small
+            icon
+            class="btn reset"
+            color="#9BA3A5"
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon small class="icon">mdi-restore</v-icon>
+          </v-btn>
+        </template>
+        <span>重置</span>
+      </v-tooltip>
+
+      <!-- 麵包屑 -->
+      <!-- <v-breadcrumbs
+              :items="items"
+              style="padding-top: 0px; position: absolute"
+            >
+              <template v-slot:divider>
+                <v-icon>mdi-chevron-right</v-icon>
+              </template>
+            </v-breadcrumbs> -->
+
+      <div style="margin-left: 20px; top: 12px; position: absolute">
+        <v-btn color="#9BA3A5" rounded x-small depressed style="color: #fff">
+          整體資料監測
+        </v-btn>
+      </div>
+
+      <v-row>
+        <v-col cols="12" md="12">
+          <v-row :column="$vuetify.breakpoint.mdAndDown">
+            <!-- (上)----------------------------------------------------------------------------------------------- -->
+            <!-- <v-col cols="12" lg="12"> -->
+
+            <v-col cols="12" lg="12">
+              <v-row
+                class="mx-2 mt-8"
+                style="border: 3px solid #f1f1f1; border-radius: 10px"
+              >
+                <v-col cols="12" md="7">
+                  <v-row :column="$vuetify.breakpoint.mdAndDown">
+                    <!-- (上)圓餅圖:當月資料完成度----------------------------------------------------------------------------------------------- -->
+                    <!-- <v-col cols="12" lg="12"> -->
+                    <v-col
+                      cols="12"
+                      lg="12"
+                      style="
+                        border: 1px solid rgba(0, 0, 0, 0);
+                        border-radius: 5px;
+                      "
+                    >
+                      <v-row :column="$vuetify.breakpoint.mdAndDown">
+                        <!-- ------------------------------------------------------------------------------------------------- -->
+                        <!-- <v-col cols="12" lg="12"> -->
+                        <!-- 溫度歷史 -->
+                        <h4 class="cardtitle ml-3">
+                          選擇日期&nbsp;&nbsp;2022/5/5 - 2022/5/10
+                        </h4>
+                        <v-col
+                          cols="12"
+                          lg="12"
+                          style="border: 1px solid rgba(0, 0, 0, 0)"
+                        >
+                          <temp-history-bar-chart />
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                  </v-row>
+                </v-col>
+
+                <v-col cols="12" md="5">
+                  <v-row :column="$vuetify.breakpoint.mdAndDown">
+                    <!-- ------------------------------------------------------------------------------------------------- -->
+                    <!-- <v-col cols="12" lg="12"> -->
+                    <!-- <h4 class="cardtitle ml-3" style="position: absolute">
+                        最低溫度
+                      </h4> -->
+                    <v-col
+                      cols="12"
+                      lg="12"
+                      style="border: 1px solid rgba(0, 0, 0, 0)"
+                    >
+                      <temp-low-bar-chart />
+                    </v-col>
+
+                    <v-col
+                      cols="12"
+                      lg="12"
+                      style="border: 1px solid rgba(0, 0, 0, 0)"
+                    >
+                      <!-- <h4 class="cardtitle ml-3" style="position: absolute">
+                        平均溫度
+                      </h4> -->
+                      <temp-avg-bar-chart />
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-col>
+
+        <v-col cols="12" md="7">
+          <v-row :column="$vuetify.breakpoint.mdAndDown">
+            <v-col cols="12" lg="12">
+              <v-row
+                class="ml-2 mt-2"
+                style="border: 3px solid #f1f1f1; border-radius: 10px"
+              >
+                <!-- <h4 class="cardtitle ml-3" style="position: absolute">
+                  超溫時段統計圖
+                </h4> -->
+                  <h4 class="cardtitle ml-3">
+                    選擇日期&nbsp;&nbsp;2022/5/5 - 2022/5/10
+                  </h4>
+                <v-col cols="12" md="12">
+                  <peak-hours-statistics-bar-chart />
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-col>
+
+        <v-col cols="12" md="5">
+          <v-row :column="$vuetify.breakpoint.mdAndDown">
+            <v-col cols="12" lg="12">
+              <v-row
+                class="mx-2 mt-2"
+                style="border: 3px solid #f1f1f1; border-radius: 10px"
+              >
+                <h4 class="cardtitle ml-3">溫度參照點</h4>
+                <v-col cols="12" md="12">
+
+
+<no-ssr>
+                  <div class="zoom-box" style="float: left">
+                    <img
+                      class="xzoom4" id="xzoom-fancy"
+                      src="xzoom/images/20220510_v1.jpg"
+                      xoriginal="xzoom/images/20220510_v1.jpg"
+                      width="320"
+                    />
+                  </div>
+                  <div
+                    id="zoom-target2"
+                    style="width: 320px; height: 240px; float: right"
+                  ></div>
+                  </no-ssr>
+
+
+
+
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-card-text>
+  </v-card>
+</template>
+<script>
+// echarts引入
+import TempHistoryBarChart from './LineBarChart/TempHistoryBarChart.vue'
+import TempLowBarChart from './LineBarChart/TempLowBarChart.vue'
+import TempAvgBarChart from './LineBarChart/TempAvgBarChart.vue'
+import PeakHoursStatisticsBarChart from './LineBarChart/PeakHoursStatisticsBarChart.vue'
+
+export default {
+  // echarts引入
+  components: {
+    TempHistoryBarChart,
+    TempLowBarChart,
+    TempAvgBarChart,
+    PeakHoursStatisticsBarChart,
+  },
+  name: 'IndexPage',
+  head: {
+    title: '即時監控',
+    link: [
+      // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: 'stylesheet', href: '/css/jquery-ui.css' },
+      { rel: 'stylesheet', href: '/css/object.css' },
+      { rel: 'stylesheet', href: '/css/card3.css' },
+      { rel: 'stylesheet', href: 'xzoom/imgZoom/css/normalize.css' },
+      { rel: 'stylesheet', href: 'xzoom/imgZoom/css/foundation.css' },
+      { rel: 'stylesheet', href: 'xzoom/css/imgZoom/demo.css' },
+      { rel: 'stylesheet', media: 'all', href: 'xzoom/dist/xzoom.css' },
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        media: 'all',
+        href: '/fancybox/source/jquery.fancybox.css',
+      },
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        media: 'all',
+        href: '/magnific-popup/css/magnific-popup.css',
+      },
+    ],
+    script: [
+      {
+        src: '/js/jquery.js',
+        type: 'text/javascript',
+      },
+      {
+        src: '/js/jquery-ui.js',
+        type: 'text/javascript',
+      },
+      {
+        src: '/js/jquery-collision.js',
+        type: 'text/javascript',
+      },
+      // {
+      //   src: '/js/object.js',
+      //   type: 'text/javascript',
+      // },
+      {
+        src: 'xzoom/js/vendor/modernizr.js',
+        type: 'text/javascript',
+      },
+      {
+        src: 'xzoom/js/vendor/jquery.js',
+        type: 'text/javascript',
+      },
+
+      {
+        src: 'xzoom/dist/xzoom.min.js',
+        type: 'text/javascript',
+      },
+
+      {
+        src: 'xzoom/hammer.js/1.0.5/jquery.hammer.min.js',
+        type: 'text/javascript',
+      },
+      {
+        src: 'xzoom/fancybox/source/jquery.fancybox.js',
+        type: 'text/javascript',
+      },
+      {
+        src: 'xzoom/magnific-popup/js/magnific-popup.js',
+        type: 'text/javascript',
+      },
+      {
+        src: 'xzoom/js/foundation.min.js',
+        type: 'text/javascript',
+      },
+      {
+        src: 'xzoom/js/setup.js',
+        type: 'text/javascript',
+      },
+    ],
+  },
+  data: () => ({
+    options: {
+      loop: false,
+      perPage: 3,
+      paginationEnabled: false,
+    },
+    items: [
+      {
+        text: '整體資料監測',
+        disabled: true,
+        href: '../DataScrapingPage',
+      },
+      //   {
+      //     text: '全局數據',
+      //     disabled: false,
+      //     href: 'breadcrumbs_link_2',
+      //   },
+      //   {
+      //     text: '年度資料完成度',
+      //     disabled: true,
+      //     href: '../DataScrapingPage',
+      //   },
+      // {
+      //   text: '當月資料完成度',
+      //   disabled: false,
+      //   href: 'breadcrumbs_link_2',
+      // },
+    ],
+  }),
+
+  mounted() {
+    const unthumb = document.querySelectorAll('.thumb')
+    for (const unthumbs of unthumb) {
+      unthumbs.onclick = function (e) {
+        // console.log(e.target.src);
+        // console.log(e.target.getAttribute("src"));
+        const newImg = e.target.src // 絕對連結
+        // let newImg = e.target.getAttribute("src");  // getAttribute取得屬性 e.g. src //相對連結
+        document.querySelector('.pic').setAttribute('src', newImg) // 取得這個pic之後，去設定他的scr屬性值是newImg(我點選時所得到的），你要設定的屬性是誰
+        for (const th of this.thumb) {
+          th.classList.remove('active')
+        }
+        e.target.classList.add('active')
+      }
+    }
+    
+
+  },
+}
+</script>
+<style scoped>
+/* 左側浮動按鈕 */
+.drawer {
+  position: fixed;
+  width: 3.6em;
+  left: -3.599em;
+  height: 51.8em;
+  transition: all 0.5s;
+  border-radius: 0px 10px 10px 0px;
+  z-index: 99999;
+  /* background-color: #031316; */
+  color: rgba(89, 89, 91, 1);
+}
+.box {
+  background-color: #fff;
+}
+.box:hover .drawer {
+  left: 0;
+}
+
+/* 影像串流 */
+.frame {
+  width: 74em;
+  margin-left: 0.3em;
+  margin-top: 0.7em;
+}
+.cover {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+  display: inline-block;
+  isolation: isolate;
+}
+#image {
+  width: 100%;
+  /* width: 70.5em; */
+  pointer-events: none;
+  /* margin-left: 2.1em; */
+  /* margin-top: 2em; */
+  isolation: isolate;
+}
+.arrow {
+  height: 23px;
+  width: 100px;
+  position: absolute;
+  margin-left: 1.16em;
+  margin-top: 25.5em;
+  transform: rotate(270deg);
+  border-radius: 0 0 100px 100px;
+}
+/* 按鈕提示 */
+.tips {
+  z-index: 100000;
+}
+/* 區塊標題文字 */
+.subtitle {
+  font-size: 12px;
+  color: #d9dddd;
+  text-align: center;
+}
+.subtitle-right {
+  font-size: 12px;
+  color: #9ba3a5;
+  text-align: left;
+  font-family: 'Noto Sans TC', sans-serif;
+}
+/* h4 {
+  line-height: 2em;
+  padding-left: 1em;
+  color: #031418;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: bold;
+} */
+.gg {
+  float: left;
+  text-align: center;
+}
+.font-display {
+  font-family: 'Noto Sans TC', sans-serif;
+}
+.chartTitle {
+  color: #545454;
+}
+
+.date-picker {
+  float: right;
+}
+
+.card5 {
+  display: flex;
+  /* 水平置中 */
+  justify-content: center;
+  /* 垂直置中 */
+  align-content: center;
+  flex-wrap: wrap;
+}
+.card5content {
+  width: 6em;
+  float: left;
+  margin: auto;
+}
+.btn {
+  background-color: #f2f4f4;
+}
+.reset {
+  float: right;
+  margin-top: 0.5em;
+  margin-right: 0.5em;
+}
+.cardtitle {
+  line-height: 2.5em;
+  font-weight: 900;
+  color: #505f62;
+}
+
+.text-color >>> .v-text-field__slot input {
+  color: #9ba3a5;
+}
+
+.left-btn {
+  background-color: #2d2d2d;
+  width: 2.25em;
+  height: 2.25em;
+}
+
+.right-btn {
+  background-color: #f2f4f4;
+  width: 2.25em;
+  height: 2.25em;
+}
+
+.donut1 {
+  float: left;
+}
+.donut2 {
+  float: right;
+}
+/* .rectangle {
+  z-index: 99999;
+} */
+.bgimg {
+  position: absolute;
+}
+
+.scroll {
+  /* width: 20px; */
+  /* height: 200px; */
+  /* overflow: auto; */
+  /* float: right; */
+  /* margin: 0 10px; */
+}
+
+.scroll4::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scroll4::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 20px;
+}
+
+.scroll4::-webkit-scrollbar-track {
+  background: #ddd;
+  border-radius: 20px;
+}
+</style>
+
+<style lang="scss">
+.carousel-wrapper {
+  margin-top: 10px;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+
+.ycoordinates {
+  position: absolute;
+  font-size: 12px;
+  right: 80px;
+  bottom: 49px;
+}
+.xcoordinates {
+  position: absolute;
+  font-size: 12px;
+  bottom: 275px;
+  left: 505px;
+}
+.faketime {
+  font-weight: 500;
+  margin-left: 10px;
+}
+
+.btn {
+  background-color: #f2f4f4;
+}
+.reset {
+  // float: right;
+  // margin-top: 0.5em;
+  // margin-right: 0.5em;
+  right: 0.5em;
+  top: 0.5em;
+  position: absolute;
+}
+
+#zoom-target2 {
+  background-image: url('/xzoom/images/20220510_v1.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 200%;
+}
+</style>
