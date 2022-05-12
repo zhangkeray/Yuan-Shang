@@ -38,7 +38,7 @@
         </v-btn>
         <span style="font-size: 18px">&raquo;</span> -->
         <v-btn color="#9BA3A5" rounded x-small depressed style="color: #fff">
-          全局數據: 當月資料完成度
+          警報狀況
         </v-btn>
       </div>
 
@@ -97,7 +97,7 @@
                                   style="border: 1px solid rgba(0, 0, 0, 0)"
                                 >
                                   <div class="carousel-wrapper">
-                                    <client-only>
+                                    <!-- <client-only>
                                       <carousel
                                         v-bind="options"
                                         :navigationEnabled="true"
@@ -141,7 +141,7 @@
                                           <month-heat-map-12 />
                                         </slide> 
                                       </carousel>
-                                    </client-only>
+                                    </client-only> -->
                                   </div>
                                 </v-col>
                               </v-row>
@@ -206,29 +206,24 @@
 
         <v-col cols="12" md="12">
           <v-row :column="$vuetify.breakpoint.mdAndDown">
-            <v-col cols="12" lg="12">
+            <v-col cols="12" lg="3">
+              <v-row
+                class="ml-2 mt-2"
+                style="border: 3px solid #f1f1f1; border-radius: 10px"
+              >
+                <v-col cols="12" md="12">
+                                            <h4 class="cardtitle ml-3">當月超溫紀錄</h4>
+
+                  
+                   </v-col>
+              </v-row>
+            </v-col>
+
+            <v-col cols="12" lg="9">
               <v-row
                 class="mx-2 mt-2"
                 style="border: 3px solid #f1f1f1; border-radius: 10px"
               >
-                <v-col cols="12" md="3">
-                  <v-row :column="$vuetify.breakpoint.mdAndDown">
-                    <v-col
-                      cols="12"
-                      lg="12"
-                      style="
-                        border: 1px solid rgba(0, 0, 0, 0);
-                        border-radius: 5px;
-                      "
-                    >
-                      <h4 class="cardtitle ml-3" style="position: absolute">
-                        監測項目超溫紀錄
-                      </h4>
-                      <donut-chart-1 />
-                    </v-col>
-                  </v-row>
-                </v-col>
-
                 <v-col cols="12" md="3">
                   <v-row :column="$vuetify.breakpoint.mdAndDown">
                     <v-col
@@ -254,20 +249,25 @@
                               class="xzoom-2-4"
                               src="xzoom/images/tml.png"
                               xoriginal="xzoom/images/tml.png"
-                              width="300"
+                              width="200"
                             />
                           </div>
                           <div
                             id="zoom-target"
+<<<<<<< HEAD
                             style="width: 300px; height: 225px"
                           ></div> -->
+=======
+                            style="width: 200px; height: 150px"
+                          ></div>
+>>>>>>> 44115c93105e1b3f9906025d3e88cfa2b16b71f4
                         </v-col>
                       </v-row>
                     </v-col>
                   </v-row>
                 </v-col>
 
-                <v-col cols="12" md="6">
+                <v-col cols="12" md="9">
                   <v-row :column="$vuetify.breakpoint.mdAndDown">
                     <!-- ----------------------------------------------------------------------------------------------- -->
                     <v-col
@@ -275,53 +275,47 @@
                       lg="12"
                       style="border: 1px solid rgba(0, 0, 0, 0)"
                     >
-
                       <h4 class="cardtitle ml-3">監測項目時段超溫紀錄表</h4>
 
-                      <v-simple-table>
+                      <v-simple-table fixed-header height="150px">
                         <template v-slot:default>
                           <thead>
                             <tr>
-                              <th class="text-left">Name</th>
-                              <th class="text-left">Calories</th>
+                              <th class="text-left">項目</th>
+                              <th class="text-left">超溫開始時間</th>
+                              <th class="text-left">超溫停止時間</th>
+                              <th class="text-left">持續時間</th>
+                              <th class="text-left">預設警報溫度</th>
+                              <th class="text-left">矩形1</th>
+                              <th class="text-left">矩形2</th>
+                              <th class="text-left">矩形3</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <tr v-for="item in desserts" :key="item.name">
+                            <tr v-for="item in fakeTemps" :key="item.name">
                               <td>{{ item.name }}</td>
-                              <td>{{ item.calories }}</td>
+                              <td>{{ item.overheatStart }}</td>
+                              <td>{{ item.overheatStop }}</td>
+                              <td>{{ item.duration }}</td>
+                              <td>{{ item.defaultAlertTemp }}</td>
+                              <td>{{ item.scope1 }}</td>
+                              <td>{{ item.scope2 }}</td>
+                              <td>{{ item.scope3 }}</td>
+                              <td>{{ item.note }}</td>
                             </tr>
                           </tbody>
                         </template>
                       </v-simple-table>
-
-                      <!-- <v-row class="ma-3">
-                        <v-col cols="12" md="12">
-                          <v-row :column="$vuetify.breakpoint.mdAndDown">
-                            <v-col
-                              cols="12"
-                              lg="12"
-                              style="border: 1px solid rgba(0, 0, 0, 0)"
-                            >
-                            </v-col>
-                          </v-row>
-                        </v-col>
-                      </v-row> -->
                     </v-col>
 
-
-                                        <v-col
+                    <v-col
                       cols="12"
                       lg="12"
                       style="border: 1px solid rgba(0, 0, 0, 0)"
                     >
+                      <!-- <h4 class="cardtitle ml-3">監測項目時段超溫紀錄圖</h4> -->
 
-                      <h4 class="cardtitle ml-3">監測項目時段超溫紀錄圖</h4>
-
-                      <overheat-records-line-chart/>
-
-
-
+                      <overheat-records-line-chart />
                     </v-col>
                   </v-row>
                 </v-col>
@@ -335,42 +329,42 @@
 </template>
 <script>
 // echarts引入
-import DonutChart1 from './DonutChart/DonutChart1.vue'
+// import DonutChart1 from './DonutChart/DonutChart1.vue'
 // import DonutChart2 from './DonutChart/DonutChart2.vue'
 import DayHeatMap from './DayHeatMap/DayHeatMap.vue'
-import MonthHeatMap1 from './MonthHeatMap/MonthHeatMap1.vue'
-import MonthHeatMap2 from './MonthHeatMap/MonthHeatMap2.vue'
-import MonthHeatMap3 from './MonthHeatMap/MonthHeatMap3.vue'
-import MonthHeatMap4 from './MonthHeatMap/MonthHeatMap4.vue'
-import MonthHeatMap5 from './MonthHeatMap/MonthHeatMap5.vue'
-import MonthHeatMap6 from './MonthHeatMap/MonthHeatMap6.vue'
-import MonthHeatMap7 from './MonthHeatMap/MonthHeatMap7.vue'
-import MonthHeatMap8 from './MonthHeatMap/MonthHeatMap8.vue'
-import MonthHeatMap9 from './MonthHeatMap/MonthHeatMap9.vue'
-import MonthHeatMap10 from './MonthHeatMap/MonthHeatMap10.vue'
-import MonthHeatMap11 from './MonthHeatMap/MonthHeatMap11.vue'
-import MonthHeatMap12 from './MonthHeatMap/MonthHeatMap12.vue'
+// import MonthHeatMap1 from './MonthHeatMap/MonthHeatMap1.vue'
+// import MonthHeatMap2 from './MonthHeatMap/MonthHeatMap2.vue'
+// import MonthHeatMap3 from './MonthHeatMap/MonthHeatMap3.vue'
+// import MonthHeatMap4 from './MonthHeatMap/MonthHeatMap4.vue'
+// import MonthHeatMap5 from './MonthHeatMap/MonthHeatMap5.vue'
+// import MonthHeatMap6 from './MonthHeatMap/MonthHeatMap6.vue'
+// import MonthHeatMap7 from './MonthHeatMap/MonthHeatMap7.vue'
+// import MonthHeatMap8 from './MonthHeatMap/MonthHeatMap8.vue'
+// import MonthHeatMap9 from './MonthHeatMap/MonthHeatMap9.vue'
+// import MonthHeatMap10 from './MonthHeatMap/MonthHeatMap10.vue'
+// import MonthHeatMap11 from './MonthHeatMap/MonthHeatMap11.vue'
+// import MonthHeatMap12 from './MonthHeatMap/MonthHeatMap12.vue'
 // import LineAndBarChart2022vs2021 from '../components/DataScraping/LineAndBarChart/LineAndBarChart2022vs2021.vue'
 import overheatRecordsLineChart from './overheatRecordsLineChart/overheatRecordsLineChart.vue'
 
 export default {
   // echarts引入
   components: {
-    DonutChart1,
+    // DonutChart1,
     // DonutChart2,
     DayHeatMap,
-    MonthHeatMap1,
-    MonthHeatMap2,
-    MonthHeatMap3,
-    MonthHeatMap4,
-    MonthHeatMap5,
-    MonthHeatMap6,
-    MonthHeatMap7,
-    MonthHeatMap8,
-    MonthHeatMap9,
-    MonthHeatMap10,
-    MonthHeatMap11,
-    MonthHeatMap12,
+    // MonthHeatMap1,
+    // MonthHeatMap2,
+    // MonthHeatMap3,
+    // MonthHeatMap4,
+    // MonthHeatMap5,
+    // MonthHeatMap6,
+    // MonthHeatMap7,
+    // MonthHeatMap8,
+    // MonthHeatMap9,
+    // MonthHeatMap10,
+    // MonthHeatMap11,
+    // MonthHeatMap12,
     // LineAndBarChart2022vs2021,
     overheatRecordsLineChart,
   },
@@ -475,6 +469,64 @@ export default {
         href: 'breadcrumbs_link_2',
       },
     ],
+    // 右2假數據顯示(待刪)
+    fakeTemps: [
+      {
+        name: '01',
+        overheatStart: '01:00:00',
+        overheatStop: '01:09:59',
+        duration: '10分',
+        defaultAlertTemp: '50°C',
+        scope1: '50°C',
+        scope2: '49°C',
+        scope3: '40°C',
+        note: '',
+      },
+      {
+        name: '02',
+        overheatStart: '01:00:00',
+        overheatStop: '01:09:59',
+        duration: '10分',
+        defaultAlertTemp: '50°C',
+        scope1: '50°C',
+        scope2: '49°C',
+        scope3: '40°C',
+        note: '',
+      },
+      {
+        name: '03',
+        overheatStart: '01:00:00',
+        overheatStop: '01:09:59',
+        duration: '10分',
+        defaultAlertTemp: '50°C',
+        scope1: '50°C',
+        scope2: '49°C',
+        scope3: '40°C',
+        note: '',
+      },
+      {
+        name: '04',
+        overheatStart: '01:00:00',
+        overheatStop: '01:09:59',
+        duration: '10分',
+        defaultAlertTemp: '50°C',
+        scope1: '50°C',
+        scope2: '49°C',
+        scope3: '40°C',
+        note: '',
+      },
+      {
+        name: '05',
+        overheatStart: '01:00:00',
+        overheatStop: '01:09:59',
+        duration: '10分',
+        defaultAlertTemp: '50°C',
+        scope1: '50°C',
+        scope2: '49°C',
+        scope3: '40°C',
+        note: '',
+      },
+    ],
   }),
 
   mounted() {
@@ -492,7 +544,6 @@ export default {
     //     e.target.classList.add('active')
     //   }
     // }
-
     // $(function () {
     //   $('.xzoom-2-4').xzoom({
     //     position: '#zoom-target',

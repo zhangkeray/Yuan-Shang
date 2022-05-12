@@ -1083,7 +1083,9 @@
                             alt="delete"
                             src="/right-icons/delete.png"
                             width="18em"
-                            @click="deletescope(item.scope_number,item.scope_id)"
+                            @click="
+                              deletescope(item.scope_number, item.scope_id)
+                            "
                         /></v-btn>
                       </td>
                     </tr>
@@ -1481,14 +1483,7 @@
 
                 <v-text-field
                   v-model="transmission"
-                  class="
-                    subtitle
-                    card5content
-                    mt-1
-                    mr-5
-                    text-color
-                    font-weight-large
-                  "
+                  class="subtitle card5content mt-1 mr-5 text-color font-weight-large"
                   label="穿透率"
                   color="#828c8f"
                 ></v-text-field>
@@ -1813,7 +1808,8 @@ export default {
               (index.scope_position_BR.y - index.scope_position_LT.y)
 
             index.scope_position_LT.x =
-              index.scope_position_LT.x * document.getElementById('image').offsetWidth
+              index.scope_position_LT.x *
+              document.getElementById('image').offsetWidth
             index.scope_position_LT.y =
               index.scope_position_LT.y *
               document.getElementById('image').offsetHeight
@@ -1909,12 +1905,15 @@ export default {
         spot_number: parseInt(number),
         status: '1',
         spot_position: {
-          y: "",
-          x: "",
+          y: '',
+          x: '',
         },
       }
       this.$axios
-        .post('http://localhost:8080/api/monitor/object/spot/change', thisSpotData)
+        .post(
+          'http://localhost:8080/api/monitor/object/spot/change',
+          thisSpotData
+        )
         .then((response) => {
           this.Interval = 0
         })
