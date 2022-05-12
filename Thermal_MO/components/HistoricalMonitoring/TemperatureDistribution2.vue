@@ -29,16 +29,8 @@
             </v-breadcrumbs> -->
 
       <div style="margin-left: 20px; top: 12px; position: absolute">
-        <!-- <v-btn rounded x-small depressed style="color: #9ba3a5">
-          整體資料監測
-        </v-btn>
-        <span style="font-size: 18px">&raquo;</span>
-        <v-btn rounded x-small depressed style="color: #9ba3a5">
-          全局數據: 年度資料完成度
-        </v-btn>
-        <span style="font-size: 18px">&raquo;</span> -->
         <v-btn color="#9BA3A5" rounded x-small depressed style="color: #fff">
-          溫度分佈
+          整體資料監測
         </v-btn>
       </div>
 
@@ -146,9 +138,12 @@
               >
                 <h4 class="cardtitle ml-3">溫度參照點</h4>
                 <v-col cols="12" md="12">
+
+
+<no-ssr>
                   <div class="zoom-box" style="float: left">
                     <img
-                      class="xzoom-2-3"
+                      class="xzoom4" id="xzoom-fancy"
                       src="xzoom/images/20220510_v1.jpg"
                       xoriginal="xzoom/images/20220510_v1.jpg"
                       width="320"
@@ -158,6 +153,11 @@
                     id="zoom-target2"
                     style="width: 320px; height: 240px; float: right"
                   ></div>
+                  </no-ssr>
+
+
+
+
                 </v-col>
               </v-row>
             </v-col>
@@ -169,8 +169,6 @@
 </template>
 <script>
 // echarts引入
-// import DonutChart1 from './DonutChart/DonutChart1.vue'
-// import DonutChart2 from './DonutChart/DonutChart2.vue'
 import TempHistoryBarChart from './LineBarChart/TempHistoryBarChart.vue'
 import TempLowBarChart from './LineBarChart/TempLowBarChart.vue'
 import TempAvgBarChart from './LineBarChart/TempAvgBarChart.vue'
@@ -272,36 +270,42 @@ export default {
       {
         text: '整體資料監測',
         disabled: true,
-        href: 'breadcrumbs_link_2',
+        href: '../DataScrapingPage',
       },
-      {
-        text: '全局數據: 年度資料完成度',
-        disabled: true,
-        href: 'breadcrumbs_link_2',
-      },
-      {
-        text: '全局數據: 當月資料完成度',
-        disabled: true,
-        href: 'breadcrumbs_link_2',
-      },
+      //   {
+      //     text: '全局數據',
+      //     disabled: false,
+      //     href: 'breadcrumbs_link_2',
+      //   },
+      //   {
+      //     text: '年度資料完成度',
+      //     disabled: true,
+      //     href: '../DataScrapingPage',
+      //   },
+      // {
+      //   text: '當月資料完成度',
+      //   disabled: false,
+      //   href: 'breadcrumbs_link_2',
+      // },
     ],
   }),
 
   mounted() {
-    // const unthumb = document.querySelectorAll('.thumb')
-    // for (const unthumbs of unthumb) {
-    //   unthumbs.onclick = function (e) {
-    //     // console.log(e.target.src);
-    //     // console.log(e.target.getAttribute("src"));
-    //     const newImg = e.target.src // 絕對連結
-    //     // let newImg = e.target.getAttribute("src");  // getAttribute取得屬性 e.g. src //相對連結
-    //     document.querySelector('.pic').setAttribute('src', newImg) // 取得這個pic之後，去設定他的scr屬性值是newImg(我點選時所得到的），你要設定的屬性是誰
-    //     for (const th of this.thumb) {
-    //       th.classList.remove('active')
-    //     }
-    //     e.target.classList.add('active')
-    //   }
-    // }
+    const unthumb = document.querySelectorAll('.thumb')
+    for (const unthumbs of unthumb) {
+      unthumbs.onclick = function (e) {
+        // console.log(e.target.src);
+        // console.log(e.target.getAttribute("src"));
+        const newImg = e.target.src // 絕對連結
+        // let newImg = e.target.getAttribute("src");  // getAttribute取得屬性 e.g. src //相對連結
+        document.querySelector('.pic').setAttribute('src', newImg) // 取得這個pic之後，去設定他的scr屬性值是newImg(我點選時所得到的），你要設定的屬性是誰
+        for (const th of this.thumb) {
+          th.classList.remove('active')
+        }
+        e.target.classList.add('active')
+      }
+    }
+    
 
   },
 }
@@ -410,13 +414,13 @@ export default {
 .btn {
   background-color: #f2f4f4;
 }
-.legend {
+.reset {
   float: right;
   margin-top: 0.5em;
   margin-right: 0.5em;
 }
 .cardtitle {
-  /* line-height: 2.5em; */
+  line-height: 2.5em;
   font-weight: 900;
   color: #505f62;
 }
@@ -507,14 +511,12 @@ export default {
   right: 0.5em;
   top: 0.5em;
   position: absolute;
-  float: right;
-  margin-top: 0.5em;
-  margin-right: 0.5em;
 }
-// #zoom-target2 {
-//   background-image: url('/xzoom/images/20220510_v1.jpg');
-//   background-repeat: no-repeat;
-//   background-position: center;
-//   background-size: 200%;
-// }
+
+#zoom-target2 {
+  background-image: url('/xzoom/images/20220510_v1.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 200%;
+}
 </style>

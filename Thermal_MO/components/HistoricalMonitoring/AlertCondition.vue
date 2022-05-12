@@ -249,7 +249,7 @@
                           class="mt-15"
                           style="border: 2px solid grey"
                         >
-                          <div class="zoom-box">
+                          <!-- <div class="zoom-box">
                             <img
                               class="xzoom-2-4"
                               src="xzoom/images/tml.png"
@@ -260,7 +260,7 @@
                           <div
                             id="zoom-target"
                             style="width: 300px; height: 225px"
-                          ></div>
+                          ></div> -->
                         </v-col>
                       </v-row>
                     </v-col>
@@ -493,14 +493,14 @@ export default {
     //   }
     // }
 
-    $(function () {
-      $('.xzoom-2-4').xzoom({
-        position: '#zoom-target',
-        tint: '#000',
-        tintOpacity: 0.3,
-        fadeOut: true,
-      })
-    })
+    // $(function () {
+    //   $('.xzoom-2-4').xzoom({
+    //     position: '#zoom-target',
+    //     tint: '#000',
+    //     tintOpacity: 0.3,
+    //     fadeOut: true,
+    //   })
+    // })
   },
 }
 </script>
@@ -709,10 +709,5 @@ export default {
   margin-top: 0.5em;
   margin-right: 0.5em;
 }
-#zoom-target {
-  background-image: url('/xzoom/images/tml.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 200%;
-}
+
 </style>

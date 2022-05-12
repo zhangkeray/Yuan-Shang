@@ -15,17 +15,7 @@
           <!--左下畫面顯示----------------------------------------------------------------------------------------------- -->
           <!-- <v-col cols="12" lg="12"> -->
           <v-col cols="12" lg="12" style="border: 1px solid red">
-            <div class="zoom-box">
-              <img
-                class="xzoom-2-4"
-                src="/HistoricalMonitoring/mockImg/tml.png"
-                xoriginal="/HistoricalMonitoring/mockImg/tml.png"
-                width="300"
-              />
-            </div>
-            <div id="zoom-target" style="width:300px;height:250px">
 
-            </div>
           </v-col>
         </v-row>
       </v-col>
@@ -38,7 +28,9 @@
 
           <!--右下畫面顯示----------------------------------------------------------------------------------------------- -->
           <!-- <v-col cols="12" lg="12"> -->
-          <v-col cols="12" lg="12" style="border: 1px solid red"></v-col>
+          <v-col cols="12" lg="12" style="border: 1px solid red">
+
+          </v-col>
         </v-row>
       </v-col>
     </v-row>
@@ -106,22 +98,9 @@ export default {
       },
     ],
   },
-  mounted() {
-    $(function () {
-      $('.xzoom-2-4').xzoom({
-          position: '#zoom-target',
-                    tint: '#000',
-            tintOpacity: 0.3,
-            fadeOut: true,
-      })
-    })
-  },
+
 }
 </script>
 <style scoped>
-#zoom-target {
-  background-image:url('/HistoricalMonitoring/mockImg/tml.png');
-  background-repeat:no-repeat;
-  
-}
+
 </style>
