@@ -1,5 +1,5 @@
 <template>
-  <div ref="lineBarChart" style="height: 220px; width: 970px"></div>
+  <div ref="lineBarChart" style="height: 220px; width: 860px"></div>
 </template>
 
 <script>
@@ -60,10 +60,10 @@ export default {
 
         grid: {
           show: false,
-          top: '90',
+          top: '70',
           bottom: '20',
           right: '110',
-          left: '60',
+          left: '30',
         },
         legend: {
           show: true,
@@ -158,21 +158,7 @@ export default {
           //   // barWidth: '50%',
           // },
 
-          {
-            name: '參考點',
-            type: 'line',
-            yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
-            data: [
-              22, 22, 22, 22, 22, 22, 22, 23, 24, 24, 24, 24, 24, 23, 23, 23,
-              23, 22, 22, 22,22, 22, 22, 22,
-            ],
-            symbolSize: 1,
-            itemStyle: {
-              normal: {
-                color: '#90c4a4',
-              },
-            },
-          },
+
 
           {
             name: '矩形1',
@@ -217,7 +203,7 @@ export default {
             symbolSize: 1,
             itemStyle: {
               normal: {
-                // color: '#37484C',
+                color: '#d8dddd',
               },
             },
           },

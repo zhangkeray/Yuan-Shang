@@ -118,9 +118,9 @@
                 <!-- <h4 class="cardtitle ml-3" style="position: absolute">
                   超溫時段統計圖
                 </h4> -->
-                  <h4 class="cardtitle ml-3">
-                    選擇日期&nbsp;&nbsp;2022/5/5 - 2022/5/10
-                  </h4>
+                <h4 class="cardtitle ml-3">
+                  選擇日期&nbsp;&nbsp;2022/5/5 - 2022/5/10
+                </h4>
                 <v-col cols="12" md="12">
                   <peak-hours-statistics-bar-chart />
                 </v-col>
@@ -138,26 +138,21 @@
               >
                 <h4 class="cardtitle ml-3">溫度參照點</h4>
                 <v-col cols="12" md="12">
-
-
-<no-ssr>
-                  <div class="zoom-box" style="float: left">
-                    <img
-                      class="xzoom4" id="xzoom-fancy"
-                      src="xzoom/images/20220510_v1.jpg"
-                      xoriginal="xzoom/images/20220510_v1.jpg"
-                      width="320"
-                    />
-                  </div>
-                  <div
-                    id="zoom-target2"
-                    style="width: 320px; height: 240px; float: right"
-                  ></div>
+                  <no-ssr>
+                    <div class="zoom-box" style="float: left">
+                      <img
+                        class="xzoom4"
+                        id="xzoom-fancy"
+                        src="xzoom/images/20220510_v1.jpg"
+                        xoriginal="xzoom/images/20220510_v1.jpg"
+                        width="320"
+                      />
+                    </div>
+                    <div
+                      id="zoom-target2"
+                      style="width: 320px; height: 240px; float: right"
+                    ></div>
                   </no-ssr>
-
-
-
-
                 </v-col>
               </v-row>
             </v-col>
@@ -305,8 +300,6 @@ export default {
         e.target.classList.add('active')
       }
     }
-    
-
   },
 }
 </script>

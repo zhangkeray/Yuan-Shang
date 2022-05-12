@@ -190,8 +190,6 @@
                               style="border: 1px solid rgba(0, 0, 0, 0)"
                             >
                               <DayHeatMap />
-                              <!-- <p class="xcoordinates">(min)</p>
-                              <p class="ycoordinates">(hr)</p> -->
                             </v-col>
                           </v-row>
                         </v-col>
@@ -206,20 +204,94 @@
 
         <v-col cols="12" md="12">
           <v-row :column="$vuetify.breakpoint.mdAndDown">
-            <v-col cols="12" lg="3">
+            <v-col cols="12" lg="4">
               <v-row
                 class="ml-2 mt-2"
                 style="border: 3px solid #f1f1f1; border-radius: 10px"
               >
                 <v-col cols="12" md="12">
-                                            <h4 class="cardtitle ml-3">當月超溫紀錄</h4>
+                  <h4 class="cardtitle ml-3">監測項目超溫次數統計</h4>
 
-                  
-                   </v-col>
+                  <v-combobox
+                    v-model="select"
+                    :items="timeItems"
+                    label="選擇區間段"
+                    outlined
+                    dense
+                    style="font-size: 12px"
+                  ></v-combobox>
+
+                  <!-- <div class="piccc" style="width: 160px; height: 120px"></div> -->
+
+                  <v-data-table
+                    :headers="firstHeaders"
+                    :items="firstBodys"
+                    :single-expand="singleExpand"
+                    :expanded.sync="expanded"
+                    item-key="name"
+                    show-expand
+                    class="elevation-1"
+                    hide-default-footer
+                  >
+                    <template v-slot:top>
+                      <v-toolbar flat> </v-toolbar>
+                    </template>
+                    <template v-slot:item="{ item, expand, isExpanded }">
+                      <tr>
+                        <td
+                          class="d-block d-sm-table-cell"
+                          v-for="field in Object.keys(item)"
+                          :key="field"
+                        >
+                          {{ item[field] }}
+                        </td>
+                        <td>
+                          <v-btn icon @click="expand(!isExpanded)">
+                            <v-icon>{{
+                              isExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down'
+                            }}</v-icon>
+                          </v-btn>
+                        </td>
+                      </tr>
+                    </template>
+                    <template v-slot:expanded-item="{ headers }">
+                      <v-data-table
+                        :headers="secondHeaders"
+                        :items="secondBodys"
+                        dense
+                        hide-default-footer
+                      >
+                        <tr
+                          v-for="(item, index) in secondBodys"
+                          :key="index"
+                          :colspan="headers.length"
+                          style="font-size: 12px"
+                        >
+                          <td
+                            :key="index"
+                            v-for="(i, index) in Object.values(item)"
+                          >
+                            {{ i }}
+                          </td>
+                        </tr>
+                      </v-data-table>
+                    </template>
+                  </v-data-table>
+                      <v-alert dense  type="error" style="font-size:12px;">
+                        通知
+                        <strong>2022/07/27 03:01</strong> 
+                        <strong>矩形2</strong> 調整(X:20 Y50)
+                      </v-alert>
+                      <v-alert dense type="error" style="font-size:12px;">
+                        通知
+                        <strong>2022/07/27 03:00</strong> 
+                        <strong>矩形3</strong> 刪除
+                      </v-alert>
+                </v-col>
               </v-row>
             </v-col>
 
-            <v-col cols="12" lg="9">
+            <v-col cols="12" lg="8">
               <v-row
                 class="mx-2 mt-2"
                 style="border: 3px solid #f1f1f1; border-radius: 10px"
@@ -239,23 +311,20 @@
                       </h4>
 
                       <v-row>
-                        <v-col
-                          cols="11"
-                          class="mt-15"
-                          style="border: 2px solid grey"
-                        >
-                          <!-- <div class="zoom-box">
+                        <v-col cols="11" class="mt-15">
+                          <div class="zoom-box" style="">
                             <img
-                              class="xzoom-2-4"
-                              src="xzoom/images/tml.png"
-                              xoriginal="xzoom/images/tml.png"
-                              width="200"
+                              class="xzoom4"
+                              id="xzoom-fancy"
+                              src="xzoom/images/20220510_v1.jpg"
+                              xoriginal="xzoom/images/20220510_v1.jpg"
+                              width="250"
                             />
                           </div>
                           <div
-                            id="zoom-target"
-                            style="width: 300px; height: 225px"
-                          ></div> -->
+                            id="zoom-target2"
+                            style="width: 250px; height: 190px"
+                          ></div>
                         </v-col>
                       </v-row>
                     </v-col>
@@ -464,7 +533,7 @@ export default {
         href: 'breadcrumbs_link_2',
       },
     ],
-    // 右2假數據顯示(待刪)
+    // 假數據顯示(待刪)
     fakeTemps: [
       {
         name: '01',
@@ -520,6 +589,102 @@ export default {
         scope2: '49°C',
         scope3: '40°C',
         note: '',
+      },
+    ],
+    select: ['2022/03/08 03:08:57 - 2022/05/12 08:22:09'],
+    timeItems: [
+      '2022/01/10 01:00:17 - 2022/02/27 08:09:31',
+      '2022/02/27 02:53:05 - 2022/03/08 21:09:25',
+      '2022/03/08 03:08:57 - 2022/05/12 08:22:09',
+    ],
+
+    // 巢狀表格
+    expanded: [],
+    singleExpand: false,
+    firstHeaders: [
+      {
+        text: '項目',
+        align: 'start',
+        sortable: false,
+        value: 'name',
+      },
+      { text: '開始紀錄時間', value: 'calories' },
+      { text: '停止紀錄時間', value: 'fat' },
+      { text: '超溫占比', value: 'carbs' },
+      { text: '超溫總數', value: 'protein' },
+      { text: '', value: 'data-table-expand' },
+    ],
+
+    secondHeaders: [
+      {
+        text: '',
+        align: 'start',
+        sortable: false,
+        value: 'name',
+      },
+      { text: '超溫開始時間', value: 'calories' },
+      { text: '超溫停止時間', value: 'fat' },
+      { text: '持續時間', value: 'carbs' },
+      { text: '最高溫度', value: 'protein' },
+      { text: '警報溫度', value: 'iron' },
+    ],
+    firstBodys: [
+      {
+        name: '矩形1',
+        calories: '2022/07/27 01:00',
+        fat: '2022/10/27 08:09',
+        carbs: '30%',
+        protein: 3,
+      },
+      {
+        name: '矩形2',
+        calories: '2022/07/27 01:00',
+        fat: '2022/10/27 08:09',
+        carbs: '50%',
+        protein: 5,
+      },
+      {
+        name: '矩形3',
+        calories: '2022/07/27 01:00',
+        fat: '2022/10/27 08:09',
+        carbs: '20%',
+        protein: 2,
+      },
+    ],
+    secondBodys: [
+      {
+        // name: '矩形1',
+        calories: '2022/07/28 01:20:58',
+        fat: '2022/09/28 01:25:58',
+        carbs: '12分',
+        protein: '60°C',
+        iron: '50°C',
+      },
+      {
+        // name: '矩形1',
+        calories: '2022/07/28 01:20:58',
+        fat: '2022/07/28 01:25:58',
+        carbs: '5分',
+        protein: '62°C',
+        iron: '43°C',
+      },
+    ],
+    secondBodys2: [
+      {
+        // name: '矩形1',
+        calories: '2022/07/28 01:20:58',
+        fat: '2022/09/28 01:25:58',
+        carbs: '12分',
+        protein: '60°C',
+        iron: '50°C',
+      },
+      {
+        // name: '矩形1',
+        calories: '2022/07/28 01:20:58',
+        fat: '2022/07/28 01:25:58',
+        carbs: '5分',
+        protein: '62°C',
+        iron: '43°C',
       },
     ],
   }),
@@ -756,4 +921,10 @@ export default {
   margin-right: 0.5em;
 }
 
+.piccc {
+  background-image: url('/xzoom/images/20220510_v1.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 200%;
+}
 </style>
