@@ -40,10 +40,6 @@ export default {
         },
         dataZoom: [
           {
-            show: true,
-            realtime: true,
-          },
-          {
             type: 'inside',
             realtime: true,
           },
@@ -174,17 +170,13 @@ export default {
               totle++
             })
             console.log(totle)
-            startV = totle - 50
+            startV = totle - 200
             myChart.setOption({
               xAxis: {
                 type: 'category',
                 data: xaxis,
               },
               dataZoom: [
-                {
-                  startValue: startV,
-                  endValue: totle,
-                },
                 {
                   startValue: startV,
                   endValue: totle,
