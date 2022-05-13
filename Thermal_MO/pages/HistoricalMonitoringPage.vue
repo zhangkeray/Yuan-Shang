@@ -1,28 +1,4 @@
-
 <template>
-
-
-  <!-- <v-container fluid mt-3>
-    <v-row>
-      <v-col cols="12" md="4">
-        <v-card class="ml-2 text-center" height="52em" rounded="lg">
-          pending
-        </v-card>
-      </v-col>
-
-      <v-col cols="12" md="4">
-        <v-card class="ml-2 text-center" height="52em" rounded="lg">
-          pending
-        </v-card>
-      </v-col>
-
-      <v-col cols="12" md="4">
-        <v-card class="ml-2 text-center" height="52em" rounded="lg">
-          pending
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container> -->
   <div class="fluid mt-3">
     <v-img class="bgimg" src="bgimg.png" height="93.2vh" />
 
@@ -45,33 +21,25 @@
               警報狀況
             </v-tab>
 
-            <v-tab href="#tab-2"
-              style="
-                font-size: 15px;
-                justify-content: left;
-                color: black;
-                font-weight: 900;
-              "
-            >
+            <v-tab
+              href="#tab-2"
+              style="font-size: 15px; justify-content: left">
               <img class="" alt="" src="/data_scraping/data.png" width="14em" />
               <p>&nbsp;&nbsp;</p>
               溫度分佈
             </v-tab>
 
-
             <v-tab-item value="tab-1">
               <no-ssr>
-              <alert-condition/>
+                <AlertCondition />
               </no-ssr>
-
             </v-tab-item>
 
             <v-tab-item value="tab-2">
-<no-ssr>
-                            <TemperatureDistribution2/>
-</no-ssr>
+              <no-ssr>
+                <TemperatureDistribution2 />
+              </no-ssr>
             </v-tab-item>
-          
           </v-tabs>
         </v-card>
       </v-col>
@@ -81,13 +49,13 @@
 
 <script>
 // echarts引入
-// import AlertCondition from '../components/HistoricalMonitoring/AlertCondition.vue'
+import AlertCondition from '../components/HistoricalMonitoring/AlertCondition.vue'
 import TemperatureDistribution2 from '../components/HistoricalMonitoring/TemperatureDistribution2.vue'
 
 export default {
   // echarts引入
   components: {
-    // AlertCondition,
+    AlertCondition,
     TemperatureDistribution2,
   },
   name: 'IndexPage',
@@ -120,55 +88,13 @@ export default {
     ],
   },
   data: () => ({
-    options: {
-      loop: false,
-      perPage: 3,
-      paginationEnabled: false,
-    },
     tab: 'tab-1',
+        // tab: 'null',
+
   }),
   methods: {
-    // 查看更多
-    changeTabToGlobalData() {
-      this.tab = 'tab-2'
-    },
-    changeTabToSpecifiedData() {
-      this.tab = 'tab-4'
-    },
   },
-  mounted() {
-    const unthumb = document.querySelectorAll('.thumb')
-    for (const unthumbs of unthumb) {
-      unthumbs.onclick = function (e) {
-        // console.log(e.target.src);
-        // console.log(e.target.getAttribute("src"));
-        const newImg = e.target.src // 絕對連結
-        // let newImg = e.target.getAttribute("src");  // getAttribute取得屬性 e.g. src //相對連結
-        document.querySelector('.pic').setAttribute('src', newImg) // 取得這個pic之後，去設定他的scr屬性值是newImg(我點選時所得到的），你要設定的屬性是誰
-        for (const th of this.thumb) {
-          th.classList.remove('active')
-        }
-        e.target.classList.add('active')
-      }
-    }
-    $('.hoverimg1').hover(
-      function () {
-        $('.place-image').fadeIn('slow')
-      },
-      function () {
-        $('.place-image').fadeOut('slow')
-      }
-    )
 
-    $('.hoverimg2').hover(
-      function () {
-        $('.place-image2').fadeIn('slow')
-      },
-      function () {
-        $('.place-image2').fadeOut('slow')
-      }
-    )
-  },
 }
 </script>
 <style scoped>
