@@ -1,5 +1,5 @@
 <template>
-  <div ref="heatMap2" style="height: 200px; width: 880px"></div>
+  <div ref="heatMap2" style="height: 180px; width: 880px"></div>
 </template>
 
 <script>
@@ -157,7 +157,7 @@ export default {
           height: '70%',
           // right: 'center',
           left: '30px',
-          top: '30px',
+          top: '28px',
           width: '750px',
         },
         xAxis: {

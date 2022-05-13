@@ -208,22 +208,33 @@
         </v-col>
 
         <v-col cols="12" md="12">
-          <v-row :column="$vuetify.breakpoint.mdAndDown">
-            <v-col cols="12" lg="4">
+          <v-row :column="$vuetify.breakpoint.mdAndDown" justify="center">
+            <v-col cols="12" lg="3">
               <v-row
                 class="ml-2 mt-2"
                 style="border: 3px solid #f1f1f1; border-radius: 10px"
               >
                 <h4 class="cardtitle ml-3">監測項目超溫次數統計</h4>
-                <v-col cols="12" md="12">
-                  <v-combobox
-                    v-model="select"
-                    :items="timeItems"
-                    label="選擇區間段"
-                    dense
-                    style="font-size: 12px"
-                  ></v-combobox>
+                <v-spacer />
+                <v-combobox
+                  v-model="select"
+                  :items="timeItems"
+                  label=""
+                  dense
+                  color=""
+                  style="font-size: 12px"
+                ></v-combobox>
+                <v-btn icon color="red">
+                  <v-icon>mdi-alert-circle-outline</v-icon>
+                </v-btn>
 
+                <v-col cols="12" md="12">
+                  <v-img
+                    justify="center"
+                    src="/xzoom/images/20220510_v1.jpg"
+                    width="280"
+                    style="display: block; margin: auto"
+                  />
                   <v-data-table
                     :headers="firstHeaders"
                     :items="firstBodys"
@@ -235,6 +246,7 @@
                     hide-default-footer
                     disable-sort
                     style="position: relative"
+                    height="200px"
                   >
                     <template v-slot:expanded-item="{ headers }">
                       <v-data-table
@@ -267,8 +279,7 @@
                     <strong>2022/07/27 03:00</strong>
                     <strong>矩形3</strong> 刪除
                   </v-alert> -->
-                  <div class="mt-12" style="height:100px">
-                  <v-alert type="warning" dense dismissible>
+                  <!-- <v-alert type="warning" dense dismissible>
                     <v-row align="center">
                       <v-col>
                         <h6 >
@@ -291,63 +302,29 @@
                         <v-btn small>查看圖片</v-btn>
                       </v-col>
                     </v-row>
-                  </v-alert>
-                  </div>
+                  </v-alert> -->
                 </v-col>
               </v-row>
             </v-col>
 
-            <v-col cols="12" lg="8">
+            <v-col cols="12" lg="9">
               <v-row
                 class="mx-2 mt-2"
                 style="border: 3px solid #f1f1f1; border-radius: 10px"
               >
-                <v-col cols="12" md="3">
-                  <v-row :column="$vuetify.breakpoint.mdAndDown">
-                    <v-col
-                      cols="12"
-                      lg="12"
-                      style="
-                        border: 1px solid rgba(0, 0, 0, 0);
-                        border-radius: 5px;
-                      "
-                    >
-                      <h4 class="cardtitle ml-3" style="position: absolute">
-                        當日資料完成度
-                      </h4>
-
-                      <v-row>
-                        <v-col cols="11" class="mt-15">
-                          <div class="zoom-box" style="">
-                            <img
-                              class="xzoom4"
-                              id="xzoom-fancy"
-                              src="xzoom/images/20220510_v1.jpg"
-                              xoriginal="xzoom/images/20220510_v1.jpg"
-                              width="250"
-                            />
-                          </div>
-                          <div
-                            id="zoom-target2"
-                            style="width: 250px; height: 190px"
-                          ></div>
-                        </v-col>
-                      </v-row>
-                    </v-col>
-                  </v-row>
-                </v-col>
-
-                <v-col cols="12" md="9">
-                  <v-row :column="$vuetify.breakpoint.mdAndDown">
+                <!-- <h4 class="cardtitle">監測項目時段超溫紀錄表</h4> -->
+                <v-col cols="9">
+                  <v-row>
                     <!-- ----------------------------------------------------------------------------------------------- -->
-                    <v-col
-                      cols="12"
-                      lg="12"
-                      style="border: 1px solid rgba(0, 0, 0, 0)"
-                    >
-                      <h4 class="cardtitle ml-3">監測項目時段超溫紀錄表</h4>
+                    <v-col cols="12" lg="12">
+                      <!-- <h4 class="cardtitle ml-3">監測項目時段超溫紀錄表</h4> -->
 
-                      <v-simple-table fixed-header height="150px">
+                      <!-- <v-data-table
+                        height="190px"
+                        show-select
+                        :single-select="singleSelect"
+                        v-model="selected"
+                      >
                         <template v-slot:default>
                           <thead>
                             <tr>
@@ -356,9 +333,7 @@
                               <th class="text-left">超溫停止時間</th>
                               <th class="text-left">持續時間</th>
                               <th class="text-left">預設警報溫度</th>
-                              <th class="text-left">矩形1</th>
-                              <th class="text-left">矩形2</th>
-                              <th class="text-left">矩形3</th>
+                              <th class="text-left">最大溫度</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -369,13 +344,26 @@
                               <td>{{ item.duration }}</td>
                               <td>{{ item.defaultAlertTemp }}</td>
                               <td>{{ item.scope1 }}</td>
-                              <td>{{ item.scope2 }}</td>
-                              <td>{{ item.scope3 }}</td>
-                              <td>{{ item.note }}</td>
+
                             </tr>
                           </tbody>
                         </template>
-                      </v-simple-table>
+                      </v-data-table> -->
+
+                      <v-data-table
+                        v-model="selected"
+                        :headers="fakeTempsHeaders"
+                        :items="fakeTemps"
+                        :single-select="singleSelect"
+                        item-key="name"
+                        show-select
+                        class="elevation-0"
+                        height="190px"
+                        hide-default-footer
+                        fixed-header
+                        style="width: 850px"
+                      >
+                      </v-data-table>
                     </v-col>
 
                     <v-col
@@ -388,6 +376,29 @@
                       <overheat-records-line-chart />
                     </v-col>
                   </v-row>
+                </v-col>
+                <v-col cols="3">
+
+                      <!-- <h4 class="cardtitle ml-3" style="position: absolute">
+                        當日資料完成度
+                      </h4> -->
+
+
+                          <div class="zoom-box" style="padding-right:30px">
+                            <img
+                              class="xzoom4"
+                              id="xzoom-fancy"
+                              src="xzoom/images/20220510_v1.jpg"
+                              xoriginal="xzoom/images/20220510_v1.jpg"
+                              width="290"
+                              style="display:block;margin:auto"
+                            />
+                          </div>
+                          <div class="mt-1"
+                            id="zoom-target2"
+                            style="width: 290px; height: 220px;position:absolute;margin-left:0px"
+                          ></div>
+
                 </v-col>
               </v-row>
             </v-col>
@@ -544,62 +555,94 @@ export default {
         href: 'breadcrumbs_link_2',
       },
     ],
+
+    //     <th class="text-left">項目</th>
+    // <th class="text-left">超溫開始時間</th>
+    // <th class="text-left">超溫停止時間</th>
+    // <th class="text-left">持續時間</th>
+    // <th class="text-left">預設警報溫度</th>
+    // <th class="text-left">最大溫度</th>
     // 假數據顯示(待刪)
+    fakeTempsHeaders: [
+      {
+        text: '',
+        align: 'start',
+        sortable: false,
+        value: 'selected',
+      },
+      {
+        text: '項次',
+        // align: 'start',
+        sortable: false,
+        value: 'index',
+      },
+      {
+        text: '項目',
+        // align: 'start',
+        sortable: false,
+        value: 'name',
+      },
+      { text: '超溫開始日期', value: 'overheatStartMonth' },
+      { text: '超溫開始時間', value: 'overheatStart' },
+      { text: '超溫停止時間', value: 'overheatStop' },
+      { text: '持續時間', value: 'duration' },
+      { text: '預設警報溫度', value: 'defaultAlertTemp' },
+      { text: '最大溫度', value: 'scope1' },
+    ],
     fakeTemps: [
       {
-        name: '01',
+        index: '1',
+        name: '矩形1',
+        overheatStartMonth: '2022/07/27',
         overheatStart: '01:00:00',
         overheatStop: '01:09:59',
         duration: '10分',
         defaultAlertTemp: '50°C',
-        scope1: '50°C',
-        scope2: '49°C',
-        scope3: '40°C',
-        note: '',
+        scope1: '50°C', // 最大溫度
       },
       {
-        name: '02',
+        index: '2',
+
+        name: '矩形2',
+        overheatStartMonth: '2022/07/27',
         overheatStart: '01:00:00',
         overheatStop: '01:09:59',
         duration: '10分',
         defaultAlertTemp: '50°C',
         scope1: '50°C',
-        scope2: '49°C',
-        scope3: '40°C',
-        note: '',
       },
       {
-        name: '03',
+        index: '3',
+
+        name: '矩形3',
+        overheatStartMonth: '2022/07/27',
         overheatStart: '01:00:00',
         overheatStop: '01:09:59',
         duration: '10分',
         defaultAlertTemp: '50°C',
         scope1: '50°C',
-        scope2: '49°C',
-        scope3: '40°C',
-        note: '',
       },
       {
-        name: '04',
+        index: '4',
+
+        name: '點1',
+        overheatStartMonth: '2022/07/27',
         overheatStart: '01:00:00',
         overheatStop: '01:09:59',
         duration: '10分',
         defaultAlertTemp: '50°C',
         scope1: '50°C',
-        scope2: '49°C',
-        scope3: '40°C',
-        note: '',
       },
       {
-        name: '05',
+        index: '5',
+
+        name: '點2',
+        overheatStartMonth: '2022/07/27',
         overheatStart: '01:00:00',
         overheatStop: '01:09:59',
         duration: '10分',
         defaultAlertTemp: '50°C',
         scope1: '50°C',
-        scope2: '49°C',
-        scope3: '40°C',
-        note: '',
       },
     ],
     select: ['2022/03/08 03:08:57 - 2022/05/12 08:22:09'],
@@ -620,7 +663,7 @@ export default {
         value: 'name',
       },
       { text: '開始紀錄時間', value: 'calories' },
-      { text: '停止紀錄時間', value: 'fat' },
+      // { text: '停止紀錄時間', value: 'fat' },
       { text: '超溫占比', value: 'carbs' },
       { text: '超溫總數', value: 'protein' },
       { text: '', value: 'data-table-expand' },
@@ -634,7 +677,6 @@ export default {
         value: 'name',
       },
       { text: '超溫開始時間', value: 'calories' },
-      { text: '超溫停止時間', value: 'fat' },
       { text: '持續時間', value: 'carbs' },
       { text: '最高溫度', value: 'protein' },
       { text: '警報溫度', value: 'iron' },
@@ -696,6 +738,104 @@ export default {
         carbs: '5分',
         protein: '62°C',
         iron: '43°C',
+      },
+    ],
+    // fakefakefake
+    singleSelect: true,
+    selected: [],
+    headers: [
+      {
+        text: 'Dessert (100g serving)',
+        align: 'start',
+        sortable: false,
+        value: 'name',
+      },
+      { text: 'Calories', value: 'calories' },
+      { text: 'Fat (g)', value: 'fat' },
+      { text: 'Carbs (g)', value: 'carbs' },
+      { text: 'Protein (g)', value: 'protein' },
+      { text: 'Iron (%)', value: 'iron' },
+    ],
+    desserts: [
+      {
+        name: 'Frozen Yogurt',
+        calories: 159,
+        fat: 6.0,
+        carbs: 24,
+        protein: 4.0,
+        iron: '1%',
+      },
+      {
+        name: 'Ice cream sandwich',
+        calories: 237,
+        fat: 9.0,
+        carbs: 37,
+        protein: 4.3,
+        iron: '1%',
+      },
+      {
+        name: 'Eclair',
+        calories: 262,
+        fat: 16.0,
+        carbs: 23,
+        protein: 6.0,
+        iron: '7%',
+      },
+      {
+        name: 'Cupcake',
+        calories: 305,
+        fat: 3.7,
+        carbs: 67,
+        protein: 4.3,
+        iron: '8%',
+      },
+      {
+        name: 'Gingerbread',
+        calories: 356,
+        fat: 16.0,
+        carbs: 49,
+        protein: 3.9,
+        iron: '16%',
+      },
+      {
+        name: 'Jelly bean',
+        calories: 375,
+        fat: 0.0,
+        carbs: 94,
+        protein: 0.0,
+        iron: '0%',
+      },
+      {
+        name: 'Lollipop',
+        calories: 392,
+        fat: 0.2,
+        carbs: 98,
+        protein: 0,
+        iron: '2%',
+      },
+      {
+        name: 'Honeycomb',
+        calories: 408,
+        fat: 3.2,
+        carbs: 87,
+        protein: 6.5,
+        iron: '45%',
+      },
+      {
+        name: 'Donut',
+        calories: 452,
+        fat: 25.0,
+        carbs: 51,
+        protein: 4.9,
+        iron: '22%',
+      },
+      {
+        name: 'KitKat',
+        calories: 518,
+        fat: 26.0,
+        carbs: 65,
+        protein: 7,
+        iron: '6%',
       },
     ],
   }),
@@ -960,7 +1100,7 @@ export default {
 .v-data-table > .v-data-table__wrapper > table > thead > tr > td,
 .v-data-table > .v-data-table__wrapper > table > tfoot > tr > td {
   font-size: 12px !important;
-  padding-right: 4px !important;
-  padding-left: 4px !important;
+  // margin-right: 10px !important;
+  padding: 0px !important;
 }
 </style>

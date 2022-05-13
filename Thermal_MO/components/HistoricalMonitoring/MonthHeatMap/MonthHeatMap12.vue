@@ -1,6 +1,6 @@
 <template>
   <!-- <div id="month-heat-map1" style="height: 200px; width: 220px"></div> -->
-  <div ref="monthHeatMap12" style="height: 200px; width: 220px"></div>
+  <div ref="monthHeatMap1" style="height: 200px; width: 220px"></div>
 </template>
 
 <script>
@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     drawBar() {
-      const chartDom = this.$refs.monthHeatMap12
+      const chartDom = this.$refs.monthHeatMap1
       const myChart = echarts.init(chartDom) // echarts初始化
       // const myChart = echarts.init(this.$refs.month-heat-map1); // echarts初始化
 
@@ -49,22 +49,31 @@ export default {
             return format + ': ' + p.data[1]
           },
         },
+
         visualMap: {
-          top: '30px',
+          // top: '30px',
           min: 0,
           max: 1000,
+          show: false,
           calculable: true,
           orient: 'vertical',
-          left: '2660',
+          // left: '2660',
           inRange: {
             color: ['#37484C', '#9aa2a4', '#d8dddd', '#E6E8E9'],
           },
         },
+        mytextStyle: {
+          fontSize: 9,
+        },
+
         calendar: [
           {
-            top: '50px',
-            // yearLabel: { show: false },
-                        monthLabel: {
+            // width: 200,
+            // cellSize: [25, 25],
+            top: '25px',
+            left: '50',
+            yearLabel: { show: false },
+            monthLabel: {
               nameMap: [
                 '一月',
                 '二月',
@@ -84,7 +93,7 @@ export default {
               // nameMap: ['日', '一', '二', '三', '四', '五', '六'],
             },
             orient: 'vertical',
-            range: '2022/4',
+            range: '2021/05',
             splitLine: {
               lineStyle: {
                 color: '#fff',
@@ -92,14 +101,21 @@ export default {
             },
           },
         ],
+
         series: [
           {
             type: 'heatmap',
             coordinateSystem: 'calendar',
             calendarIndex: 0,
-            data: getVirtulData('2022'),
+            data: getVirtulData('2021'),
             itemStyle: {
               borderColor: '#fff',
+            },
+            label: {
+              show: true,
+              formatter(params) {
+                return Number(params.data[0].substring(8, 10))
+              },
             },
           },
         ],

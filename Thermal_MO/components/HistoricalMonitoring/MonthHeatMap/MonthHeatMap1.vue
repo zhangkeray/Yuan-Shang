@@ -51,19 +51,28 @@ export default {
         },
 
         visualMap: {
-          top: '30px',
+          // top: '30px',
           min: 0,
           max: 1000,
+          show: false,
           calculable: true,
           orient: 'vertical',
-          left: '2660',
+          // left: '2660',
           inRange: {
             color: ['#37484C', '#9aa2a4', '#d8dddd', '#E6E8E9'],
           },
         },
+        mytextStyle: {
+          fontSize: 9,
+        },
+
         calendar: [
           {
-            // yearLabel: { show: false },
+            // width: 200,
+            // cellSize: [25, 25],
+            top: '25px',
+            left: '50',
+            yearLabel: { show: false },
             monthLabel: {
               nameMap: [
                 '一月',
@@ -83,9 +92,8 @@ export default {
             dayLabel: {
               // nameMap: ['日', '一', '二', '三', '四', '五', '六'],
             },
-            top: '50px',
             orient: 'vertical',
-            range: '2021/5',
+            range: '2021/05',
             splitLine: {
               lineStyle: {
                 color: '#fff',
@@ -105,7 +113,7 @@ export default {
             },
             label: {
               show: true,
-              formatter (params) {
+              formatter(params) {
                 return Number(params.data[0].substring(8, 10))
               },
             },
