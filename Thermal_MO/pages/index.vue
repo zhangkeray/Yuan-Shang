@@ -872,7 +872,7 @@
                           color=""
                           icon
                           class="right-btn"
-                          @click="dialog = true"
+                          @click="opendialog(item.spot_number,'spot')"
                           ><img
                             class=""
                             alt=""
@@ -921,7 +921,7 @@
                           color=""
                           icon
                           class="right-btn"
-                          @click="dialog = true"
+                          @click="opendialog(item.scope_number,'scope')"
                           ><img
                             class=""
                             alt=""
@@ -971,7 +971,7 @@
                             class=""
                             alt="alert"
                             src="/right-icons/alert-off.png"
-                            @click="dialog = true"
+                            @click="opendialog(item.line_number,'line')"
                             width="18em"
                             depressed
                         /></v-btn>
@@ -996,67 +996,73 @@
             </v-card>
           </v-col>
           <!-- 物件警報(共用) -->
-          <v-dialog v-model="dialog" max-width="290" hide-overlay>
-            <v-card>
-              <h4 class="cardtitle ml-3">設定警報</h4>
-              <!-- <v-divider></v-divider> -->
-              <v-card-text>
-                <v-select
-                  class="subtitle text-color"
-                  v-model="conditionSelect"
-                  :items="conditionItems"
-                  :rules="[(v) => !!v || 'Item is required']"
-                  label="條件"
-                  required
-                ></v-select>
-                <v-text-field
-                  v-model="threshold"
-                  class="subtitle text-color"
-                  label="閾值"
-                  color="#828c8f"
-                ></v-text-field>
-                <v-text-field
-                  v-model="hysteresis"
-                  class="subtitle text-color"
-                  label="滯後"
-                  color="#828c8f"
-                ></v-text-field>
-                <v-text-field
-                  v-model="thresholdTime"
-                  class="subtitle text-color"
-                  label="閾值時間(毫秒)"
-                  color="#828c8f"
-                ></v-text-field>
-                <v-select
-                  class="subtitle text-color"
-                  v-model="captureSelect"
-                  :items="captureItems"
-                  :rules="[(v) => !!v || 'Item is required']"
-                  label="捕捉"
-                  required
-                ></v-select>
-                <v-text-field
-                  disabled
-                  v-model="pulseTime"
-                  class="subtitle text-color"
-                  label="脈衝時間(毫秒)"
-                  color="#828c8f"
-                ></v-text-field>
-              </v-card-text>
+          <v-dialog v-model="dialog" persistent max-width="290">
+            <form @submit.prevent="submitForm">
+              <v-card>
+                <h4 class="cardtitle ml-3">設定警報</h4>
+                <!-- <v-divider></v-divider> -->
+                <v-card-text>
+                  <v-select
+                    disabled
+                    class="subtitle text-color"
+                    v-model="conditionSelect"
+                    :items="conditionItems"
+                    :rules="[(v) => !!v || 'Item is required']"
+                    label="條件"
+                    required
+                  ></v-select>
+                  <v-text-field
+                    v-model="threshold"
+                    class="subtitle text-color qwcegzsd"
+                    label="閾值"
+                    name="threshold"
+                    color="#828c8f"
+                    required
+                  ></v-text-field>
+                  <v-text-field
+                    disabled
+                    v-model="hysteresis"
+                    class="subtitle text-color"
+                    label="滯後"
+                    color="#828c8f"
+                  ></v-text-field>
+                  <v-text-field
+                    disabled
+                    v-model="thresholdTime"
+                    class="subtitle text-color"
+                    label="閾值時間(毫秒)"
+                    color="#828c8f"
+                  ></v-text-field>
+                  <v-select
+                    disabled
+                    class="subtitle text-color"
+                    v-model="captureSelect"
+                    :items="captureItems"
+                    :rules="[(v) => !!v || 'Item is required']"
+                    label="捕捉"
+                    required
+                  ></v-select>
+                  <v-text-field
+                    disabled
+                    v-model="pulseTime"
+                    class="subtitle text-color"
+                    label="脈衝時間(毫秒)"
+                    color="#828c8f"
+                  ></v-text-field>
+                </v-card-text>
 
-              <v-card-actions>
-                <v-switch label="" color="#828c8f"></v-switch>
-                <v-spacer></v-spacer>
+                <v-card-actions>
+                  <v-switch label="" color="#828c8f"></v-switch>
+                  <v-spacer></v-spacer>
 
-                <v-btn color="#828C8F" text @click="dialog = false">
-                  取消
-                </v-btn>
+                  <v-btn color="#828C8F" text @click="dialog = false">
+                    取消
+                  </v-btn>
 
-                <v-btn color="#828C8F" text @click="dialog = false">
-                  確定
-                </v-btn>
-              </v-card-actions>
-            </v-card>
+                  <v-btn color="#828C8F" type="submit" text> 確定 </v-btn>
+                </v-card-actions>
+              </v-card>
+            </form>
           </v-dialog>
           <!--右2畫面顯示----------------------------------------------------------------------------------------------- -->
           <v-col cols="12" lg="7">
@@ -1327,7 +1333,14 @@
 
                 <v-text-field
                   v-model="transmission"
-                  class="subtitle card5content mt-1 mr-5 text-color font-weight-large"
+                  class="
+                    subtitle
+                    card5content
+                    mt-1
+                    mr-5
+                    text-color
+                    font-weight-large
+                  "
                   label="穿透率"
                   color="#828c8f"
                 ></v-text-field>
@@ -1413,16 +1426,18 @@ export default {
     transition_autofocus: 'scale-transition',
 
     // 對話框
-    conditionSelect: '以下',
+    conditionSelect: '以上',
     conditionItems: ['以下', '以上'],
     checkbox: false,
-    threshold: `${0}°C`,
-    hysteresis: `${1}°C`,
+    threshold: ``,
+    hysteresis: ``,
     thresholdTime: `${1000}ms`,
     captureSelect: '無',
     captureItems: ['無', '照片', '影片'],
     // capture: 15,
     pulseTime: 0,
+    openid: null, // 紀錄開啟什麼id
+    opentype: null, // 紀錄開啟的原件
 
     // 右1點線面_宣告變數陣列
     spots: [],
@@ -1430,43 +1445,7 @@ export default {
     lines: [],
 
     // 右2假數據顯示(待刪)
-    temps: [
-      {
-        name: '點2',
-        duration: 37,
-        temperature: 44,
-        alertTemperature: 35,
-        time: '2022-03-17 02:10:07',
-      },
-      {
-        name: '矩形1',
-        duration: 27,
-        temperature: 36,
-        alertTemperature: 35,
-        time: '2022-03-16 18:30:14',
-      },
-      {
-        name: '矩形1',
-        duration: 12,
-        temperature: 33,
-        alertTemperature: 35,
-        time: '2022-03-16 18:30:14',
-      },
-      {
-        name: '點3',
-        duration: 14,
-        temperature: 30,
-        alertTemperature: 35,
-        time: '2022-03-17 07:04:22',
-      },
-      {
-        name: '矩形1',
-        duration: 120,
-        temperature: 22,
-        alertTemperature: 35,
-        time: '2022-03-16 18:30:14',
-      },
-    ],
+    temps: [],
 
     // 右3顯示
     interval: {},
@@ -1590,6 +1569,8 @@ export default {
         this.Refresh()
       }
     }, 1000)
+    // 警報表單送出
+    // this.outputDialog()
   },
   // 對話框
   computed: {
@@ -1598,6 +1579,21 @@ export default {
     },
   },
   methods: {
+    submitForm(){
+      const opendid = this.openid
+      const opentype = this.opentype
+      console.log(opendid)
+      console.log(opentype)
+    },
+    // 開啟警報視窗
+    opendialog(id,type) {
+      this.dialog = true
+      this.openid = id
+      this.opentype = type
+    },
+    // outputDialog() {
+
+    // },
     // 右2
     countdown() {
       this.temps.duration++

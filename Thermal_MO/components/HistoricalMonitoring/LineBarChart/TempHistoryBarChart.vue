@@ -1,9 +1,10 @@
 <template>
-  <div ref="lineBarChart" style="height: 380px; width: 1050px"></div>
+  <div ref="lineBarChart" style="height: 335px; width: 1050px"></div>
 </template>
 
 <script>
 import * as echarts from 'echarts'
+import axios from 'axios'
 export default {
   data() {
     return {}
@@ -29,7 +30,7 @@ export default {
             fontFamily: 'Arial, Verdana, sans...',
             fontSize: 12,
             fontStyle: 'normal',
-  color: '#505f62',
+            color: '#505f62',
           },
         },
         // tooltip: {
@@ -54,8 +55,6 @@ export default {
           // triggerOn: 'click', // 触发方式
           // alwaysShowContent:true,   // 鼠标离开区域不消失
           trigger: 'axis',
-
-
         },
 
         grid: {
@@ -74,38 +73,12 @@ export default {
             fontSize: 12,
           },
           itemGap: 20,
-          data: ['矩形1vs矩形2', '矩形2vs矩形3', '矩形1', '矩形2', '矩形3', '參考點'],
           inactiveColor: '#ccc',
         },
         xAxis: [
           {
             type: 'category',
-            data: [
-              '19',
-              '20',
-              '21',
-              '22',
-              '23',
-              '00',
-              '1',
-              '2',
-              '3',
-              '4',
-              '5',
-              '6',
-              '7',
-              '8',
-              '9',
-              '10',
-              '11',
-              '12',
-              '13',
-              '14',
-              '15',
-              '16',
-              '17',
-              '18',
-            ],
+
             // axisPointer: {
             //   type: 'shadow',
             // },
@@ -116,7 +89,12 @@ export default {
             // },
           },
         ],
-
+        dataZoom: [
+          {
+            type: 'inside',
+            realtime: true,
+          },
+        ],
         // 設定兩個y軸，左邊顯示數量，右邊顯示概率
 
         yAxis: [
@@ -135,8 +113,8 @@ export default {
             type: 'value',
             name: '(%)',
             min: 0,
-            max: 3.5,
-            interval: 0.5,
+            max: 400,
+            // interval: 0.5,
             // axisLabel: {
             //   formatter: '{value} %',
             // },
@@ -147,96 +125,152 @@ export default {
         color: colorPalette,
 
         series: [
-          // 2022-2021
-          {
-            name: '矩形1vs矩形2',
-            type: 'bar',
-            data: [
-              12, 15, 17, 16, 10, 13, 18, 17, 14, 18, 12, 16, 12, 11, 17, 12,
-              14, 15, 16, 13, 15, 10, 11, 19,
-            ],
-            // barWidth: '50%',
-          },
-
-          {
-            name: '矩形2vs矩形3',
-            type: 'bar',
-            data: [
-              12, 11, 17, 12, 14, 15, 16, 13, 15, 10, 11, 9, 12, 15, 17, 6, 10,
-              13, 18, 7, 14, 18, 12, 6,
-            ],
-            // barWidth: '50%',
-          },
-
-          {
-            name: '參考點',
-            type: 'line',
-            yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
-            data: [
-              22, 22, 22, 22, 22, 22, 22, 23, 24, 24, 24, 24, 24, 23, 23, 23,
-              23, 22, 22, 22,22, 22, 22, 22,
-            ],
-            symbolSize: 1,
-            itemStyle: {
-              normal: {
-                color: '#90c4a4',
-              },
-            },
-          },
-
-          {
-            name: '矩形1',
-            type: 'line',
-            yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
-            data: [
-              33, 32, 30, 30, 31, 35, 33, 45, 32, 44, 33, 37, 27, 40, 49, 43,
-              42, 40, 40, 31, 30, 39, 34, 43,
-            ],
-            symbolSize: 1,
-            itemStyle: {
-              normal: {
-                color: '#505F62',
-              },
-            },
-          },
-
-          {
-            name: '矩形2',
-            type: 'line',
-            yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
-            data: [
-              45, 32, 44, 33, 37, 31, 35, 33, 40, 31, 30, 39, 34, 27, 40, 49,
-              43, 42, 40, 33, 32, 30, 30, 47,
-            ],
-            symbolSize: 1,
-            itemStyle: {
-              normal: {
-                color: '#828C8F',
-              },
-            },
-          },
-
-          {
-            name: '矩形3',
-            type: 'line',
-            yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
-            data: [
-              33, 40, 31, 30, 39, 34, 45, 32, 44, 33, 37, 31, 35, 27, 40, 49,
-              43, 43, 42, 40, 33, 32, 30, 30
-            ],
-            symbolSize: 1,
-            itemStyle: {
-              normal: {
-                // color: '#37484C',
-              },
-            },
-          },
+          // // 2022-2021
+          // {
+          //   name: '矩形1vs矩形2',
+          //   type: 'bar',
+          //   data: [
+          //     12, 15, 17, 16, 10, 13, 18, 17, 14, 18, 12, 16, 12, 11, 17, 12,
+          //     14, 15, 16, 13, 15, 10, 11, 19,
+          //   ],
+          //   // barWidth: '50%',
+          // },
+          // {
+          //   name: '矩形2vs矩形3',
+          //   type: 'bar',
+          //   data: [
+          //     12, 11, 17, 12, 14, 15, 16, 13, 15, 10, 11, 9, 12, 15, 17, 6, 10,
+          //     13, 18, 7, 14, 18, 12, 6,
+          //   ],
+          //   // barWidth: '50%',
+          // },
+          // {
+          //   name: '參考點',
+          //   type: 'line',
+          //   yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
+          //   data: [
+          //     22, 22, 22, 22, 22, 22, 22, 23, 24, 24, 24, 24, 24, 23, 23, 23,
+          //     23, 22, 22, 22, 22, 22, 22, 22,
+          //   ],
+          //   symbolSize: 1,
+          //   itemStyle: {
+          //     normal: {
+          //       color: '#90c4a4',
+          //     },
+          //   },
+          // },
+          // {
+          //   name: '矩形1',
+          //   type: 'line',
+          //   yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
+          //   data: [
+          //     33, 32, 30, 30, 31, 35, 33, 45, 32, 44, 33, 37, 27, 40, 49, 43,
+          //     42, 40, 40, 31, 30, 39, 34, 43,
+          //   ],
+          //   symbolSize: 1,
+          //   itemStyle: {
+          //     normal: {
+          //       color: '#505F62',
+          //     },
+          //   },
+          // },
+          // {
+          //   name: '矩形2',
+          //   type: 'line',
+          //   yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
+          //   data: [
+          //     45, 32, 44, 33, 37, 31, 35, 33, 40, 31, 30, 39, 34, 27, 40, 49,
+          //     43, 42, 40, 33, 32, 30, 30, 47,
+          //   ],
+          //   symbolSize: 1,
+          //   itemStyle: {
+          //     normal: {
+          //       color: '#828C8F',
+          //     },
+          //   },
+          // },
+          // {
+          //   name: '矩形3',
+          //   type: 'line',
+          //   yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
+          //   data: [
+          //     33, 40, 31, 30, 39, 34, 45, 32, 44, 33, 37, 31, 35, 27, 40, 49,
+          //     43, 43, 42, 40, 33, 32, 30, 30,
+          //   ],
+          //   symbolSize: 1,
+          //   itemStyle: {
+          //     normal: {
+          //       // color: '#37484C',
+          //     },
+          //   },
+          // },
         ],
       }
 
       // -------------------------------------------------------------
 
       option && myChart.setOption(option)
+
+      // GET DATA
+      var usersetdate = '2022-05-11'
+      var xAxisValue = []
+      var output = []
+      var totle = 0
+      axios({
+        method: 'get',
+        url: 'http://localhost:8080/api/monitor/test?date=' + usersetdate,
+      })
+        .then((params) => {
+          // console.log(params.data)
+          const array = params.data
+          Object.keys(array).forEach((key) => {
+            xAxisValue.push(key)
+            totle++
+          })
+          // console.log(xAxisValue)
+          Object.keys(array[xAxisValue[0]]).forEach((key) => {
+            var tmp = []
+            var data = {}
+            xAxisValue.forEach((value) => {
+              tmp.push(array[value][key])
+            })
+            if (
+              key === 'difference01' ||
+              key === 'difference02' ||
+              key === 'difference03'
+            ) {
+              data = {
+                name: key,
+                yAxisIndex: 1,
+                type: 'bar',
+                data: tmp,
+              }
+            } else {
+              data = {
+                name: key,
+                type: 'line',
+                yAxisIndex: 0,
+                data: tmp,
+                symbolSize: 1,
+              }
+            }
+            output.push(data)
+          })
+          var start = totle - 100
+          myChart.setOption({
+            dataZoom: [
+              {
+                startValue: start,
+                endValue: totle,
+              },
+            ],
+            xAxis: { data: xAxisValue },
+            series: output,
+          })
+          console.log(xAxisValue)
+          console.log(output)
+        })
+        .catch((error) => console.log('error from axios', error))
     },
   },
 }

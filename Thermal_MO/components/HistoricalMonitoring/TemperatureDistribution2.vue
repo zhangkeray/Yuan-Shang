@@ -62,7 +62,47 @@
                         <!-- <v-col cols="12" lg="12"> -->
                         <!-- 溫度歷史 -->
                         <h4 class="cardtitle ml-3">
-                          選擇日期&nbsp;&nbsp;2022/5/5 - 2022/5/10
+                          <v-menu
+                            ref="menu"
+                            v-model="menu"
+                            :close-on-content-click="false"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="auto"
+                            ><template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                v-model="dateRangeText"
+                                label="選擇日期"
+                                prepend-icon="mdi-calendar"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker
+                              v-model="dates"
+                              range
+                              :active-picker.sync="activePicker"
+                              locale="zh-tw"
+                              :max="
+                                new Date(
+                                  Date.now() -
+                                    new Date().getTimezoneOffset() * 60000
+                                )
+                                  .toISOString()
+                                  .substr(0, 10)
+                              "
+                              min="2010-01-01"
+                            >
+                              <v-btn
+                                text
+                                color="primary"
+                                @click="dateRange"
+                              >
+                                確定
+                              </v-btn></v-date-picker
+                            >
+                          </v-menu>
                         </h4>
                         <v-col
                           cols="12"
@@ -256,6 +296,8 @@ export default {
     ],
   },
   data: () => ({
+    dates: ['', ''],
+    menu: false,
     options: {
       loop: false,
       perPage: 3,
@@ -284,7 +326,11 @@ export default {
       // },
     ],
   }),
-
+  computed: {
+    dateRangeText() {
+      return this.dates.join(' ~ ')
+    },
+  },
   mounted() {
     const unthumb = document.querySelectorAll('.thumb')
     for (const unthumbs of unthumb) {
@@ -300,7 +346,15 @@ export default {
         e.target.classList.add('active')
       }
     }
+    this.dates = ['2022-05-13', '2022-05-13']
   },
+  methods: {
+    dateRange() {
+      this.menu = false
+      var input = this.dates
+      console.log(input)
+    }
+  }
 }
 </script>
 <style scoped>
