@@ -1,6 +1,6 @@
 <template>
   <!-- <div id="month-heat-map1" style="height: 200px; width: 220px"></div> -->
-  <div ref="monthHeatMap1" style="height: 240px; width: 220px"></div>
+  <div ref="monthHeatMap1" style="height: 200px; width: 220px"></div>
 </template>
 
 <script>
@@ -49,6 +49,7 @@ export default {
             return format + ': ' + p.data[1]
           },
         },
+
         visualMap: {
           top: '30px',
           min: 0,
@@ -63,7 +64,26 @@ export default {
         calendar: [
           {
             // yearLabel: { show: false },
-            top: '70px',
+            monthLabel: {
+              nameMap: [
+                '一月',
+                '二月',
+                '三月',
+                '四月',
+                '五月',
+                '六月',
+                '七月',
+                '八月',
+                '九月',
+                '十月',
+                '十一月',
+                '十二月',
+              ],
+            },
+            dayLabel: {
+              // nameMap: ['日', '一', '二', '三', '四', '五', '六'],
+            },
+            top: '50px',
             orient: 'vertical',
             range: '2021/5',
             splitLine: {
@@ -73,6 +93,7 @@ export default {
             },
           },
         ],
+
         series: [
           {
             type: 'heatmap',
@@ -81,6 +102,12 @@ export default {
             data: getVirtulData('2021'),
             itemStyle: {
               borderColor: '#fff',
+            },
+            label: {
+              show: true,
+              formatter (params) {
+                return Number(params.data[0].substring(8, 10))
+              },
             },
           },
         ],

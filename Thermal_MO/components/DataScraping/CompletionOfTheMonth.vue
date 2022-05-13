@@ -120,53 +120,57 @@
                               lg="12"
                               style="border: 1px solid rgba(0, 0, 0, 0)"
                             >
-                              <div class="carousel-wrapper">
-                                <client-only>
-                                  <carousel
-                                    v-bind="options"
-                                    :navigationEnabled="true"
-                                    :scrollPerPage="true"
-                                    class="mx-5"
-                                  >
-                                    <slide class="img-wrapper">
-                                      <month-heat-map-1 />
-                                    </slide>
-                                    <slide class="img-wrapper">
-                                      <month-heat-map-2 />
-                                    </slide>
-                                    <slide class="img-wrapper">
-                                      <month-heat-map-3 />
-                                    </slide>
-                                    <slide class="img-wrapper">
-                                      <month-heat-map-4 />
-                                    </slide>
-                                    <slide class="img-wrapper">
-                                      <month-heat-map-5 />
-                                    </slide>
-                                    <slide class="img-wrapper">
-                                      <month-heat-map-6 />
-                                    </slide>
-                                    <slide class="img-wrapper">
-                                      <month-heat-map-7 />
-                                    </slide>
-                                    <slide class="img-wrapper">
-                                      <month-heat-map-8 />
-                                    </slide>
-                                    <slide class="img-wrapper">
-                                      <month-heat-map-9 />
-                                    </slide>
-                                    <slide class="img-wrapper">
-                                      <month-heat-map-10 />
-                                    </slide>
-                                    <slide class="img-wrapper">
-                                      <month-heat-map-11 />
-                                    </slide>
-                                    <slide class="img-wrapper">
-                                      <month-heat-map-12 />
-                                    </slide>
-                                  </carousel>
-                                </client-only>
-                              </div>
+                                  <div class="carousel-wrapper">
+                                    <VueSlickCarousel v-bind="slickOptions">
+                                      <div class="img-wrapper">
+                                        <MonthHeatMap1 />
+                                      </div>
+
+                                      <div class="img-wrapper">
+                                        <MonthHeatMap2 />
+                                      </div>
+
+                                      <div class="img-wrapper">
+                                        <MonthHeatMap3 />
+                                      </div>
+
+                                      <div class="img-wrapper">
+                                        <MonthHeatMap4 />
+                                      </div>
+
+                                      <div class="img-wrapper">
+                                        <MonthHeatMap5 />
+                                      </div>
+
+                                      <div class="img-wrapper">
+                                        <MonthHeatMap6 />
+                                      </div>
+
+                                      <div class="img-wrapper">
+                                        <MonthHeatMap7 />
+                                      </div>
+
+                                      <div class="img-wrapper">
+                                        <MonthHeatMap8 />
+                                      </div>
+
+                                      <div class="img-wrapper">
+                                        <MonthHeatMap9 />
+                                      </div>
+
+                                      <div class="img-wrapper">
+                                        <MonthHeatMap10 />
+                                      </div>
+
+                                      <div class="img-wrapper">
+                                        <MonthHeatMap11 />
+                                      </div>
+
+                                      <div class="img-wrapper">
+                                        <MonthHeatMap12 />
+                                      </div>
+                                    </VueSlickCarousel>
+                                  </div>
                             </v-col>
                           </v-row>
                         </v-col>
@@ -332,11 +336,16 @@ export default {
     ],
   },
   data: () => ({
-    options: {
-      loop: false,
-      perPage: 3,
-      paginationEnabled: false,
-    },
+      slickOptions: {
+        slidesToShow: 3,
+        arrows: false,
+        // slidesToScroll: 3,
+        // centerMode: true,
+        // dots: true,
+        // focusOnSelect: true,
+        // touchThreshold: 3,
+        swipeToSlide: true,
+      },
     items: [
       {
         text: '整體資料監測',

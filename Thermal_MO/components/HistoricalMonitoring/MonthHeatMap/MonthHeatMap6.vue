@@ -62,8 +62,27 @@ export default {
         },
         calendar: [
           {
-            top: '70px',
+            top: '50px',
             // yearLabel: { show: false },
+                        monthLabel: {
+              nameMap: [
+                '一月',
+                '二月',
+                '三月',
+                '四月',
+                '五月',
+                '六月',
+                '七月',
+                '八月',
+                '九月',
+                '十月',
+                '十一月',
+                '十二月',
+              ],
+            },
+            dayLabel: {
+              // nameMap: ['日', '一', '二', '三', '四', '五', '六'],
+            },
             orient: 'vertical',
             range: '2021/10',
             splitLine: {

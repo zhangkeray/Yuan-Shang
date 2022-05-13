@@ -68,13 +68,13 @@
                       <v-row :column="$vuetify.breakpoint.mdAndDown">
                         <!-- ------------------------------------------------------------------------------------------------- -->
                         <!-- <v-col cols="12" lg="12"> -->
+                        <h4 class="cardtitle ml-3">當月超溫紀錄</h4>
                         <v-col
                           cols="12"
                           lg="12"
                           style="border: 1px solid rgba(0, 0, 0, 0)"
                         >
-                          <h4 class="cardtitle ml-3">當月超溫紀錄</h4>
-                          <v-row class="ma-3">
+                          <v-row>
                             <!-- <v-col cols="12" md="3">
                               <v-row :column="$vuetify.breakpoint.mdAndDown">
                                 <v-col
@@ -96,53 +96,57 @@
                                   lg="12"
                                   style="border: 1px solid rgba(0, 0, 0, 0)"
                                 >
-                                  <div class="carousel-wrapper">
-                                    <!-- <client-only>
-                                      <carousel
-                                        v-bind="options"
-                                        :navigationEnabled="true"
-                                        :scrollPerPage="true"
-                                        class="mx-5"
-                                      >
-                                        <slide class="img-wrapper">
-                                          <month-heat-map-1 />
-                                        </slide>
-                                        <slide class="img-wrapper">
-                                          <month-heat-map-2 />
-                                        </slide>
-                                        <slide class="img-wrapper">
-                                          <month-heat-map-3 />
-                                        </slide>
-                                        <slide class="img-wrapper">
-                                          <month-heat-map-4 />
-                                        </slide>
-                                        <slide class="img-wrapper">
-                                          <month-heat-map-5 />
-                                        </slide>
-                                        <slide class="img-wrapper">
-                                          <month-heat-map-6 />
-                                        </slide>
-                                        <slide class="img-wrapper">
-                                          <month-heat-map-7 />
-                                        </slide>
-                                        <slide class="img-wrapper">
-                                          <month-heat-map-8 />
-                                        </slide>
-                                        <slide class="img-wrapper">
-                                          <month-heat-map-9 />
-                                        </slide>
-                                        <slide class="img-wrapper">
-                                          <month-heat-map-10 />
-                                        </slide>
-                                        <slide class="img-wrapper">
-                                          <month-heat-map-11 />
-                                        </slide>
-                                        <slide class="img-wrapper">
-                                          <month-heat-map-12 />
-                                        </slide> 
-                                      </carousel>
-                                    </client-only> -->
-                                  </div>
+                                  <!-- <div class="carousel-wrapper"> -->
+                                  <VueSlickCarousel v-bind="slickOptions">
+                                    <div class="img-wrapper">
+                                      <MonthHeatMap1 />
+                                    </div>
+
+                                    <div class="img-wrapper">
+                                      <MonthHeatMap2 />
+                                    </div>
+
+                                    <div class="img-wrapper">
+                                      <MonthHeatMap3 />
+                                    </div>
+
+                                    <div class="img-wrapper">
+                                      <MonthHeatMap4 />
+                                    </div>
+
+                                    <div class="img-wrapper">
+                                      <MonthHeatMap5 />
+                                    </div>
+
+                                    <div class="img-wrapper">
+                                      <MonthHeatMap6 />
+                                    </div>
+
+                                    <div class="img-wrapper">
+                                      <MonthHeatMap7 />
+                                    </div>
+
+                                    <div class="img-wrapper">
+                                      <MonthHeatMap8 />
+                                    </div>
+
+                                    <div class="img-wrapper">
+                                      <MonthHeatMap9 />
+                                    </div>
+
+                                    <div class="img-wrapper">
+                                      <MonthHeatMap10 />
+                                    </div>
+
+                                    <div class="img-wrapper">
+                                      <MonthHeatMap11 />
+                                    </div>
+
+                                    <div class="img-wrapper">
+                                      <MonthHeatMap12 />
+                                    </div>
+                                  </VueSlickCarousel>
+                                  <!-- </div> -->
                                 </v-col>
                               </v-row>
                             </v-col>
@@ -157,12 +161,14 @@
                   <v-row :column="$vuetify.breakpoint.mdAndDown">
                     <!-- ------------------------------------------------------------------------------------------------- -->
                     <!-- <v-col cols="12" lg="12"> -->
+                    <h4 class="cardtitle ml-3">當日超溫紀錄</h4>
+
                     <v-col
                       cols="12"
                       lg="12"
                       style="border: 1px solid rgba(0, 0, 0, 0)"
                     >
-                      <div class="legend">
+                      <!-- <div class="legend">
                         <v-icon color="#d8dddd">mdi-square-medium</v-icon
                         ><span class="subtitle-right"
                           >良好-資料丟失率&lt;2.5% (單日)&nbsp;&nbsp;</span
@@ -178,9 +184,8 @@
                         ><span class="subtitle-right"
                           >尚未偵測&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                         >
-                      </div>
-                      <h4 class="cardtitle ml-3">當日超溫紀錄</h4>
-                      <v-row class="ma-3">
+                      </div> -->
+                      <v-row>
                         <v-col cols="12" md="12">
                           <v-row :column="$vuetify.breakpoint.mdAndDown">
                             <!-- (下)當日熱力圖顯示----------------------------------------------------------------------------------------------- -->
@@ -209,84 +214,85 @@
                 class="ml-2 mt-2"
                 style="border: 3px solid #f1f1f1; border-radius: 10px"
               >
+                <h4 class="cardtitle ml-3">監測項目超溫次數統計</h4>
                 <v-col cols="12" md="12">
-                  <h4 class="cardtitle ml-3">監測項目超溫次數統計</h4>
-
                   <v-combobox
                     v-model="select"
                     :items="timeItems"
                     label="選擇區間段"
-                    outlined
                     dense
                     style="font-size: 12px"
                   ></v-combobox>
 
-                  <!-- <div class="piccc" style="width: 160px; height: 120px"></div> -->
-
                   <v-data-table
                     :headers="firstHeaders"
                     :items="firstBodys"
-                    :single-expand="singleExpand"
-                    :expanded.sync="expanded"
+                    :expanded="expanded"
                     item-key="name"
                     show-expand
-                    class="elevation-1"
+                    class="elevation-0"
+                    @click:row="clicked"
                     hide-default-footer
+                    disable-sort
+                    style="position: relative"
                   >
-                    <template v-slot:top>
-                      <v-toolbar flat> </v-toolbar>
-                    </template>
-                    <template v-slot:item="{ item, expand, isExpanded }">
-                      <tr>
-                        <td
-                          class="d-block d-sm-table-cell"
-                          v-for="field in Object.keys(item)"
-                          :key="field"
-                        >
-                          {{ item[field] }}
-                        </td>
-                        <td>
-                          <v-btn icon @click="expand(!isExpanded)">
-                            <v-icon>{{
-                              isExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down'
-                            }}</v-icon>
-                          </v-btn>
-                        </td>
-                      </tr>
-                    </template>
                     <template v-slot:expanded-item="{ headers }">
                       <v-data-table
+                        :colspan="headers.length"
                         :headers="secondHeaders"
                         :items="secondBodys"
-                        dense
                         hide-default-footer
-                      >
-                        <tr
-                          v-for="(item, index) in secondBodys"
-                          :key="index"
-                          :colspan="headers.length"
-                          style="font-size: 12px"
-                        >
-                          <td
-                            :key="index"
-                            v-for="(i, index) in Object.values(item)"
-                          >
-                            {{ i }}
-                          </td>
-                        </tr>
-                      </v-data-table>
+                        class="elevation-0 tablefont"
+                        dense
+                        disable-sort
+                        style="
+                          position: absolute;
+                          background-color: transparent;
+                        "
+                      ></v-data-table>
+                      <br />
+                      <br />
+                      <br />
+                      <br />
+                      <br />
                     </template>
                   </v-data-table>
-                      <v-alert dense  type="error" style="font-size:12px;">
+                  <!-- <v-alert dense type="error" style="font-size: 12px">
+                    通知
+                    <strong>2022/07/27 03:01</strong>
+                    <strong>矩形2</strong> 調整(X:20 Y50)
+                  </v-alert>
+                  <v-alert dense type="error" style="font-size: 12px">
+                    通知
+                    <strong>2022/07/27 03:00</strong>
+                    <strong>矩形3</strong> 刪除
+                  </v-alert> -->
+                  <div class="mt-12" style="height:100px">
+                  <v-alert type="warning" dense dismissible>
+                    <v-row align="center">
+                      <v-col>
+                        <h6 >
                         通知
-                        <strong>2022/07/27 03:01</strong> 
-                        <strong>矩形2</strong> 調整(X:20 Y50)
-                      </v-alert>
-                      <v-alert dense type="error" style="font-size:12px;">
+                        <strong>矩形2</strong> 於2022/07/27 03:01 位置調整至(X:20 Y50)</h6>
+                      </v-col>
+                      <v-col class="shrink">
+                        <v-btn small>查看圖片</v-btn>
+                      </v-col>
+                    </v-row>
+                  </v-alert>
+                  <v-alert type="warning" dense dismissible>
+                    <v-row align="center">
+                      <v-col>
+                        <h6>
                         通知
-                        <strong>2022/07/27 03:00</strong> 
-                        <strong>矩形3</strong> 刪除
-                      </v-alert>
+                        <strong>矩形2</strong> 於2022/07/27 03:01 位置調整至(X:20 Y50)</h6>
+                      </v-col>
+                      <v-col class="shrink">
+                        <v-btn small>查看圖片</v-btn>
+                      </v-col>
+                    </v-row>
+                  </v-alert>
+                  </div>
                 </v-col>
               </v-row>
             </v-col>
@@ -396,18 +402,18 @@
 // import DonutChart1 from './DonutChart/DonutChart1.vue'
 // import DonutChart2 from './DonutChart/DonutChart2.vue'
 import DayHeatMap from './DayHeatMap/DayHeatMap.vue'
-// import MonthHeatMap1 from './MonthHeatMap/MonthHeatMap1.vue'
-// import MonthHeatMap2 from './MonthHeatMap/MonthHeatMap2.vue'
-// import MonthHeatMap3 from './MonthHeatMap/MonthHeatMap3.vue'
-// import MonthHeatMap4 from './MonthHeatMap/MonthHeatMap4.vue'
-// import MonthHeatMap5 from './MonthHeatMap/MonthHeatMap5.vue'
-// import MonthHeatMap6 from './MonthHeatMap/MonthHeatMap6.vue'
-// import MonthHeatMap7 from './MonthHeatMap/MonthHeatMap7.vue'
-// import MonthHeatMap8 from './MonthHeatMap/MonthHeatMap8.vue'
-// import MonthHeatMap9 from './MonthHeatMap/MonthHeatMap9.vue'
-// import MonthHeatMap10 from './MonthHeatMap/MonthHeatMap10.vue'
-// import MonthHeatMap11 from './MonthHeatMap/MonthHeatMap11.vue'
-// import MonthHeatMap12 from './MonthHeatMap/MonthHeatMap12.vue'
+import MonthHeatMap1 from './MonthHeatMap/MonthHeatMap1.vue'
+import MonthHeatMap2 from './MonthHeatMap/MonthHeatMap2.vue'
+import MonthHeatMap3 from './MonthHeatMap/MonthHeatMap3.vue'
+import MonthHeatMap4 from './MonthHeatMap/MonthHeatMap4.vue'
+import MonthHeatMap5 from './MonthHeatMap/MonthHeatMap5.vue'
+import MonthHeatMap6 from './MonthHeatMap/MonthHeatMap6.vue'
+import MonthHeatMap7 from './MonthHeatMap/MonthHeatMap7.vue'
+import MonthHeatMap8 from './MonthHeatMap/MonthHeatMap8.vue'
+import MonthHeatMap9 from './MonthHeatMap/MonthHeatMap9.vue'
+import MonthHeatMap10 from './MonthHeatMap/MonthHeatMap10.vue'
+import MonthHeatMap11 from './MonthHeatMap/MonthHeatMap11.vue'
+import MonthHeatMap12 from './MonthHeatMap/MonthHeatMap12.vue'
 // import LineAndBarChart2022vs2021 from '../components/DataScraping/LineAndBarChart/LineAndBarChart2022vs2021.vue'
 import overheatRecordsLineChart from './overheatRecordsLineChart/overheatRecordsLineChart.vue'
 
@@ -417,18 +423,18 @@ export default {
     // DonutChart1,
     // DonutChart2,
     DayHeatMap,
-    // MonthHeatMap1,
-    // MonthHeatMap2,
-    // MonthHeatMap3,
-    // MonthHeatMap4,
-    // MonthHeatMap5,
-    // MonthHeatMap6,
-    // MonthHeatMap7,
-    // MonthHeatMap8,
-    // MonthHeatMap9,
-    // MonthHeatMap10,
-    // MonthHeatMap11,
-    // MonthHeatMap12,
+    MonthHeatMap1,
+    MonthHeatMap2,
+    MonthHeatMap3,
+    MonthHeatMap4,
+    MonthHeatMap5,
+    MonthHeatMap6,
+    MonthHeatMap7,
+    MonthHeatMap8,
+    MonthHeatMap9,
+    MonthHeatMap10,
+    MonthHeatMap11,
+    MonthHeatMap12,
     // LineAndBarChart2022vs2021,
     overheatRecordsLineChart,
   },
@@ -511,10 +517,15 @@ export default {
     ],
   },
   data: () => ({
-    options: {
-      loop: false,
-      perPage: 3,
-      paginationEnabled: false,
+    slickOptions: {
+      slidesToShow: 3,
+      arrows: false,
+      // slidesToScroll: 3,
+      // centerMode: true,
+      // dots: true,
+      // focusOnSelect: true,
+      // touchThreshold: 3,
+      swipeToSlide: true,
     },
     items: [
       {
@@ -926,5 +937,30 @@ export default {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 200%;
+}
+
+.carousel-wrapper {
+  padding: 0px;
+}
+.img-wrapper {
+  padding-top: 0px;
+  margin-top: 0px;
+  height: 170px;
+}
+
+.tablefont {
+  // font-size: 12px;
+  color: #9ba3a5;
+  // text-align: left;
+  // font-family: 'Noto Sans TC', sans-serif;
+}
+</style>
+<style lang="scss">
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
+.v-data-table > .v-data-table__wrapper > table > thead > tr > td,
+.v-data-table > .v-data-table__wrapper > table > tfoot > tr > td {
+  font-size: 12px !important;
+  padding-right: 4px !important;
+  padding-left: 4px !important;
 }
 </style>
