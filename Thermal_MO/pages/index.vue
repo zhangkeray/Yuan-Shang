@@ -985,6 +985,7 @@
                       <td class="text-center" style="padding: 0px 25px">
                         <!-- 線:警報對話框 -->
                         <v-btn color="" icon class="right-btn"
+                        @click="opendialog(item.line_number, 'line')"
                           ><img
                             v-if="item.line_alarm_status === 1"
                             class=""
