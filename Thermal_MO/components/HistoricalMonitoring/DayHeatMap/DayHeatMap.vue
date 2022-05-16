@@ -1,5 +1,5 @@
 <template>
-  <div ref="heatMap2" style="height: 150px; width: 750px"></div>
+  <div ref="heatMap2" style="height: 180px; width: 880px"></div>
 </template>
 
 <script>
@@ -154,20 +154,24 @@ export default {
           },
         },
         grid: {
-          height: '80%',
+          height: '70%',
           // right: 'center',
-          left: '0px',
-          top: 'center',
-          width: '700px',
+          left: '30px',
+          top: '28px',
+          width: '750px',
         },
         xAxis: {
           type: 'category',
+                      name: '(hr)',
+
           data: hours,
           splitArea: {
             show: true,
           },
         },
         yAxis: {
+                      name: '(min)',
+
           type: 'category',
           data: mins,
           splitArea: {
@@ -180,7 +184,7 @@ export default {
           max: 5,
           calculable: true,
           orient: 'vertical',
-          left: '700',
+          left: '1500',
           top: 'center',
           inRange: {
             color: ['#37484C', '#9aa2a4', '#d8dddd', '#E6E8E9'],

@@ -33,7 +33,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['vue-slick-carousel/dist/vue-slick-carousel.css'],
   transpileDependencies: ['some-imported-lib'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -44,6 +44,10 @@ export default {
       src: './plugins/vue-product-zoomer.js',
       src: './plugins/vue-image-magnifier',
     },
+    { src: '~/plugins/vue-awesome-swiper', ssr: false },
+    { src: '~/plugins/slick', mode: 'client' },
+    { src: './plugins/vue-slick-carousel.js' }
+
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
