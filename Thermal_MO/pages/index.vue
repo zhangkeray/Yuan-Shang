@@ -872,8 +872,17 @@
                           color=""
                           icon
                           class="right-btn"
-                          @click="opendialog(item.spot_number,'spot')"
+                          @click="opendialog(item.spot_number, 'spot')"
                           ><img
+                            v-if="item.spot_alarm_status === 1"
+                            class=""
+                            alt=""
+                            src="/right-icons/alert-on.png"
+                            width="18em"
+                            depressed
+                        />
+                        <img
+                            v-else-if="item.spot_alarm_status === 0"
                             class=""
                             alt=""
                             src="/right-icons/alert-off.png"
@@ -921,8 +930,17 @@
                           color=""
                           icon
                           class="right-btn"
-                          @click="opendialog(item.scope_number,'scope')"
+                          @click="opendialog(item.scope_number, 'scope')"
                           ><img
+                            v-if="item.scope_alarm_status === 1"
+                            class=""
+                            alt=""
+                            src="/right-icons/alert-on.png"
+                            width="18em"
+                            depressed
+                        />
+                        <img
+                            v-else-if="item.scope_alarm_status === 0"
                             class=""
                             alt=""
                             src="/right-icons/alert-off.png"
@@ -968,10 +986,18 @@
                         <!-- 線:警報對話框 -->
                         <v-btn color="" icon class="right-btn"
                           ><img
+                            v-if="item.line_alarm_status === 1"
                             class=""
-                            alt="alert"
+                            alt=""
+                            src="/right-icons/alert-on.png"
+                            width="18em"
+                            depressed
+                        />
+                        <img
+                            v-else-if="item.line_alarm_status === 0"
+                            class=""
+                            alt=""
                             src="/right-icons/alert-off.png"
-                            @click="opendialog(item.line_number,'line')"
                             width="18em"
                             depressed
                         /></v-btn>
@@ -1052,7 +1078,11 @@
                 </v-card-text>
 
                 <v-card-actions>
-                  <v-switch label="" color="#828c8f"></v-switch>
+                  <v-switch
+                    label=""
+                    v-model="checkbox"
+                    color="#828c8f"
+                  ></v-switch>
                   <v-spacer></v-spacer>
 
                   <v-btn color="#828C8F" text @click="dialog = false">
@@ -1431,13 +1461,15 @@ export default {
     checkbox: false,
     threshold: ``,
     hysteresis: ``,
-    thresholdTime: `${1000}ms`,
+    thresholdTime: ``,
     captureSelect: '無',
     captureItems: ['無', '照片', '影片'],
     // capture: 15,
     pulseTime: 0,
     openid: null, // 紀錄開啟什麼id
     opentype: null, // 紀錄開啟的原件
+    dialogdata: [],
+    dialogarr: [], // 紀錄原始物件
 
     // 右1點線面_宣告變數陣列
     spots: [],
@@ -1579,17 +1611,119 @@ export default {
     },
   },
   methods: {
-    submitForm(){
+    submitForm() {
       const opendid = this.openid
       const opentype = this.opentype
-      console.log(opendid)
-      console.log(opentype)
+      const status = this.checkbox
+      const threshold = this.threshold
+      var data = null
+      if (opentype === 'spot') {
+        data = {
+          spot_number: opendid,
+          spot_alarm_status: status,
+          spot_threshold: threshold,
+          status: '0',
+        }
+        if (status === true) {
+          data.spot_alarm_status = 1
+        } else {
+          data.spot_alarm_status = 0
+        }
+        axios({
+          method: 'post',
+          url: `http://localhost:8080/api/monitor/object/spot/change`,
+          data,
+        })
+          .then((response) => {
+            this.dialog = false
+          })
+          .catch((error) => console.log('error from axios', error))
+      } else if (opentype === 'line') {
+        data = {
+          line_number: opendid,
+          line_alarm_status: status,
+          line_threshold: threshold,
+          status: '0',
+        }
+        if (status === true) {
+          data.line_alarm_status = 1
+        } else {
+          data.line_alarm_status = 0
+        }
+        axios({
+          method: 'post',
+          url: `http://localhost:8080/api/monitor/object/line/change`,
+          data,
+        })
+          .then((response) => {
+            this.dialog = false
+          })
+          .catch((error) => console.log('error from axios', error))
+      } else if (opentype === 'scope') {
+        data = {
+          scope_number: opendid,
+          scope_alarm_status: status,
+          scope_threshold: threshold,
+          status: '0',
+        }
+        if (status === true) {
+          data.scope_alarm_status = 1
+        } else {
+          data.scope_alarm_status = 0
+        }
+        axios({
+          method: 'post',
+          url: `http://localhost:8080/api/monitor/object/scope/change`,
+          data,
+        })
+          .then((response) => {
+            this.dialog = false
+          })
+          .catch((error) => console.log('error from axios', error))
+      }
     },
     // 開啟警報視窗
-    opendialog(id,type) {
+    opendialog(id, type) {
       this.dialog = true
       this.openid = id
       this.opentype = type
+      this.$axios
+        .get('http://localhost:8080/api/monitor/object/data')
+        .then((paramse) => {
+          var array = paramse.data
+          var arr = []
+          var obj = []
+          if (type === 'spot') {
+            arr = array.spot
+            obj = arr.find((o) => o.spot_number === id)
+            this.threshold = obj.spot_threshold
+            if (obj.spot_alarm_status === 0) {
+              this.checkbox = false
+            } else {
+              this.checkbox = true
+            }
+          } else if (type === 'line') {
+            arr = array.line
+            obj = arr.find((o) => o.line_number === id)
+            this.threshold = obj.line_threshold
+            if (obj.line_alarm_status === 0) {
+              this.checkbox = false
+            } else {
+              this.checkbox = true
+            }
+          } else if (type === 'scope') {
+            arr = array.scope
+            obj = arr.find((o) => o.scope_number === id)
+            this.threshold = obj.scope_threshold
+            if (obj.scope_alarm_status === 0) {
+              this.checkbox = false
+            } else {
+              this.checkbox = true
+            }
+          }
+          this.dialogdata = obj
+        })
+        .catch((error) => console.log(error))
     },
     // outputDialog() {
 
@@ -1643,7 +1777,7 @@ export default {
           this.getspot()
           // 取得"點"資料 end
           // 取得"範圍"資料
-          var scopes = params.data.scopes
+          var scopes = params.data.scope
           scopes.forEach(function (index) {
             index.scope_position_BR.x =
               document.getElementById('image').offsetWidth *
@@ -1659,7 +1793,7 @@ export default {
               index.scope_position_LT.y *
               document.getElementById('image').offsetHeight
           })
-          this.scopes = params.data.scopes
+          this.scopes = params.data.scope
           this.scope()
           // 取得"範圍"資料 end
           // 取得"線"資料
@@ -1681,6 +1815,7 @@ export default {
           })
           this.lines = params.data.line
           this.line()
+
           // 取得"線"資料 end
         })
         .catch((error) => console.log('error from axios', error))
