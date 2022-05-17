@@ -17,158 +17,169 @@
         </template>
         <span>重置</span>
       </v-tooltip>
-
-      <!-- 麵包屑 -->
-      <!-- <v-breadcrumbs
-              :items="items"
-              style="padding-top: 0px; position: absolute"
-            >
-              <template v-slot:divider>
-                <v-icon>mdi-chevron-right</v-icon>
-              </template>
-            </v-breadcrumbs> -->
-
       <div style="margin-left: 20px; top: 12px; position: absolute">
-        <!-- <v-btn rounded x-small depressed style="color: #9ba3a5">
-          整體資料監測
-        </v-btn>
-        <span style="font-size: 18px">&raquo;</span>
-        <v-btn rounded x-small depressed style="color: #9ba3a5">
-          全局數據: 年度資料完成度
-        </v-btn>
-        <span style="font-size: 18px">&raquo;</span> -->
         <v-btn color="#9BA3A5" rounded x-small depressed style="color: #fff">
           警報狀況
         </v-btn>
       </div>
-
       <v-row>
-        <v-col cols="12" md="12">
-          <v-row :column="$vuetify.breakpoint.mdAndDown">
-            <!-- (上)----------------------------------------------------------------------------------------------- -->
-            <!-- <v-col cols="12" lg="12"> -->
-
-            <v-col cols="12" lg="12">
-              <v-row
-                class="mx-2 mt-8"
-                style="border: 3px solid #f1f1f1; border-radius: 10px"
-              >
-                <v-col cols="12" md="6">
-                  <v-row :column="$vuetify.breakpoint.mdAndDown">
-                    <!-- (上)圓餅圖:當月資料完成度----------------------------------------------------------------------------------------------- -->
-                    <!-- <v-col cols="12" lg="12"> -->
-                    <v-col
-                      cols="12"
-                      lg="12"
-                      style="
-                        border: 1px solid rgba(0, 0, 0, 0);
-                        border-radius: 5px;
-                      "
-                    >
-                      <v-row :column="$vuetify.breakpoint.mdAndDown">
-                        <!-- ------------------------------------------------------------------------------------------------- -->
-                        <!-- <v-col cols="12" lg="12"> -->
-                        <h4 class="cardtitle ml-3">當月超溫紀錄</h4>
-                        <v-col
-                          cols="12"
-                          lg="12"
-                          style="border: 1px solid rgba(0, 0, 0, 0)"
+        <v-col cols="12">
+          <v-row
+            class="mx-2 mt-8"
+            style="border: 3px solid #f1f1f1; border-radius: 10px"
+          >
+            <v-col cols="12" md="6">
+              <v-row class="pa-0">
+                <v-col cols="2" class="pa-0 ma-0">
+                  <h4 class="cardtitle ml-3 pa-0" style="position: absolute">
+                    當月超溫紀錄
+                  </h4>
+                </v-col>
+                <v-col cols="2" class="pa-0 ma-0">
+                  <v-menu
+                    ref="menu"
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    :return-value.sync="date"
+                    transition="scale-transition"
+                    offset-y
+                    max-width="290px"
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="date"
+                        label=""
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                        dense
+                        style="
+                          font-size: 12px;
+                          position: absolute;
+                          margin-left: -30px;
+                        "
+                      >
+                        <v-icon
+                          slot="prepend"
+                          small
+                          dense
+                          style="line-height: 22px"
+                          v-model="date"
                         >
-                          <v-row>
-                            <!-- <v-col cols="12" md="3">
-                              <v-row :column="$vuetify.breakpoint.mdAndDown">
-                                <v-col
-                                  cols="12"
-                                  lg="12"
-                                  style="border: 1px solid rgba(0, 0, 0, 0)"
-                                >
-                                  <month-heat-map-1 style="margin-top: 10px" />
-                                </v-col>
-                              </v-row>
-                            </v-col> -->
-
-                            <v-col cols="12">
-                              <v-row :column="$vuetify.breakpoint.mdAndDown">
-                                <!-- (上)(輪播)當月熱力圖顯示----------------------------------------------------------------------------------------------- -->
-                                <!-- <v-col cols="12" lg="12"> -->
-                                <v-col
-                                  cols="12"
-                                  lg="12"
-                                  style="border: 1px solid rgba(0, 0, 0, 0)"
-                                >
-                                  <!-- <div class="carousel-wrapper"> -->
-                                  <VueSlickCarousel v-bind="slickOptions">
-                                    <div class="img-wrapper">
-                                      <MonthHeatMap1 />
-                                    </div>
-
-                                    <div class="img-wrapper">
-                                      <MonthHeatMap2 />
-                                    </div>
-
-                                    <div class="img-wrapper">
-                                      <MonthHeatMap3 />
-                                    </div>
-
-                                    <div class="img-wrapper">
-                                      <MonthHeatMap4 />
-                                    </div>
-
-                                    <div class="img-wrapper">
-                                      <MonthHeatMap5 />
-                                    </div>
-
-                                    <div class="img-wrapper">
-                                      <MonthHeatMap6 />
-                                    </div>
-
-                                    <div class="img-wrapper">
-                                      <MonthHeatMap7 />
-                                    </div>
-
-                                    <div class="img-wrapper">
-                                      <MonthHeatMap8 />
-                                    </div>
-
-                                    <div class="img-wrapper">
-                                      <MonthHeatMap9 />
-                                    </div>
-
-                                    <div class="img-wrapper">
-                                      <MonthHeatMap10 />
-                                    </div>
-
-                                    <div class="img-wrapper">
-                                      <MonthHeatMap11 />
-                                    </div>
-
-                                    <div class="img-wrapper">
-                                      <MonthHeatMap12 />
-                                    </div>
-                                  </VueSlickCarousel>
-                                  <!-- </div> -->
-                                </v-col>
-                              </v-row>
-                            </v-col>
-                          </v-row>
-                        </v-col>
-                      </v-row>
-                    </v-col>
-                  </v-row>
+                          mdi-calendar
+                        </v-icon>
+                      </v-text-field>
+                    </template>
+                    <v-date-picker
+                      v-model="date"
+                      type="month"
+                      no-title
+                      scrollable
+                    >
+                      <v-spacer></v-spacer>
+                      <v-btn text color="primary" @click="menu = false">
+                        Cancel
+                      </v-btn>
+                      <v-btn
+                        text
+                        color="primary"
+                        @click="$refs.menu.save(date)"
+                      >
+                        OK
+                      </v-btn>
+                    </v-date-picker>
+                  </v-menu>
                 </v-col>
 
-                <v-col cols="12" md="6">
+                <v-col cols="12" class="mt-8">
                   <v-row :column="$vuetify.breakpoint.mdAndDown">
-                    <!-- ------------------------------------------------------------------------------------------------- -->
-                    <!-- <v-col cols="12" lg="12"> -->
-                    <h4 class="cardtitle ml-3">當日超溫紀錄</h4>
-
                     <v-col
                       cols="12"
                       lg="12"
                       style="border: 1px solid rgba(0, 0, 0, 0)"
+                      class="pt-0 py-0"
                     >
-                      <!-- <div class="legend">
+                      <div class="carousel-wrapper px-16 py-0">
+                        <!-- <div class="carouselCover1"></div>
+                        <div class="carouselCover2"></div>
+                        <div class="carouselCenterBorder"></div> -->
+
+                        <VueSlickCarousel
+                          v-bind="slickOptions"
+                          class="px-3 py-0"
+                        >
+                          <div class="img-wrapper">
+                            <div class="block4HidingBug"></div>
+
+                            <MonthHeatMap1 />
+                          </div>
+
+                          <div class="img-wrapper">
+                            <div class="block4HidingBug"></div>
+                            <MonthHeatMap2 />
+                          </div>
+                          <div class="img-wrapper">
+                            <div class="block4HidingBug"></div>
+                            <MonthHeatMap3 />
+                          </div>
+                          <div class="img-wrapper">
+                            <div class="block4HidingBug"></div>
+                            <MonthHeatMap4 />
+                          </div>
+                          <div class="img-wrapper">
+                            <div class="block4HidingBug"></div>
+                            <MonthHeatMap5 />
+                          </div>
+                          <div class="img-wrapper">
+                            <div class="block4HidingBug"></div>
+                            <MonthHeatMap6 />
+                          </div>
+                          <div class="img-wrapper">
+                            <div class="block4HidingBug"></div>
+                            <MonthHeatMap7 />
+                          </div>
+                          <div class="img-wrapper">
+                            <div class="block4HidingBug"></div>
+                            <MonthHeatMap8 />
+                          </div>
+                          <div class="img-wrapper">
+                            <div class="block4HidingBug"></div>
+                            <MonthHeatMap9 />
+                          </div>
+                          <div class="img-wrapper">
+                            <div class="block4HidingBug"></div>
+                            <MonthHeatMap10 />
+                          </div>
+                          <div class="img-wrapper">
+                            <div class="block4HidingBug"></div>
+                            <MonthHeatMap11 />
+                          </div>
+                          <div class="img-wrapper">
+                            <div class="block4HidingBug"></div>
+                            <MonthHeatMap12 />
+                          </div>
+                        </VueSlickCarousel>
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </v-col>
+
+            <v-col cols="12" md="6">
+              <v-row :column="$vuetify.breakpoint.mdAndDown">
+                <h4 class="cardtitle ml-3" style="position: absolute">
+                  當日超溫紀錄
+                </h4>
+
+                <v-col
+                  cols="12"
+                  lg="12"
+                  style="border: 1px solid rgba(0, 0, 0, 0)"
+                  class="mt-7"
+                >
+                  <!-- <div class="legend">
                         <v-icon color="#d8dddd">mdi-square-medium</v-icon
                         ><span class="subtitle-right"
                           >良好-資料丟失率&lt;2.5% (單日)&nbsp;&nbsp;</span
@@ -185,22 +196,8 @@
                           >尚未偵測&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                         >
                       </div> -->
-                      <v-row>
-                        <v-col cols="12" md="12">
-                          <v-row :column="$vuetify.breakpoint.mdAndDown">
-                            <!-- (下)當日熱力圖顯示----------------------------------------------------------------------------------------------- -->
-                            <v-col
-                              cols="12"
-                              lg="12"
-                              style="border: 1px solid rgba(0, 0, 0, 0)"
-                            >
-                              <DayHeatMap />
-                            </v-col>
-                          </v-row>
-                        </v-col>
-                      </v-row>
-                    </v-col>
-                  </v-row>
+
+                  <DayHeatMap />
                 </v-col>
               </v-row>
             </v-col>
@@ -214,7 +211,7 @@
                 class="ml-2 mt-2"
                 style="border: 3px solid #f1f1f1; border-radius: 10px"
               >
-                <h4 class="cardtitle ml-3">監測項目超溫次數統計</h4>
+                <h4 class="cardtitle ml-3" style="">監測項目超溫次數統計</h4>
                 <v-spacer />
                 <v-combobox
                   v-model="select"
@@ -224,9 +221,99 @@
                   color=""
                   style="font-size: 12px"
                 ></v-combobox>
-                <v-btn icon color="red">
-                  <v-icon>mdi-alert-circle-outline</v-icon>
-                </v-btn>
+
+                <!-- ------------------------------------- -->
+                <!-- <v-tooltip right class="tips">
+                  <template v-slot:activator="{ on, attrs }"> -->
+                <v-dialog
+                  v-model="dialog"
+                  width="500"
+                  hide-overlay
+                  style="z-index: 99999999999"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn icon color="#e89595" v-bind="attrs" v-on="on">
+                      <v-icon>mdi-alert-circle-outline</v-icon>
+                    </v-btn>
+                  </template>
+
+                  <v-card>
+                    <v-card-text>
+                      <v-data-table
+                        :headers="firstHeadersForNotice"
+                        :items="firstBodysForNotice"
+                        :expanded="expanded"
+                        item-key="name"
+                        show-expand
+                        class="elevation-0"
+                        @click:row="clicked"
+                        hide-default-footer
+                        disable-sort
+                        style="position: relative"
+                      >
+                        <template v-slot:expanded-item="{ headers }">
+                          <td
+                            :colspan="headers.length"
+                            hide-default-footer
+                            class="elevation-0 tablefont"
+                            dense
+                            disable-sort
+                            style="background-color: transparent"
+                          >
+                            <v-row>
+                              <v-col cols="6">
+                                <h5>before</h5>
+                              </v-col>
+                              <v-col cols="6">
+                                <h5>after</h5>
+                              </v-col>
+                            </v-row>
+
+                            <v-row>
+                              <v-col cols="6" class="py-0">
+                                <v-img
+                                  justify="center"
+                                  src="/xzoom/images/20220510_v1.jpg"
+                                  width="200"
+                                  style="display: block; margin: auto"
+                                />
+                              </v-col>
+                              <v-col cols="6" class="py-0">
+                                <v-img
+                                  justify="center"
+                                  src="/xzoom/images/20220510_after.png"
+                                  width="200"
+                                  style="display: block; margin: auto"
+                                />
+                              </v-col>
+                            </v-row>
+                          </td>
+                          <br />
+                          <br />
+                          <br />
+                          <br />
+                          <br />
+                          <br />
+                          <br />
+                          <br />
+                          <br />
+                        </template>
+                      </v-data-table>
+                    </v-card-text>
+
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="primary" text @click="dialog = false">
+                        關閉
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+                <!-- </template>
+                  <span>監測項目變動</span>
+                </v-tooltip> -->
+
+                <!-- ------------------------------------- -->
 
                 <v-col cols="12" md="12">
                   <v-img
@@ -249,24 +336,28 @@
                     height="200px"
                   >
                     <template v-slot:expanded-item="{ headers }">
-                      <v-data-table
+                      <td
                         :colspan="headers.length"
-                        :headers="secondHeaders"
-                        :items="secondBodys"
                         hide-default-footer
                         class="elevation-0 tablefont"
                         dense
                         disable-sort
-                        style="
-                          position: absolute;
-                          background-color: transparent;
-                        "
-                      ></v-data-table>
-                      <br />
-                      <br />
-                      <br />
-                      <br />
-                      <br />
+                        style="background-color: transparent"
+                      >
+                        <v-data-table
+                          :colspan="headers.length"
+                          :headers="secondHeaders"
+                          :items="secondBodys"
+                          hide-default-footer
+                          class="elevation-0 tablefont"
+                          dense
+                          disable-sort
+                          style="
+                            position: relative;
+                            background-color: transparent;
+                          "
+                        ></v-data-table>
+                      </td>
                     </template>
                   </v-data-table>
                   <!-- <v-alert dense type="error" style="font-size: 12px">
@@ -316,9 +407,8 @@
                 <v-col cols="9">
                   <v-row>
                     <!-- ----------------------------------------------------------------------------------------------- -->
-                    <v-col cols="12" lg="12">
-                      <!-- <h4 class="cardtitle ml-3">監測項目時段超溫紀錄表</h4> -->
-
+                    <h4 class="cardtitle ml-3">監測項目時段超溫紀錄表</h4>
+                    <v-col cols="12" lg="12" class="py-0 pl-10">
                       <!-- <v-data-table
                         height="190px"
                         show-select
@@ -361,7 +451,7 @@
                         height="190px"
                         hide-default-footer
                         fixed-header
-                        style="width: 850px"
+                        style="width: 970px"
                       >
                       </v-data-table>
                     </v-col>
@@ -378,27 +468,48 @@
                   </v-row>
                 </v-col>
                 <v-col cols="3">
-
-                      <!-- <h4 class="cardtitle ml-3" style="position: absolute">
+                  <!-- <h4 class="cardtitle ml-3" style="position: absolute">
                         當日資料完成度
                       </h4> -->
 
+                  <div class="zoom-box" style="padding-right: 30px">
+                    <img
+                      class="xzoom4"
+                      src="xzoom/images/20220510_v1.jpg"
+                      xoriginal="xzoom/images/20220510_v1.jpg"
+                      width="290"
+                      style="display: block; margin: auto"
+                    />
+                  </div>
+                  <div
+                    class="mt-1"
+                    id="zoom-target2"
+                    style="
+                      width: 290px;
+                      height: 220px;
+                      position: absolute;
+                      margin-left: 0px;
+                    "
+                  ></div>
 
-                          <div class="zoom-box" style="padding-right:30px">
-                            <img
-                              class="xzoom4"
-                              id="xzoom-fancy"
-                              src="xzoom/images/20220510_v1.jpg"
-                              xoriginal="xzoom/images/20220510_v1.jpg"
-                              width="290"
-                              style="display:block;margin:auto"
-                            />
-                          </div>
-                          <div class="mt-1"
-                            id="zoom-target2"
-                            style="width: 290px; height: 220px;position:absolute;margin-left:0px"
-                          ></div>
-
+                  <!-- <div class="zoom-box">
+                    <img
+                      class="xzoom-2-4"
+                      src="xzoom/images/20220510_v1.jpg"
+                      xoriginal="xzoom/images/20220510_v1.jpg"
+                      width="290"
+                      style="display: block; margin: auto"
+                    />
+                  </div>
+                  <div
+                    id="zoom-target"
+                    style="
+                      width: 290px;
+                      height: 220px;
+                      position: absolute;
+                      margin-left: 0px;
+                    "
+                  ></div> -->
                 </v-col>
               </v-row>
             </v-col>
@@ -409,6 +520,8 @@
   </v-card>
 </template>
 <script>
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 // echarts引入
 // import DonutChart1 from './DonutChart/DonutChart1.vue'
 // import DonutChart2 from './DonutChart/DonutChart2.vue'
@@ -528,9 +641,11 @@ export default {
     ],
   },
   data: () => ({
+    // 對話框
+    dialog: false,
     slickOptions: {
       slidesToShow: 3,
-      arrows: false,
+      arrows: true,
       // slidesToScroll: 3,
       // centerMode: true,
       // dots: true,
@@ -645,12 +760,16 @@ export default {
         scope1: '50°C',
       },
     ],
+    // 左下下拉填單
     select: ['2022/03/08 03:08:57 - 2022/05/12 08:22:09'],
     timeItems: [
       '2022/01/10 01:00:17 - 2022/02/27 08:09:31',
       '2022/02/27 02:53:05 - 2022/03/08 21:09:25',
       '2022/03/08 03:08:57 - 2022/05/12 08:22:09',
     ],
+    // 左上日期選單
+    date: new Date().toISOString().substr(0, 7),
+    menu: false,
 
     // 巢狀表格
     expanded: [],
@@ -669,7 +788,30 @@ export default {
       { text: '', value: 'data-table-expand' },
     ],
 
+    firstHeadersForNotice: [
+      {
+        text: '項目',
+        align: 'start',
+        sortable: false,
+        value: 'name',
+      },
+      { text: '更動時間', value: 'calories' },
+      { text: '狀況', value: 'fat' },
+    ],
+
     secondHeaders: [
+      {
+        text: '',
+        align: 'start',
+        sortable: false,
+        value: 'name',
+      },
+      { text: '超溫開始時間', value: 'calories' },
+      { text: '持續時間', value: 'carbs' },
+      { text: '最高溫度', value: 'protein' },
+      { text: '警報溫度', value: 'iron' },
+    ],
+    secondHeadersForNotice: [
       {
         text: '',
         align: 'start',
@@ -704,7 +846,37 @@ export default {
         protein: 2,
       },
     ],
+    firstBodysForNotice: [
+      {
+        name: '矩形2',
+        calories: '2022/07/27 03:00',
+        fat: '已刪除',
+      },
+      // {
+      //   name: '矩形3',
+      //   calories: '2022/07/27 03:01',
+      //   fat: '調整至(X:20 Y50)',
+      // },
+    ],
     secondBodys: [
+      {
+        // name: '矩形1',
+        calories: '2022/07/28 01:20:58',
+        fat: '2022/09/28 01:25:58',
+        carbs: '12分',
+        protein: '60°C',
+        iron: '50°C',
+      },
+      {
+        // name: '矩形1',
+        calories: '2022/07/28 01:20:58',
+        fat: '2022/07/28 01:25:58',
+        carbs: '5分',
+        protein: '62°C',
+        iron: '43°C',
+      },
+    ],
+    secondBodysForNotice: [
       {
         // name: '矩形1',
         calories: '2022/07/28 01:20:58',
@@ -840,7 +1012,7 @@ export default {
     ],
   }),
 
-  mounted() {
+  unmounted() {
     // const unthumb = document.querySelectorAll('.thumb')
     // for (const unthumbs of unthumb) {
     //   unthumbs.onclick = function (e) {
@@ -855,12 +1027,17 @@ export default {
     //     e.target.classList.add('active')
     //   }
     // }
+    $(function () {
+      $('.xzoom4').xzoom({
+        position: '#zoom-target2',
+        tint: '#000',
+        tintOpacity: 0.3,
+        fadeOut: true,
+      })
+    })
     // $(function () {
     //   $('.xzoom-2-4').xzoom({
     //     position: '#zoom-target',
-    //     tint: '#000',
-    //     tintOpacity: 0.3,
-    //     fadeOut: true,
     //   })
     // })
   },
@@ -1079,13 +1256,10 @@ export default {
   background-size: 200%;
 }
 
-.carousel-wrapper {
-  padding: 0px;
-}
 .img-wrapper {
   padding-top: 0px;
   margin-top: 0px;
-  height: 170px;
+  height: 178px;
 }
 
 .tablefont {
@@ -1094,7 +1268,60 @@ export default {
   // text-align: left;
   // font-family: 'Noto Sans TC', sans-serif;
 }
+.carousel-wrapper {
+  // padding-right: 50px;
+  padding-left: 50px;
+  padding-right: 10px;
+  // padding-right: 100px;
+}
+button.slick-prev:before,
+button.slick-next:before {
+  color: #505f62 !important;
+}
+.block4HidingBug {
+  background-color: #fff;
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  z-index: 99999;
+}
+.carouselCover1 {
+  // background-color: rgba(255, 255, 255, 0.8);
+  background: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 0),
+    rgb(255, 255, 255)
+  );
+  position: absolute;
+  height: 185px;
+  width: 50px;
+  z-index: 9999999;
+}
+.carouselCover2 {
+  background: linear-gradient(
+    to left,
+    rgba(255, 255, 255),
+    rgb(255, 255, 255, 0)
+  );
+  position: absolute;
+  height: 185px;
+  width: 50px;
+  margin-left: 725px;
+  z-index: 9999998;
+}
+// #zoom-target2 {
+//   margin-top:50px
+// }
+
+// .carouselCenterBorder {
+//   border: 2px solid black;
+//   position: absolute;
+//   height: 185px;
+//   width: 210px;
+//   margin-left: 275px;
+// }
 </style>
+
 <style lang="scss">
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
 .v-data-table > .v-data-table__wrapper > table > thead > tr > td,

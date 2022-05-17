@@ -1,5 +1,5 @@
 <template>
-  <div ref="lineBarChart" style="height: 220px; width: 860px"></div>
+  <div ref="lineBarChart" style="height: 220px; width: 910px"></div>
 </template>
 
 <script>
@@ -31,6 +31,7 @@ export default {
 
             fontSize: '14',
             // fontStyle: 'normal',
+
             color: '#505f62',
           },
         },
@@ -63,7 +64,8 @@ export default {
           top: '70',
           bottom: '20',
           right: '0',
-          left: '30',
+          left: '40',
+          width: '820',
         },
         legend: {
           show: true,
