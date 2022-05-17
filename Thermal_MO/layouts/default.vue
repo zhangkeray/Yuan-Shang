@@ -76,20 +76,20 @@ export default {
         {
           icon: 'mdi-floor-plan',
           title: '深度分析',
-          to: '5',
-          // to: 'DeepLearningPage',
+          // to: '5',
+          to: 'DeepLearningPage',
         },
         {
           icon: 'mdi-table-arrow-down',
           title: '智慧報表',
-          to: '5',
-          // to: 'SmartReportsPage',
+          // to: '5',
+          to: 'SmartReportsPage',
         },
         {
           icon: 'mdi-account-group-outline',
           title: '權限管理',
-          to: '5',
-          // to: 'PermissionPage',
+          // to: '5',
+          to: 'PermissionPage',
         },
         // {
         //   icon: 'mdi-chart-bubble',
