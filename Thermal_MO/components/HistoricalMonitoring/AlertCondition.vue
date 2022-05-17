@@ -32,7 +32,7 @@
               <v-row class="pa-0">
                 <v-col cols="2" class="pa-0 ma-0">
                   <h4 class="cardtitle ml-3 pa-0" style="position: absolute">
-                    當月超溫紀錄
+                    當月超溫次數統計
                   </h4>
                 </v-col>
                 <v-col cols="2" class="pa-0 ma-0">
@@ -57,7 +57,6 @@
                         style="
                           font-size: 12px;
                           position: absolute;
-                          margin-left: -30px;
                         "
                       >
                         <v-icon
@@ -170,7 +169,7 @@
             <v-col cols="12" md="6">
               <v-row :column="$vuetify.breakpoint.mdAndDown">
                 <h4 class="cardtitle ml-3" style="position: absolute">
-                  當日超溫紀錄
+                  當日超溫次數統計
                 </h4>
 
                 <v-col

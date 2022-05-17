@@ -124,7 +124,6 @@
         <v-card flat>
           <v-card-text>
             <h2>通訊協議</h2>
-            <h4>pending<v-icon>mdi-emoticon-cool-outline</v-icon></h4>
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -133,7 +132,6 @@
         <v-card flat>
           <v-card-text>
             <h2>Server線程管理</h2>
-            <h4>pending<v-icon>mdi-emoticon-cool-outline</v-icon></h4>
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -142,7 +140,6 @@
         <v-card flat>
           <v-card-text>
             <h2>DI/DO</h2>
-            <h4>pending<v-icon>mdi-emoticon-cool-outline</v-icon></h4>
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -151,7 +148,6 @@
         <v-card flat>
           <v-card-text>
             <h2>歷史資料運算</h2>
-            <h4>pending<v-icon>mdi-emoticon-cool-outline</v-icon></h4>
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -160,7 +156,6 @@
         <v-card flat>
           <v-card-text>
             <h2>API輸出項目</h2>
-            <h4>pending<v-icon>mdi-emoticon-cool-outline</v-icon></h4>
             <!-- ------------------------------------------------------------ -->
             <v-simple-table>
               <template v-slot:default>
@@ -193,7 +188,17 @@
 <script>
 // import axios from 'axios'
 export default {
-  // name: 'SetupPage',
+  name: 'SetupPage',
+    head: {
+    title: '即時監控',
+    link: [
+      { rel: 'stylesheet', href: 'css/details.css' },
+    ],
+    script: [
+
+
+    ],
+  },
   // async asyncData({ params }) {
   //   const { data } = await axios.get(`http://192.168.0.173:8080/camera`)
   //   // console.log(Object.values。(data));
@@ -217,6 +222,7 @@ export default {
     // }
 
   // },
+  
 }
 </script>
 

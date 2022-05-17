@@ -72,14 +72,27 @@
                             ><template v-slot:activator="{ on, attrs }">
                               <v-text-field
                                 v-model="dateRangeText"
-                                label="選擇日期"
-                                prepend-icon="mdi-calendar"
+                                label=""
                                 readonly
+                                dense
                                 v-bind="attrs"
                                 v-on="on"
-                              ></v-text-field>
+                                style="font-size: 12px; position: absolute;margin-left:130px"
+                              >
+                                <v-icon
+                                  slot="prepend"
+                                  small
+                                  dense
+                                  style="line-height: 22px"
+                                  v-model="date"
+                                >
+                                  mdi-calendar
+                                </v-icon>
+                              </v-text-field>
                             </template>
                             <v-date-picker
+                              no-title
+                              scrollable
                               v-model="dates"
                               range
                               :active-picker.sync="activePicker"
@@ -94,11 +107,7 @@
                               "
                               min="2010-01-01"
                             >
-                              <v-btn
-                                text
-                                color="primary"
-                                @click="dateRange"
-                              >
+                              <v-btn text color="primary" @click="dateRange">
                                 確定
                               </v-btn></v-date-picker
                             >
@@ -353,8 +362,8 @@ export default {
       this.menu = false
       var input = this.dates
       console.log(input)
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>
