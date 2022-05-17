@@ -1632,7 +1632,7 @@ export default {
         }
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/spot/change`,
+          url: `http://localhost:8080/api/monitor/object/change/spot`,
           data,
         })
           .then((response) => {
@@ -1653,7 +1653,7 @@ export default {
         }
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/line/change`,
+          url: `http://localhost:8080/api/monitor/object/change/line`,
           data,
         })
           .then((response) => {
@@ -1674,7 +1674,7 @@ export default {
         }
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/scope/change`,
+          url: `http://localhost:8080/api/monitor/object/change/scope`,
           data,
         })
           .then((response) => {
@@ -1856,7 +1856,7 @@ export default {
       function put(data) {
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/spot/change`,
+          url: `http://localhost:8080/api/monitor/object/change/spot`,
           data,
         }).catch((error) => console.log('error from axios', error))
       }
@@ -1870,7 +1870,7 @@ export default {
       setTimeout(() => (this[l] = false), 3000)
       this.loader = null
       this.$axios
-        .post('http://localhost:8080/api/monitor/object/spot/add', {
+        .post('http://localhost:8080/api/monitor/object/add/spot', {
           status: 'add',
         })
         .then((response) => {
@@ -1891,7 +1891,7 @@ export default {
       }
       this.$axios
         .post(
-          'http://localhost:8080/api/monitor/object/spot/change',
+          'http://localhost:8080/api/monitor/object/change/spot',
           thisSpotData
         )
         .then((response) => {
@@ -1902,7 +1902,7 @@ export default {
     // POST 新增範圍
     addscope() {
       this.$axios
-        .post('http://localhost:8080/api/monitor/object/scope/add', {
+        .post('http://localhost:8080/api/monitor/object/add/scope', {
           status: 'add',
         })
         .then((response) => {
@@ -1978,7 +1978,7 @@ export default {
       function put(data) {
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/scope/change`,
+          url: `http://localhost:8080/api/monitor/object/change/scope`,
           data,
         }).catch((error) => console.log('error from axios', error))
       }
@@ -2078,7 +2078,7 @@ export default {
       function put(data) {
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/line/change`,
+          url: `http://localhost:8080/api/monitor/object/change/line`,
           data,
         }).catch((error) => console.log('error from axios', error))
       }
@@ -2119,7 +2119,7 @@ export default {
     // 線-新增程式
     addline() {
       this.$axios
-        .post('http://localhost:8080/api/monitor/object/line/add', {
+        .post('http://localhost:8080/api/monitor/object/add/line', {
           status: 'add',
         })
         .then((response) => {
@@ -2142,7 +2142,7 @@ export default {
         },
       }
       this.$axios
-        .post('http://localhost:8080/api/monitor/object/line/change', LineData)
+        .post('http://localhost:8080/api/monitor/object/change/line', LineData)
         .then((response) => {
           this.Interval = 0
         })
