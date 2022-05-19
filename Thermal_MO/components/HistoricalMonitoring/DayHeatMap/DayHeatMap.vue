@@ -1,5 +1,5 @@
 <template>
-  <div ref="heatMap2" style="height: 185px; width: 880px"></div>
+  <div ref="heatMap2" id="heatMap2_for_this" style="height: 185px; width: 880px"></div>
 </template>
 
 <script>

@@ -29,141 +29,8 @@
             style="border: 3px solid #f1f1f1; border-radius: 10px"
           >
             <v-col cols="12" md="6">
-              <v-row class="pa-0">
-                <v-col cols="2" class="pa-0 ma-0">
-                  <h4 class="cardtitle ml-3 pa-0" style="position: absolute">
-                    當月超溫次數統計
-                  </h4>
-                </v-col>
-                <v-col cols="2" class="pa-0 ma-0">
-                  <v-menu
-                    ref="menu"
-                    v-model="menu"
-                    :close-on-content-click="false"
-                    :return-value.sync="date"
-                    transition="scale-transition"
-                    offset-y
-                    max-width="290px"
-                    min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="date"
-                        label=""
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                        dense
-                        style="
-                          font-size: 12px;
-                          position: absolute;
-                        "
-                      >
-                        <v-icon
-                          slot="prepend"
-                          small
-                          dense
-                          style="line-height: 22px"
-                          v-model="date"
-                        >
-                          mdi-calendar
-                        </v-icon>
-                      </v-text-field>
-                    </template>
-                    <v-date-picker
-                      v-model="date"
-                      type="month"
-                      no-title
-                      scrollable
-                    >
-                      <v-spacer></v-spacer>
-                      <v-btn text color="primary" @click="menu = false">
-                        Cancel
-                      </v-btn>
-                      <v-btn
-                        text
-                        color="primary"
-                        @click="$refs.menu.save(date)"
-                      >
-                        OK
-                      </v-btn>
-                    </v-date-picker>
-                  </v-menu>
-                </v-col>
-
-                <v-col cols="12" class="mt-8">
-                  <v-row :column="$vuetify.breakpoint.mdAndDown">
-                    <v-col
-                      cols="12"
-                      lg="12"
-                      style="border: 1px solid rgba(0, 0, 0, 0)"
-                      class="pt-0 py-0"
-                    >
-                      <div class="carousel-wrapper px-16 py-0">
-                        <!-- <div class="carouselCover1"></div>
-                        <div class="carouselCover2"></div>
-                        <div class="carouselCenterBorder"></div> -->
-
-                        <VueSlickCarousel
-                          v-bind="slickOptions"
-                          class="px-3 py-0"
-                        >
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-
-                            <MonthHeatMap1 />
-                          </div>
-
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap2 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap3 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap4 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap5 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap6 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap7 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap8 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap9 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap10 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap11 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap12 />
-                          </div>
-                        </VueSlickCarousel>
-                      </div>
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-row>
+              <!-- 當月超溫統計 區塊全數移置MonthHeatMap1 2022/05/19-louis -->
+                <MonthHeatMap1 />
             </v-col>
 
             <v-col cols="12" md="6">
@@ -526,17 +393,17 @@ import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 // import DonutChart2 from './DonutChart/DonutChart2.vue'
 import DayHeatMap from './DayHeatMap/DayHeatMap.vue'
 import MonthHeatMap1 from './MonthHeatMap/MonthHeatMap1.vue'
-import MonthHeatMap2 from './MonthHeatMap/MonthHeatMap2.vue'
-import MonthHeatMap3 from './MonthHeatMap/MonthHeatMap3.vue'
-import MonthHeatMap4 from './MonthHeatMap/MonthHeatMap4.vue'
-import MonthHeatMap5 from './MonthHeatMap/MonthHeatMap5.vue'
-import MonthHeatMap6 from './MonthHeatMap/MonthHeatMap6.vue'
-import MonthHeatMap7 from './MonthHeatMap/MonthHeatMap7.vue'
-import MonthHeatMap8 from './MonthHeatMap/MonthHeatMap8.vue'
-import MonthHeatMap9 from './MonthHeatMap/MonthHeatMap9.vue'
-import MonthHeatMap10 from './MonthHeatMap/MonthHeatMap10.vue'
-import MonthHeatMap11 from './MonthHeatMap/MonthHeatMap11.vue'
-import MonthHeatMap12 from './MonthHeatMap/MonthHeatMap12.vue'
+// import MonthHeatMap2 from './MonthHeatMap/MonthHeatMap2.vue'
+// import MonthHeatMap3 from './MonthHeatMap/MonthHeatMap3.vue'
+// import MonthHeatMap4 from './MonthHeatMap/MonthHeatMap4.vue'
+// import MonthHeatMap5 from './MonthHeatMap/MonthHeatMap5.vue'
+// import MonthHeatMap6 from './MonthHeatMap/MonthHeatMap6.vue'
+// import MonthHeatMap7 from './MonthHeatMap/MonthHeatMap7.vue'
+// import MonthHeatMap8 from './MonthHeatMap/MonthHeatMap8.vue'
+// import MonthHeatMap9 from './MonthHeatMap/MonthHeatMap9.vue'
+// import MonthHeatMap10 from './MonthHeatMap/MonthHeatMap10.vue'
+// import MonthHeatMap11 from './MonthHeatMap/MonthHeatMap11.vue'
+// import MonthHeatMap12 from './MonthHeatMap/MonthHeatMap12.vue'
 // import LineAndBarChart2022vs2021 from '../components/DataScraping/LineAndBarChart/LineAndBarChart2022vs2021.vue'
 import overheatRecordsLineChart from './overheatRecordsLineChart/overheatRecordsLineChart.vue'
 
@@ -547,17 +414,17 @@ export default {
     // DonutChart2,
     DayHeatMap,
     MonthHeatMap1,
-    MonthHeatMap2,
-    MonthHeatMap3,
-    MonthHeatMap4,
-    MonthHeatMap5,
-    MonthHeatMap6,
-    MonthHeatMap7,
-    MonthHeatMap8,
-    MonthHeatMap9,
-    MonthHeatMap10,
-    MonthHeatMap11,
-    MonthHeatMap12,
+    // MonthHeatMap2,
+    // MonthHeatMap3,
+    // MonthHeatMap4,
+    // MonthHeatMap5,
+    // MonthHeatMap6,
+    // MonthHeatMap7,
+    // MonthHeatMap8,
+    // MonthHeatMap9,
+    // MonthHeatMap10,
+    // MonthHeatMap11,
+    // MonthHeatMap12,
     // LineAndBarChart2022vs2021,
     overheatRecordsLineChart,
   },
