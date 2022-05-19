@@ -398,7 +398,7 @@ export default {
                     data = data.map(function (item) {
                       return [item[1], item[0], item[2]]
                     })
-                    console.log(data)
+                    // console.log(data)
                     const heat = document.getElementById('heatMap2_for_this')
                     const myChart = echarts.getInstanceByDom(heat)
                     myChart.setOption({

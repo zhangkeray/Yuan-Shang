@@ -30,7 +30,7 @@
           >
             <v-col cols="12" md="6">
               <!-- 當月超溫統計 區塊全數移置MonthHeatMap1 2022/05/19-louis -->
-                <MonthHeatMap1 />
+              <MonthHeatMap1 />
             </v-col>
 
             <v-col cols="12" md="6">
@@ -388,6 +388,7 @@
 <script>
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+import * as echarts from 'echarts'
 // echarts引入
 // import DonutChart1 from './DonutChart/DonutChart1.vue'
 // import DonutChart2 from './DonutChart/DonutChart2.vue'
@@ -875,7 +876,19 @@ export default {
       },
     ],
   }),
-
+  mounted() {
+    this.initial()
+  },
+  methods: {
+    initial() {
+      const heat = document.getElementById('heatMap2_for_this')
+      const myChart = echarts.getInstanceByDom(heat)
+      myChart.on('click', function (params) {
+        // 控制台打印数据的名称
+        console.log(params.data)
+      })
+    },
+  },
   unmounted() {
     // const unthumb = document.querySelectorAll('.thumb')
     // for (const unthumbs of unthumb) {
