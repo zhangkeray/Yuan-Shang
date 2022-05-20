@@ -74,7 +74,7 @@
                 :key="'H' + index"
               >
                 <div class="block4HidingBug"></div>
-                <div :ref="item" id="monthHeat"></div>
+                <div :ref="item" :id="item" class="monthHeat"></div>
               </div>
               <div></div>
               <div></div>
@@ -546,7 +546,7 @@ button.slick-next:before {
 //   width: 210px;
 //   margin-left: 275px;
 // }
-#monthHeat {
+.monthHeat {
   height: 200px;
   width: 218px;
 }

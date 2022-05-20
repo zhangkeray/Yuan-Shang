@@ -38,11 +38,11 @@ export default {
     '0','10', '20', '30',
     '40', '50', 
 ];
-      for (var i = 0; i < 6; i++) {
-        for (var j = 0; j < 23; j++) {
-          console.log('123')
-        }
-      }
+      // for (var i = 0; i < 6; i++) {
+      //   for (var j = 0; j < 23; j++) {
+      //     console.log('123')
+      //   }
+      // }
       // prettier-ignore
       option = {
         // color: colorPalette,

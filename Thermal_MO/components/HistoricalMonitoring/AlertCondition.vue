@@ -311,7 +311,8 @@
                         :headers="fakeTempsHeaders"
                         :items="fakeTemps"
                         :single-select="singleSelect"
-                        item-key="name"
+                        :expanded="expanded"
+                        item-key="index"
                         show-select
                         class="elevation-0"
                         height="190px"
@@ -389,6 +390,7 @@
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 import * as echarts from 'echarts'
+import axios from 'axios'
 // echarts引入
 // import DonutChart1 from './DonutChart/DonutChart1.vue'
 // import DonutChart2 from './DonutChart/DonutChart2.vue'
@@ -510,6 +512,7 @@ export default {
   data: () => ({
     // 對話框
     dialog: false,
+    dates: new Date().toISOString().substr(0, 10),
     slickOptions: {
       slidesToShow: 3,
       arrows: true,
@@ -536,6 +539,20 @@ export default {
         disabled: true,
         href: 'breadcrumbs_link_2',
       },
+    ],
+    month: [
+      'jan',
+      'feb',
+      'mar',
+      'apr',
+      'may',
+      'jun',
+      'jul',
+      'aug',
+      'sep',
+      'oct',
+      'nov',
+      'dec',
     ],
 
     //     <th class="text-left">項目</th>
@@ -571,62 +588,7 @@ export default {
       { text: '預設警報溫度', value: 'defaultAlertTemp' },
       { text: '最大溫度', value: 'scope1' },
     ],
-    fakeTemps: [
-      {
-        index: '1',
-        name: '矩形1',
-        overheatStartMonth: '2022/05/17',
-        overheatStart: '01:32:14',
-        overheatStop: '01:35:41',
-        duration: '3分',
-        defaultAlertTemp: '45°C',
-        scope1: '47°C', // 最大溫度
-      },
-      {
-        index: '2',
-
-        name: '矩形2',
-        overheatStartMonth: '2022/05/17',
-        overheatStart: '01:27:01',
-        overheatStop: '01:58:55',
-        duration: '31分',
-        defaultAlertTemp: '45°C',
-        scope1: '50°C',
-      },
-      {
-        index: '3',
-
-        name: '矩形3',
-        overheatStartMonth: '2022/05/17',
-        overheatStart: '01:18:20',
-        overheatStop: '01:40:06',
-        duration: '22分',
-        defaultAlertTemp: '45°C',
-        scope1: '46°C',
-      },
-      {
-        index: '4',
-
-        name: '點1',
-        overheatStartMonth: '2022/05/17',
-        overheatStart: '01:35:20',
-        overheatStop: '01:39:18',
-        duration: '3分',
-        defaultAlertTemp: '45°C',
-        scope1: '47°C',
-      },
-      {
-        index: '5',
-
-        name: '點2',
-        overheatStartMonth: '2022/05/17',
-        overheatStart: '01:39:51',
-        overheatStop: '01:51:03',
-        duration: '11分',
-        defaultAlertTemp: '45°C',
-        scope1: '49°C',
-      },
-    ],
+    fakeTemps: [],
     // 左下下拉填單
     select: ['2022/03/08 03:08:57 - 2022/05/17 08:22:09'],
     timeItems: [
@@ -634,9 +596,6 @@ export default {
       '2022/02/27 02:53:05 - 2022/03/08 21:09:25',
       '2022/03/08 03:08:57 - 2022/05/17 08:22:09',
     ],
-    // 左上日期選單
-    date: new Date().toISOString().substr(0, 7),
-    menu: false,
 
     // 巢狀表格
     expanded: [],
@@ -881,11 +840,77 @@ export default {
   },
   methods: {
     initial() {
+      const url = 'http://localhost:8080/api/alarm/list' // 宣告取得警報list網址
+      const objectName = {
+        spot1: '點1',
+        spot2: '點2',
+        spot3: '點3',
+        spot4: '點4',
+        spot5: '點5',
+        spot6: '點6',
+        line1: '線1',
+        line2: '線2',
+        line3: '線3',
+        line4: '線4',
+        line5: '線5',
+        line6: '線6',
+        scope1: '矩形1',
+        scope2: '矩形2',
+        scope3: '矩形3',
+        scope4: '矩形4',
+        scope5: '矩形5',
+        scope6: '矩形6',
+      }
+      // 取得選取日期
+      setTimeout(() => {
+        var calendar = this.month
+        calendar.forEach((index) => {
+          const calendarID = document.getElementById(index)
+          const myChart1 = echarts.getInstanceByDom(calendarID)
+          myChart1.on('click', (params) => {
+            this.dates = params.data[0]
+            axios({
+              method: 'get',
+              url,
+              params: {
+                table_timeselectStart: params.data[0],
+                table_timeselectStop: params.data[0],
+              },
+            })
+              .then((events) => {
+                console.log(events.data)
+                var data = events.data
+                var output = []
+                data.forEach((index, value) => {
+                  output.push({
+                    index: value + 1,
+                    name: objectName[index.table_itemName],
+                    overheatStartMonth: '2022/05/17',
+                    overheatStart: '01:32:14',
+                    overheatStop: '01:35:41',
+                    duration: '3分',
+                    defaultAlertTemp: '45°C',
+                    scope1: '47°C',
+                  })
+                })
+                this.fakeTemps = output
+              })
+              .catch((e) => {
+                console.log(e)
+              })
+          })
+        })
+      }, 0)
       const heat = document.getElementById('heatMap2_for_this')
       const myChart = echarts.getInstanceByDom(heat)
-      myChart.on('click', function (params) {
+      myChart.on('click', (params) => {
+        var dates = this.dates
         // 控制台打印数据的名称
-        console.log(params.data)
+        var startTime =
+          dates + ' ' + params.data[0] + ':' + params.data[1] * 10 + ':00'
+        var stopTime =
+          dates + ' ' + params.data[0] + ':' + (params.data[1] * 10 + 9) + ':59'
+        console.log(startTime, stopTime)
       })
     },
   },
