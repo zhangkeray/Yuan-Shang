@@ -261,10 +261,7 @@ export default {
       },
     ],
     script: [
-      {
-        src: '/js/jquery.js',
-        type: 'text/javascript',
-      },
+     
       {
         src: '/js/jquery-ui.js',
         type: 'text/javascript',
@@ -281,11 +278,6 @@ export default {
         src: 'xzoom/js/vendor/modernizr.js',
         type: 'text/javascript',
       },
-      {
-        src: 'xzoom/js/vendor/jquery.js',
-        type: 'text/javascript',
-      },
-
       {
         src: 'xzoom/dist/xzoom.min.js',
         type: 'text/javascript',
@@ -311,10 +303,10 @@ export default {
         src: 'xzoom/js/setup.js',
         type: 'text/javascript',
       },
-      {
-        src: '/js/jquery.pep.js',
-        type: 'text/javascript',
-      },
+      // {
+      //   src: '/js/jquery.pep.js',
+      //   type: 'text/javascript',
+      // },
     ],
   },
   data: () => ({

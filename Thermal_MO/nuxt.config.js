@@ -7,8 +7,7 @@ export default {
   head: {
     titleTemplate: '%s - Thermal_MO',
     title: 'Thermal_MO',
-    meta: [
-      {
+    meta: [{
         charset: 'utf-8',
       },
       {
@@ -25,12 +24,19 @@ export default {
         content: 'telephone=no',
       },
     ],
-    link: [
-      {
-        rel: 'icon',
-        type: 'image/x-icon',
-        href: '/favicon.ico',
+    link: [{
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico',
+    }, ],
+    script: [{
+        src: '/js/jquery.js',
+        type: 'text/javascript',
       },
+      {
+        src: '/js/jquery.pep.js',
+        type: 'text/javascript',
+      }
     ],
   },
 
@@ -39,16 +45,23 @@ export default {
   transpileDependencies: ['some-imported-lib'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    {
+  plugins: [{
       src: './plugins/vue-carousel.js',
       mode: 'client',
       src: './plugins/vue-product-zoomer.js',
       src: './plugins/vue-image-magnifier',
     },
-    { src: '~/plugins/vue-awesome-swiper', ssr: false },
-    { src: '~/plugins/slick', mode: 'client' },
-    { src: './plugins/vue-slick-carousel.js' }
+    {
+      src: '~/plugins/vue-awesome-swiper',
+      ssr: false
+    },
+    {
+      src: '~/plugins/slick',
+      mode: 'client'
+    },
+    {
+      src: './plugins/vue-slick-carousel.js'
+    }
 
   ],
 
@@ -88,13 +101,11 @@ export default {
   io: {
     // we could have multiple sockets that we identify with names
     // one of these sockets may have set "default" to true
-    sockets: [
-      {
-        default: true, // make this the default socket
-        name: 'main', // give it a name that we can later use to choose this socket in the .vue file
-        url: 'http://localhost:6147', // URL wherever your socket IO server runs
-      },
-    ],
+    sockets: [{
+      default: true, // make this the default socket
+      name: 'main', // give it a name that we can later use to choose this socket in the .vue file
+      url: 'http://localhost:6147', // URL wherever your socket IO server runs
+    }, ],
   },
 
   //登入使用之設定(開始)
@@ -189,7 +200,7 @@ export default {
     //     // 'window.jQuery': 'jquery'
     //   })
     // ]
-    
+
   },
   // 關閉eslint校驗提醒
   lintOnSave: false,

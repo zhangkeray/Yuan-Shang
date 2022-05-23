@@ -69,10 +69,10 @@ export default {
       { rel: 'stylesheet', href: 'css/details.css' },
     ],
     script: [
-      {
-        src: '/js/jquery.js',
-        type: 'text/javascript',
-      },
+      // {
+      //   src: '/js/jquery.js',
+      //   type: 'text/javascript',
+      // },
       {
         src: '/js/jquery-ui.js',
         type: 'text/javascript',

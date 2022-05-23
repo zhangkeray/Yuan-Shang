@@ -1402,10 +1402,6 @@ export default {
     ],
     script: [
       {
-        src: '/js/jquery.js',
-        type: 'text/javascript',
-      },
-      {
         src: '/js/jquery-ui.js',
         type: 'text/javascript',
       },

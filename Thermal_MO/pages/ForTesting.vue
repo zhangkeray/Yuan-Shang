@@ -4,29 +4,19 @@
       <div class="magnifier"></div>
     </div>
     <div class="image result"></div>
+    <script src="/js/jquery.pep.js"></script>
   </div>
 </template>
 <script>
-
 export default {
   head: {
     title: '即時監控',
     link: [
-      { rel: 'stylesheet', href: '/css/jquery-ui.css' },
       { rel: 'stylesheet', href: '/css/object.css' },
       { rel: 'stylesheet', href: '/css/card3.css' },
       { rel: 'stylesheet', href: 'css/details.css' },
     ],
-    script: [
-      {
-        src: '/js/jquery.js',
-        type: 'text/javascript',
-      },
-      {
-        src: 'https://rawgithub.com/briangonzalez/jquery.pep.js/master/src/jquery.pep.js',
-        type: 'text/javascript',
-      },
-    ],
+    script: [],
   },
 
   mounted() {
@@ -35,29 +25,31 @@ export default {
     var $magnifier = $viewer.find('.magnifier')
 
     $(function () {
-      $magnifier.pep({
-        // 會遇到問題: Uncaught TypeError: $magnifier.pep is not a function
-        constrainTo: 'parent',
-        shouldEase: false,
-        drag() {
-          var pos = $magnifier.position()
+      setTimeout(function () {
+        $magnifier.pep({
+          // 會遇到問題: Uncaught TypeError: $magnifier.pep is not a function
+          constrainTo: 'parent',
+          shouldEase: false,
+          drag() {
+            var pos = $magnifier.position()
 
-          var x =
-            ((pos.left + $magnifier.outerWidth() / 2) / $viewer.width()) * 100 +
-            '%'
-          var y =
-            ((pos.top + $magnifier.outerHeight() / 2) / $viewer.height()) *
-              100 +
-            '%'
+            var x =
+              ((pos.left + $magnifier.outerWidth() / 2) / $viewer.width()) *
+                100 +
+              '%'
+            var y =
+              ((pos.top + $magnifier.outerHeight() / 2) / $viewer.height()) *
+                100 +
+              '%'
 
-          $result.css('background-position', [x, y].join(' '))
-        },
-      })
+            $result.css('background-position', [x, y].join(' '))
+          }
+        })
+      }, 0)
     })
   },
+  methods: {},
 }
-
-
 </script>
 
 <style lang="scss">

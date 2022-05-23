@@ -307,7 +307,7 @@
                       </v-data-table> -->
 
                       <v-data-table
-                        v-model="selected"
+                        v-model="selected01"
                         :headers="fakeTempsHeaders"
                         :items="fakeTemps"
                         :single-select="singleSelect"
@@ -319,6 +319,7 @@
                         hide-default-footer
                         fixed-header
                         style="width: 970px"
+                        @input="tableSelect"
                       >
                       </v-data-table>
                     </v-col>
@@ -458,10 +459,6 @@ export default {
     ],
     script: [
       {
-        src: '/js/jquery.js',
-        type: 'text/javascript',
-      },
-      {
         src: '/js/jquery-ui.js',
         type: 'text/javascript',
       },
@@ -475,10 +472,6 @@ export default {
       // },
       {
         src: 'xzoom/js/vendor/modernizr.js',
-        type: 'text/javascript',
-      },
-      {
-        src: 'xzoom/js/vendor/jquery.js',
         type: 'text/javascript',
       },
 
@@ -579,14 +572,14 @@ export default {
         text: '項目',
         // align: 'start',
         sortable: false,
-        value: 'name',
+        value: 'object_name',
       },
-      { text: '超溫開始日期', value: 'overheatStartMonth' },
-      { text: '超溫開始時間', value: 'overheatStart' },
-      { text: '超溫停止時間', value: 'overheatStop' },
-      { text: '持續時間', value: 'duration' },
-      { text: '預設警報溫度', value: 'defaultAlertTemp' },
-      { text: '最大溫度', value: 'scope1' },
+      { text: '超溫開始日期', value: 'object_date' },
+      { text: '超溫開始時間', value: 'object_time_start' },
+      { text: '超溫停止時間', value: 'object_tiem_stop' },
+      { text: '持續時間', value: 'object_time_totle' },
+      { text: '預設警報溫度', value: 'object_setting_temperature' },
+      { text: '最大溫度', value: 'object_temperature_max' },
     ],
     fakeTemps: [],
     // 左下下拉填單
@@ -834,33 +827,83 @@ export default {
         iron: '6%',
       },
     ],
+    objectName: {
+      spot1: '點1',
+      spot2: '點2',
+      spot3: '點3',
+      spot4: '點4',
+      spot5: '點5',
+      spot6: '點6',
+      line1: '線1',
+      line2: '線2',
+      line3: '線3',
+      line4: '線4',
+      line5: '線5',
+      line6: '線6',
+      scope1: '矩形1',
+      scope2: '矩形2',
+      scope3: '矩形3',
+      scope4: '矩形4',
+      scope5: '矩形5',
+      scope6: '矩形6',
+    },
   }),
   mounted() {
     this.initial()
   },
   methods: {
+    tableSelect(events) {
+      const chartDom = document.getElementById('lineBarChart0001')
+      const myChart = echarts.init(chartDom) // echarts初始化
+      console.log(myChart)
+      console.log(events[0])
+      axios({
+        method: 'get',
+        url: 'http://127.0.0.1:8080/api/alarm/max',
+        // params: {
+        //   table_timeselectStart: params.data[0],
+        //   table_timeselectStop: params.data[0],
+        // },
+      })
+        .then((events) => {
+          var data = events.data.max
+          var seriesData = []
+          Object.keys(data).forEach((key) => {
+            var arr = {
+              type: 'line',
+              name: key,
+              yAxisIndex: 0,
+              // markLine: {
+              // symbol: ['none', 'none'],
+              //     label: { show: false },
+              //     color: 'red',
+              //     data: [{ xAxis: 1 },{ xAxis: 4 }]
+              //   },
+              data: data[key],
+
+              symbolSize: 1,
+              itemStyle: {
+                normal: {
+                  color: '#828C8F',
+                },
+              },
+            }
+            seriesData.push(arr)
+          })
+          console.log(seriesData)
+          myChart.setOption({
+            xAxis: [
+              {
+                data: events.time,
+              },
+            ],
+            series: seriesData,
+          })
+        })
+        .catch((err) => console.error(err))
+    },
     initial() {
       const url = 'http://localhost:8080/api/alarm/list' // 宣告取得警報list網址
-      const objectName = {
-        spot1: '點1',
-        spot2: '點2',
-        spot3: '點3',
-        spot4: '點4',
-        spot5: '點5',
-        spot6: '點6',
-        line1: '線1',
-        line2: '線2',
-        line3: '線3',
-        line4: '線4',
-        line5: '線5',
-        line6: '線6',
-        scope1: '矩形1',
-        scope2: '矩形2',
-        scope3: '矩形3',
-        scope4: '矩形4',
-        scope5: '矩形5',
-        scope6: '矩形6',
-      }
       // 取得選取日期
       setTimeout(() => {
         var calendar = this.month
@@ -869,6 +912,8 @@ export default {
           const myChart1 = echarts.getInstanceByDom(calendarID)
           myChart1.on('click', (params) => {
             this.dates = params.data[0]
+            this.selected01 = []
+
             axios({
               method: 'get',
               url,
@@ -884,13 +929,13 @@ export default {
                 data.forEach((index, value) => {
                   output.push({
                     index: value + 1,
-                    name: objectName[index.table_itemName],
-                    overheatStartMonth: '2022/05/17',
-                    overheatStart: '01:32:14',
-                    overheatStop: '01:35:41',
-                    duration: '3分',
-                    defaultAlertTemp: '45°C',
-                    scope1: '47°C',
+                    object_name: this.objectName[index.table_itemName],
+                    object_date: '2022/05/17',
+                    object_time_start: '01:32:14',
+                    object_tiem_stop: '01:35:41',
+                    object_time_totle: '3分',
+                    object_setting_temperature: '45°C',
+                    object_temperature_max: '47°C',
                   })
                 })
                 this.fakeTemps = output

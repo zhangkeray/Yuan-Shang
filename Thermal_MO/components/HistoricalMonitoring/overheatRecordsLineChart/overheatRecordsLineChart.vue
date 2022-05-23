@@ -1,5 +1,5 @@
 <template>
-  <div ref="lineBarChart" style="height: 231px; width: 910px"></div>
+  <div ref="lineBarChart" id="lineBarChart0001" style="height: 231px; width: 910px"></div>
 </template>
 
 <script>
@@ -76,21 +76,21 @@ export default {
             fontSize: 12,
           },
           itemGap: 20,
-          data: [
-            '矩形1vs矩形2',
-            '矩形2vs矩形3',
-            '矩形1',
-            '矩形2',
-            '矩形3',
-            '參考點',
-          ],
+          // data: [
+          //   '矩形1vs矩形2',
+          //   '矩形2vs矩形3',
+          //   '矩形1',
+          //   '矩形2',
+          //   '矩形3',
+          //   '參考點',
+          // ],
           inactiveColor: '#ccc',
         },
         xAxis: [
           {
             name: '(sec)',
             type: 'category',
-            data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+            // data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
             // axisPointer: {
             //   type: 'shadow',
             // },
@@ -131,63 +131,27 @@ export default {
         // 每個裝置分數量、概率2個指標，只要讓他們的name一致，即可通過，legeng進行統一的切換
         color: colorPalette,
         series: [
-          {
-            name: '矩形1',
-            type: 'line',
-            yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
-            data: [
-              55, 32, 30, 50, 31, 35, 33, 45,50, 44, 33, 37, 27, 40, 49, 43,
-              42, 40, 40, 50, 30, 39, 34, 43,
-            ],
-            symbolSize: 1,
-            itemStyle: {
-              normal: {
-                color: '#505F62',
-              },
-            },
-            // markLine: {
-            //   data: [{ type: 'average', name: 'Avg' }],
-            //   color: 'red',
-            // },
-          },
-
-          {
-            name: '矩形2',
-            type: 'line',
-            yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
-            markLine: {
-              symbol: ['none', 'none'],
-              label: { show: false },
-              color: 'red',
-              data: [{ xAxis: 1 },{ xAxis: 4 }]
-            },
-            data: [
-              45, 55, "", "", 37, 31, 35, 33, 40, 31, 30, 39, 34, 27, 40, 49,
-              43, 42, 40, 33, 32, 30, 30, 47,
-            ],
-            symbolSize: 1,
-            itemStyle: {
-              normal: {
-                color: '#828C8F',
-              },
-            },
-          },
-
-          {
-            name: '矩形3',
-            type: 'line',
-            yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
-            data: [
-              33, 40, 31, 30, 39, 34, 45, 32, 44, 33, 37, 31, 35, 27, 40, 49,
-              43, 43, 42, 40, 33, 32, 30, 30,
-            ],
-            symbolSize: 1,
-            itemStyle: {
-              normal: {
-                color: '#d8dddd',
-              },
-            },
-          },
+          // {
+          //   name: '矩形2',
+          //   type: 'line',
+          //   yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
+          //   markLine: {
+          //     symbol: ['none', 'none'],
+          //     label: { show: false },
+          //     color: 'red',
+          //     data: [{ xAxis: 1 },{ xAxis: 4 }]
+          //   },
+          //   data: [
+          //     45, 55, "", "", 37, 31, 35, 33, 40, 31, 30, 39, 34, 27, 40, 49,
+          //     43, 42, 40, 33, 32, 30, 30, 47,
+          //   ],
+          //   symbolSize: 1,
+          //   itemStyle: {
+          //     normal: {
+          //       color: '#828C8F',
+          //     },
+          //   },
+          // }
         ],
       }
 

@@ -7,15 +7,15 @@ export default {
     title: '即時監控',
     link: [{ rel: 'stylesheet', href: 'css/details.css' }],
     script: [
-      {
-        src: '/js/jquery.js',
-        type: 'text/javascript',
-      },
+      // {
+      //   src: '/js/jquery.js',
+      //   type: 'text/javascript',
+      // },
       // jquery.pep.js 
-      {
-        src: '/js/jquery.pep.js',
-        type: 'text/javascript',
-      },
+      // {
+      //   src: '/js/jquery.pep.js',
+      //   type: 'text/javascript',
+      // },
       // jquery.pep.js cdn
       // {
       //   src: 'https://rawgithub.com/briangonzalez/jquery.pep.js/master/src/jquery.pep.js',
