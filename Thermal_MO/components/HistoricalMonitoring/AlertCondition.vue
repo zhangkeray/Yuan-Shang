@@ -29,141 +29,8 @@
             style="border: 3px solid #f1f1f1; border-radius: 10px"
           >
             <v-col cols="12" md="6">
-              <v-row class="pa-0">
-                <v-col cols="2" class="pa-0 ma-0">
-                  <h4 class="cardtitle ml-3 pa-0" style="position: absolute">
-                    當月超溫次數統計
-                  </h4>
-                </v-col>
-                <v-col cols="2" class="pa-0 ma-0">
-                  <v-menu
-                    ref="menu"
-                    v-model="menu"
-                    :close-on-content-click="false"
-                    :return-value.sync="date"
-                    transition="scale-transition"
-                    offset-y
-                    max-width="290px"
-                    min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="date"
-                        label=""
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                        dense
-                        style="
-                          font-size: 12px;
-                          position: absolute;
-                        "
-                      >
-                        <v-icon
-                          slot="prepend"
-                          small
-                          dense
-                          style="line-height: 22px"
-                          v-model="date"
-                        >
-                          mdi-calendar
-                        </v-icon>
-                      </v-text-field>
-                    </template>
-                    <v-date-picker
-                      v-model="date"
-                      type="month"
-                      no-title
-                      scrollable
-                    >
-                      <v-spacer></v-spacer>
-                      <v-btn text color="primary" @click="menu = false">
-                        Cancel
-                      </v-btn>
-                      <v-btn
-                        text
-                        color="primary"
-                        @click="$refs.menu.save(date)"
-                      >
-                        OK
-                      </v-btn>
-                    </v-date-picker>
-                  </v-menu>
-                </v-col>
-
-                <v-col cols="12" class="mt-8">
-                  <v-row :column="$vuetify.breakpoint.mdAndDown">
-                    <v-col
-                      cols="12"
-                      lg="12"
-                      style="border: 1px solid rgba(0, 0, 0, 0)"
-                      class="pt-0 py-0"
-                    >
-                      <div class="carousel-wrapper px-16 py-0">
-                        <!-- <div class="carouselCover1"></div>
-                        <div class="carouselCover2"></div>
-                        <div class="carouselCenterBorder"></div> -->
-
-                        <VueSlickCarousel
-                          v-bind="slickOptions"
-                          class="px-3 py-0"
-                        >
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-
-                            <MonthHeatMap1 />
-                          </div>
-
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap2 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap3 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap4 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap5 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap6 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap7 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap8 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap9 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap10 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap11 />
-                          </div>
-                          <div class="img-wrapper">
-                            <div class="block4HidingBug"></div>
-                            <MonthHeatMap12 />
-                          </div>
-                        </VueSlickCarousel>
-                      </div>
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-row>
+              <!-- 當月超溫統計 區塊全數移置MonthHeatMap1 2022/05/19-louis -->
+              <MonthHeatMap1 />
             </v-col>
 
             <v-col cols="12" md="6">
@@ -444,7 +311,8 @@
                         :headers="fakeTempsHeaders"
                         :items="fakeTemps"
                         :single-select="singleSelect"
-                        item-key="name"
+                        :expanded="expanded"
+                        item-key="index"
                         show-select
                         class="elevation-0"
                         height="190px"
@@ -521,22 +389,24 @@
 <script>
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+import * as echarts from 'echarts'
+import axios from 'axios'
 // echarts引入
 // import DonutChart1 from './DonutChart/DonutChart1.vue'
 // import DonutChart2 from './DonutChart/DonutChart2.vue'
 import DayHeatMap from './DayHeatMap/DayHeatMap.vue'
 import MonthHeatMap1 from './MonthHeatMap/MonthHeatMap1.vue'
-import MonthHeatMap2 from './MonthHeatMap/MonthHeatMap2.vue'
-import MonthHeatMap3 from './MonthHeatMap/MonthHeatMap3.vue'
-import MonthHeatMap4 from './MonthHeatMap/MonthHeatMap4.vue'
-import MonthHeatMap5 from './MonthHeatMap/MonthHeatMap5.vue'
-import MonthHeatMap6 from './MonthHeatMap/MonthHeatMap6.vue'
-import MonthHeatMap7 from './MonthHeatMap/MonthHeatMap7.vue'
-import MonthHeatMap8 from './MonthHeatMap/MonthHeatMap8.vue'
-import MonthHeatMap9 from './MonthHeatMap/MonthHeatMap9.vue'
-import MonthHeatMap10 from './MonthHeatMap/MonthHeatMap10.vue'
-import MonthHeatMap11 from './MonthHeatMap/MonthHeatMap11.vue'
-import MonthHeatMap12 from './MonthHeatMap/MonthHeatMap12.vue'
+// import MonthHeatMap2 from './MonthHeatMap/MonthHeatMap2.vue'
+// import MonthHeatMap3 from './MonthHeatMap/MonthHeatMap3.vue'
+// import MonthHeatMap4 from './MonthHeatMap/MonthHeatMap4.vue'
+// import MonthHeatMap5 from './MonthHeatMap/MonthHeatMap5.vue'
+// import MonthHeatMap6 from './MonthHeatMap/MonthHeatMap6.vue'
+// import MonthHeatMap7 from './MonthHeatMap/MonthHeatMap7.vue'
+// import MonthHeatMap8 from './MonthHeatMap/MonthHeatMap8.vue'
+// import MonthHeatMap9 from './MonthHeatMap/MonthHeatMap9.vue'
+// import MonthHeatMap10 from './MonthHeatMap/MonthHeatMap10.vue'
+// import MonthHeatMap11 from './MonthHeatMap/MonthHeatMap11.vue'
+// import MonthHeatMap12 from './MonthHeatMap/MonthHeatMap12.vue'
 // import LineAndBarChart2022vs2021 from '../components/DataScraping/LineAndBarChart/LineAndBarChart2022vs2021.vue'
 import overheatRecordsLineChart from './overheatRecordsLineChart/overheatRecordsLineChart.vue'
 
@@ -547,17 +417,17 @@ export default {
     // DonutChart2,
     DayHeatMap,
     MonthHeatMap1,
-    MonthHeatMap2,
-    MonthHeatMap3,
-    MonthHeatMap4,
-    MonthHeatMap5,
-    MonthHeatMap6,
-    MonthHeatMap7,
-    MonthHeatMap8,
-    MonthHeatMap9,
-    MonthHeatMap10,
-    MonthHeatMap11,
-    MonthHeatMap12,
+    // MonthHeatMap2,
+    // MonthHeatMap3,
+    // MonthHeatMap4,
+    // MonthHeatMap5,
+    // MonthHeatMap6,
+    // MonthHeatMap7,
+    // MonthHeatMap8,
+    // MonthHeatMap9,
+    // MonthHeatMap10,
+    // MonthHeatMap11,
+    // MonthHeatMap12,
     // LineAndBarChart2022vs2021,
     overheatRecordsLineChart,
   },
@@ -642,6 +512,7 @@ export default {
   data: () => ({
     // 對話框
     dialog: false,
+    dates: new Date().toISOString().substr(0, 10),
     slickOptions: {
       slidesToShow: 3,
       arrows: true,
@@ -668,6 +539,20 @@ export default {
         disabled: true,
         href: 'breadcrumbs_link_2',
       },
+    ],
+    month: [
+      'jan',
+      'feb',
+      'mar',
+      'apr',
+      'may',
+      'jun',
+      'jul',
+      'aug',
+      'sep',
+      'oct',
+      'nov',
+      'dec',
     ],
 
     //     <th class="text-left">項目</th>
@@ -703,62 +588,7 @@ export default {
       { text: '預設警報溫度', value: 'defaultAlertTemp' },
       { text: '最大溫度', value: 'scope1' },
     ],
-    fakeTemps: [
-      {
-        index: '1',
-        name: '矩形1',
-        overheatStartMonth: '2022/05/17',
-        overheatStart: '01:32:14',
-        overheatStop: '01:35:41',
-        duration: '3分',
-        defaultAlertTemp: '45°C',
-        scope1: '47°C', // 最大溫度
-      },
-      {
-        index: '2',
-
-        name: '矩形2',
-        overheatStartMonth: '2022/05/17',
-        overheatStart: '01:27:01',
-        overheatStop: '01:58:55',
-        duration: '31分',
-        defaultAlertTemp: '45°C',
-        scope1: '50°C',
-      },
-      {
-        index: '3',
-
-        name: '矩形3',
-        overheatStartMonth: '2022/05/17',
-        overheatStart: '01:18:20',
-        overheatStop: '01:40:06',
-        duration: '22分',
-        defaultAlertTemp: '45°C',
-        scope1: '46°C',
-      },
-      {
-        index: '4',
-
-        name: '點1',
-        overheatStartMonth: '2022/05/17',
-        overheatStart: '01:35:20',
-        overheatStop: '01:39:18',
-        duration: '3分',
-        defaultAlertTemp: '45°C',
-        scope1: '47°C',
-      },
-      {
-        index: '5',
-
-        name: '點2',
-        overheatStartMonth: '2022/05/17',
-        overheatStart: '01:39:51',
-        overheatStop: '01:51:03',
-        duration: '11分',
-        defaultAlertTemp: '45°C',
-        scope1: '49°C',
-      },
-    ],
+    fakeTemps: [],
     // 左下下拉填單
     select: ['2022/03/08 03:08:57 - 2022/05/17 08:22:09'],
     timeItems: [
@@ -766,9 +596,6 @@ export default {
       '2022/02/27 02:53:05 - 2022/03/08 21:09:25',
       '2022/03/08 03:08:57 - 2022/05/17 08:22:09',
     ],
-    // 左上日期選單
-    date: new Date().toISOString().substr(0, 7),
-    menu: false,
 
     // 巢狀表格
     expanded: [],
@@ -1008,7 +835,85 @@ export default {
       },
     ],
   }),
-
+  mounted() {
+    this.initial()
+  },
+  methods: {
+    initial() {
+      const url = 'http://localhost:8080/api/alarm/list' // 宣告取得警報list網址
+      const objectName = {
+        spot1: '點1',
+        spot2: '點2',
+        spot3: '點3',
+        spot4: '點4',
+        spot5: '點5',
+        spot6: '點6',
+        line1: '線1',
+        line2: '線2',
+        line3: '線3',
+        line4: '線4',
+        line5: '線5',
+        line6: '線6',
+        scope1: '矩形1',
+        scope2: '矩形2',
+        scope3: '矩形3',
+        scope4: '矩形4',
+        scope5: '矩形5',
+        scope6: '矩形6',
+      }
+      // 取得選取日期
+      setTimeout(() => {
+        var calendar = this.month
+        calendar.forEach((index) => {
+          const calendarID = document.getElementById(index)
+          const myChart1 = echarts.getInstanceByDom(calendarID)
+          myChart1.on('click', (params) => {
+            this.dates = params.data[0]
+            axios({
+              method: 'get',
+              url,
+              params: {
+                table_timeselectStart: params.data[0],
+                table_timeselectStop: params.data[0],
+              },
+            })
+              .then((events) => {
+                console.log(events.data)
+                var data = events.data
+                var output = []
+                data.forEach((index, value) => {
+                  output.push({
+                    index: value + 1,
+                    name: objectName[index.table_itemName],
+                    overheatStartMonth: '2022/05/17',
+                    overheatStart: '01:32:14',
+                    overheatStop: '01:35:41',
+                    duration: '3分',
+                    defaultAlertTemp: '45°C',
+                    scope1: '47°C',
+                  })
+                })
+                this.fakeTemps = output
+              })
+              .catch((e) => {
+                console.log(e)
+              })
+          })
+        })
+      }, 0)
+      const heat = document.getElementById('heatMap2_for_this')
+      const myChart = echarts.getInstanceByDom(heat)
+      myChart.on('click', (params) => {
+        var dates = this.dates
+        // 控制台打印数据的名称
+        var startTime =
+          dates + ' ' + params.data[0] + ':' + params.data[1] * 10 + ':00'
+        var stopTime =
+          dates + ' ' + params.data[0] + ':' + (params.data[1] * 10 + 9) + ':59'
+        console.log(startTime, stopTime)
+      })
+    },
+  },
   unmounted() {
     // const unthumb = document.querySelectorAll('.thumb')
     // for (const unthumbs of unthumb) {
