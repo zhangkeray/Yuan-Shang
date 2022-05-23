@@ -27,9 +27,9 @@ export default {
   mounted() {
     $(function () {
       $('#test').pep({
-        // 登入進來遇到問題: Uncaught TypeError: $magnifier.pep is not a function
+        // 登入進來遇到問題: Uncaught TypeError: $(...).pep is not a function
         // 導致無法使用
-        // 需重新整理才能使用
+        // 需重新整理後才能使用
         ignoreRightClick: true,
       })
     })
