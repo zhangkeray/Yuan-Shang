@@ -91,6 +91,30 @@ export default {
           // to: '5',
           to: 'PermissionPage',
         },
+        {
+          icon: 'mdi-account-group-outline',
+          title: '測試用',
+          // to: '5',
+          to: 'ForTesting',
+        },
+        {
+          icon: 'mdi-account-group-outline',
+          title: '測試用2',
+          // to: '5',
+          to: 'ForTesting2',
+        },
+        {
+          icon: 'mdi-account-group-outline',
+          title: '測試用3',
+          // to: '5',
+          to: 'ForTesting3',
+        },
+        {
+          icon: 'mdi-account-group-outline',
+          title: '測試用4',
+          // to: '5',
+          to: 'ForTesting4',
+        },
         // {
         //   icon: 'mdi-chart-bubble',
         //   title: 'Inspire',
@@ -112,16 +136,3 @@ export default {
   },
 }
 </script>
-<style scoped>
-.subtitle {
-  font-size: 12px;
-  color: #9ba3a5;
-}
-.logout {
-  border: #9ba3a5 2px solid;
-  font-weight: 900;
-}
-.logo {
-  margin-left: 0.8em;
-}
-</style>
