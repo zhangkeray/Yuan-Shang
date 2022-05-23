@@ -191,7 +191,7 @@
               >
                 <h4 class="cardtitle ml-3">溫度參照點</h4>
                 <v-col cols="12" md="12">
-                  <!-- <div class="zoom-box" style="float: left">
+                  <div class="zoom-box" style="float: left">
                       <img
                         class="xzoom4"
                         id="xzoom-fancy"
@@ -203,14 +203,14 @@
                     <div
                       id="zoom-target2"
                       style="width: 320px; height: 240px; float: right"
-                    ></div> -->
+                    ></div>
 
-                  <div class="image-wrap">
+                  <!-- <div class="image-wrap">
                     <div class="image viewer">
                       <div class="magnifier"></div>
                     </div>
                     <div class="image result"></div>
-                  </div>
+                  </div> -->
                 </v-col>
               </v-row>
             </v-col>
@@ -371,29 +371,29 @@ export default {
     this.dates = ['2022-05-13', '2022-05-13']
 
 // 放大鏡
-  $(function () {
-      var $result = $('.image.result')
-      var $viewer = $('.image.viewer')
-      var $magnifier = $viewer.find('.magnifier')
+  // $(function () {
+  //     var $result = $('.image.result')
+  //     var $viewer = $('.image.viewer')
+  //     var $magnifier = $viewer.find('.magnifier')
 
-      $magnifier.pep({
-        constrainTo: 'parent',
-        shouldEase: false,
-        drag(ev, obj) {
-          var pos = $magnifier.position()
+  //     $magnifier.pep({
+  //       constrainTo: 'parent',
+  //       shouldEase: false,
+  //       drag(ev, obj) {
+  //         var pos = $magnifier.position()
 
-          var x =
-            ((pos.left + $magnifier.outerWidth() / 2) / $viewer.width()) * 100 +
-            '%'
-          var y =
-            ((pos.top + $magnifier.outerHeight() / 2) / $viewer.height()) *
-              100 +
-            '%'
+  //         var x =
+  //           ((pos.left + $magnifier.outerWidth() / 2) / $viewer.width()) * 100 +
+  //           '%'
+  //         var y =
+  //           ((pos.top + $magnifier.outerHeight() / 2) / $viewer.height()) *
+  //             100 +
+  //           '%'
 
-          $result.css('background-position', [x, y].join(' '))
-        },
-      })
-    })
+  //         $result.css('background-position', [x, y].join(' '))
+  //       },
+  //     })
+  //   })
   },
   methods: {
     dateRange() {

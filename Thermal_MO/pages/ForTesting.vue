@@ -28,8 +28,7 @@ export default {
       },
     ],
   },
-  // 有時讀取不了jquery.pep.js功能，顯示 XXX.pep is not a function
-  // 
+
   mounted() {
     var $result = $('.image.result')
     var $viewer = $('.image.viewer')
