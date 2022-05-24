@@ -26,9 +26,9 @@ export default {
           left: 'left',
           text: '平均溫度',
           textStyle: {
-            fontFamily: 'Arial, Verdana, sans...',
+            // fontFamily: 'Arial, Verdana, sans...',
             fontSize: 12,
-            fontStyle: 'normal',
+            // fontStyle: 'normal',
   color: '#505f62',
           },
 
@@ -71,7 +71,7 @@ export default {
           right: 80,
           textStyle: {
             color: '#666',
-            fontSize: 12,
+            fontSize: 9,
           },
           itemGap: 20,
           data: ['矩形1vs矩形2', '矩形2vs矩形3', '矩形1', '矩形2', '矩形3'],

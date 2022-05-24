@@ -226,40 +226,6 @@
                       </td>
                     </template>
                   </v-data-table>
-                  <!-- <v-alert dense type="error" style="font-size: 12px">
-                    通知
-                    <strong>2022/07/27 03:01</strong>
-                    <strong>矩形2</strong> 調整(X:20 Y50)
-                  </v-alert>
-                  <v-alert dense type="error" style="font-size: 12px">
-                    通知
-                    <strong>2022/07/27 03:00</strong>
-                    <strong>矩形3</strong> 刪除
-                  </v-alert> -->
-                  <!-- <v-alert type="warning" dense dismissible>
-                    <v-row align="center">
-                      <v-col>
-                        <h6 >
-                        通知
-                        <strong>矩形2</strong> 於2022/07/27 03:01 位置調整至(X:20 Y50)</h6>
-                      </v-col>
-                      <v-col class="shrink">
-                        <v-btn small>查看圖片</v-btn>
-                      </v-col>
-                    </v-row>
-                  </v-alert>
-                  <v-alert type="warning" dense dismissible>
-                    <v-row align="center">
-                      <v-col>
-                        <h6>
-                        通知
-                        <strong>矩形2</strong> 於2022/07/27 03:01 位置調整至(X:20 Y50)</h6>
-                      </v-col>
-                      <v-col class="shrink">
-                        <v-btn small>查看圖片</v-btn>
-                      </v-col>
-                    </v-row>
-                  </v-alert> -->
                 </v-col>
               </v-row>
             </v-col>
@@ -275,37 +241,6 @@
                     <!-- ----------------------------------------------------------------------------------------------- -->
                     <h4 class="cardtitle ml-3">監測項目時段超溫紀錄表</h4>
                     <v-col cols="12" lg="12" class="py-0 pl-10">
-                      <!-- <v-data-table
-                        height="190px"
-                        show-select
-                        :single-select="singleSelect"
-                        v-model="selected"
-                      >
-                        <template v-slot:default>
-                          <thead>
-                            <tr>
-                              <th class="text-left">項目</th>
-                              <th class="text-left">超溫開始時間</th>
-                              <th class="text-left">超溫停止時間</th>
-                              <th class="text-left">持續時間</th>
-                              <th class="text-left">預設警報溫度</th>
-                              <th class="text-left">最大溫度</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr v-for="item in fakeTemps" :key="item.name">
-                              <td>{{ item.name }}</td>
-                              <td>{{ item.overheatStart }}</td>
-                              <td>{{ item.overheatStop }}</td>
-                              <td>{{ item.duration }}</td>
-                              <td>{{ item.defaultAlertTemp }}</td>
-                              <td>{{ item.scope1 }}</td>
-
-                            </tr>
-                          </tbody>
-                        </template>
-                      </v-data-table> -->
-
                       <v-data-table
                         v-model="selected01"
                         :headers="fakeTempsHeaders"
@@ -376,24 +311,9 @@ export default {
   head: {
     title: '即時監控',
     link: [
-      // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       { rel: 'stylesheet', href: '/css/jquery-ui.css' },
       { rel: 'stylesheet', href: '/css/object.css' },
       { rel: 'stylesheet', href: '/css/card3.css' },
-    ],
-    script: [
-      // {
-      //   src: '/js/jquery-ui.js',
-      //   type: 'text/javascript',
-      // },
-      // {
-      //   src: '/js/jquery-collision.js',
-      //   type: 'text/javascript',
-      // },
-      // {
-      //   src: '/js/object.js',
-      //   type: 'text/javascript',
-      // },
     ],
   },
   data: () => ({
@@ -424,13 +344,6 @@ export default {
       'nov',
       'dec',
     ],
-
-    //     <th class="text-left">項目</th>
-    // <th class="text-left">超溫開始時間</th>
-    // <th class="text-left">超溫停止時間</th>
-    // <th class="text-left">持續時間</th>
-    // <th class="text-left">預設警報溫度</th>
-    // <th class="text-left">最大溫度</th>
     // 假數據顯示(待刪)
     fakeTempsHeaders: [
       {

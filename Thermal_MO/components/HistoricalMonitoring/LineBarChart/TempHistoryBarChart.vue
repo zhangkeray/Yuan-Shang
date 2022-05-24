@@ -1,5 +1,5 @@
 <template>
-  <div ref="lineBarChart" style="height: 335px; width: 1050px"></div>
+  <div ref="lineBarChart" style="height: 390px; width: 1050px"></div>
 </template>
 
 <script>
@@ -27,8 +27,8 @@ export default {
           left: 'left',
           text: '最高溫度與區間比較',
           textStyle: {
-            fontFamily: 'Arial, Verdana, sans...',
-            fontSize: 12,
+            // fontFamily: 'Arial, Verdana, sans...',
+            fontSize: 13,
             fontStyle: 'normal',
             color: '#505f62',
           },
@@ -59,8 +59,8 @@ export default {
 
         grid: {
           show: false,
-          top: '90',
-          bottom: '20',
+          top: '50',
+          bottom: '25',
           right: '110',
           left: '60',
         },
@@ -68,11 +68,13 @@ export default {
           show: true,
           selectedMode: 'multiple', // 設定顯示單一圖例的圖形，點選可切換
           right: 80,
+          // top: '30',
+
           textStyle: {
             color: '#666',
-            fontSize: 12,
+            fontSize: 9,
           },
-          itemGap: 20,
+          itemGap: 10,
           inactiveColor: '#ccc',
         },
         xAxis: [

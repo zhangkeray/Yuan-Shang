@@ -1,7 +1,7 @@
 <template>
   <v-row class="pa-0">
     <v-col cols="2" class="pa-0 ma-0">
-      <h4 class="cardtitle ml-3 pa-0" style="position: absolute">
+      <h4 class="cardtitle ml-3 mt-2 pa-0" style="position: absolute">
         當月超溫次數統計
       </h4>
     </v-col>
