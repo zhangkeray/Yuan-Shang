@@ -1,5 +1,5 @@
 <template>
-  <div ref="lineBarChart" style="height: 180px; width: 750px"></div>
+  <div ref="lineBarChart" style="height: 190px; width: 750px"></div>
 </template>
 
 <script>
@@ -23,12 +23,12 @@ export default {
 
       option = {
         title: {
-          left: 'left',
+          left: '5',
           text: '最低溫度',
           textStyle: {
-            // fontFamily: 'Arial, Verdana, sans...',
-            fontSize: '12',
-            fontWeight: '900',
+            fontFamily: 'Arial',
+            fontSize: '14',
+            fontWeight: '700',
             color: '#505f62',
           },
         },
@@ -58,7 +58,7 @@ export default {
 
         grid: {
           show: false,
-          top: '50',
+          top: '70',
           bottom: '20',
           right: '110',
           left: '60',
@@ -71,7 +71,7 @@ export default {
             color: '#666',
             fontSize: 9,
           },
-          itemGap: 20,
+          itemGap: 10,
           data: [
             '矩形1vs矩形2',
             '矩形2vs矩形3',

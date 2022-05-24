@@ -37,9 +37,6 @@
       <v-row>
         <v-col cols="12" md="12">
           <v-row :column="$vuetify.breakpoint.mdAndDown">
-            <!-- (上)----------------------------------------------------------------------------------------------- -->
-            <!-- <v-col cols="12" lg="12"> -->
-
             <v-col cols="12" lg="12">
               <v-row
                 class="mx-2 mt-8"
@@ -47,8 +44,6 @@
               >
                 <v-col cols="12" md="7">
                   <v-row :column="$vuetify.breakpoint.mdAndDown">
-                    <!-- (上)圓餅圖:當月資料完成度----------------------------------------------------------------------------------------------- -->
-                    <!-- <v-col cols="12" lg="12"> -->
                     <v-col
                       cols="12"
                       lg="12"
@@ -56,67 +51,66 @@
                         border: 1px solid rgba(0, 0, 0, 0);
                         border-radius: 5px;
                       "
+                      class="py-2"
                     >
                       <v-row :column="$vuetify.breakpoint.mdAndDown">
-                        <!-- ------------------------------------------------------------------------------------------------- -->
-                        <!-- <v-col cols="12" lg="12"> -->
-                        <!-- 溫度歷史 -->
-                        <h4 class="cardtitle ml-3">
-                          <v-menu
-                            ref="menu"
-                            v-model="menu"
-                            :close-on-content-click="false"
-                            transition="scale-transition"
-                            offset-y
-                            min-width="auto"
-                            ><template v-slot:activator="{ on, attrs }">
-                              <v-text-field
-                                v-model="dateRangeText"
-                                label=""
-                                readonly
-                                dense
-                                v-bind="attrs"
-                                v-on="on"
-                                style="
-                                  font-size: 12px;
-                                  position: absolute;
-                                  margin-left: 130px;
-                                "
-                              >
-                                <v-icon
-                                  slot="prepend"
-                                  small
-                                  dense
-                                  style="line-height: 22px"
-                                  v-model="date"
-                                >
-                                  mdi-calendar
-                                </v-icon>
-                              </v-text-field>
-                            </template>
-                            <v-date-picker
-                              no-title
-                              scrollable
-                              v-model="dates"
-                              range
-                              :active-picker.sync="activePicker"
-                              locale="zh-tw"
-                              :max="
-                                new Date(
-                                  Date.now() -
-                                    new Date().getTimezoneOffset() * 60000
-                                )
-                                  .toISOString()
-                                  .substr(0, 10)
+                        <v-menu
+                          ref="menu"
+                          v-model="menu"
+                          :close-on-content-click="false"
+                          transition="scale-transition"
+                          offset-y
+                          min-width="auto"
+                          ><template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                              v-model="dateRangeText"
+                              label=""
+                              readonly
+                              dense
+                              v-bind="attrs"
+                              v-on="on"
+                              style="
+                                font-size: 12px;
+                                margin-left: 160px;
+                                margin-top: 10px;
+
+                                position: absolute;
+                                z-index: 999999;
                               "
-                              min="2010-01-01"
                             >
-                              <v-btn text color="primary" @click="dateRange">
-                                確定
-                              </v-btn></v-date-picker
-                            >
-                          </v-menu>
-                        </h4>
+                              <v-icon
+                                slot="prepend"
+                                small
+                                dense
+                                style="line-height: 22px"
+                                v-model="date"
+                              >
+                                mdi-calendar
+                              </v-icon>
+                            </v-text-field>
+                          </template>
+                          <v-date-picker
+                            no-title
+                            scrollable
+                            v-model="dates"
+                            range
+                            :active-picker.sync="activePicker"
+                            locale="zh-tw"
+                            :max="
+                              new Date(
+                                Date.now() -
+                                  new Date().getTimezoneOffset() * 60000
+                              )
+                                .toISOString()
+                                .substr(0, 10)
+                            "
+                            min="2010-01-01"
+                          >
+                            <v-btn text color="primary" @click="dateRange">
+                              確定
+                            </v-btn></v-date-picker
+                          >
+                        </v-menu>
                         <v-col
                           cols="12"
                           lg="12"
@@ -131,15 +125,11 @@
 
                 <v-col cols="12" md="5">
                   <v-row :column="$vuetify.breakpoint.mdAndDown">
-                    <!-- ------------------------------------------------------------------------------------------------- -->
-                    <!-- <v-col cols="12" lg="12"> -->
-                    <!-- <h4 class="cardtitle ml-3" style="position: absolute">
-                        最低溫度
-                      </h4> -->
                     <v-col
                       cols="12"
                       lg="12"
                       style="border: 1px solid rgba(0, 0, 0, 0)"
+                      class="py-2"
                     >
                       <temp-low-bar-chart />
                     </v-col>
@@ -148,10 +138,8 @@
                       cols="12"
                       lg="12"
                       style="border: 1px solid rgba(0, 0, 0, 0)"
+                      class="py-0"
                     >
-                      <!-- <h4 class="cardtitle ml-3" style="position: absolute">
-                        平均溫度
-                      </h4> -->
                       <temp-avg-bar-chart />
                     </v-col>
                   </v-row>
@@ -168,12 +156,62 @@
                 class="ml-2 mt-2"
                 style="border: 3px solid #f1f1f1; border-radius: 10px"
               >
-                <!-- <h4 class="cardtitle ml-3" style="position: absolute">
-                  超溫時段統計圖
-                </h4> -->
-                <h4 class="cardtitle ml-3">
-                  選擇日期&nbsp;&nbsp;2022/5/5 - 2022/5/10
-                </h4>
+                <v-menu
+                  ref="menu2"
+                  v-model="menu2"
+                  :close-on-content-click="false"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                  ><template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="dateRangeText"
+                      label=""
+                      readonly
+                      dense
+                      v-bind="attrs"
+                      v-on="on"
+                      style="
+                        font-size: 12px;
+                        margin-left: 140px;
+                        margin-top: 8px;
+
+                        position: absolute;
+                        z-index: 999999; 
+                      "
+                    >
+                      <v-icon
+                        slot="prepend"
+                        small
+                        dense
+                        style="line-height: 22px"
+                        v-model="date"
+                      >
+                        mdi-calendar
+                      </v-icon>
+                    </v-text-field>
+                  </template>
+                  <v-date-picker
+                    no-title
+                    scrollable
+                    v-model="dates"
+                    range
+                    :active-picker.sync="activePicker"
+                    locale="zh-tw"
+                    :max="
+                      new Date(
+                        Date.now() - new Date().getTimezoneOffset() * 60000
+                      )
+                        .toISOString()
+                        .substr(0, 10)
+                    "
+                    min="2010-01-01"
+                  >
+                    <v-btn text color="primary" @click="dateRange2">
+                      確定
+                    </v-btn></v-date-picker
+                  >
+                </v-menu>
                 <v-col cols="12" md="12">
                   <peak-hours-statistics-bar-chart />
                 </v-col>
@@ -316,6 +354,11 @@ export default {
   methods: {
     dateRange() {
       this.menu = false
+      var input = this.dates
+      console.log(input)
+    },
+    dateRange2() {
+      this.menu2 = false
       var input = this.dates
       console.log(input)
     },
@@ -525,15 +568,9 @@ export default {
   position: absolute;
 }
 
-#zoom-target2 {
-  background-image: url('/xzoom/images/20220510_v1.jpg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 200%;
-}
 </style>
 
- <style lang="scss">
+<style lang="scss">
 .image-wrap {
   width: 100px;
   height: 100px;
@@ -547,7 +584,7 @@ export default {
   // -moz-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
   // -webkit-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
   // box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
-  margin-left: 5px;
+  margin-left: 0px;
 }
 // @media (min-width: 550px) {
 //   .image-wrap {
@@ -563,23 +600,23 @@ export default {
 
 @media (min-width: 800px) {
   .image-wrap {
-    width: 650px;
-    height: 240px;
+    width: 850px;
+    height: 250px;
   }
   .image-wrap .image {
-    width: 48% !important;
+  width: 315px !important;
     height: 100% !important;
     // clear: none !important;
   }
 }
 
 .image-wrap .image {
-    width: 320px !important;
-    height: 100% !important;
+  width: 322px !important;
+  height: 97% !important;
   background: url('static/xzoom/images/20220510_v1.jpg') no-repeat center center;
   float: left;
   margin: 0;
-  margin-right: 5px;
+  margin-right: 10px;
   padding: 0px;
   // -moz-box-sizing: border-box;
   // -webkit-box-sizing: border-box;
@@ -601,11 +638,10 @@ export default {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 80px;
-  height: 60px;
+  width: 60px;
+  height: 45px;
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEElEQVQIW2P8DwSMIMAABQA+HQQDNlbHLwAAAABJRU5ErkJggg==);
   opacity: 0.6;
   cursor: move;
 }
- </style>
-
+</style>

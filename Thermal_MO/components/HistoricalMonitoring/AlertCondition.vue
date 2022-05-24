@@ -28,7 +28,7 @@
             class="mx-2 mt-8"
             style="border: 3px solid #f1f1f1; border-radius: 10px"
           >
-            <v-col cols="12" md="6">
+            <v-col cols="12" md="6" >
               <!-- 當月超溫統計 區塊全數移置MonthHeatMap1 2022/05/19-louis -->
               <MonthHeatMap1 />
             </v-col>
@@ -84,7 +84,7 @@
                   :items="timeItems"
                   label=""
                   dense
-                  color=""
+                  color="#505f62"
                   style="font-size: 12px"
                 ></v-combobox>
 
@@ -169,7 +169,7 @@
 
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn color="primary" text @click="dialog = false">
+                      <v-btn color="#505f62" text @click="dialog = false">
                         關閉
                       </v-btn>
                     </v-card-actions>
@@ -264,18 +264,12 @@
                       lg="12"
                       style="border: 1px solid rgba(0, 0, 0, 0)"
                     >
-                      <!-- <h4 class="cardtitle ml-3">監測項目時段超溫紀錄圖</h4> -->
-
                       <overheat-records-line-chart />
                     </v-col>
                   </v-row>
                 </v-col>
                 <v-col cols="3">
-                  <!-- <h4 class="cardtitle ml-3" style="position: absolute">
-                        當日資料完成度
-                      </h4> -->
-
-                  <div class="image-wrap1">
+                  <div class="image-wrap1 mt-4">
                     <div class="image1 viewer1">
                       <div class="magnifier1"></div>
                     </div>
@@ -1078,20 +1072,7 @@ button.slick-next:before {
 </style>
 
 <style lang="scss">
-// .image-wrap {
-//   width: 304px;
-//   height: 808px;
-//   position: absolute;
-//   top: 50%;
-//   left: 50%;
-//   -moz-transform: translateY(-50%) translateX(-50%);
-//   -ms-transform: translateY(-50%) translateX(-50%);
-//   -webkit-transform: translateY(-50%) translateX(-50%);
-//   transform: translateY(-50%) translateX(-50%);
-//   -moz-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
-//   -webkit-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
-//   box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
-// }
+
 .image-wrap1 {
   width: 100px;
   height: 100px;
@@ -1106,18 +1087,6 @@ button.slick-next:before {
   // -webkit-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
   // box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
 }
-// @media (min-width: 550px) {
-//   .image-wrap {
-//     width: 608px;
-//     height: 404px;
-//   }
-//   .image-wrap .image {
-//     width: 50% !important;
-//     height: 100% !important;
-//     clear: none !important;
-//   }
-// }
-
 @media (min-width: 700px) {
   .image-wrap1 {
     width: 480px;
@@ -1140,7 +1109,7 @@ button.slick-next:before {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .image-wrap1 .image1:first-child {
   // border-right: 1px solid #342420;
@@ -1158,8 +1127,8 @@ button.slick-next:before {
   position: absolute;
   top: 20%;
   left: 45%;
-  width: 80px;
-  height: 60px;
+  width: 60px;
+  height: 45px;
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEElEQVQIW2P8DwSMIMAABQA+HQQDNlbHLwAAAABJRU5ErkJggg==);
   opacity: 0.6;
   cursor: move;

@@ -32,6 +32,7 @@ export default {
           textStyle: {
             fontFamily: 'Arial',
             fontSize: '14',
+            fontWeight: '700',
             color: '#505f62',
           },
         },
@@ -55,12 +56,12 @@ export default {
         legend: {
           show: true,
           selectedMode: 'multiple', // 設定顯示單一圖例的圖形，點選可切換
-          right: 80,
+          right: 10,
           textStyle: {
             color: '#666',
             fontSize: 9,
           },
-          itemGap: 20,
+          itemGap: 10,
           // data: [
           //   '矩形1vs矩形2',
           //   '矩形2vs矩形3',

@@ -25,6 +25,7 @@
             v-on="on"
             dense
             style="font-size: 12px; position: absolute"
+            color="#505f62"
           >
             <v-icon
               slot="prepend"
@@ -43,10 +44,11 @@
           no-title
           scrollable
           locale="zh-tw"
+          color="#505f62"
         >
           <v-spacer></v-spacer>
           <!-- <v-btn text color="primary" @click="menu = false"> 關閉 </v-btn> -->
-          <v-btn text color="primary" @click="$refs.menu.save(date)">
+          <v-btn text color="#505f62" @click="$refs.menu.save(date)">
             確定
           </v-btn>
         </v-date-picker>
