@@ -191,26 +191,12 @@
               >
                 <h4 class="cardtitle ml-3">溫度參照點</h4>
                 <v-col cols="12" md="12">
-                  <div class="zoom-box" style="float: left">
-                      <img
-                        class="xzoom4"
-                        id="xzoom-fancy"
-                        src="xzoom/images/20220510_v1.jpg"
-                        xoriginal="xzoom/images/20220510_v1.jpg"
-                        width="320"
-                      />
-                    </div>
-                    <div
-                      id="zoom-target2"
-                      style="width: 320px; height: 240px; float: right"
-                    ></div>
-
-                  <!-- <div class="image-wrap">
+                  <div class="image-wrap">
                     <div class="image viewer">
                       <div class="magnifier"></div>
                     </div>
                     <div class="image result"></div>
-                  </div> -->
+                  </div>
                 </v-col>
               </v-row>
             </v-col>
@@ -243,71 +229,8 @@ export default {
       { rel: 'stylesheet', href: '/css/jquery-ui.css' },
       { rel: 'stylesheet', href: '/css/object.css' },
       { rel: 'stylesheet', href: '/css/card3.css' },
-      { rel: 'stylesheet', href: 'xzoom/imgZoom/css/normalize.css' },
-      { rel: 'stylesheet', href: 'xzoom/imgZoom/css/foundation.css' },
-      { rel: 'stylesheet', href: 'xzoom/css/imgZoom/demo.css' },
-      { rel: 'stylesheet', media: 'all', href: 'xzoom/dist/xzoom.css' },
-      {
-        rel: 'stylesheet',
-        type: 'text/css',
-        media: 'all',
-        href: '/fancybox/source/jquery.fancybox.css',
-      },
-      {
-        rel: 'stylesheet',
-        type: 'text/css',
-        media: 'all',
-        href: '/magnific-popup/css/magnific-popup.css',
-      },
     ],
-    script: [
-     
-      {
-        src: '/js/jquery-ui.js',
-        type: 'text/javascript',
-      },
-      {
-        src: '/js/jquery-collision.js',
-        type: 'text/javascript',
-      },
-      // {
-      //   src: '/js/object.js',
-      //   type: 'text/javascript',
-      // },
-      {
-        src: 'xzoom/js/vendor/modernizr.js',
-        type: 'text/javascript',
-      },
-      {
-        src: 'xzoom/dist/xzoom.min.js',
-        type: 'text/javascript',
-      },
-
-      {
-        src: 'xzoom/hammer.js/1.0.5/jquery.hammer.min.js',
-        type: 'text/javascript',
-      },
-      {
-        src: 'xzoom/fancybox/source/jquery.fancybox.js',
-        type: 'text/javascript',
-      },
-      {
-        src: 'xzoom/magnific-popup/js/magnific-popup.js',
-        type: 'text/javascript',
-      },
-      {
-        src: 'xzoom/js/foundation.min.js',
-        type: 'text/javascript',
-      },
-      {
-        src: 'xzoom/js/setup.js',
-        type: 'text/javascript',
-      },
-      // {
-      //   src: '/js/jquery.pep.js',
-      //   type: 'text/javascript',
-      // },
-    ],
+    script: [],
   },
   data: () => ({
     dates: ['', ''],
@@ -318,11 +241,11 @@ export default {
       paginationEnabled: false,
     },
     items: [
-      {
-        text: '整體資料監測',
-        disabled: true,
-        href: '../DataScrapingPage',
-      },
+      // {
+      //   text: '整體資料監測',
+      //   disabled: true,
+      //   href: '../DataScrapingPage',
+      // },
       //   {
       //     text: '全局數據',
       //     disabled: false,
@@ -362,30 +285,34 @@ export default {
     }
     this.dates = ['2022-05-13', '2022-05-13']
 
-// 放大鏡
-  // $(function () {
-  //     var $result = $('.image.result')
-  //     var $viewer = $('.image.viewer')
-  //     var $magnifier = $viewer.find('.magnifier')
+    // 放大鏡
+    var $result = $('.image.result')
+    var $viewer = $('.image.viewer')
+    var $magnifier = $viewer.find('.magnifier')
 
-  //     $magnifier.pep({
-  //       constrainTo: 'parent',
-  //       shouldEase: false,
-  //       drag(ev, obj) {
-  //         var pos = $magnifier.position()
+    $(function () {
+      setTimeout(function () {
+        $magnifier.pep({
+          // 會遇到問題: Uncaught TypeError: $magnifier.pep is not a function
+          constrainTo: 'parent',
+          shouldEase: false,
+          drag() {
+            var pos = $magnifier.position()
 
-  //         var x =
-  //           ((pos.left + $magnifier.outerWidth() / 2) / $viewer.width()) * 100 +
-  //           '%'
-  //         var y =
-  //           ((pos.top + $magnifier.outerHeight() / 2) / $viewer.height()) *
-  //             100 +
-  //           '%'
+            var x =
+              ((pos.left + $magnifier.outerWidth() / 2) / $viewer.width()) *
+                100 +
+              '%'
+            var y =
+              ((pos.top + $magnifier.outerHeight() / 2) / $viewer.height()) *
+                100 +
+              '%'
 
-  //         $result.css('background-position', [x, y].join(' '))
-  //       },
-  //     })
-  //   })
+            $result.css('background-position', [x, y].join(' '))
+          },
+        })
+      }, 0)
+    })
   },
   methods: {
     dateRange() {
@@ -607,38 +534,21 @@ export default {
 }
 </style>
 
-<style lang="scss">
-body {
-  background: #f3eee6;
-}
-
-// .image-wrap {
-//   width: 304px;
-//   height: 808px;
-//   position: absolute;
-//   top: 50%;
-//   left: 50%;
-//   -moz-transform: translateY(-50%) translateX(-50%);
-//   -ms-transform: translateY(-50%) translateX(-50%);
-//   -webkit-transform: translateY(-50%) translateX(-50%);
-//   transform: translateY(-50%) translateX(-50%);
-//   -moz-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
-//   -webkit-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
-//   box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
-// }
+ <style lang="scss">
 .image-wrap {
   width: 100px;
   height: 100px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -moz-transform: translateY(-50%) translateX(-50%);
-  -ms-transform: translateY(-50%) translateX(-50%);
-  -webkit-transform: translateY(-50%) translateX(-50%);
-  transform: translateY(-50%) translateX(-50%);
-  -moz-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
-  box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
+  // position: absolute;
+  // top: 50%;
+  // left: 50%;
+  // -moz-transform: translateY(-50%) translateX(-50%);
+  // -ms-transform: translateY(-50%) translateX(-50%);
+  // -webkit-transform: translateY(-50%) translateX(-50%);
+  // transform: translateY(-50%) translateX(-50%);
+  // -moz-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
+  // -webkit-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
+  // box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
+  margin-left: 5px;
 }
 // @media (min-width: 550px) {
 //   .image-wrap {
@@ -654,29 +564,30 @@ body {
 
 @media (min-width: 800px) {
   .image-wrap {
-    width: 800px;
-    height: 300px;
+    width: 650px;
+    height: 240px;
   }
   .image-wrap .image {
-    width: 50% !important;
+    width: 48% !important;
     height: 100% !important;
-    clear: none !important;
+    // clear: none !important;
   }
 }
 
 .image-wrap .image {
-  width: 100%;
-  height: 50%;
+    width: 320px !important;
+    height: 100% !important;
   background: url('static/xzoom/images/20220510_v1.jpg') no-repeat center center;
   float: left;
   margin: 0;
-  padding: 0;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+  margin-right: 5px;
+  padding: 0px;
+  // -moz-box-sizing: border-box;
+  // -webkit-box-sizing: border-box;
+  // box-sizing: border-box;
 }
 .image-wrap .image:first-child {
-  border-right: 1px solid #342420;
+  // border-right: 1px solid #342420;
 }
 .image-wrap .image.result {
   background-position: 50% 25%;
@@ -689,12 +600,90 @@ body {
 }
 .image-wrap .image.viewer .magnifier {
   position: absolute;
-  top: 20%;
-  left: 45%;
+  top: 50%;
+  left: 50%;
   width: 80px;
   height: 60px;
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEElEQVQIW2P8DwSMIMAABQA+HQQDNlbHLwAAAABJRU5ErkJggg==);
   opacity: 0.6;
   cursor: move;
 }
+ </style>
+
+
+
+<style lang="scss">
+// .image-wrap {
+//   width: 100px;
+//   height: 100px;
+//   // position: absolute;
+//   // top: 50%;
+//   // left: 50%;
+//   // -moz-transform: translateY(-50%) translateX(-50%);
+//   // -ms-transform: translateY(-50%) translateX(-50%);
+//   // -webkit-transform: translateY(-50%) translateX(-50%);
+//   // transform: translateY(-50%) translateX(-50%);
+//   // -moz-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
+//   // -webkit-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
+//   // box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
+//   // margin-left: 5px;
+// }
+// @media (min-width: 550px) {
+//   .image-wrap {
+//     width: 608px;
+//     height: 404px;
+//   }
+//   .image-wrap .image {
+//     width: 50% !important;
+//     height: 100% !important;
+//     clear: none !important;
+//   }
+// }
+
+// @media (min-width: 00px) {
+//   .image-wrap {
+//     width: 250px;
+//     height: 240px;
+//   }
+//   .image-wrap .image {
+//     width: 55% !important;
+//     height: 100% !important;
+//     // clear: none !important;
+//   }
+// }
+
+// .image-wrap .image {
+//     width: 100% !important;
+//     height: 70% !important;
+//   background: url('static/xzoom/images/20220510_v1.jpg') no-repeat center center;
+//   float: left;
+//   margin: 0;
+//   margin-bottom: 5px;
+//   padding: 0px;
+//   // -moz-box-sizing: border-box;
+//   // -webkit-box-sizing: border-box;
+//   // box-sizing: border-box;
+// }
+// .image-wrap .image:first-child {
+//   // border-right: 1px solid #342420;
+// }
+// .image-wrap .image.result {
+//   background-position: 50% 25%;
+// }
+// .image-wrap .image.viewer {
+//   -moz-background-size: 100%;
+//   -o-background-size: 100%;
+//   -webkit-background-size: 100%;
+//   background-size: 100%;
+// }
+// .image-wrap .image.viewer .magnifier {
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   width: 80px;
+//   height: 60px;
+//   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEElEQVQIW2P8DwSMIMAABQA+HQQDNlbHLwAAAABJRU5ErkJggg==);
+//   opacity: 0.6;
+//   cursor: move;
+// }
 </style>

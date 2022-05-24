@@ -340,44 +340,12 @@
                         當日資料完成度
                       </h4> -->
 
-                  <div class="zoom-box" style="padding-right: 30px">
-                    <img
-                      class="xzoom4"
-                      src="xzoom/images/20220510_v1.jpg"
-                      xoriginal="xzoom/images/20220510_v1.jpg"
-                      width="290"
-                      style="display: block; margin: auto"
-                    />
+                  <div class="image-wrap1">
+                    <div class="image1 viewer1">
+                      <div class="magnifier1"></div>
+                    </div>
+                    <div class="image1 result1"></div>
                   </div>
-                  <div
-                    class="mt-1"
-                    id="zoom-target2"
-                    style="
-                      width: 290px;
-                      height: 220px;
-                      position: absolute;
-                      margin-left: 0px;
-                    "
-                  ></div>
-
-                  <!-- <div class="zoom-box">
-                    <img
-                      class="xzoom-2-4"
-                      src="xzoom/images/20220510_v1.jpg"
-                      xoriginal="xzoom/images/20220510_v1.jpg"
-                      width="290"
-                      style="display: block; margin: auto"
-                    />
-                  </div>
-                  <div
-                    id="zoom-target"
-                    style="
-                      width: 290px;
-                      height: 220px;
-                      position: absolute;
-                      margin-left: 0px;
-                    "
-                  ></div> -->
                 </v-col>
               </v-row>
             </v-col>
@@ -393,43 +361,15 @@ import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 import * as echarts from 'echarts'
 import axios from 'axios'
 // echarts引入
-// import DonutChart1 from './DonutChart/DonutChart1.vue'
-// import DonutChart2 from './DonutChart/DonutChart2.vue'
 import DayHeatMap from './DayHeatMap/DayHeatMap.vue'
 import MonthHeatMap1 from './MonthHeatMap/MonthHeatMap1.vue'
-// import MonthHeatMap2 from './MonthHeatMap/MonthHeatMap2.vue'
-// import MonthHeatMap3 from './MonthHeatMap/MonthHeatMap3.vue'
-// import MonthHeatMap4 from './MonthHeatMap/MonthHeatMap4.vue'
-// import MonthHeatMap5 from './MonthHeatMap/MonthHeatMap5.vue'
-// import MonthHeatMap6 from './MonthHeatMap/MonthHeatMap6.vue'
-// import MonthHeatMap7 from './MonthHeatMap/MonthHeatMap7.vue'
-// import MonthHeatMap8 from './MonthHeatMap/MonthHeatMap8.vue'
-// import MonthHeatMap9 from './MonthHeatMap/MonthHeatMap9.vue'
-// import MonthHeatMap10 from './MonthHeatMap/MonthHeatMap10.vue'
-// import MonthHeatMap11 from './MonthHeatMap/MonthHeatMap11.vue'
-// import MonthHeatMap12 from './MonthHeatMap/MonthHeatMap12.vue'
-// import LineAndBarChart2022vs2021 from '../components/DataScraping/LineAndBarChart/LineAndBarChart2022vs2021.vue'
 import overheatRecordsLineChart from './overheatRecordsLineChart/overheatRecordsLineChart.vue'
 
 export default {
   // echarts引入
   components: {
-    // DonutChart1,
-    // DonutChart2,
     DayHeatMap,
     MonthHeatMap1,
-    // MonthHeatMap2,
-    // MonthHeatMap3,
-    // MonthHeatMap4,
-    // MonthHeatMap5,
-    // MonthHeatMap6,
-    // MonthHeatMap7,
-    // MonthHeatMap8,
-    // MonthHeatMap9,
-    // MonthHeatMap10,
-    // MonthHeatMap11,
-    // MonthHeatMap12,
-    // LineAndBarChart2022vs2021,
     overheatRecordsLineChart,
   },
   name: 'IndexPage',
@@ -440,66 +380,20 @@ export default {
       { rel: 'stylesheet', href: '/css/jquery-ui.css' },
       { rel: 'stylesheet', href: '/css/object.css' },
       { rel: 'stylesheet', href: '/css/card3.css' },
-      { rel: 'stylesheet', href: 'xzoom/imgZoom/css/normalize.css' },
-      { rel: 'stylesheet', href: 'xzoom/imgZoom/css/foundation.css' },
-      { rel: 'stylesheet', href: 'xzoom/css/imgZoom/demo.css' },
-      { rel: 'stylesheet', media: 'all', href: 'xzoom/dist/xzoom.css' },
-      {
-        rel: 'stylesheet',
-        type: 'text/css',
-        media: 'all',
-        href: '/fancybox/source/jquery.fancybox.css',
-      },
-      {
-        rel: 'stylesheet',
-        type: 'text/css',
-        media: 'all',
-        href: '/magnific-popup/css/magnific-popup.css',
-      },
     ],
     script: [
-      {
-        src: '/js/jquery-ui.js',
-        type: 'text/javascript',
-      },
-      {
-        src: '/js/jquery-collision.js',
-        type: 'text/javascript',
-      },
+      // {
+      //   src: '/js/jquery-ui.js',
+      //   type: 'text/javascript',
+      // },
+      // {
+      //   src: '/js/jquery-collision.js',
+      //   type: 'text/javascript',
+      // },
       // {
       //   src: '/js/object.js',
       //   type: 'text/javascript',
       // },
-      {
-        src: 'xzoom/js/vendor/modernizr.js',
-        type: 'text/javascript',
-      },
-
-      {
-        src: 'xzoom/dist/xzoom.min.js',
-        type: 'text/javascript',
-      },
-
-      {
-        src: 'xzoom/hammer.js/1.0.5/jquery.hammer.min.js',
-        type: 'text/javascript',
-      },
-      {
-        src: 'xzoom/fancybox/source/jquery.fancybox.js',
-        type: 'text/javascript',
-      },
-      {
-        src: 'xzoom/magnific-popup/js/magnific-popup.js',
-        type: 'text/javascript',
-      },
-      {
-        src: 'xzoom/js/foundation.min.js',
-        type: 'text/javascript',
-      },
-      {
-        src: 'xzoom/js/setup.js',
-        type: 'text/javascript',
-      },
     ],
   },
   data: () => ({
@@ -516,23 +410,6 @@ export default {
       // touchThreshold: 3,
       swipeToSlide: true,
     },
-    items: [
-      {
-        text: '整體資料監測',
-        disabled: true,
-        href: 'breadcrumbs_link_2',
-      },
-      {
-        text: '全局數據: 年度資料完成度',
-        disabled: true,
-        href: 'breadcrumbs_link_2',
-      },
-      {
-        text: '全局數據: 當月資料完成度',
-        disabled: true,
-        href: 'breadcrumbs_link_2',
-      },
-    ],
     month: [
       'jan',
       'feb',
@@ -850,6 +727,34 @@ export default {
   }),
   mounted() {
     this.initial()
+    // 放大鏡
+    var $result1 = $('.image1.result1')
+    var $viewer1 = $('.image1.viewer1')
+    var $magnifier1 = $viewer1.find('.magnifier1')
+
+    $(function () {
+      setTimeout(function () {
+        $magnifier1.pep({
+          // 會遇到問題: Uncaught TypeError: $magnifier.pep is not a function
+          constrainTo: 'parent',
+          shouldEase: false,
+          drag() {
+            var pos = $magnifier1.position()
+
+            var x =
+              ((pos.left + $magnifier1.outerWidth() / 2) / $viewer1.width()) *
+                100 +
+              '%'
+            var y =
+              ((pos.top + $magnifier1.outerHeight() / 2) / $viewer1.height()) *
+                100 +
+              '%'
+
+            $result1.css('background-position', [x, y].join(' '))
+          },
+        })
+      }, 0)
+    })
   },
   methods: {
     tableSelect(events) {
@@ -958,35 +863,6 @@ export default {
         console.log(startTime, stopTime)
       })
     },
-  },
-  unmounted() {
-    // const unthumb = document.querySelectorAll('.thumb')
-    // for (const unthumbs of unthumb) {
-    //   unthumbs.onclick = function (e) {
-    //     // console.log(e.target.src);
-    //     // console.log(e.target.getAttribute("src"));
-    //     const newImg = e.target.src // 絕對連結
-    //     // let newImg = e.target.getAttribute("src");  // getAttribute取得屬性 e.g. src //相對連結
-    //     document.querySelector('.pic').setAttribute('src', newImg) // 取得這個pic之後，去設定他的scr屬性值是newImg(我點選時所得到的），你要設定的屬性是誰
-    //     for (const th of this.thumb) {
-    //       th.classList.remove('active')
-    //     }
-    //     e.target.classList.add('active')
-    //   }
-    // }
-    $(function () {
-      $('.xzoom4').xzoom({
-        position: '#zoom-target2',
-        tint: '#000',
-        tintOpacity: 0.3,
-        fadeOut: true,
-      })
-    })
-    // $(function () {
-    //   $('.xzoom-2-4').xzoom({
-    //     position: '#zoom-target',
-    //   })
-    // })
   },
 }
 </script>
@@ -1196,19 +1072,6 @@ export default {
   margin-right: 0.5em;
 }
 
-.piccc {
-  background-image: url('/xzoom/images/20220510_v1.jpg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 200%;
-}
-
-.img-wrapper {
-  padding-top: 0px;
-  margin-top: 0px;
-  height: 178px;
-}
-
 .tablefont {
   // font-size: 12px;
   color: #9ba3a5;
@@ -1256,17 +1119,6 @@ button.slick-next:before {
   margin-left: 725px;
   z-index: 9999998;
 }
-// #zoom-target2 {
-//   margin-top:50px
-// }
-
-// .carouselCenterBorder {
-//   border: 2px solid black;
-//   position: absolute;
-//   height: 185px;
-//   width: 210px;
-//   margin-left: 275px;
-// }
 </style>
 
 <style lang="scss">
@@ -1276,5 +1128,94 @@ button.slick-next:before {
   font-size: 12px !important;
   // margin-right: 10px !important;
   padding: 0px !important;
+}
+</style>
+
+<style lang="scss">
+// .image-wrap {
+//   width: 304px;
+//   height: 808px;
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   -moz-transform: translateY(-50%) translateX(-50%);
+//   -ms-transform: translateY(-50%) translateX(-50%);
+//   -webkit-transform: translateY(-50%) translateX(-50%);
+//   transform: translateY(-50%) translateX(-50%);
+//   -moz-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
+//   -webkit-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
+//   box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
+// }
+.image-wrap1 {
+  width: 100px;
+  height: 100px;
+  // position: absolute;
+  // top: 50%;
+  // left: 50%;
+  // -moz-transform: translateY(-50%) translateX(-50%);
+  // -ms-transform: translateY(-50%) translateX(-50%);
+  // -webkit-transform: translateY(-50%) translateX(-50%);
+  // transform: translateY(-50%) translateX(-50%);
+  // -moz-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
+  // -webkit-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
+  // box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
+}
+// @media (min-width: 550px) {
+//   .image-wrap {
+//     width: 608px;
+//     height: 404px;
+//   }
+//   .image-wrap .image {
+//     width: 50% !important;
+//     height: 100% !important;
+//     clear: none !important;
+//   }
+// }
+
+@media (min-width: 700px) {
+  .image-wrap1 {
+    width: 480px;
+    height: 350px;
+  }
+  .image-wrap1 .image1 {
+    width: 60% !important;
+    height: 100% !important;
+    clear: none !important;
+  }
+}
+
+.image-wrap1 .image1 {
+  width: 100%;
+  height: 60% !important;
+  background: url('static/xzoom/images/20220510_v1.jpg') no-repeat center center;
+  float: left;
+  margin: 0;
+  padding: 0;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+.image-wrap1 .image1:first-child {
+  // border-right: 1px solid #342420;
+}
+.image-wrap1 .image1.result1 {
+  background-position: 50% 25%;
+}
+.image-wrap1 .image1.viewer1 {
+  -moz-background-size: 100%;
+  -o-background-size: 100%;
+  -webkit-background-size: 100%;
+  background-size: 100%;
+}
+.image-wrap1 .image1.viewer1 .magnifier1 {
+  position: absolute;
+  top: 20%;
+  left: 45%;
+  width: 80px;
+  height: 60px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEElEQVQIW2P8DwSMIMAABQA+HQQDNlbHLwAAAABJRU5ErkJggg==);
+  opacity: 0.6;
+  cursor: move;
 }
 </style>
