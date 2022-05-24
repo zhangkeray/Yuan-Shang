@@ -639,7 +639,17 @@ export default {
     },
   }),
   mounted() {
-    this.initial()
+    // 判斷echarts 是否渲染完成
+    var calendar = this.month
+    var loadingEcharts = setInterval(() => {
+      const calendarID = document.getElementById(calendar[0])
+      const myChart1 = echarts.getInstanceByDom(calendarID)
+      console.log(myChart1)
+      if (myChart1 !== undefined) {
+        clearInterval(loadingEcharts)
+        this.initial()
+      }
+    })
     // 放大鏡
     var $result1 = $('.image1.result1')
     var $viewer1 = $('.image1.viewer1')
@@ -669,12 +679,11 @@ export default {
       }, 0)
     })
   },
+
   methods: {
     tableSelect(events) {
       const chartDom = document.getElementById('lineBarChart0001')
       const myChart = echarts.init(chartDom) // echarts初始化
-      console.log(myChart)
-      console.log(events[0])
       axios({
         method: 'get',
         url: 'http://127.0.0.1:8080/api/alarm/max',
@@ -720,50 +729,49 @@ export default {
         })
         .catch((err) => console.error(err))
     },
+
     initial() {
       const url = 'http://localhost:8080/api/alarm/list' // 宣告取得警報list網址
       // 取得選取日期
-      setTimeout(() => {
-        var calendar = this.month
-        calendar.forEach((index) => {
-          const calendarID = document.getElementById(index)
-          const myChart1 = echarts.getInstanceByDom(calendarID)
-          myChart1.on('click', (params) => {
-            this.dates = params.data[0]
-            this.selected01 = []
+      var calendar = this.month
+      calendar.forEach((index) => {
+        const calendarID = document.getElementById(index)
+        const myChart1 = echarts.getInstanceByDom(calendarID)
+        myChart1.on('click', (params) => {
+          this.dates = params.data[0]
+          this.selected01 = []
 
-            axios({
-              method: 'get',
-              url,
-              params: {
-                table_timeselectStart: params.data[0],
-                table_timeselectStop: params.data[0],
-              },
-            })
-              .then((events) => {
-                console.log(events.data)
-                var data = events.data
-                var output = []
-                data.forEach((index, value) => {
-                  output.push({
-                    index: value + 1,
-                    object_name: this.objectName[index.table_itemName],
-                    object_date: '2022/05/17',
-                    object_time_start: '01:32:14',
-                    object_tiem_stop: '01:35:41',
-                    object_time_totle: '3分',
-                    object_setting_temperature: '45°C',
-                    object_temperature_max: '47°C',
-                  })
-                })
-                this.fakeTemps = output
-              })
-              .catch((e) => {
-                console.log(e)
-              })
+          axios({
+            method: 'get',
+            url,
+            params: {
+              table_timeselectStart: params.data[0],
+              table_timeselectStop: params.data[0],
+            },
           })
+            .then((events) => {
+              console.log(events.data)
+              var data = events.data
+              var output = []
+              data.forEach((index, value) => {
+                output.push({
+                  index: value + 1,
+                  object_name: this.objectName[index.table_itemName],
+                  object_date: '2022/05/17',
+                  object_time_start: '01:32:14',
+                  object_tiem_stop: '01:35:41',
+                  object_time_totle: '3分',
+                  object_setting_temperature: '45°C',
+                  object_temperature_max: '47°C',
+                })
+              })
+              this.fakeTemps = output
+            })
+            .catch((e) => {
+              console.log(e)
+            })
         })
-      }, 0)
+      })
       const heat = document.getElementById('heatMap2_for_this')
       const myChart = echarts.getInstanceByDom(heat)
       myChart.on('click', (params) => {
@@ -774,6 +782,31 @@ export default {
         var stopTime =
           dates + ' ' + params.data[0] + ':' + (params.data[1] * 10 + 9) + ':59'
         console.log(startTime, stopTime)
+        axios({
+            method: 'get',
+            url,
+          })
+            .then((events) => {
+              console.log(events.data)
+              var data = events.data
+              var output = []
+              data.forEach((index, value) => {
+                output.push({
+                  index: value + 1,
+                  object_name: this.objectName[index.table_itemName],
+                  object_date: '2022/05/17',
+                  object_time_start: '01:32:14',
+                  object_tiem_stop: '01:35:41',
+                  object_time_totle: '3分',
+                  object_setting_temperature: '45°C',
+                  object_temperature_max: '47°C',
+                })
+              })
+              this.fakeTemps = output
+            })
+            .catch((e) => {
+              console.log(e)
+            })
       })
     },
   },
