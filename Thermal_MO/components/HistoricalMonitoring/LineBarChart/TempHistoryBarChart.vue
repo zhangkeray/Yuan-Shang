@@ -33,7 +33,7 @@ export default {
             fontSize: '14',
             fontWeight: '700',
             color: '#505f62',
-          }, 
+          },
         },
         // tooltip: {
         //   trigger: 'axis',
@@ -85,13 +85,6 @@ export default {
             })
             var res = ''
             if (status) {
-              res += '<div class="echarts-tooltip-Monitoring-point">'
-              res += `
-              <div>Before</div>
-              <div>After</div>
-              <div><img src="/xzoom/images/20220510_v1.jpg" /></div>
-              <div><img src="/xzoom/images/20220510_v1.jpg" /></div>`
-              res += '</div>'
               res += '<div class="echarts-tooltip-Monitoring">'
               for (var h = 0; h < params.length; h++) {
                 res += `<div class='tooltip-point' style="`
@@ -106,7 +99,14 @@ export default {
                 }°C</div>
 								`
               }
-              res += `</div>`
+              res += `</div><hr />`
+              res += '<div class="echarts-tooltip-Monitoring-point">'
+              res += `
+              <div>Before</div>
+              <div>After</div>
+              <div><img src="/xzoom/images/20220510_v1.jpg" /></div>
+              <div><img src="/xzoom/images/20220510_v1.jpg" /></div>`
+              res += '</div>'
             } else {
               res += '<div class="echarts-tooltip-Monitoring">'
               for (var i = 0; i < params.length; i++) {
@@ -288,7 +288,7 @@ export default {
         url: 'http://localhost:8080/api/monitor/test?date=' + usersetdate,
       })
         .then((params) => {
-          // console.log(params.data)
+          console.log(params.data)
           const array = params.data
           var marker = []
           Object.keys(array).forEach((key) => {
