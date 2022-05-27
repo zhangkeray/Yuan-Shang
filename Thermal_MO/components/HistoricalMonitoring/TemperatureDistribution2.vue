@@ -81,6 +81,7 @@
                                   font-size: 12px;
                                   position: absolute;
                                   margin-left: 130px;
+                                  z-index: 9999;
                                 "
                               >
                                 <v-icon
@@ -233,6 +234,8 @@ export default {
     script: [],
   },
   data: () => ({
+    activePicker:null,
+    date: ['', ''],
     dates: ['', ''],
     menu: false,
     options: {
@@ -265,7 +268,10 @@ export default {
   }),
   computed: {
     dateRangeText() {
-      return this.dates.join(' ~ ')
+      var datess = this.dates
+      datess = datess.sort()
+
+      return datess.join(' ~ ')
     },
   },
   mounted() {
@@ -298,7 +304,6 @@ export default {
           shouldEase: false,
           drag() {
             var pos = $magnifier.position()
-
             var x =
               ((pos.left + $magnifier.outerWidth() / 2) / $viewer.width()) *
                 100 +

@@ -750,8 +750,8 @@
                   v-for="(item01, index) in spots"
                   :key="'B' + index"
                   :style="{
-                    top: item01.spot_position.y + 'px',
-                    left: item01.spot_position.x + 'px',
+                    top: item01.spot_position.Y + 'px',
+                    left: item01.spot_position.X + 'px',
                   }"
                   id="spot"
                   class="spot"
@@ -879,9 +879,8 @@
                             alt=""
                             src="/right-icons/alert-on.png"
                             width="18em"
-                            depressed
-                        />
-                        <img
+                            depressed />
+                          <img
                             v-else-if="item.spot_alarm_status === 0"
                             class=""
                             alt=""
@@ -937,9 +936,8 @@
                             alt=""
                             src="/right-icons/alert-on.png"
                             width="18em"
-                            depressed
-                        />
-                        <img
+                            depressed />
+                          <img
                             v-else-if="item.scope_alarm_status === 0"
                             class=""
                             alt=""
@@ -984,17 +982,19 @@
                       </td>
                       <td class="text-center" style="padding: 0px 25px">
                         <!-- 線:警報對話框 -->
-                        <v-btn color="" icon class="right-btn"
-                        @click="opendialog(item.line_number, 'line')"
+                        <v-btn
+                          color=""
+                          icon
+                          class="right-btn"
+                          @click="opendialog(item.line_number, 'line')"
                           ><img
                             v-if="item.line_alarm_status === 1"
                             class=""
                             alt=""
                             src="/right-icons/alert-on.png"
                             width="18em"
-                            depressed
-                        />
-                        <img
+                            depressed />
+                          <img
                             v-else-if="item.line_alarm_status === 0"
                             class=""
                             alt=""
@@ -1613,22 +1613,30 @@ export default {
       const opentype = this.opentype
       const status = this.checkbox
       const threshold = this.threshold
+      const thisSpots = this.spots
+      var obj = thisSpots.find((o) => o.spot_number === opendid)
       var data = null
       if (opentype === 'spot') {
         data = {
-          spot_number: opendid,
+          spot_number: parseInt(opendid),
           spot_alarm_status: status,
+          spot_position: {
+            x: obj.spot_position.X,
+            y: obj.spot_position.Y,
+          },
           spot_threshold: threshold,
-          status: '0',
+          spot_status: '0',
         }
         if (status === true) {
           data.spot_alarm_status = 1
         } else {
           data.spot_alarm_status = 0
         }
+        console.log(data)
+
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/change/spot`,
+          url: `http://127.0.0.1:5000/api/monitor/object/change/spot`,
           data,
         })
           .then((response) => {
@@ -1685,7 +1693,7 @@ export default {
       this.openid = id
       this.opentype = type
       this.$axios
-        .get('http://localhost:8080/api/monitor/object/data')
+        .get('http://127.0.0.1:5000/api/monitor/object/data')
         .then((paramse) => {
           var array = paramse.data
           var arr = []
@@ -1757,17 +1765,17 @@ export default {
     // 總呼叫程序
     Refresh() {
       this.$axios
-        .get('http://localhost:8080/api/monitor/object/data')
+        .get('http://127.0.0.1:5000/api/monitor/object/data')
         .then((params) => {
           // 取得"點"資料
           var array = params.data.spot
           array.forEach(function (index) {
             // console.log(index.position.Y)
-            index.spot_position.x =
-              index.spot_position.x *
+            index.spot_position.X =
+              index.spot_position.X *
               document.getElementById('image').offsetWidth
-            index.spot_position.y =
-              index.spot_position.y *
+            index.spot_position.Y =
+              index.spot_position.Y *
               document.getElementById('image').offsetHeight
           })
           this.spots = params.data.spot
@@ -1837,22 +1845,23 @@ export default {
           SpotY = SpotY.toFixed(4)
           SpotX = SpotX.toFixed(4)
           var thisSpotData = {
-            spot_id: $(this).attr('data-id'),
             spot_number: parseInt($(this).attr('data-name')),
-            status: '0',
+            spot_status: '0',
             spot_position: {
               y: SpotY,
               x: SpotX,
             },
+            spot_alarm_status: 0,
+            spot_threshold: 100,
           }
           put(thisSpotData)
-          // console.log(thisSpotData)
+          console.log(thisSpotData)
         },
       })
       function put(data) {
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/change/spot`,
+          url: `http://127.0.0.1:5000/api/monitor/object/change/spot`,
           data,
         }).catch((error) => console.log('error from axios', error))
       }
@@ -1866,9 +1875,7 @@ export default {
       setTimeout(() => (this[l] = false), 3000)
       this.loader = null
       this.$axios
-        .post('http://localhost:8080/api/monitor/object/add/spot', {
-          status: 'add',
-        })
+        .get('http://127.0.0.1:5000/api/monitor/object/add/spot')
         .then((response) => {
           this.Interval = 0
         })
@@ -1879,15 +1886,17 @@ export default {
       console.log(number)
       var thisSpotData = {
         spot_number: parseInt(number),
-        status: '1',
+        spot_status: '1',
         spot_position: {
-          y: '',
-          x: '',
+          y: 0.1,
+          x: 0.1,
         },
+        spot_alarm_status: 0,
+        spot_threshold: 20,
       }
       this.$axios
         .post(
-          'http://localhost:8080/api/monitor/object/change/spot',
+          'http://127.0.0.1:5000/api/monitor/object/change/spot',
           thisSpotData
         )
         .then((response) => {

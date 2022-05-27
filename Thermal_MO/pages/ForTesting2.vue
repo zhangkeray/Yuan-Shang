@@ -26,7 +26,7 @@ export default {
         })
         .catch((error) => {
           console.log(error)
-          alert("請求失敗")
+          // alert("請求失敗")
         })
     },
     drawLine(id) {
