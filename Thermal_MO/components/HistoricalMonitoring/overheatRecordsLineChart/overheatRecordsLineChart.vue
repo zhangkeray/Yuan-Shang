@@ -1,5 +1,9 @@
 <template>
-  <div ref="lineBarChart" id="lineBarChart0001" style="height: 231px; width: 910px"></div>
+  <div
+    ref="lineBarChart"
+    id="lineBarChart0001"
+    style="height: 231px; width: 930px"
+  ></div>
 </template>
 
 <script>
@@ -23,33 +27,15 @@ export default {
 
       option = {
         title: {
-          // left: '50',
+          left: '-5',
           text: '監測項目時段超溫紀錄圖',
           textStyle: {
-            // fontFamily: 'Arial, Verdana, sans...',
             fontFamily: 'Arial',
-
             fontSize: '14',
-            // fontStyle: 'normal',
-
+            fontWeight: '700',
             color: '#505f62',
           },
         },
-        // tooltip: {
-        //   trigger: 'axis',
-
-        //   triggerOn: 'click',
-        //   enterable:true,
-
-        //   formatter: '{a}:{c}',
-        //   axisPointer: {
-        //     type: 'cross',
-        //     crossStyle: {
-        //       color: '#999',
-        //     },
-        //   },
-        // },
-
         tooltip: {
           axisPointer: {
             type: 'cross',
@@ -64,18 +50,18 @@ export default {
           top: '70',
           bottom: '20',
           right: '0',
-          left: '40',
-          width: '820',
+          left: '50',
+          width: '830',
         },
         legend: {
           show: true,
           selectedMode: 'multiple', // 設定顯示單一圖例的圖形，點選可切換
-          right: 80,
+          right: 10,
           textStyle: {
             color: '#666',
-            fontSize: 12,
+            fontSize: 9,
           },
-          itemGap: 20,
+          itemGap: 10,
           // data: [
           //   '矩形1vs矩形2',
           //   '矩形2vs矩形3',

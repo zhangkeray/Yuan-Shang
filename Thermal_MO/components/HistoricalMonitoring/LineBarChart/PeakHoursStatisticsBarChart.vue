@@ -1,5 +1,5 @@
 <template>
-  <div ref="lineBarChart" style="height: 247px; width: 1030px"></div>
+  <div ref="lineBarChart" style="height: 285px; width: 1030px"></div>
 </template>
 
 <script>
@@ -22,31 +22,16 @@ export default {
       // 選擇圖表樣式------------------------------------------
 
       option = {
-
-                title: {
+        title: {
           left: 'left',
           text: '超溫時段統計圖',
           textStyle: {
-            fontFamily: 'Arial, Verdana, sans...',
-            fontSize: 12,
-            fontStyle: 'normal',
-            // color: 'red',
+            fontFamily: 'Arial',
+            fontSize: '14',
+            fontWeight: '700',
+            color: '#505f62',
           },
-          },
-        // tooltip: {
-        //   trigger: 'axis',
-
-        //   triggerOn: 'click',
-        //   enterable:true,
-
-        //   formatter: '{a}:{c}',
-        //   axisPointer: {
-        //     type: 'cross',
-        //     crossStyle: {
-        //       color: '#999',
-        //     },
-        //   },
-        // },
+        },
 
         tooltip: {
           axisPointer: {
@@ -54,15 +39,13 @@ export default {
           },
           // alwaysShowContent:true,   // 鼠标离开区域不消失
           trigger: 'axis',
-
-
         },
 
         grid: {
           show: false,
           top: '90',
           bottom: '20',
-          right: '110',
+          right: '115',
           left: '60',
         },
         legend: {
@@ -71,9 +54,9 @@ export default {
           right: 80,
           textStyle: {
             color: '#666',
-            fontSize: 12,
+            fontSize: 9,
           },
-          itemGap: 20,
+          itemGap: 10,
           data: ['矩形1', '矩形2', '矩形3'],
           inactiveColor: '#ccc',
         },
@@ -142,7 +125,10 @@ export default {
           {
             name: '矩形1',
             type: 'bar',
-            data: [0, 2, 0, 3, 0, 3, 0, 0, 1, 0, 2, 0,0, 0, 0, 0, 3, 0, 1, 0, 0, 0, 2, 1],
+            data: [
+              0, 2, 0, 3, 0, 3, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 3, 0, 1, 0, 0, 0,
+              2, 1,
+            ],
             // barWidth: '50%',],
             // barWidth: '50%',
           },
@@ -150,14 +136,20 @@ export default {
           {
             name: '矩形2',
             type: 'bar',
-            data: [0, 1, 2, 0, 4, 0, 0, 3, 5, 3, 0, 4, 5, 5, 4,0, 5, 3, 5, 5, 5, 0, 4, 3],
+            data: [
+              0, 1, 2, 0, 4, 0, 0, 3, 5, 3, 0, 4, 5, 5, 4, 0, 5, 3, 5, 5, 5, 0,
+              4, 3,
+            ],
             // barWidth: '50%',
           },
 
           {
             name: '矩形3',
             type: 'bar',
-            data: [0, 0, 0, 0, 3, 0, 1, 0, 0, 0, 0, 0, 2, 3, 0, 6, 0, 0, 1, 0, 0, 0, 2, 3],
+            data: [
+              0, 0, 0, 0, 3, 0, 1, 0, 0, 0, 0, 0, 2, 3, 0, 6, 0, 0, 1, 0, 0, 0,
+              2, 3,
+            ],
             // barWidth: '50%',
           },
         ],

@@ -1,5 +1,5 @@
 <template>
-  <div ref="lineBarChart" style="height: 180px; width: 750px"></div>
+  <div ref="lineBarChart" style="height: 190px; width: 750px"></div>
 </template>
 
 <script>
@@ -23,13 +23,13 @@ export default {
 
       option = {
         title: {
-          left: 'left',
+          left: '5',
           text: '平均溫度',
           textStyle: {
-            fontFamily: 'Arial, Verdana, sans...',
-            fontSize: 12,
-            fontStyle: 'normal',
-  color: '#505f62',
+            fontFamily: 'Arial',
+            fontSize: '14',
+            fontWeight: '700',
+            color: '#505f62',
           },
 
           show: true,
@@ -60,10 +60,10 @@ export default {
 
         grid: {
           show: false,
-          top: '50',
+          top: '70',
           bottom: '20',
           right: '110',
-          left: '60',
+          left: '60', 
         },
         legend: {
           show: true,
@@ -71,9 +71,9 @@ export default {
           right: 80,
           textStyle: {
             color: '#666',
-            fontSize: 12,
+            fontSize: 9,
           },
-          itemGap: 20,
+          itemGap: 10,
           data: ['矩形1vs矩形2', '矩形2vs矩形3', '矩形1', '矩形2', '矩形3'],
           inactiveColor: '#ccc',
         },
@@ -185,13 +185,12 @@ export default {
             yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
             data: [
               33, 40, 31, 30, 39, 34, 45, 32, 44, 33, 37, 31, 35, 27, 40, 49,
-              43, 43, 42, 40, 33, 32, 30, 30
+              43, 43, 42, 40, 33, 32, 30, 30,
             ],
             symbolSize: 1,
             itemStyle: {
               normal: {
-                                color: '#D9DDDD',
-
+                color: '#D9DDDD',
               },
             },
           },

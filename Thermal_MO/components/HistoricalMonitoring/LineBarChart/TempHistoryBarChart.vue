@@ -26,14 +26,14 @@ export default {
 
       option = {
         title: {
-          left: 'left',
+          left: '-6',
           text: '最高溫度與區間比較',
           textStyle: {
-            fontFamily: 'Arial, Verdana, sans...',
-            fontSize: 12,
-            fontStyle: 'normal',
+            fontFamily: 'Arial',
+            fontSize: '14',
+            fontWeight: '700',
             color: '#505f62',
-          },
+          }, 
         },
         // tooltip: {
         //   trigger: 'axis',
@@ -124,9 +124,10 @@ export default {
 
         grid: {
           show: false,
-          top: '90',
-          bottom: '20',
-          right: '110',
+          // top: '50',
+          top: '70',
+          bottom: '25',
+          right: '130',
           left: '60',
         },
         legend: {
@@ -136,9 +137,9 @@ export default {
           width: '650px',
           textStyle: {
             color: '#666',
-            fontSize: 12,
+            fontSize: 9,
           },
-          itemGap: 20,
+          itemGap: 10,
           inactiveColor: '#ccc',
         },
         xAxis: [
