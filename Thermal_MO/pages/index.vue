@@ -787,28 +787,28 @@
                   v-for="(item, index) in lines"
                   :key="'point1' + index"
                   :style="{
-                    top: item.line_position_point_A.y + 'px',
-                    left: item.line_position_point_A.x + 'px',
+                    top: item.line_position_point_A.Y + 'px',
+                    left: item.line_position_point_A.X + 'px',
                   }"
                   id="pointA"
                   :class="'point-totle ' + 'point' + (index + 1)"
-                  v-bind:data-name="item.line_number"
-                ></div>
-                <div
-                  v-for="(item, index) in lines"
-                  :key="'point2' + index"
-                  :style="{
-                    top: item.line_position_point_B.y + 'px',
-                    left: item.line_position_point_B.x + 'px',
-                  }"
-                  id="pointB"
-                  :class="'point' + (index + 1) + ' point_hover' + (index + 1)"
                   v-bind:data-name="item.line_number"
                 >
                   <div class="line-span">
                     <div>{{ item.line_number }}</div>
                   </div>
                 </div>
+                <div
+                  v-for="(item, index) in lines"
+                  :key="'point2' + index"
+                  :style="{
+                    top: item.line_position_point_B.Y + 'px',
+                    left: item.line_position_point_B.X + 'px',
+                  }"
+                  id="pointB"
+                  :class="'point' + (index + 1) + ' point_hover' + (index + 1)"
+                  v-bind:data-name="item.line_number"
+                ></div>
                 <div
                   v-for="(item, index) in lines"
                   :key="'line' + index"
@@ -1467,7 +1467,7 @@ export default {
     opentype: null, // 紀錄開啟的原件
     dialogdata: [],
     dialogarr: [], // 紀錄原始物件
-
+    tpmedata: null,
     // 右1點線面_宣告變數陣列
     spots: [],
     scopes: [],
@@ -1614,15 +1614,18 @@ export default {
       const status = this.checkbox
       const threshold = this.threshold
       const thisSpots = this.spots
-      var obj = thisSpots.find((o) => o.spot_number === opendid)
-      var SpotY =
-        obj.spot_position.Y / document.getElementById('image').offsetHeight
-      var SpotX =
-        obj.spot_position.X / document.getElementById('image').offsetWidth
-      SpotY = SpotY.toFixed(4)
-      SpotX = SpotX.toFixed(4)
-      var data = null
+      const thislines = this.tpmedata.line
+      const thisscpoes = this.tpmedata.scope
+      var obj = null
       if (opentype === 'spot') {
+        obj = thisSpots.find((o) => o.spot_number === opendid)
+        var SpotY =
+          obj.spot_position.Y / document.getElementById('image').offsetHeight
+        var SpotX =
+          obj.spot_position.X / document.getElementById('image').offsetWidth
+        SpotY = SpotY.toFixed(4)
+        SpotX = SpotX.toFixed(4)
+        var data = null
         data = {
           spot_number: parseInt(opendid),
           spot_alarm_status: status,
@@ -1638,7 +1641,7 @@ export default {
         } else {
           data.spot_alarm_status = 0
         }
-        console.log(data)
+        // console.log(data)
 
         axios({
           method: 'post',
@@ -1650,20 +1653,25 @@ export default {
           })
           .catch((error) => console.log('error from axios', error))
       } else if (opentype === 'line') {
+       
+        obj = thislines.find((o) => o.line_number === opendid)
         data = {
           line_number: opendid,
-          line_alarm_status: status,
+          line_alarm_status: null,
           line_threshold: threshold,
-          status: '0',
+          line_position_point_A:obj.line_position_point_A,
+          line_position_point_B:obj.line_position_point_B,
+          line_status: '0',
         }
         if (status === true) {
           data.line_alarm_status = 1
         } else {
           data.line_alarm_status = 0
         }
+        // console.log(data)
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/change/line`,
+          url: `http://127.0.0.1:5000/api/monitor/object/change/line`,
           data,
         })
           .then((response) => {
@@ -1671,20 +1679,25 @@ export default {
           })
           .catch((error) => console.log('error from axios', error))
       } else if (opentype === 'scope') {
+        obj = thisscpoes.find((o) => o.scope_number === opendid)
+        // console.log(obj)
         data = {
-          scope_number: opendid,
-          scope_alarm_status: status,
+          scope_number: parseInt(opendid),
+          scope_alarm_status: null,
           scope_threshold: threshold,
-          status: '0',
+          scope_position_BR: obj.scope_position_point_BR,
+          scope_position_LT: obj.scope_position_point_LT,
+          scope_status: '0',
         }
         if (status === true) {
           data.scope_alarm_status = 1
         } else {
           data.scope_alarm_status = 0
         }
+        // console.log(data)
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/change/scope`,
+          url: `http://127.0.0.1:5000/api/monitor/object/change/scope`,
           data,
         })
           .then((response) => {
@@ -1701,6 +1714,8 @@ export default {
       this.$axios
         .get('http://127.0.0.1:5000/api/monitor/object/data')
         .then((paramse) => {
+          // console.log(paramse.data)
+          this.tpmedata = paramse.data
           var array = paramse.data
           var arr = []
           var obj = []
@@ -1814,23 +1829,21 @@ export default {
           // 取得"線"資料
           var lines = params.data.line
           lines.forEach(function (index) {
-            index.line_position_point_A.x =
-              index.line_position_point_A.x *
+            index.line_position_point_A.X =
+              index.line_position_point_A.X *
               document.getElementById('image').offsetWidth
-            index.line_position_point_A.y =
-              index.line_position_point_A.y *
+            index.line_position_point_A.Y =
+              index.line_position_point_A.Y *
               document.getElementById('image').offsetHeight
-
-            index.line_position_point_B.x =
-              index.line_position_point_B.x *
+            index.line_position_point_B.X =
+              index.line_position_point_B.X *
               document.getElementById('image').offsetWidth
-            index.line_position_point_B.y =
-              index.line_position_point_B.y *
+            index.line_position_point_B.Y =
+              index.line_position_point_B.Y *
               document.getElementById('image').offsetHeight
           })
           this.lines = params.data.line
           this.line()
-
           // 取得"線"資料 end
         })
         .catch((error) => console.log('error from axios', error))
@@ -1851,7 +1864,7 @@ export default {
         stop(event, ui) {
           const id = $(this).attr('data-name')
           const thisdata = data.find((o) => o.spot_number === id)
-          console.log(data)
+          // console.log(data)
 
           var SpotY =
             ui.position.top / document.getElementById('image').offsetHeight
@@ -1898,7 +1911,7 @@ export default {
     },
     // POST 刪除點物件
     deletespot(number) {
-      console.log(number)
+      // console.log(number)
       var thisSpotData = {
         spot_number: parseInt(number),
         spot_status: '1',
@@ -2008,6 +2021,8 @@ export default {
           scope_alarm_status: status,
           scope_threshold: threshold,
         }
+        // console.log(thisScopeData)
+
         return thisScopeData
       }
       function put(data) {
@@ -2023,22 +2038,24 @@ export default {
     deletescope(index) {
       var thisScopeData = {
         scope_number: index,
-        status: '1',
+        scope_status: '1',
         scope_position_LT: {
-          Y: '',
-          X: '',
+          Y: 0.01,
+          X: 0.01,
         },
         scope_position_BR: {
-          Y: '',
-          X: '',
+          Y: 0.001,
+          X: 0.011,
         },
+        scope_alarm_status: 0,
+        scope_threshold: 0,
       }
-      this.$axios
-        .post('http://127.0.0.1:5000/object/deletescope', thisScopeData)
-        .then((response) => {
-          this.Interval = 0
-        })
-        .catch((error) => console.log('error from axios', error))
+      // console.log(thisScopeData)
+      axios({
+        method: 'post',
+        url: `http://127.0.0.1:5000/api/monitor/object/change/scope`,
+        data: thisScopeData,
+      }).catch((error) => console.log('error from axios', error))
     },
     // POST 線-主程式
     line() {
@@ -2064,6 +2081,8 @@ export default {
           },
           containment: 'parent',
           stop(event, ui) {
+            var thisName = $(this).attr('data-name')
+            const thisdata = array.find((o) => o.line_number === thisName)
             $(event.target).removeClass('point-hover')
             var classA = '.point' + $(this).attr('data-name')
             var pointAtop = 0
@@ -2088,23 +2107,19 @@ export default {
               pointBtop / document.getElementById('image').offsetHeight
             pointBleft =
               pointBleft / document.getElementById('image').offsetWidth
-            // var lineY =
-            //   ui.position.top / document.getElementById('image').offsetHeight
-            // var lineX =
-            //   ui.position.left / document.getElementById('image').offsetWidth
-            // lineY = lineY.toFixed(4)
-            // lineX = lineX.toFixed(4)
             var LineData = {
-              status: '0',
-              line_number: parseInt($(this).attr('data-name')),
+              line_status: '0',
+              line_number: $(this).attr('data-name'),
               line_position_point_A: {
-                y: pointAtop,
-                x: pointAleft,
+                Y: pointAtop,
+                X: pointAleft,
               },
               line_position_point_B: {
-                y: pointBtop,
-                x: pointBleft,
+                Y: pointBtop,
+                X: pointBleft,
               },
+              line_alarm_status: thisdata.line_alarm_status,
+              line_threshold: thisdata.line_threshold,
             }
             put(LineData)
           },
@@ -2113,7 +2128,7 @@ export default {
       function put(data) {
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/change/line`,
+          url: `http://127.0.0.1:5000/api/monitor/object/change/line`,
           data,
         }).catch((error) => console.log('error from axios', error))
       }
@@ -2154,9 +2169,7 @@ export default {
     // 線-新增程式
     addline() {
       this.$axios
-        .post('http://localhost:8080/api/monitor/object/add/line', {
-          status: 'add',
-        })
+        .get('http://127.0.0.1:5000/api/monitor/object/add/line')
         .then((response) => {
           this.Interval = 0
         })
@@ -2165,23 +2178,24 @@ export default {
     // 線-刪除程式
     deleteline(index, id) {
       var LineData = {
-        status: '1',
+        line_status: '1',
         line_number: index,
         line_position_point_A: {
-          y: '',
-          x: '',
+          Y: 0.07837,
+          X: 0.04254,
         },
         line_position_point_B: {
-          y: '',
-          x: '',
+          Y: 0.078352,
+          X: 0.07832,
         },
+        line_alarm_status: 0,
+        line_threshold: 0,
       }
-      this.$axios
-        .post('http://localhost:8080/api/monitor/object/change/line', LineData)
-        .then((response) => {
-          this.Interval = 0
-        })
-        .catch((error) => console.log('error from axios', error))
+      axios({
+        method: 'post',
+        url: `http://127.0.0.1:5000/api/monitor/object/change/line`,
+        data: LineData,
+      }).catch((error) => console.log('error from axios', error))
     },
     // 右4日期
     functionEvents(date) {
