@@ -1559,7 +1559,7 @@ export default {
     //   console.log(200)
     var stay = 0
     vm.socket.on('connect', () => {
-      rtspstatus.innerHTML = '伺服器已回應，連線已恢復正常，正在重啟程式!'
+      // rtspstatus.innerHTML = '伺服器已回應，連線已恢復正常，正在重啟程式!'
       clearInterval(this.timeOutRefresh01)
       vm.socket.on('data', (data) => {
         stay = 0
@@ -1573,9 +1573,9 @@ export default {
         rtspstay.classList.add('d-none')
       } else if (stay >= 10 && stay <= 15) {
         rtspstay.classList.remove('d-none')
-        var tmp = 15
-        tmp = tmp - stay
-        rtspstay.innerHTML = '已偵測影像無回應，' + tmp + '秒後將重新啟動程式'
+        // var tmp = 15
+        // tmp = tmp - stay
+        // rtspstay.innerHTML = '已偵測影像無回應，' + tmp + '秒後將重新啟動程式'
       } else if (stay >= 16) {
         stay = 0
         vm.socket.disconnect()
@@ -1584,21 +1584,21 @@ export default {
     }, 1000)
 
     vm.socket.on('disconnect', (reason) => {
-      rtspstatus.innerHTML = '連線出現錯誤!!!'
-      let count = 0
+      // rtspstatus.innerHTML = '連線出現錯誤!!!'
+      // let count = 0
       this.timeOutRefresh01 = setInterval(() => {
         vm.socket.connect()
-        if (count <= 15) {
-          var tpa = 15 - count
-          rtspstatus.innerHTML =
-            '影像處理伺服器已中斷連線，' + tpa + '秒後嘗試與伺服器連線...'
-        } else if (count > 15 && count <= 20) {
-          rtspstatus.innerHTML = '正在嘗試與伺服器連線中...'
-        } else if (count > 20 && count < 25) {
-          rtspstatus.innerHTML = '嘗試與伺服器連線失敗...'
-        } else {
-          count = 0
-        }
+        // if (count <= 15) {
+        //   var tpa = 15 - count
+        //   rtspstatus.innerHTML =
+        //     '影像處理伺服器已中斷連線，' + tpa + '秒後嘗試與伺服器連線...'
+        // } else if (count > 15 && count <= 20) {
+        //   rtspstatus.innerHTML = '正在嘗試與伺服器連線中...'
+        // } else if (count > 20 && count < 25) {
+        //   rtspstatus.innerHTML = '嘗試與伺服器連線失敗...'
+        // } else {
+        //   count = 0
+        // }
       }, 1000)
       img.src = 'https://dummyimage.com/640x480/969696/000000&text=loading....'
       rtspstatus.classList.remove('d-none')
