@@ -745,6 +745,19 @@
                   id="image"
                   src="https://dummyimage.com/640x480/969696/000000&text=loading...."
                 />
+                <div
+                  :style="{
+                    top: this.reference.Y + 'px',
+                    left: this.reference.X + 'px',
+                  }"
+                  id="spot"
+                  class="spot"
+                >
+                  <img src="/images/spot_1.png" />
+                  <div class="spot-span">
+                    <div>R</div>
+                  </div>
+                </div>
                 <!-- 點物件 -->
                 <div
                   v-for="(item01, index) in spots"
@@ -843,6 +856,31 @@
                     </tr>
                   </thead>
                   <tbody>
+                    <tr>
+                      <td class="text-center" style="padding: 0px 13px">
+                        <v-badge
+                          content="R"
+                          overlap
+                          color="#828C8F"
+                          class="my-4"
+                          bordered
+                          ><v-btn icon class="right-btn"
+                            ><img
+                              class=""
+                              alt=""
+                              src="/right-icons/spot2.png"
+                              width="20em" /></v-btn
+                        ></v-badge>
+                      </td>
+                      <td
+                        class="text-center subtitle-right"
+                        style="padding: 0px 25px"
+                      >
+                        {{ reference.reference_temperature }}°C
+                      </td>
+                      <td class="text-center" style="padding: 0px 25px">N/A</td>
+                      <td class="text-center" style="padding: 0px 13px">N/A</td>
+                    </tr>
                     <!-- spot -->
                     <tr v-for="(item, index) in spots" :key="'C' + index">
                       <td class="text-center" style="padding: 0px 13px">
@@ -1472,7 +1510,7 @@ export default {
     spots: [],
     scopes: [],
     lines: [],
-
+    reference: [],
     // 右2假數據顯示(待刪)
     temps: [],
 
@@ -1653,14 +1691,13 @@ export default {
           })
           .catch((error) => console.log('error from axios', error))
       } else if (opentype === 'line') {
-       
         obj = thislines.find((o) => o.line_number === opendid)
         data = {
           line_number: opendid,
           line_alarm_status: null,
           line_threshold: threshold,
-          line_position_point_A:obj.line_position_point_A,
-          line_position_point_B:obj.line_position_point_B,
+          line_position_point_A: obj.line_position_point_A,
+          line_position_point_B: obj.line_position_point_B,
           line_status: '0',
         }
         if (status === true) {
@@ -1788,6 +1825,17 @@ export default {
       this.$axios
         .get('http://127.0.0.1:5000/api/monitor/object/data')
         .then((params) => {
+          // 參考點
+          var reference = params.data.reference[0]
+          var referenceArr = {
+            reference_temperature: reference.reference_temperature,
+            X: reference.reference_position.X *
+              document.getElementById('image').offsetWidth,
+            Y: reference.reference_position.y *
+              document.getElementById('image').offsetHeight,
+          }
+          this.reference = referenceArr
+          console.log(referenceArr)
           // 取得"點"資料
           var array = params.data.spot
           array.forEach(function (index) {
