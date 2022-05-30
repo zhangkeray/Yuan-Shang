@@ -1016,7 +1016,7 @@
                         class="text-center subtitle-right"
                         style="padding: 0px 25px"
                       >
-                        {{ item.line_temperature_ma }}°C
+                        {{ item.line_temperature_max }}°C
                       </td>
                       <td class="text-center" style="padding: 0px 25px">
                         <!-- 線:警報對話框 -->
@@ -1827,19 +1827,26 @@ export default {
         .then((params) => {
           // 參考點
           var reference = params.data.reference[0]
+          var sumtmp = ""
+          if(reference.reference_temperature != null) {
+            sumtmp = reference.reference_temperature.toFixed(1)
+          }
           var referenceArr = {
-            reference_temperature: reference.reference_temperature,
+            reference_temperature: sumtmp,
             X: reference.reference_position.X *
               document.getElementById('image').offsetWidth,
             Y: reference.reference_position.y *
               document.getElementById('image').offsetHeight,
           }
           this.reference = referenceArr
-          console.log(referenceArr)
           // 取得"點"資料
           var array = params.data.spot
+          console.log(params.data.spot)
           array.forEach(function (index) {
             // console.log(index.position.Y)
+            if(index.spot_temperature != null) {
+              index.spot_temperature = index.spot_temperature.toFixed(1)
+            }
             index.spot_position.X =
               index.spot_position.X *
               document.getElementById('image').offsetWidth
@@ -1853,6 +1860,9 @@ export default {
           // 取得"範圍"資料
           var scopes = params.data.scope
           scopes.forEach(function (index) {
+            if(index.scope_temperature_max != null) {
+            index.scope_temperature_max = index.scope_temperature_max.toFixed(1)
+            }
             index.scope_position_point_BR.X =
               document.getElementById('image').offsetWidth *
               (index.scope_position_point_BR.X -
@@ -1877,6 +1887,9 @@ export default {
           // 取得"線"資料
           var lines = params.data.line
           lines.forEach(function (index) {
+            if(index.line_temperature_max != null) {
+            index.line_temperature_max = index.line_temperature_max.toFixed(1)
+            }
             index.line_position_point_A.X =
               index.line_position_point_A.X *
               document.getElementById('image').offsetWidth
