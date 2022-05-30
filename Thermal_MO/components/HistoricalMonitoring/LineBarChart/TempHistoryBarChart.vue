@@ -87,26 +87,37 @@ export default {
             if (status) {
               res += '<div class="echarts-tooltip-Monitoring">'
               for (var h = 0; h < params.length; h++) {
+                var po = false
+                var changea = ''
                 res += `<div class='tooltip-point' style="`
                 record.forEach((index) => {
                   if (index === params[h].seriesName) {
-                    res += `background-color: #B56666;`
+                    po = true
+                    res += `background-color: #b5666687;`
                   }
                 })
+                if (po) {
+                  changea = '(變動)'
+                }
                 res += `"><span
 										style="background-color:${[params[h].color]};"></span>${params[h].seriesName}:${
                   params[h].data.value
-                }°C</div>
+                }°C${changea}</div>
 								`
               }
               res += `</div><hr />`
               res += '<div class="echarts-tooltip-Monitoring-point">'
               res += `
-              <div>Before</div>
-              <div>After</div>
+              <div class="echarts-tooltip-Monitoring-content-title">Before</div>
+              <div class="echarts-tooltip-Monitoring-content-title">After</div>
               <div><img src="/xzoom/images/20220510_v1.jpg" /></div>
               <div><img src="/xzoom/images/20220510_v1.jpg" /></div>`
               res += '</div>'
+              res += '<div class="echarts-footer">此時段被修改的物件:'
+              record.forEach((index) => {
+                res += `<span>[${index}]</span> `
+              })
+              res += `</div>`
             } else {
               res += '<div class="echarts-tooltip-Monitoring">'
               for (var i = 0; i < params.length; i++) {
@@ -409,8 +420,13 @@ export default {
   display: grid !important;
   /* max-width: 100%; */
 }
+.echarts-tooltip-Monitoring-content-title {
+  background-color: #efefef;
+  margin: 0.4em 4px 0px 4px;
+  border-radius: 2px;
+}
 .echarts-tooltip-Monitoring-point > div {
-  padding: 0.3em;
+  padding: 0em 0.3em 0.3em 0.3em;
 }
 .echarts-tooltip-Monitoring-point > div img {
   max-width: 100%;
@@ -422,6 +438,11 @@ export default {
   /* grid-template-columns: 130px 130px 130px 130px; */
   grid-template-columns: repeat(4, auto);
   display: grid !important;
+}
+.echarts-footer {
+  margin: 0em 0.3em 0.3em 0.3em;
+  padding: 0.3em;
+  background-color: #efefef;
 }
 .tooltip-value {
   margin-bottom: 5px;

@@ -767,10 +767,10 @@
                   v-for="(item02, index) in scopes"
                   :key="'A' + index"
                   :style="{
-                    top: item02.scope_position_LT.y + 'px',
-                    left: item02.scope_position_LT.x + 'px',
-                    width: item02.scope_position_BR.x + 'px',
-                    height: item02.scope_position_BR.y + 'px',
+                    top: item02.scope_position_point_LT.Y + 'px',
+                    left: item02.scope_position_point_LT.X + 'px',
+                    width: item02.scope_position_point_BR.X + 'px',
+                    height: item02.scope_position_point_BR.Y + 'px',
                   }"
                   id="scope"
                   class="scope"
@@ -1615,14 +1615,20 @@ export default {
       const threshold = this.threshold
       const thisSpots = this.spots
       var obj = thisSpots.find((o) => o.spot_number === opendid)
+      var SpotY =
+        obj.spot_position.Y / document.getElementById('image').offsetHeight
+      var SpotX =
+        obj.spot_position.X / document.getElementById('image').offsetWidth
+      SpotY = SpotY.toFixed(4)
+      SpotX = SpotX.toFixed(4)
       var data = null
       if (opentype === 'spot') {
         data = {
           spot_number: parseInt(opendid),
           spot_alarm_status: status,
           spot_position: {
-            x: obj.spot_position.X,
-            y: obj.spot_position.Y,
+            Y: SpotY,
+            X: SpotX,
           },
           spot_threshold: threshold,
           spot_status: '0',
@@ -1784,21 +1790,25 @@ export default {
           // 取得"範圍"資料
           var scopes = params.data.scope
           scopes.forEach(function (index) {
-            index.scope_position_BR.x =
+            index.scope_position_point_BR.X =
               document.getElementById('image').offsetWidth *
-              (index.scope_position_BR.x - index.scope_position_LT.x)
-            index.scope_position_BR.y =
+              (index.scope_position_point_BR.X -
+                index.scope_position_point_LT.X)
+            index.scope_position_point_BR.Y =
               document.getElementById('image').offsetHeight *
-              (index.scope_position_BR.y - index.scope_position_LT.y)
+              (index.scope_position_point_BR.Y -
+                index.scope_position_point_LT.Y)
 
-            index.scope_position_LT.x =
-              index.scope_position_LT.x *
+            index.scope_position_point_LT.X =
+              index.scope_position_point_LT.X *
               document.getElementById('image').offsetWidth
-            index.scope_position_LT.y =
-              index.scope_position_LT.y *
+            index.scope_position_point_LT.Y =
+              index.scope_position_point_LT.Y *
               document.getElementById('image').offsetHeight
           })
           this.scopes = params.data.scope
+          // console.log(this.scopes)
+
           this.scope()
           // 取得"範圍"資料 end
           // 取得"線"資料
@@ -1827,6 +1837,7 @@ export default {
     },
     // 定義點物件
     getspot() {
+      const data = this.spots
       $('.spot').hover(
         function () {
           $(this).children('.spot-span').addClass('hover')
@@ -1838,6 +1849,10 @@ export default {
       $('.spot').draggable({
         containment: 'parent',
         stop(event, ui) {
+          const id = $(this).attr('data-name')
+          const thisdata = data.find((o) => o.spot_number === id)
+          console.log(data)
+
           var SpotY =
             ui.position.top / document.getElementById('image').offsetHeight
           var SpotX =
@@ -1848,14 +1863,14 @@ export default {
             spot_number: parseInt($(this).attr('data-name')),
             spot_status: '0',
             spot_position: {
-              y: SpotY,
-              x: SpotX,
+              Y: SpotY,
+              X: SpotX,
             },
-            spot_alarm_status: 0,
-            spot_threshold: 100,
+            spot_alarm_status: thisdata.spot_alarm_status,
+            spot_threshold: thisdata.spot_threshold,
           }
           put(thisSpotData)
-          console.log(thisSpotData)
+          // console.log(thisSpotData)
         },
       })
       function put(data) {
@@ -1888,8 +1903,8 @@ export default {
         spot_number: parseInt(number),
         spot_status: '1',
         spot_position: {
-          y: 0.1,
-          x: 0.1,
+          Y: 0.1,
+          X: 0.1,
         },
         spot_alarm_status: 0,
         spot_threshold: 20,
@@ -1907,15 +1922,14 @@ export default {
     // POST 新增範圍
     addscope() {
       this.$axios
-        .post('http://localhost:8080/api/monitor/object/add/scope', {
-          status: 'add',
-        })
+        .get('http://127.0.0.1:5000/api/monitor/object/add/scope')
         .then((response) => {
           this.Interval = 0
         })
         .catch((error) => console.log('error from axios', error))
     },
     scope() {
+      const data = this.scopes
       $('.scope').hover(
         function () {
           $(this).children('.scope-span').addClass('hover')
@@ -1929,12 +1943,19 @@ export default {
           containment: 'parent',
           stop(event, ui) {
             // put(thisSpotData)
-            var thisName = parseInt($(this).attr('data-name'))
+            var thisName = $(this).attr('data-name')
+            const thisdata = data.find((o) => o.scope_number === thisName)
             var thisSize = {
               width: $(this).width() + 2,
               height: $(this).height() + 2,
             }
-            var thisScopeData = calculate(ui, thisName, thisSize)
+            var thisScopeData = calculate(
+              ui,
+              thisName,
+              thisSize,
+              thisdata.scope_alarm_status,
+              thisdata.scope_threshold
+            )
             put(thisScopeData)
           },
         })
@@ -1944,16 +1965,23 @@ export default {
           minWidth: 50,
           minHeight: 50,
           stop(event, ui) {
-            var thisName = parseInt($(this).attr('data-name'))
+            var thisName = $(this).attr('data-name')
+            const thisdata = data.find((o) => o.scope_number === thisName)
             var thisSize = {
               width: $(this).width() + 2,
               height: $(this).height() + 2,
             }
-            var thisScopeData = calculate(ui, thisName, thisSize)
+            var thisScopeData = calculate(
+              ui,
+              thisName,
+              thisSize,
+              thisdata.scope_alarm_status,
+              thisdata.scope_threshold
+            )
             put(thisScopeData)
           },
         })
-      function calculate(ui, thisName, thisSize) {
+      function calculate(ui, thisName, thisSize, status, threshold) {
         var scopeltY =
           ui.position.top / document.getElementById('image').offsetHeight
         var scopeltX =
@@ -1968,22 +1996,24 @@ export default {
         // scopeltX = scopeltX.toFixed(4)
         var thisScopeData = {
           scope_number: thisName,
-          status: '0',
+          scope_status: '0',
           scope_position_LT: {
-            y: scopeltY,
-            x: scopeltX,
+            Y: scopeltY,
+            X: scopeltX,
           },
           scope_position_BR: {
-            y: scopeBRY,
-            x: scopeBRX,
+            Y: scopeBRY,
+            X: scopeBRX,
           },
+          scope_alarm_status: status,
+          scope_threshold: threshold,
         }
         return thisScopeData
       }
       function put(data) {
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/change/scope`,
+          url: `http://127.0.0.1:5000/api/monitor/object/change/scope`,
           data,
         }).catch((error) => console.log('error from axios', error))
       }
@@ -1995,16 +2025,16 @@ export default {
         scope_number: index,
         status: '1',
         scope_position_LT: {
-          y: '',
-          x: '',
+          Y: '',
+          X: '',
         },
         scope_position_BR: {
-          y: '',
-          x: '',
+          Y: '',
+          X: '',
         },
       }
       this.$axios
-        .post('http://localhost:8080/object/deletescope', thisScopeData)
+        .post('http://127.0.0.1:5000/object/deletescope', thisScopeData)
         .then((response) => {
           this.Interval = 0
         })
