@@ -72,7 +72,7 @@ export default {
           },
         },
 
-              grid: {
+        grid: {
           show: false,
           top: '90',
           bottom: '20',
@@ -171,7 +171,6 @@ export default {
             // barWidth: '50%',
           },
 
-
           {
             name: 'line',
             type: 'line',
@@ -184,7 +183,6 @@ export default {
               },
             },
           },
-
         ],
       }
 

@@ -24,7 +24,7 @@ export default {
       // 指定图表的配置项和数据
       var oneSecond = 50
       var date = []
-      var queueLength = 2 // 队列长度
+      var queueLength = 3 // 队列长度
       var refreshTimeNormal = 50 // 正常刷新时间
       // ------------------------------------------------------------------
       // 各曲線
@@ -42,7 +42,7 @@ export default {
         var amp = 42 // amp為振幅
         // var amp = Math.random() * 3;
         var Ftemp = (1 - Math.pow(Math.E, -lambda * t)) * amp // 公式;Ftemp為溫度
-        Ftemp = Ftemp + generateRandomInt(3, 5)
+        Ftemp = Ftemp + generateRandomInt(0.3, 0.5)
         console.log(generateRandomInt(0.3, 0.7))
         arr.push(Ftemp)
       }
