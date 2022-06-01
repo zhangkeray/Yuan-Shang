@@ -634,6 +634,10 @@ export default {
     },
   }),
   mounted() {
+    var today = new Date()
+    today =
+      today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+    this.getlist('http://127.0.0.1:5000/api/alarm/list', today)
     // 判斷echarts 是否渲染完成
     var calendar = this.month
     var loadingEcharts = setInterval(() => {
@@ -687,8 +691,8 @@ export default {
           {
             table_alarm_start: '2022-06-01 10:10:00',
             table_alarm_stop: '2022-06-01 10:10:10',
-          }
-        ])
+          },
+        ]),
       })
         .then((events) => {
           console.log(events.data)
@@ -738,79 +742,9 @@ export default {
         const myChart1 = echarts.getInstanceByDom(calendarID)
         myChart1.on('click', (params) => {
           this.dates = params.data[0]
-          var stop = new Date(params.data[0])
-          stop.setDate(stop.getDate() + 1)
-          var stopYear = stop.getFullYear()
-          var stopMonth = stop.getMonth() + 1
-          var stopDate = stop.getDate()
-          this.selected01 = []
 
-          axios({
-            method: 'post',
-            url,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            data: JSON.stringify([
-              {
-                table_timeselectStart: params.data[0],
-                table_timeselectStop:
-                  stopYear + '-' + stopMonth + '-' + stopDate,
-              },
-            ]),
-          })
-            .then((events) => {
-              var data = events.data
-              var output = []
-
-              data.forEach((index, value) => {
-                var start = new Date(index.table_alarm_start)
-                var startDate =
-                  start.getFullYear() +
-                  '-' +
-                  ('0' + (start.getMonth() + 1)).slice(-2) +
-                  '-' +
-                  ('0' + start.getDate()).slice(-2)
-                var startTime =
-                  ('0' + start.getHours()).slice(-2) +
-                  ':' +
-                  ('0' + start.getMinutes()).slice(-2) +
-                  ':' +
-                  ('0' + start.getSeconds()).slice(-2)
-                var stop = null
-                var ings = 'N/A'
-                if (index.table_alarm_stop != null) {
-                  stop = new Date(index.table_alarm_stop)
-                  console.log(stop.getTime() - start.getTime())
-                  ings = this.getDuration(
-                    (stop.getTime() - start.getTime()) / 1000
-                  )
-                  stop =
-                    ('0' + stop.getHours()).slice(-2) +
-                    ':' +
-                    ('0' + stop.getMinutes()).slice(-2) +
-                    ':' +
-                    ('0' + stop.getSeconds()).slice(-2)
-                } else {
-                  stop = 'N/A'
-                }
-                output.push({
-                  index: value + 1,
-                  object_name: this.objectName[index.table_itemName],
-                  object_date: startDate,
-                  object_time_start: startTime,
-                  object_tiem_stop: stop,
-                  object_time_totle: ings,
-                  object_setting_temperature:
-                    index.table_alarm_threshold.toFixed(1) + '°C',
-                  object_temperature_max: index.table_max.toFixed(1) + '°C',
-                })
-              })
-              this.fakeTemps = output
-            })
-            .catch((e) => {
-              console.log(e)
-            })
+          this.getlist(url, params.data[0])
+          // 這邊放呼叫
         })
       })
 
@@ -908,6 +842,77 @@ export default {
             console.log(e)
           })
       })
+    },
+    getlist(url, Nowtime) {
+      var stop = new Date(Nowtime)
+      stop.setDate(stop.getDate() + 1)
+      var stopYear = stop.getFullYear()
+      var stopMonth = stop.getMonth() + 1
+      var stopDate = stop.getDate()
+      this.selected01 = []
+      axios({
+        method: 'post',
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: JSON.stringify([
+          {
+            table_timeselectStart: Nowtime,
+            table_timeselectStop: stopYear + '-' + stopMonth + '-' + stopDate,
+          },
+        ]),
+      })
+        .then((events) => {
+          var data = events.data
+          var output = []
+
+          data.forEach((index, value) => {
+            var start = new Date(index.table_alarm_start)
+            var startDate =
+              start.getFullYear() +
+              '-' +
+              ('0' + (start.getMonth() + 1)).slice(-2) +
+              '-' +
+              ('0' + start.getDate()).slice(-2)
+            var startTime =
+              ('0' + start.getHours()).slice(-2) +
+              ':' +
+              ('0' + start.getMinutes()).slice(-2) +
+              ':' +
+              ('0' + start.getSeconds()).slice(-2)
+            var stop = null
+            var ings = 'N/A'
+            if (index.table_alarm_stop != null) {
+              stop = new Date(index.table_alarm_stop)
+              console.log(stop.getTime() - start.getTime())
+              ings = this.getDuration((stop.getTime() - start.getTime()) / 1000)
+              stop =
+                ('0' + stop.getHours()).slice(-2) +
+                ':' +
+                ('0' + stop.getMinutes()).slice(-2) +
+                ':' +
+                ('0' + stop.getSeconds()).slice(-2)
+            } else {
+              stop = 'N/A'
+            }
+            output.push({
+              index: value + 1,
+              object_name: this.objectName[index.table_itemName],
+              object_date: startDate,
+              object_time_start: startTime,
+              object_tiem_stop: stop,
+              object_time_totle: ings,
+              object_setting_temperature:
+                index.table_alarm_threshold.toFixed(1) + '°C',
+              object_temperature_max: index.table_max.toFixed(1) + '°C',
+            })
+          })
+          this.fakeTemps = output
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     },
     getDuration(second) {
       var days = Math.floor(second / 86400)
