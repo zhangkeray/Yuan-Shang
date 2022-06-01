@@ -10,12 +10,35 @@
 import * as echarts from 'echarts'
 import axios from 'axios'
 export default {
-  data: () => ({}),
+  data: () => ({
+    url:'http://127.0.0.1:5000/api/normal'
+  }),
   mounted() {
     this.drawBar()
+    // this.test()
   },
 
   methods: {
+    test() {
+      axios({
+        method: 'post',
+        url:this.url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: JSON.stringify([
+          {
+            table_alarm_start: '2022-06-01 00:00:00',
+            table_alarm_stop: '2022-06-01 23:59:59',
+          },
+        ]),
+      })
+        .then((paramse) => {
+          var data = paramse.data[0]
+          console.log(data)
+        })
+        .catch((e) => console.log(e))
+    },
     drawBar() {
       const chartDom = this.$refs.lineBarChart
       const myChart = echarts.init(chartDom) // echarts初始化
