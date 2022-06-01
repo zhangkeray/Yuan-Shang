@@ -96,42 +96,42 @@ export default {
         //   // to: '5',
         //   to: 'ForTesting2',
         // },
-        {
-          icon: 'mdi-account-group-outline',
-          title: '測試用3',
-          // to: '5',
-          to: 'ForTesting3',
-        },
-        {
-          icon: 'mdi-account-group-outline',
-          title: '溫升LineChart',
-          // to: '5',
-          to: 'ForTesting4',
-        },
-        {
-          icon: 'mdi-account-group-outline',
-          title: '溫升LineChart(mockAPI)',
-          // to: '5',
-          to: 'ForTesting5',
-        },
-        {
-          icon: 'mdi-account-group-outline',
-          title: '溫升LineChart2(mockAPI)',
-          // to: '5',
-          to: 'ForTesting5_1',
-        },
-        {
-          icon: 'mdi-account-group-outline',
-          title: '測試6',
-          // to: '5',
-          to: 'ForTesting6',
-        },
-        {
-          icon: 'mdi-account-group-outline',
-          title: '測試7',
-          // to: '5',
-          to: 'ForTesting7',
-        },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: '測試用3',
+        //   // to: '5',
+        //   to: 'ForTesting3',
+        // },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: '溫升LineChart',
+        //   // to: '5',
+        //   to: 'ForTesting4',
+        // },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: '溫升LineChart(mockAPI)',
+        //   // to: '5',
+        //   to: 'ForTesting5',
+        // },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: '溫升LineChart2(mockAPI)',
+        //   // to: '5',
+        //   to: 'ForTesting5_1',
+        // },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: '測試6',
+        //   // to: '5',
+        //   to: 'ForTesting6',
+        // },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: '測試7',
+        //   // to: '5',
+        //   to: 'ForTesting7',
+        // },
 
         // {
         //   icon: 'mdi-chart-bubble',
