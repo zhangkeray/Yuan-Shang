@@ -48,6 +48,13 @@ export default {
         // color: colorPalette,
         tooltip: {
           position: 'top',
+          formatter(params){
+            var data = params.data
+            var res = '<div>'
+            res += `資料量${data[2]}筆<hr />${data[0]}:${(data[1]*10)}~${data[0]}:${(data[1]*10)+9}`
+            res += '</div>'
+            return res
+          },
           // trigger: 'item',
         },
         grid: {

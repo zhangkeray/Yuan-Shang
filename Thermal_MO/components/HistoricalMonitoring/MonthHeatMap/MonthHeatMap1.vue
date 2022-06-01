@@ -137,7 +137,7 @@ export default {
           status: 'update',
           date: val,
         }
-        this.drawBar(arr)
+        this.drawBar(arr) // 暫時關閉
       }
       // const chartDom = this.$refs.jan
       // const myChart = echarts.getInstanceByDom(chartDom)
@@ -145,7 +145,30 @@ export default {
     },
   },
   mounted() {
-    this.drawBar('initial')
+    this.drawBar('initial') // 暫時關閉
+    var today = new Date()
+    var year = today.getFullYear()
+    today =
+      today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+    const url = 'http://127.0.0.1:5000/api/alarm/list' // 宣告取得警報list網址
+    // 熱力圖初始化
+    axios({
+      method: 'post',
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify([
+        {
+          table_timeselectStart: year + '-01-01',
+          table_timeselectStop: year + '-12-31',
+        },
+      ]),
+    })
+      .then((paramse) => {
+        this.getHeatData(paramse.data, { data: [today] })
+      })
+      .catch((error) => console.log('error from axios', error))
   },
   methods: {
     onChangeCarousel(event) {
@@ -165,8 +188,7 @@ export default {
     drawBar(index) {
       // 選擇圖表樣式------------------------------------------
       // fakeData
-      const url = 'http://localhost:8080/api/alarm/list' // 宣告取得警報list網址
-      const url1 = 'http://127.0.0.1:8080/api/alarm/txt' // 宣告取得警報txt
+      const url = 'http://127.0.0.1:5000/api/alarm/list' // 宣告取得警報list網址
       if (index.status === 'update') {
         var selectedDate = new Date(index.date)
         var year = selectedDate.getFullYear()
@@ -175,12 +197,17 @@ export default {
         // 判斷使用者選擇日期有沒有跨年度
         if (year !== this.listyear) {
           axios({
-            method: 'get',
+            method: 'post',
             url,
-            params: {
-              table_timeselectStart: year + '-01-01',
-              table_timeselectStop: year + '-12-31',
+            headers: {
+              'Content-Type': 'application/json',
             },
+            data: JSON.stringify([
+              {
+                table_timeselectStart: year + '-01-01',
+                table_timeselectStop: year + '-12-31',
+              },
+            ]),
           })
             .then((paramse) => {
               const arr = this.month
@@ -242,12 +269,17 @@ export default {
         this.listyear = seYear
         // 導入警報資料
         axios({
-          method: 'get',
+          method: 'post',
           url,
-          params: {
-            table_timeselectStart: seYear + '-01-01',
-            table_timeselectStop: seYear + '-12-31',
+          headers: {
+            'Content-Type': 'application/json',
           },
+          data: JSON.stringify([
+            {
+              table_timeselectStart: seYear + '-01-01',
+              table_timeselectStop: seYear + '-12-31',
+            },
+          ]),
         })
           .then((paramse) => {
             var data = paramse.data
@@ -389,30 +421,10 @@ export default {
                 ],
               }
               option && myChart.setOption(option)
-              myChart.on('click', function (params) {
-                // 控制台打印数据的名称
-                axios({
-                  method: 'get',
-                  url: url1,
-                })
-                  .then((paramse) => {
-                    var data = paramse.data
-                    data = data.map(function (item) {
-                      return [item[1], item[0], item[2]]
-                    })
-                    // console.log(data)
-                    const heat = document.getElementById('heatMap2_for_this')
-                    const myChart = echarts.getInstanceByDom(heat)
-                    myChart.setOption({
-                      series: [
-                        {
-                          name: '',
-                          data
-                        },
-                      ],
-                    })
-                  })
-                  .catch((error) => console.log('error from axios', error))
+              myChart.on('click', (params) => {
+                var data = paramse.data
+                this.getHeatData(data, params)
+                // 熱力圖資料更新放這邊
               })
             })
             var date = this.date
@@ -431,6 +443,62 @@ export default {
           return 365
         }
       }
+    },
+    getHeatData(data, params) {
+      var start = new Date(params.data[0] + ' 00:00:00')
+      var stop = new Date(params.data[0] + ' 23:59:59')
+      console.log(data, params)
+      var arr = []
+      data.forEach((index) => {
+        var dataStartTime = new Date(index.table_alarm_start)
+        if (dataStartTime >= start && dataStartTime <= stop) {
+          arr.push(index)
+        }
+      })
+      // console.log(arr)
+      var heatData = []
+      // 判斷當日超溫次數統計(熱力圖)
+      for (var i = 0; i < 24; i++) {
+        for (var j = 0; j < 6; j++) {
+          var heatDateStart = new Date(
+            params.data[0] + ' ' + i + ':' + j * 10 + ':00'
+          )
+          var heatDateStop = new Date(
+            params.data[0] + ' ' + i + ':' + (j * 10 + 9) + ':59'
+          )
+          var totle = 0
+          arr.forEach((index, value) => {
+            var arrTimeStart = new Date(index.table_alarm_start)
+            if (arrTimeStart >= heatDateStart && arrTimeStart <= heatDateStop) {
+              totle++
+            }
+          })
+          heatData.push([i, j, totle])
+        }
+      }
+      // console.log(heatData)
+      // 控制台打印数据的名称
+      // axios({
+      //   method: 'get',
+      //   url: url1,
+      // })
+      //   .then((paramse) => {
+      data = heatData.map(function (item) {
+        return [item[0], item[1], item[2]]
+      })
+      // console.log(data)
+      const heat = document.getElementById('heatMap2_for_this')
+      const myChart = echarts.getInstanceByDom(heat)
+      myChart.setOption({
+        series: [
+          {
+            name: '',
+            data,
+          },
+        ],
+      })
+      // })
+      // .catch((error) => console.log('error from axios', error))
     },
   },
 }

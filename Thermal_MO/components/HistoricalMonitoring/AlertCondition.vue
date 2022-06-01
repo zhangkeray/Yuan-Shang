@@ -28,7 +28,7 @@
             class="mx-2 mt-8"
             style="border: 3px solid #f1f1f1; border-radius: 10px"
           >
-            <v-col cols="12" md="6" >
+            <v-col cols="12" md="6">
               <!-- 當月超溫統計 區塊全數移置MonthHeatMap1 2022/05/19-louis -->
               <MonthHeatMap1 />
             </v-col>
@@ -530,6 +530,7 @@ export default {
       { text: 'Protein (g)', value: 'protein' },
       { text: 'Iron (%)', value: 'iron' },
     ],
+    clicked: null,
     desserts: [
       {
         name: 'Frozen Yogurt',
@@ -634,6 +635,10 @@ export default {
     },
   }),
   mounted() {
+    var today = new Date()
+    today =
+      today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+    this.getlist('http://127.0.0.1:5000/api/alarm/list', today)
     // 判斷echarts 是否渲染完成
     var calendar = this.month
     var loadingEcharts = setInterval(() => {
@@ -674,57 +679,83 @@ export default {
     })
   },
   methods: {
-    tableSelect(events) {
-      const chartDom = document.getElementById('lineBarChart0001')
-      const myChart = echarts.init(chartDom) // echarts初始化
-      axios({
-        method: 'get',
-        url: 'http://127.0.0.1:8080/api/alarm/max',
-        // params: {
-        //   table_timeselectStart: params.data[0],
-        //   table_timeselectStop: params.data[0],
-        // },
-      })
-        .then((events) => {
-          var data = events.data.max
-          var seriesData = []
-          Object.keys(data).forEach((key) => {
-            var arr = {
-              type: 'line',
-              name: key,
-              yAxisIndex: 0,
-              // markLine: {
-              // symbol: ['none', 'none'],
-              //     label: { show: false },
-              //     color: 'red',
-              //     data: [{ xAxis: 1 },{ xAxis: 4 }]
-              //   },
-              data: data[key],
-
-              symbolSize: 1,
-              itemStyle: {
-                normal: {
-                  color: '#828C8F',
-                },
-              },
-            }
-            seriesData.push(arr)
-          })
-          console.log(seriesData)
-          myChart.setOption({
-            xAxis: [
-              {
-                data: events.time,
-              },
-            ],
-            series: seriesData,
-          })
+    tableSelect(input) {
+      if (input.length > 0) {
+        const chartDom = document.getElementById('lineBarChart0001')
+        const myChart = echarts.init(chartDom) // echarts初始化
+        console.log(input)
+        var selectedStartTime =
+          input[0].object_date + ' ' + input[0].object_time_start
+        var selectedStopTime = new Date(selectedStartTime)
+        selectedStopTime.setMinutes(selectedStopTime.getMinutes() + 10)
+        selectedStopTime =
+          selectedStopTime.getFullYear() +
+          '-' +
+          (selectedStopTime.getMonth() + 1) +
+          '-' +
+          selectedStopTime.getDate() +
+          ' ' +
+          selectedStopTime.getHours() +
+          ':' +
+          selectedStopTime.getMinutes() +
+          ':' +
+          selectedStopTime.getSeconds()
+        console.log(selectedStartTime, selectedStopTime)
+        axios({
+          method: 'post',
+          url: 'http://127.0.0.1:5000/api/alarm/max',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          data: JSON.stringify([
+            {
+              table_alarm_start: selectedStartTime,
+              table_alarm_stop: selectedStopTime,
+            },
+          ]),
         })
-        .catch((err) => console.error(err))
+          .then((events) => {
+            var arr = events.data
+            var time = arr[0].time
+            delete arr[0].time
+            var data = arr[0]
+            var seriesData = []
+            Object.keys(data).forEach((key) => {
+              var arr = {
+                type: 'line',
+                name: key,
+                yAxisIndex: 0,
+                // markLine: {
+                // symbol: ['none', 'none'],
+                //     label: { show: false },
+                //     color: 'red',
+                //     data: [{ xAxis: 1 },{ xAxis: 4 }]
+                //   },
+                data: data[key],
+                symbolSize: 1,
+                itemStyle: {
+                  normal: {
+                    color: '#828C8F',
+                  },
+                },
+              }
+              seriesData.push(arr)
+            })
+            myChart.setOption({
+              xAxis: [
+                {
+                  data: time,
+                },
+              ],
+              series: seriesData,
+            })
+          })
+          .catch((err) => console.error(err))
+      }
     },
 
     initial() {
-      const url = 'http://localhost:8080/api/alarm/list' // 宣告取得警報list網址
+      const url = 'http://127.0.0.1:5000/api/alarm/list' // 宣告取得警報list網址
       // 取得選取日期
       var calendar = this.month
       calendar.forEach((index) => {
@@ -732,67 +763,98 @@ export default {
         const myChart1 = echarts.getInstanceByDom(calendarID)
         myChart1.on('click', (params) => {
           this.dates = params.data[0]
-          this.selected01 = []
 
-          axios({
-            method: 'get',
-            url,
-            params: {
-              table_timeselectStart: params.data[0],
-              table_timeselectStop: params.data[0],
-            },
-          })
-            .then((events) => {
-              console.log(events.data)
-              var data = events.data
-              var output = []
-              data.forEach((index, value) => {
-                output.push({
-                  index: value + 1,
-                  object_name: this.objectName[index.table_itemName],
-                  object_date: '2022/05/17',
-                  object_time_start: '01:32:14',
-                  object_tiem_stop: '01:35:41',
-                  object_time_totle: '3分',
-                  object_setting_temperature: '45°C',
-                  object_temperature_max: '47°C',
-                })
-              })
-              this.fakeTemps = output
-            })
-            .catch((e) => {
-              console.log(e)
-            })
+          this.getlist(url, params.data[0])
+          // 這邊放呼叫
         })
       })
+
       const heat = document.getElementById('heatMap2_for_this')
       const myChart = echarts.getInstanceByDom(heat)
       myChart.on('click', (params) => {
+        console.log(params)
         var dates = this.dates
+        var yeast = new Date(dates)
+        yeast = yeast.setDate(yeast.getDate() + 1)
+        yeast = new Date(yeast)
+        yeast =
+          yeast.getFullYear() +
+          '-' +
+          (yeast.getMonth() + 1) +
+          '-' +
+          yeast.getDate()
         // 控制台打印数据的名称
         var startTime =
           dates + ' ' + params.data[0] + ':' + params.data[1] * 10 + ':00'
         var stopTime =
           dates + ' ' + params.data[0] + ':' + (params.data[1] * 10 + 9) + ':59'
-        console.log(startTime, stopTime)
         axios({
-          method: 'get',
+          method: 'post',
           url,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          data: JSON.stringify([
+            {
+              table_timeselectStart: dates,
+              table_timeselectStop: yeast,
+            },
+          ]),
         })
           .then((events) => {
             console.log(events.data)
             var data = events.data
             var output = []
-            data.forEach((index, value) => {
+            var arr = []
+            data.forEach((index) => {
+              var datastart = new Date(startTime)
+              var datastop = new Date(stopTime)
+              var datatoday = new Date(index.table_alarm_start)
+              if (datatoday >= datastart && datatoday <= datastop) {
+                arr.push(index)
+              }
+            })
+            arr.forEach((index, value) => {
+              var start = new Date(index.table_alarm_start)
+              var startDate =
+                start.getFullYear() +
+                '-' +
+                ('0' + (start.getMonth() + 1)).slice(-2) +
+                '-' +
+                ('0' + start.getDate()).slice(-2)
+              var startTime =
+                ('0' + start.getHours()).slice(-2) +
+                ':' +
+                ('0' + start.getMinutes()).slice(-2) +
+                ':' +
+                ('0' + start.getSeconds()).slice(-2)
+              var stop = null
+              var ings = 'N/A'
+              if (index.table_alarm_stop != null) {
+                stop = new Date(index.table_alarm_stop)
+                console.log(stop.getTime() - start.getTime())
+                ings = this.getDuration(
+                  (stop.getTime() - start.getTime()) / 1000
+                )
+                stop =
+                  ('0' + stop.getHours()).slice(-2) +
+                  ':' +
+                  ('0' + stop.getMinutes()).slice(-2) +
+                  ':' +
+                  ('0' + stop.getSeconds()).slice(-2)
+              } else {
+                stop = 'N/A'
+              }
               output.push({
                 index: value + 1,
                 object_name: this.objectName[index.table_itemName],
-                object_date: '2022/05/17',
-                object_time_start: '01:32:14',
-                object_tiem_stop: '01:35:41',
-                object_time_totle: '3分',
-                object_setting_temperature: '45°C',
-                object_temperature_max: '47°C',
+                object_date: startDate,
+                object_time_start: startTime,
+                object_tiem_stop: stop,
+                object_time_totle: ings,
+                object_setting_temperature:
+                  index.table_alarm_threshold.toFixed(1) + '°C',
+                object_temperature_max: index.table_max.toFixed(1) + '°C',
               })
             })
             this.fakeTemps = output
@@ -801,6 +863,95 @@ export default {
             console.log(e)
           })
       })
+    },
+    getlist(url, Nowtime) {
+      var stop = new Date(Nowtime)
+      stop.setDate(stop.getDate() + 1)
+      var stopYear = stop.getFullYear()
+      var stopMonth = stop.getMonth() + 1
+      var stopDate = stop.getDate()
+      this.selected01 = []
+      axios({
+        method: 'post',
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: JSON.stringify([
+          {
+            table_timeselectStart: Nowtime,
+            table_timeselectStop: stopYear + '-' + stopMonth + '-' + stopDate,
+          },
+        ]),
+      })
+        .then((events) => {
+          var data = events.data
+          var output = []
+
+          data.forEach((index, value) => {
+            var start = new Date(index.table_alarm_start)
+            var startDate =
+              start.getFullYear() +
+              '-' +
+              ('0' + (start.getMonth() + 1)).slice(-2) +
+              '-' +
+              ('0' + start.getDate()).slice(-2)
+            var startTime =
+              ('0' + start.getHours()).slice(-2) +
+              ':' +
+              ('0' + start.getMinutes()).slice(-2) +
+              ':' +
+              ('0' + start.getSeconds()).slice(-2)
+            var stop = null
+            var ings = 'N/A'
+            if (index.table_alarm_stop != null) {
+              stop = new Date(index.table_alarm_stop)
+              console.log(stop.getTime() - start.getTime())
+              ings = this.getDuration((stop.getTime() - start.getTime()) / 1000)
+              stop =
+                ('0' + stop.getHours()).slice(-2) +
+                ':' +
+                ('0' + stop.getMinutes()).slice(-2) +
+                ':' +
+                ('0' + stop.getSeconds()).slice(-2)
+            } else {
+              stop = 'N/A'
+            }
+            output.push({
+              index: value + 1,
+              object_name: this.objectName[index.table_itemName],
+              object_date: startDate,
+              object_time_start: startTime,
+              object_tiem_stop: stop,
+              object_time_totle: ings,
+              object_setting_temperature:
+                index.table_alarm_threshold.toFixed(1) + '°C',
+              object_temperature_max: index.table_max.toFixed(1) + '°C',
+            })
+          })
+          this.fakeTemps = output
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    },
+    getDuration(second) {
+      var days = Math.floor(second / 86400)
+      var hours = Math.floor((second % 86400) / 3600)
+      var minutes = Math.floor(((second % 86400) % 3600) / 60)
+      var seconds = Math.floor(((second % 86400) % 3600) % 60)
+      var duration = null
+      if (second < 60) {
+        duration = seconds + '秒'
+      } else if (second >= 60 && second < 3600) {
+        duration = minutes + '分' + seconds + '秒'
+      } else if (second >= 3600 && second < 86400) {
+        duration = hours + '時<br />' + minutes + '分' + seconds + '秒'
+      } else if (second >= 86400) {
+        duration =
+          days + '天' + hours + '時<br />' + minutes + '分' + seconds + '秒'
+      }
+      return duration
     },
   },
 }
@@ -1071,7 +1222,6 @@ button.slick-next:before {
 </style>
 
 <style lang="scss">
-
 .image-wrap1 {
   width: 100px;
   height: 100px;
