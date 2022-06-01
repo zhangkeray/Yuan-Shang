@@ -678,59 +678,79 @@ export default {
     })
   },
   methods: {
-    tableSelect(events) {
-      // const chartDom = document.getElementById('lineBarChart0001')
-      // const myChart = echarts.init(chartDom) // echarts初始化
-      axios({
-        method: 'post',
-        url: 'http://127.0.0.1:5000/api/normal',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data: JSON.stringify([
-          {
-            table_alarm_start: '2022-06-01 10:10:00',
-            table_alarm_stop: '2022-06-01 10:10:10',
+    tableSelect(input) {
+      if (input.length > 0) {
+        const chartDom = document.getElementById('lineBarChart0001')
+        const myChart = echarts.init(chartDom) // echarts初始化
+        console.log(input)
+        var selectedStartTime =
+          input[0].object_date + ' ' + input[0].object_time_start
+        var selectedStopTime = new Date(selectedStartTime)
+        selectedStopTime.setMinutes(selectedStopTime.getMinutes() + 10)
+        selectedStopTime =
+          selectedStopTime.getFullYear() +
+          '-' +
+          (selectedStopTime.getMonth() + 1) +
+          '-' +
+          selectedStopTime.getDate() +
+          ' ' +
+          selectedStopTime.getHours() +
+          ':' +
+          selectedStopTime.getMinutes() +
+          ':' +
+          selectedStopTime.getSeconds()
+        console.log(selectedStartTime, selectedStopTime)
+        axios({
+          method: 'post',
+          url: 'http://127.0.0.1:5000/api/alarm/max',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        ]),
-      })
-        .then((events) => {
-          console.log(events.data)
-          // var data = events.data.max
-          // var seriesData = []
-          // Object.keys(data).forEach((key) => {
-          //   var arr = {
-          //     type: 'line',
-          //     name: key,
-          //     yAxisIndex: 0,
-          //     // markLine: {
-          //     // symbol: ['none', 'none'],
-          //     //     label: { show: false },
-          //     //     color: 'red',
-          //     //     data: [{ xAxis: 1 },{ xAxis: 4 }]
-          //     //   },
-          //     data: data[key],
-
-          //     symbolSize: 1,
-          //     itemStyle: {
-          //       normal: {
-          //         color: '#828C8F',
-          //       },
-          //     },
-          //   }
-          //   seriesData.push(arr)
-          // })
-          // console.log(seriesData)
-          // myChart.setOption({
-          //   xAxis: [
-          //     {
-          //       data: events.time,
-          //     },
-          //   ],
-          //   series: seriesData,
-          // })
+          data: JSON.stringify([
+            {
+              table_alarm_start: selectedStartTime,
+              table_alarm_stop: selectedStopTime,
+            },
+          ]),
         })
-        .catch((err) => console.error(err))
+          .then((events) => {
+            var arr = events.data
+            var time = arr[0].time
+            delete arr[0].time
+            var data = arr[0]
+            var seriesData = []
+            Object.keys(data).forEach((key) => {
+              var arr = {
+                type: 'line',
+                name: key,
+                yAxisIndex: 0,
+                // markLine: {
+                // symbol: ['none', 'none'],
+                //     label: { show: false },
+                //     color: 'red',
+                //     data: [{ xAxis: 1 },{ xAxis: 4 }]
+                //   },
+                data: data[key],
+                symbolSize: 1,
+                itemStyle: {
+                  normal: {
+                    color: '#828C8F',
+                  },
+                },
+              }
+              seriesData.push(arr)
+            })
+            myChart.setOption({
+              xAxis: [
+                {
+                  data: time,
+                },
+              ],
+              series: seriesData,
+            })
+          })
+          .catch((err) => console.error(err))
+      }
     },
 
     initial() {
