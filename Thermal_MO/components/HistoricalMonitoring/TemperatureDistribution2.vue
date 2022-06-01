@@ -270,6 +270,8 @@ export default {
     script: [],
   },
   data: () => ({
+    activePicker:null,
+    date: ['', ''],
     dates: ['', ''],
     menu: false,
     options: {
@@ -302,7 +304,10 @@ export default {
   }),
   computed: {
     dateRangeText() {
-      return this.dates.join(' ~ ')
+      var datess = this.dates
+      datess = datess.sort()
+
+      return datess.join(' ~ ')
     },
   },
   mounted() {
@@ -335,7 +340,6 @@ export default {
           shouldEase: false,
           drag() {
             var pos = $magnifier.position()
-
             var x =
               ((pos.left + $magnifier.outerWidth() / 2) / $viewer.width()) *
                 100 +

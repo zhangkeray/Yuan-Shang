@@ -126,6 +126,12 @@ export default {
           // to: '5',
           to: 'ForTesting6',
         },
+        {
+          icon: 'mdi-account-group-outline',
+          title: '測試7',
+          // to: '5',
+          to: 'ForTesting7',
+        },
 
         // {
         //   icon: 'mdi-chart-bubble',

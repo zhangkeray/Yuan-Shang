@@ -269,6 +269,7 @@
                   </v-row>
                 </v-col>
                 <v-col cols="3">
+                   <!-- 放大鏡 -->
                   <div class="image-wrap1 mt-4">
                     <div class="image1 viewer1">
                       <div class="magnifier1"></div>
@@ -638,7 +639,6 @@ export default {
     var loadingEcharts = setInterval(() => {
       const calendarID = document.getElementById(calendar[0])
       const myChart1 = echarts.getInstanceByDom(calendarID)
-      console.log(myChart1)
       if (myChart1 !== undefined) {
         clearInterval(loadingEcharts)
         this.initial()
@@ -673,7 +673,6 @@ export default {
       }, 0)
     })
   },
-
   methods: {
     tableSelect(events) {
       const chartDom = document.getElementById('lineBarChart0001')
@@ -777,30 +776,30 @@ export default {
           dates + ' ' + params.data[0] + ':' + (params.data[1] * 10 + 9) + ':59'
         console.log(startTime, stopTime)
         axios({
-            method: 'get',
-            url,
-          })
-            .then((events) => {
-              console.log(events.data)
-              var data = events.data
-              var output = []
-              data.forEach((index, value) => {
-                output.push({
-                  index: value + 1,
-                  object_name: this.objectName[index.table_itemName],
-                  object_date: '2022/05/17',
-                  object_time_start: '01:32:14',
-                  object_tiem_stop: '01:35:41',
-                  object_time_totle: '3分',
-                  object_setting_temperature: '45°C',
-                  object_temperature_max: '47°C',
-                })
+          method: 'get',
+          url,
+        })
+          .then((events) => {
+            console.log(events.data)
+            var data = events.data
+            var output = []
+            data.forEach((index, value) => {
+              output.push({
+                index: value + 1,
+                object_name: this.objectName[index.table_itemName],
+                object_date: '2022/05/17',
+                object_time_start: '01:32:14',
+                object_tiem_stop: '01:35:41',
+                object_time_totle: '3分',
+                object_setting_temperature: '45°C',
+                object_temperature_max: '47°C',
               })
-              this.fakeTemps = output
             })
-            .catch((e) => {
-              console.log(e)
-            })
+            this.fakeTemps = output
+          })
+          .catch((e) => {
+            console.log(e)
+          })
       })
     },
   },

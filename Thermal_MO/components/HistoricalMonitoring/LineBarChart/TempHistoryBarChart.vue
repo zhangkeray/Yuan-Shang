@@ -1,14 +1,16 @@
 <template>
-  <div ref="lineBarChart" style="height: 395px; width: 1050px"></div>
+  <div
+    ref="lineBarChart"
+    id="lineBarChart001"
+    style="height: 335px; width: 1050px"
+  ></div>
 </template>
 
 <script>
 import * as echarts from 'echarts'
 import axios from 'axios'
 export default {
-  data() {
-    return {}
-  },
+  data: () => ({}),
   mounted() {
     this.drawBar()
   },
@@ -31,7 +33,7 @@ export default {
             fontSize: '14',
             fontWeight: '700',
             color: '#505f62',
-          }, 
+          },
         },
         // tooltip: {
         //   trigger: 'axis',
@@ -52,9 +54,83 @@ export default {
           axisPointer: {
             type: 'cross',
           },
+          className: 'echarts-tooltip-vivew',
           // triggerOn: 'click', // 触发方式
           // alwaysShowContent:true,   // 鼠标离开区域不消失
           trigger: 'axis',
+          position(pos, params, el, elRect, size) {
+            var obj = []
+            if (pos[0] < size.viewSize[0] / 2) {
+              obj[0] = pos[0] + 20
+            } else {
+              obj[0] = pos[0] - (size.contentSize[0] + 20)
+            }
+            if (pos[1] < size.viewSize[1] * 0.7) {
+              obj[1] = pos[1] - size.contentSize[1] / 6
+            } else {
+              obj[1] = pos[1] - size.contentSize[1] / 1.5
+            }
+
+            return obj
+          },
+          formatter(params) {
+            var arr = params
+            var status = false
+            var record = []
+            arr.forEach((index, value) => {
+              if (index.data.point === 1) {
+                record.push(index.seriesName)
+                status = true
+              }
+            })
+            var res = ''
+            if (status) {
+              res += '<div class="echarts-tooltip-Monitoring">'
+              for (var h = 0; h < params.length; h++) {
+                var po = false
+                var changea = ''
+                res += `<div class='tooltip-point' style="`
+                record.forEach((index) => {
+                  if (index === params[h].seriesName) {
+                    po = true
+                    res += `background-color: #b5666687;`
+                  }
+                })
+                if (po) {
+                  changea = '(變動)'
+                }
+                res += `"><span
+										style="background-color:${[params[h].color]};"></span>${params[h].seriesName}:${
+                  params[h].data.value
+                }°C${changea}</div>
+								`
+              }
+              res += `</div><hr />`
+              res += '<div class="echarts-tooltip-Monitoring-point">'
+              res += `
+              <div class="echarts-tooltip-Monitoring-content-title">Before</div>
+              <div class="echarts-tooltip-Monitoring-content-title">After</div>
+              <div><img src="/xzoom/images/20220510_v1.jpg" /></div>
+              <div><img src="/xzoom/images/20220510_v1.jpg" /></div>`
+              res += '</div>'
+              res += '<div class="echarts-footer">此時段被修改的物件:'
+              record.forEach((index) => {
+                res += `<span>[${index}]</span> `
+              })
+              res += `</div>`
+            } else {
+              res += '<div class="echarts-tooltip-Monitoring">'
+              for (var i = 0; i < params.length; i++) {
+                res += `<div class='tooltip-point' style=""><span
+										style="background-color:${[params[i].color]};"></span>${params[i].seriesName}:${
+                  params[i].data.value
+                }°C</div>
+								`
+              }
+              res += `</div>`
+            }
+            return res
+          },
         },
 
         grid: {
@@ -68,9 +144,8 @@ export default {
         legend: {
           show: true,
           selectedMode: 'multiple', // 設定顯示單一圖例的圖形，點選可切換
-          right: 95,
-          top: '0',
-
+          right: 80,
+          width: '650px',
           textStyle: {
             color: '#666',
             fontSize: 9,
@@ -224,9 +299,21 @@ export default {
         url: 'http://localhost:8080/api/monitor/test?date=' + usersetdate,
       })
         .then((params) => {
-          // console.log(params.data)
+          console.log(params.data)
           const array = params.data
+          var marker = []
           Object.keys(array).forEach((key) => {
+            // 這邊用來判斷是否ponit為1
+            var make = false
+            Object.keys(array[key]).forEach((keys) => {
+              if (array[key][keys].point === 1) {
+                make = true
+              }
+            })
+            if (make === true) {
+              marker.push({ xAxis: key })
+            }
+            // end
             xAxisValue.push(key)
             totle++
           })
@@ -235,7 +322,10 @@ export default {
             var tmp = []
             var data = {}
             xAxisValue.forEach((value) => {
-              tmp.push(array[value][key])
+              tmp.push({
+                value: array[value][key].value,
+                point: array[value][key].point,
+              })
             })
             if (
               key === 'difference01' ||
@@ -259,7 +349,18 @@ export default {
             }
             output.push(data)
           })
-          var start = totle - 100
+          // for (var i = 0; i < xAxisValue.length; i++) {
+          //   var randomD = [0, 1, 0]
+          //   var randomA = randomD[generateRandomInt(0, randomD.length)]
+          //   if (randomA === 1) {
+          //     marker.push({
+          //       xAxis: xAxisValue[i],
+          //     })
+          //   }
+          // }
+          // this.marker = marker
+          // console.log(this.marker)
+          var start = totle - 10
           myChart.setOption({
             dataZoom: [
               {
@@ -270,10 +371,24 @@ export default {
             xAxis: { data: xAxisValue },
             series: output,
           })
-          console.log(xAxisValue)
-          console.log(output)
+          myChart.setOption({
+            series: {
+              name: '點1',
+              markLine: {
+                symbol: ['none', 'none'],
+                label: { show: false },
+                lineStyle: {
+                  width: 3,
+                },
+                data: marker,
+              },
+            },
+          })
         })
         .catch((error) => console.log('error from axios', error))
+      // function generateRandomInt(min, max) {
+      //   return Math.floor(Math.random() * (max - min) + min)
+      // }
     },
   },
 }
@@ -295,5 +410,61 @@ export default {
   color: #37484c;
   background-color: #fff;
   border: 2px #37484c solid;
+}
+.echarts-tooltip-vivew {
+  width: min-content;
+}
+.echarts-tooltip-Monitoring-point {
+  /* grid-template-columns: 250px 250px; */
+  grid-template-columns: 50% 50%;
+  display: grid !important;
+  /* max-width: 100%; */
+}
+.echarts-tooltip-Monitoring-content-title {
+  background-color: #efefef;
+  margin: 0.4em 4px 0px 4px;
+  border-radius: 2px;
+}
+.echarts-tooltip-Monitoring-point > div {
+  padding: 0em 0.3em 0.3em 0.3em;
+}
+.echarts-tooltip-Monitoring-point > div img {
+  max-width: 100%;
+  width: 100%;
+}
+.echarts-tooltip-Monitoring {
+  /* max-height: 300px; */
+  /* max-width: 500px; */
+  /* grid-template-columns: 130px 130px 130px 130px; */
+  grid-template-columns: repeat(4, auto);
+  display: grid !important;
+}
+.echarts-footer {
+  margin: 0em 0.3em 0.3em 0.3em;
+  padding: 0.3em;
+  background-color: #efefef;
+}
+.tooltip-value {
+  margin-bottom: 5px;
+  padding: 0 12px;
+  width: 100%;
+  height: 24px;
+  line-height: 24px;
+  background: rgba(255, 255, 255, 0.425);
+  border-radius: 3px;
+}
+.tooltip-point {
+  color: #000;
+  font-size: 12px;
+  padding: 0 12px;
+  line-height: 30px;
+}
+
+.tooltip-point > span {
+  display: inline-block;
+  margin-right: 3px;
+  border-radius: 2px;
+  width: 10px;
+  height: 10px;
 }
 </style>

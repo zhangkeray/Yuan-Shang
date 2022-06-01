@@ -745,13 +745,26 @@
                   id="image"
                   src="https://dummyimage.com/640x480/969696/000000&text=loading...."
                 />
+                <div
+                  :style="{
+                    top: this.reference.Y + 'px',
+                    left: this.reference.X + 'px',
+                  }"
+                  id="spot"
+                  class="spot"
+                >
+                  <img src="/images/spot_1.png" />
+                  <div class="spot-span">
+                    <div>R</div>
+                  </div>
+                </div>
                 <!-- 點物件 -->
                 <div
                   v-for="(item01, index) in spots"
                   :key="'B' + index"
                   :style="{
-                    top: item01.spot_position.y + 'px',
-                    left: item01.spot_position.x + 'px',
+                    top: item01.spot_position.Y + 'px',
+                    left: item01.spot_position.X + 'px',
                   }"
                   id="spot"
                   class="spot"
@@ -767,10 +780,10 @@
                   v-for="(item02, index) in scopes"
                   :key="'A' + index"
                   :style="{
-                    top: item02.scope_position_LT.y + 'px',
-                    left: item02.scope_position_LT.x + 'px',
-                    width: item02.scope_position_BR.x + 'px',
-                    height: item02.scope_position_BR.y + 'px',
+                    top: item02.scope_position_point_LT.Y + 'px',
+                    left: item02.scope_position_point_LT.X + 'px',
+                    width: item02.scope_position_point_BR.X + 'px',
+                    height: item02.scope_position_point_BR.Y + 'px',
                   }"
                   id="scope"
                   class="scope"
@@ -787,28 +800,28 @@
                   v-for="(item, index) in lines"
                   :key="'point1' + index"
                   :style="{
-                    top: item.line_position_point_A.y + 'px',
-                    left: item.line_position_point_A.x + 'px',
+                    top: item.line_position_point_A.Y + 'px',
+                    left: item.line_position_point_A.X + 'px',
                   }"
                   id="pointA"
                   :class="'point-totle ' + 'point' + (index + 1)"
-                  v-bind:data-name="item.line_number"
-                ></div>
-                <div
-                  v-for="(item, index) in lines"
-                  :key="'point2' + index"
-                  :style="{
-                    top: item.line_position_point_B.y + 'px',
-                    left: item.line_position_point_B.x + 'px',
-                  }"
-                  id="pointB"
-                  :class="'point' + (index + 1) + ' point_hover' + (index + 1)"
                   v-bind:data-name="item.line_number"
                 >
                   <div class="line-span">
                     <div>{{ item.line_number }}</div>
                   </div>
                 </div>
+                <div
+                  v-for="(item, index) in lines"
+                  :key="'point2' + index"
+                  :style="{
+                    top: item.line_position_point_B.Y + 'px',
+                    left: item.line_position_point_B.X + 'px',
+                  }"
+                  id="pointB"
+                  :class="'point' + (index + 1) + ' point_hover' + (index + 1)"
+                  v-bind:data-name="item.line_number"
+                ></div>
                 <div
                   v-for="(item, index) in lines"
                   :key="'line' + index"
@@ -843,6 +856,31 @@
                     </tr>
                   </thead>
                   <tbody>
+                    <tr>
+                      <td class="text-center" style="padding: 0px 13px">
+                        <v-badge
+                          content="R"
+                          overlap
+                          color="#828C8F"
+                          class="my-4"
+                          bordered
+                          ><v-btn icon class="right-btn"
+                            ><img
+                              class=""
+                              alt=""
+                              src="/right-icons/spot2.png"
+                              width="20em" /></v-btn
+                        ></v-badge>
+                      </td>
+                      <td
+                        class="text-center subtitle-right"
+                        style="padding: 0px 25px"
+                      >
+                        {{ reference.reference_temperature }}°C
+                      </td>
+                      <td class="text-center" style="padding: 0px 25px">N/A</td>
+                      <td class="text-center" style="padding: 0px 13px">N/A</td>
+                    </tr>
                     <!-- spot -->
                     <tr v-for="(item, index) in spots" :key="'C' + index">
                       <td class="text-center" style="padding: 0px 13px">
@@ -879,9 +917,8 @@
                             alt=""
                             src="/right-icons/alert-on.png"
                             width="18em"
-                            depressed
-                        />
-                        <img
+                            depressed />
+                          <img
                             v-else-if="item.spot_alarm_status === 0"
                             class=""
                             alt=""
@@ -937,9 +974,8 @@
                             alt=""
                             src="/right-icons/alert-on.png"
                             width="18em"
-                            depressed
-                        />
-                        <img
+                            depressed />
+                          <img
                             v-else-if="item.scope_alarm_status === 0"
                             class=""
                             alt=""
@@ -980,21 +1016,23 @@
                         class="text-center subtitle-right"
                         style="padding: 0px 25px"
                       >
-                        {{ item.line_temperature_ma }}°C
+                        {{ item.line_temperature_max }}°C
                       </td>
                       <td class="text-center" style="padding: 0px 25px">
                         <!-- 線:警報對話框 -->
-                        <v-btn color="" icon class="right-btn"
-                        @click="opendialog(item.line_number, 'line')"
+                        <v-btn
+                          color=""
+                          icon
+                          class="right-btn"
+                          @click="opendialog(item.line_number, 'line')"
                           ><img
                             v-if="item.line_alarm_status === 1"
                             class=""
                             alt=""
                             src="/right-icons/alert-on.png"
                             width="18em"
-                            depressed
-                        />
-                        <img
+                            depressed />
+                          <img
                             v-else-if="item.line_alarm_status === 0"
                             class=""
                             alt=""
@@ -1467,12 +1505,12 @@ export default {
     opentype: null, // 紀錄開啟的原件
     dialogdata: [],
     dialogarr: [], // 紀錄原始物件
-
+    tpmedata: null,
     // 右1點線面_宣告變數陣列
     spots: [],
     scopes: [],
     lines: [],
-
+    reference: [],
     // 右2假數據顯示(待刪)
     temps: [],
 
@@ -1521,7 +1559,7 @@ export default {
     //   console.log(200)
     var stay = 0
     vm.socket.on('connect', () => {
-      rtspstatus.innerHTML = '伺服器已回應，連線已恢復正常，正在重啟程式!'
+      // rtspstatus.innerHTML = '伺服器已回應，連線已恢復正常，正在重啟程式!'
       clearInterval(this.timeOutRefresh01)
       vm.socket.on('data', (data) => {
         stay = 0
@@ -1535,9 +1573,9 @@ export default {
         rtspstay.classList.add('d-none')
       } else if (stay >= 10 && stay <= 15) {
         rtspstay.classList.remove('d-none')
-        var tmp = 15
-        tmp = tmp - stay
-        rtspstay.innerHTML = '已偵測影像無回應，' + tmp + '秒後將重新啟動程式'
+        // var tmp = 15
+        // tmp = tmp - stay
+        // rtspstay.innerHTML = '已偵測影像無回應，' + tmp + '秒後將重新啟動程式'
       } else if (stay >= 16) {
         stay = 0
         vm.socket.disconnect()
@@ -1546,21 +1584,21 @@ export default {
     }, 1000)
 
     vm.socket.on('disconnect', (reason) => {
-      rtspstatus.innerHTML = '連線出現錯誤!!!'
-      let count = 0
+      // rtspstatus.innerHTML = '連線出現錯誤!!!'
+      // let count = 0
       this.timeOutRefresh01 = setInterval(() => {
         vm.socket.connect()
-        if (count <= 15) {
-          var tpa = 15 - count
-          rtspstatus.innerHTML =
-            '影像處理伺服器已中斷連線，' + tpa + '秒後嘗試與伺服器連線...'
-        } else if (count > 15 && count <= 20) {
-          rtspstatus.innerHTML = '正在嘗試與伺服器連線中...'
-        } else if (count > 20 && count < 25) {
-          rtspstatus.innerHTML = '嘗試與伺服器連線失敗...'
-        } else {
-          count = 0
-        }
+        // if (count <= 15) {
+        //   var tpa = 15 - count
+        //   rtspstatus.innerHTML =
+        //     '影像處理伺服器已中斷連線，' + tpa + '秒後嘗試與伺服器連線...'
+        // } else if (count > 15 && count <= 20) {
+        //   rtspstatus.innerHTML = '正在嘗試與伺服器連線中...'
+        // } else if (count > 20 && count < 25) {
+        //   rtspstatus.innerHTML = '嘗試與伺服器連線失敗...'
+        // } else {
+        //   count = 0
+        // }
       }, 1000)
       img.src = 'https://dummyimage.com/640x480/969696/000000&text=loading....'
       rtspstatus.classList.remove('d-none')
@@ -1613,22 +1651,39 @@ export default {
       const opentype = this.opentype
       const status = this.checkbox
       const threshold = this.threshold
-      var data = null
+      const thisSpots = this.spots
+      const thislines = this.tpmedata.line
+      const thisscpoes = this.tpmedata.scope
+      var obj = null
       if (opentype === 'spot') {
+        obj = thisSpots.find((o) => o.spot_number === opendid)
+        var SpotY =
+          obj.spot_position.Y / document.getElementById('image').offsetHeight
+        var SpotX =
+          obj.spot_position.X / document.getElementById('image').offsetWidth
+        SpotY = SpotY.toFixed(4)
+        SpotX = SpotX.toFixed(4)
+        var data = null
         data = {
-          spot_number: opendid,
+          spot_number: parseInt(opendid),
           spot_alarm_status: status,
+          spot_position: {
+            Y: SpotY,
+            X: SpotX,
+          },
           spot_threshold: threshold,
-          status: '0',
+          spot_status: '0',
         }
         if (status === true) {
           data.spot_alarm_status = 1
         } else {
           data.spot_alarm_status = 0
         }
+        // console.log(data)
+
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/change/spot`,
+          url: `http://127.0.0.1:5000/api/monitor/object/change/spot`,
           data,
         })
           .then((response) => {
@@ -1636,20 +1691,24 @@ export default {
           })
           .catch((error) => console.log('error from axios', error))
       } else if (opentype === 'line') {
+        obj = thislines.find((o) => o.line_number === opendid)
         data = {
           line_number: opendid,
-          line_alarm_status: status,
+          line_alarm_status: null,
           line_threshold: threshold,
-          status: '0',
+          line_position_point_A: obj.line_position_point_A,
+          line_position_point_B: obj.line_position_point_B,
+          line_status: '0',
         }
         if (status === true) {
           data.line_alarm_status = 1
         } else {
           data.line_alarm_status = 0
         }
+        // console.log(data)
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/change/line`,
+          url: `http://127.0.0.1:5000/api/monitor/object/change/line`,
           data,
         })
           .then((response) => {
@@ -1657,20 +1716,25 @@ export default {
           })
           .catch((error) => console.log('error from axios', error))
       } else if (opentype === 'scope') {
+        obj = thisscpoes.find((o) => o.scope_number === opendid)
+        // console.log(obj)
         data = {
-          scope_number: opendid,
-          scope_alarm_status: status,
+          scope_number: parseInt(opendid),
+          scope_alarm_status: null,
           scope_threshold: threshold,
-          status: '0',
+          scope_position_BR: obj.scope_position_point_BR,
+          scope_position_LT: obj.scope_position_point_LT,
+          scope_status: '0',
         }
         if (status === true) {
           data.scope_alarm_status = 1
         } else {
           data.scope_alarm_status = 0
         }
+        // console.log(data)
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/change/scope`,
+          url: `http://127.0.0.1:5000/api/monitor/object/change/scope`,
           data,
         })
           .then((response) => {
@@ -1685,8 +1749,10 @@ export default {
       this.openid = id
       this.opentype = type
       this.$axios
-        .get('http://localhost:8080/api/monitor/object/data')
+        .get('http://127.0.0.1:5000/api/monitor/object/data')
         .then((paramse) => {
+          // console.log(paramse.data)
+          this.tpmedata = paramse.data
           var array = paramse.data
           var arr = []
           var obj = []
@@ -1757,17 +1823,35 @@ export default {
     // 總呼叫程序
     Refresh() {
       this.$axios
-        .get('http://localhost:8080/api/monitor/object/data')
+        .get('http://127.0.0.1:5000/api/monitor/object/data')
         .then((params) => {
+          // 參考點
+          var reference = params.data.reference[0]
+          var sumtmp = ""
+          if(reference.reference_temperature != null) {
+            sumtmp = reference.reference_temperature.toFixed(1)
+          }
+          var referenceArr = {
+            reference_temperature: sumtmp,
+            X: reference.reference_position.X *
+              document.getElementById('image').offsetWidth,
+            Y: reference.reference_position.y *
+              document.getElementById('image').offsetHeight,
+          }
+          this.reference = referenceArr
           // 取得"點"資料
           var array = params.data.spot
+          console.log(params.data.spot)
           array.forEach(function (index) {
             // console.log(index.position.Y)
-            index.spot_position.x =
-              index.spot_position.x *
+            if(index.spot_temperature != null) {
+              index.spot_temperature = index.spot_temperature.toFixed(1)
+            }
+            index.spot_position.X =
+              index.spot_position.X *
               document.getElementById('image').offsetWidth
-            index.spot_position.y =
-              index.spot_position.y *
+            index.spot_position.Y =
+              index.spot_position.Y *
               document.getElementById('image').offsetHeight
           })
           this.spots = params.data.spot
@@ -1776,49 +1860,58 @@ export default {
           // 取得"範圍"資料
           var scopes = params.data.scope
           scopes.forEach(function (index) {
-            index.scope_position_BR.x =
+            if(index.scope_temperature_max != null) {
+            index.scope_temperature_max = index.scope_temperature_max.toFixed(1)
+            }
+            index.scope_position_point_BR.X =
               document.getElementById('image').offsetWidth *
-              (index.scope_position_BR.x - index.scope_position_LT.x)
-            index.scope_position_BR.y =
+              (index.scope_position_point_BR.X -
+                index.scope_position_point_LT.X)
+            index.scope_position_point_BR.Y =
               document.getElementById('image').offsetHeight *
-              (index.scope_position_BR.y - index.scope_position_LT.y)
+              (index.scope_position_point_BR.Y -
+                index.scope_position_point_LT.Y)
 
-            index.scope_position_LT.x =
-              index.scope_position_LT.x *
+            index.scope_position_point_LT.X =
+              index.scope_position_point_LT.X *
               document.getElementById('image').offsetWidth
-            index.scope_position_LT.y =
-              index.scope_position_LT.y *
+            index.scope_position_point_LT.Y =
+              index.scope_position_point_LT.Y *
               document.getElementById('image').offsetHeight
           })
           this.scopes = params.data.scope
+          // console.log(this.scopes)
+
           this.scope()
           // 取得"範圍"資料 end
           // 取得"線"資料
           var lines = params.data.line
           lines.forEach(function (index) {
-            index.line_position_point_A.x =
-              index.line_position_point_A.x *
+            if(index.line_temperature_max != null) {
+            index.line_temperature_max = index.line_temperature_max.toFixed(1)
+            }
+            index.line_position_point_A.X =
+              index.line_position_point_A.X *
               document.getElementById('image').offsetWidth
-            index.line_position_point_A.y =
-              index.line_position_point_A.y *
+            index.line_position_point_A.Y =
+              index.line_position_point_A.Y *
               document.getElementById('image').offsetHeight
-
-            index.line_position_point_B.x =
-              index.line_position_point_B.x *
+            index.line_position_point_B.X =
+              index.line_position_point_B.X *
               document.getElementById('image').offsetWidth
-            index.line_position_point_B.y =
-              index.line_position_point_B.y *
+            index.line_position_point_B.Y =
+              index.line_position_point_B.Y *
               document.getElementById('image').offsetHeight
           })
           this.lines = params.data.line
           this.line()
-
           // 取得"線"資料 end
         })
         .catch((error) => console.log('error from axios', error))
     },
     // 定義點物件
     getspot() {
+      const data = this.spots
       $('.spot').hover(
         function () {
           $(this).children('.spot-span').addClass('hover')
@@ -1830,6 +1923,10 @@ export default {
       $('.spot').draggable({
         containment: 'parent',
         stop(event, ui) {
+          const id = $(this).attr('data-name')
+          const thisdata = data.find((o) => o.spot_number === id)
+          // console.log(data)
+
           var SpotY =
             ui.position.top / document.getElementById('image').offsetHeight
           var SpotX =
@@ -1837,13 +1934,14 @@ export default {
           SpotY = SpotY.toFixed(4)
           SpotX = SpotX.toFixed(4)
           var thisSpotData = {
-            spot_id: $(this).attr('data-id'),
             spot_number: parseInt($(this).attr('data-name')),
-            status: '0',
+            spot_status: '0',
             spot_position: {
-              y: SpotY,
-              x: SpotX,
+              Y: SpotY,
+              X: SpotX,
             },
+            spot_alarm_status: thisdata.spot_alarm_status,
+            spot_threshold: thisdata.spot_threshold,
           }
           put(thisSpotData)
           // console.log(thisSpotData)
@@ -1852,7 +1950,7 @@ export default {
       function put(data) {
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/change/spot`,
+          url: `http://127.0.0.1:5000/api/monitor/object/change/spot`,
           data,
         }).catch((error) => console.log('error from axios', error))
       }
@@ -1866,9 +1964,7 @@ export default {
       setTimeout(() => (this[l] = false), 3000)
       this.loader = null
       this.$axios
-        .post('http://localhost:8080/api/monitor/object/add/spot', {
-          status: 'add',
-        })
+        .get('http://127.0.0.1:5000/api/monitor/object/add/spot')
         .then((response) => {
           this.Interval = 0
         })
@@ -1876,18 +1972,20 @@ export default {
     },
     // POST 刪除點物件
     deletespot(number) {
-      console.log(number)
+      // console.log(number)
       var thisSpotData = {
         spot_number: parseInt(number),
-        status: '1',
+        spot_status: '1',
         spot_position: {
-          y: '',
-          x: '',
+          Y: 0.1,
+          X: 0.1,
         },
+        spot_alarm_status: 0,
+        spot_threshold: 20,
       }
       this.$axios
         .post(
-          'http://localhost:8080/api/monitor/object/change/spot',
+          'http://127.0.0.1:5000/api/monitor/object/change/spot',
           thisSpotData
         )
         .then((response) => {
@@ -1898,15 +1996,14 @@ export default {
     // POST 新增範圍
     addscope() {
       this.$axios
-        .post('http://localhost:8080/api/monitor/object/add/scope', {
-          status: 'add',
-        })
+        .get('http://127.0.0.1:5000/api/monitor/object/add/scope')
         .then((response) => {
           this.Interval = 0
         })
         .catch((error) => console.log('error from axios', error))
     },
     scope() {
+      const data = this.scopes
       $('.scope').hover(
         function () {
           $(this).children('.scope-span').addClass('hover')
@@ -1920,12 +2017,19 @@ export default {
           containment: 'parent',
           stop(event, ui) {
             // put(thisSpotData)
-            var thisName = parseInt($(this).attr('data-name'))
+            var thisName = $(this).attr('data-name')
+            const thisdata = data.find((o) => o.scope_number === thisName)
             var thisSize = {
               width: $(this).width() + 2,
               height: $(this).height() + 2,
             }
-            var thisScopeData = calculate(ui, thisName, thisSize)
+            var thisScopeData = calculate(
+              ui,
+              thisName,
+              thisSize,
+              thisdata.scope_alarm_status,
+              thisdata.scope_threshold
+            )
             put(thisScopeData)
           },
         })
@@ -1935,16 +2039,23 @@ export default {
           minWidth: 50,
           minHeight: 50,
           stop(event, ui) {
-            var thisName = parseInt($(this).attr('data-name'))
+            var thisName = $(this).attr('data-name')
+            const thisdata = data.find((o) => o.scope_number === thisName)
             var thisSize = {
               width: $(this).width() + 2,
               height: $(this).height() + 2,
             }
-            var thisScopeData = calculate(ui, thisName, thisSize)
+            var thisScopeData = calculate(
+              ui,
+              thisName,
+              thisSize,
+              thisdata.scope_alarm_status,
+              thisdata.scope_threshold
+            )
             put(thisScopeData)
           },
         })
-      function calculate(ui, thisName, thisSize) {
+      function calculate(ui, thisName, thisSize, status, threshold) {
         var scopeltY =
           ui.position.top / document.getElementById('image').offsetHeight
         var scopeltX =
@@ -1959,22 +2070,26 @@ export default {
         // scopeltX = scopeltX.toFixed(4)
         var thisScopeData = {
           scope_number: thisName,
-          status: '0',
+          scope_status: '0',
           scope_position_LT: {
-            y: scopeltY,
-            x: scopeltX,
+            Y: scopeltY,
+            X: scopeltX,
           },
           scope_position_BR: {
-            y: scopeBRY,
-            x: scopeBRX,
+            Y: scopeBRY,
+            X: scopeBRX,
           },
+          scope_alarm_status: status,
+          scope_threshold: threshold,
         }
+        // console.log(thisScopeData)
+
         return thisScopeData
       }
       function put(data) {
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/change/scope`,
+          url: `http://127.0.0.1:5000/api/monitor/object/change/scope`,
           data,
         }).catch((error) => console.log('error from axios', error))
       }
@@ -1984,22 +2099,24 @@ export default {
     deletescope(index) {
       var thisScopeData = {
         scope_number: index,
-        status: '1',
+        scope_status: '1',
         scope_position_LT: {
-          y: '',
-          x: '',
+          Y: 0.01,
+          X: 0.01,
         },
         scope_position_BR: {
-          y: '',
-          x: '',
+          Y: 0.001,
+          X: 0.011,
         },
+        scope_alarm_status: 0,
+        scope_threshold: 0,
       }
-      this.$axios
-        .post('http://localhost:8080/object/deletescope', thisScopeData)
-        .then((response) => {
-          this.Interval = 0
-        })
-        .catch((error) => console.log('error from axios', error))
+      // console.log(thisScopeData)
+      axios({
+        method: 'post',
+        url: `http://127.0.0.1:5000/api/monitor/object/change/scope`,
+        data: thisScopeData,
+      }).catch((error) => console.log('error from axios', error))
     },
     // POST 線-主程式
     line() {
@@ -2025,6 +2142,8 @@ export default {
           },
           containment: 'parent',
           stop(event, ui) {
+            var thisName = $(this).attr('data-name')
+            const thisdata = array.find((o) => o.line_number === thisName)
             $(event.target).removeClass('point-hover')
             var classA = '.point' + $(this).attr('data-name')
             var pointAtop = 0
@@ -2049,23 +2168,19 @@ export default {
               pointBtop / document.getElementById('image').offsetHeight
             pointBleft =
               pointBleft / document.getElementById('image').offsetWidth
-            // var lineY =
-            //   ui.position.top / document.getElementById('image').offsetHeight
-            // var lineX =
-            //   ui.position.left / document.getElementById('image').offsetWidth
-            // lineY = lineY.toFixed(4)
-            // lineX = lineX.toFixed(4)
             var LineData = {
-              status: '0',
-              line_number: parseInt($(this).attr('data-name')),
+              line_status: '0',
+              line_number: $(this).attr('data-name'),
               line_position_point_A: {
-                y: pointAtop,
-                x: pointAleft,
+                Y: pointAtop,
+                X: pointAleft,
               },
               line_position_point_B: {
-                y: pointBtop,
-                x: pointBleft,
+                Y: pointBtop,
+                X: pointBleft,
               },
+              line_alarm_status: thisdata.line_alarm_status,
+              line_threshold: thisdata.line_threshold,
             }
             put(LineData)
           },
@@ -2074,7 +2189,7 @@ export default {
       function put(data) {
         axios({
           method: 'post',
-          url: `http://localhost:8080/api/monitor/object/change/line`,
+          url: `http://127.0.0.1:5000/api/monitor/object/change/line`,
           data,
         }).catch((error) => console.log('error from axios', error))
       }
@@ -2115,9 +2230,7 @@ export default {
     // 線-新增程式
     addline() {
       this.$axios
-        .post('http://localhost:8080/api/monitor/object/add/line', {
-          status: 'add',
-        })
+        .get('http://127.0.0.1:5000/api/monitor/object/add/line')
         .then((response) => {
           this.Interval = 0
         })
@@ -2126,23 +2239,24 @@ export default {
     // 線-刪除程式
     deleteline(index, id) {
       var LineData = {
-        status: '1',
+        line_status: '1',
         line_number: index,
         line_position_point_A: {
-          y: '',
-          x: '',
+          Y: 0.07837,
+          X: 0.04254,
         },
         line_position_point_B: {
-          y: '',
-          x: '',
+          Y: 0.078352,
+          X: 0.07832,
         },
+        line_alarm_status: 0,
+        line_threshold: 0,
       }
-      this.$axios
-        .post('http://localhost:8080/api/monitor/object/change/line', LineData)
-        .then((response) => {
-          this.Interval = 0
-        })
-        .catch((error) => console.log('error from axios', error))
+      axios({
+        method: 'post',
+        url: `http://127.0.0.1:5000/api/monitor/object/change/line`,
+        data: LineData,
+      }).catch((error) => console.log('error from axios', error))
     },
     // 右4日期
     functionEvents(date) {
