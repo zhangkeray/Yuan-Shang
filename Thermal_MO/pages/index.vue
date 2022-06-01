@@ -1841,7 +1841,7 @@ export default {
           this.reference = referenceArr
           // 取得"點"資料
           var array = params.data.spot
-          console.log(params.data.spot)
+          // console.log(params.data.spot)
           array.forEach(function (index) {
             // console.log(index.position.Y)
             if(index.spot_temperature != null) {

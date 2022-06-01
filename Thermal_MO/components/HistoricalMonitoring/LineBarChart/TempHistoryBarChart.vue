@@ -34,8 +34,8 @@ export default {
         ]),
       })
         .then((paramse) => {
-          var data = paramse.data[0]
-          console.log(data)
+          // var data = paramse.data[0]
+          // console.log(data)
         })
         .catch((e) => console.log(e))
     },
@@ -322,7 +322,7 @@ export default {
         url: 'http://localhost:8080/api/monitor/test?date=' + usersetdate,
       })
         .then((params) => {
-          console.log(params.data)
+          // console.log(params.data)
           const array = params.data
           var marker = []
           Object.keys(array).forEach((key) => {
