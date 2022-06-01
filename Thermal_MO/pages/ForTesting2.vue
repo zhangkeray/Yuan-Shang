@@ -18,15 +18,17 @@ export default {
   methods: {
     getData() {
       axios
-        .get('http://localhost:8888/DEMO4_2')
+        // .get('http://localhost:8888/DEMO4_2')
+        .get('http://localhost:8888/CHART')
+
         .then((response) => {
           console.log(response.data)
           this.opinionData = response.data
+
           this.drawLine('main')
         })
         .catch((error) => {
           console.log(error)
-          // alert("請求失敗")
         })
     },
     drawLine(id) {
@@ -63,57 +65,54 @@ export default {
           },
         ],
         xAxis: {
-          data: this.opinionData.map(function (item) {
-            return item[0]
-          }),
-        },
+          data: this.opinionData.arr},
         yAxis: {
           type: 'value',
         },
-        visualMap: {
-          top: 50,
-          right: 10,
-          pieces: [
-            {
-              gt: 0,
-              lte: 50,
-              color: '#93CE07',
-            },
-            {
-              gt: 50,
-              lte: 100,
-              color: '#FBDB0F',
-            },
-            {
-              gt: 100,
-              lte: 150,
-              color: '#FC7D02',
-            },
-            {
-              gt: 150,
-              lte: 200,
-              color: '#FD0100',
-            },
-            {
-              gt: 200,
-              lte: 300,
-              color: '#AA069F',
-            },
-            {
-              gt: 300,
-              color: '#AC3B2A',
-            },
-          ],
-          outOfRange: {
-            color: '#999',
-          },
-        },
+        // visualMap: {
+        //   top: 50,
+        //   right: 10,
+        //   pieces: [
+        //     {
+        //       gt: 0,
+        //       lte: 50,
+        //       color: '#93CE07',
+        //     },
+        //     {
+        //       gt: 50,
+        //       lte: 100,
+        //       color: '#FBDB0F',
+        //     },
+        //     {
+        //       gt: 100,
+        //       lte: 150,
+        //       color: '#FC7D02',
+        //     },
+        //     {
+        //       gt: 150,
+        //       lte: 200,
+        //       color: '#FD0100',
+        //     },
+        //     {
+        //       gt: 200,
+        //       lte: 300,
+        //       color: '#AA069F',
+        //     },
+        //     {
+        //       gt: 300,
+        //       color: '#AC3B2A',
+        //     },
+        //   ],
+        //   outOfRange: {
+        //     color: '#999',
+        //   },
+        // },
         series: [
           {
             name: '近七日收益',
             type: 'line',
             stack: '總量',
-            data: this.opinionData,
+            data: this.opinionData.arr,
           },
         ],
       })

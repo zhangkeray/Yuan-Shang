@@ -22,6 +22,7 @@ module.exports = {
   // 加了no-var
   rules: {
     'no-var': 0,
+    "no-console": "off"
   },
   globals: {
     $: 'readonly',

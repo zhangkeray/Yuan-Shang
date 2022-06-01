@@ -269,6 +269,7 @@
                   </v-row>
                 </v-col>
                 <v-col cols="3">
+                   <!-- 放大鏡 -->
                   <div class="image-wrap1 mt-4">
                     <div class="image1 viewer1">
                       <div class="magnifier1"></div>
