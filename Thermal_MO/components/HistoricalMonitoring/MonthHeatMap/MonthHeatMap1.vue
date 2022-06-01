@@ -146,32 +146,31 @@ export default {
   },
   mounted() {
     this.drawBar('initial') // 暫時關閉
-    // this.test()
+    var today = new Date()
+    var year = today.getFullYear()
+    today =
+      today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+    const url = 'http://127.0.0.1:5000/api/alarm/list' // 宣告取得警報list網址
+    // 熱力圖初始化
+    axios({
+      method: 'post',
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify([
+        {
+          table_timeselectStart: year + '-01-01',
+          table_timeselectStop: year + '-12-31',
+        },
+      ]),
+    })
+      .then((paramse) => {
+        this.getHeatData(paramse.data, { data: [today] })
+      })
+      .catch((error) => console.log('error from axios', error))
   },
   methods: {
-    test() {
-      var data = JSON.stringify([
-        {
-          table_timeselectStart: '2022-01-1',
-          table_timeselectStop: '2023-01-01',
-        },
-      ])
-      var config = {
-        method: 'POST',
-        url: 'http://127.0.0.1:5000/api/alarm/list',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data,
-      }
-      axios(config)
-        .then((paramse) => {
-          console.log(paramse.data)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
     onChangeCarousel(event) {
       var date = this.date
       var selectedDate = new Date(date)
@@ -422,65 +421,10 @@ export default {
                 ],
               }
               option && myChart.setOption(option)
-              myChart.on('click', function (params) {
+              myChart.on('click', (params) => {
                 var data = paramse.data
-                var start = new Date(params.data[0] + ' 00:00:00')
-                var stop = new Date(params.data[0] + ' 23:59:59')
-                // console.log(start, stop)
-                var arr = []
-                data.forEach((index) => {
-                  var dataStartTime = new Date(index.table_alarm_start)
-                  if (dataStartTime >= start && dataStartTime <= stop) {
-                    arr.push(index)
-                  }
-                })
-                // console.log(arr)
-                var heatData = []
-                // 判斷當日超溫次數統計(熱力圖)
-                for (var i = 0; i < 24; i++) {
-                  for (var j = 0; j < 6; j++) {
-                    var heatDateStart = new Date(
-                      params.data[0] + ' ' + i + ':' + j * 10 + ':00'
-                    )
-                    var heatDateStop = new Date(
-                      params.data[0] + ' ' + i + ':' + (j * 10 + 9) + ':59'
-                    )
-                    var totle = 0
-                    arr.forEach((index, value) => {
-                      var arrTimeStart = new Date(index.table_alarm_start)
-                      if (
-                        arrTimeStart >= heatDateStart &&
-                        arrTimeStart <= heatDateStop
-                      ) {
-                        totle++
-                      }
-                    })
-                    heatData.push([i, j, totle])
-                  }
-                }
-                // console.log(heatData)
-                // 控制台打印数据的名称
-                // axios({
-                //   method: 'get',
-                //   url: url1,
-                // })
-                //   .then((paramse) => {
-                data = heatData.map(function (item) {
-                  return [item[0], item[1], item[2]]
-                })
-                // console.log(data)
-                const heat = document.getElementById('heatMap2_for_this')
-                const myChart = echarts.getInstanceByDom(heat)
-                myChart.setOption({
-                  series: [
-                    {
-                      name: '',
-                      data,
-                    },
-                  ],
-                })
-                // })
-                // .catch((error) => console.log('error from axios', error))
+                this.getHeatData(data, params)
+                // 熱力圖資料更新放這邊
               })
             })
             var date = this.date
@@ -499,6 +443,62 @@ export default {
           return 365
         }
       }
+    },
+    getHeatData(data, params) {
+      var start = new Date(params.data[0] + ' 00:00:00')
+      var stop = new Date(params.data[0] + ' 23:59:59')
+      console.log(data, params)
+      var arr = []
+      data.forEach((index) => {
+        var dataStartTime = new Date(index.table_alarm_start)
+        if (dataStartTime >= start && dataStartTime <= stop) {
+          arr.push(index)
+        }
+      })
+      // console.log(arr)
+      var heatData = []
+      // 判斷當日超溫次數統計(熱力圖)
+      for (var i = 0; i < 24; i++) {
+        for (var j = 0; j < 6; j++) {
+          var heatDateStart = new Date(
+            params.data[0] + ' ' + i + ':' + j * 10 + ':00'
+          )
+          var heatDateStop = new Date(
+            params.data[0] + ' ' + i + ':' + (j * 10 + 9) + ':59'
+          )
+          var totle = 0
+          arr.forEach((index, value) => {
+            var arrTimeStart = new Date(index.table_alarm_start)
+            if (arrTimeStart >= heatDateStart && arrTimeStart <= heatDateStop) {
+              totle++
+            }
+          })
+          heatData.push([i, j, totle])
+        }
+      }
+      // console.log(heatData)
+      // 控制台打印数据的名称
+      // axios({
+      //   method: 'get',
+      //   url: url1,
+      // })
+      //   .then((paramse) => {
+      data = heatData.map(function (item) {
+        return [item[0], item[1], item[2]]
+      })
+      // console.log(data)
+      const heat = document.getElementById('heatMap2_for_this')
+      const myChart = echarts.getInstanceByDom(heat)
+      myChart.setOption({
+        series: [
+          {
+            name: '',
+            data,
+          },
+        ],
+      })
+      // })
+      // .catch((error) => console.log('error from axios', error))
     },
   },
 }
