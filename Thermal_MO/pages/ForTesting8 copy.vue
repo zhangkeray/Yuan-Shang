@@ -1,5 +1,26 @@
 <template>
-  <div ref="lineBarChart" style="height: 670px; width: 1250px"></div>
+  <v-Main>
+    <v-App>
+      <v-row>
+        <v-col cols="8">
+          <div ref="lineBarChart" style="height: 600px; width: 1480px"></div>
+        </v-col>
+        <v-col cols="2">
+          <v-row class="mt-16">
+            <v-col cols="6">
+              <v-text-field
+                v-model="refreshTimeNormal"
+                label="刷新率"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="3">
+              <v-btn id="start" class="mt-3" color="primary">開始繪圖</v-btn>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-App>
+  </v-Main>
 </template>
 
 <script>
@@ -10,46 +31,52 @@ export default {
   data() {
     return {
       opinionData: [],
+      refreshTimeNormal: 1000, // 正常刷新时间
+      timeArr: [],
     }
   },
   mounted() {
-    this.getData()
     // this.drawBar()
+    this.getData(0, 4)
   },
 
   methods: {
-    // axios
-    getData() {
-      axios
-        .get('http://localhost:8080/CHART4')
-        .then((response) => {
-          console.log(response.data)
-          this.opinionData = response.data
-          this.drawBar('main')
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+    
+    // 取得api
+    getData(start, stop) {
+      axios({
+        method: 'get',
+        url: 'http://localhost:8080/finalchartgo',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        params: {
+          start,
+          stop,
+        },
+      }).then((params) => {
+        console.log(params.data[0])
+        this.opinionData = params.data[0]
+        this.drawBar()
+      })
     },
+
+    // 圖表
     drawBar() {
       const chartDom = this.$refs.lineBarChart
       const myChart = echarts.init(chartDom) // echarts初始化
       var option
 
       // 指定图表的配置项和数据
-      var oneSecond = 5000
+      var oneSecond = 1000
       var date = []
-      var queueLength = 5 // 队列长度
-      var refreshTimeNormal = 5000 // 正常刷新时间
-      // ------------------------------------------------------------------
+      var queueLength = 2 // 队列长度
+      // var refreshTimeNormal = 1000 // 正常刷新时间
 
-      // ------------------------------------------------------------------
-
-      // var data = []
       // 设置初试时间
       var initTime = new Date() // 获得当前时间
       // 此处是将时间戳改为正常Date格式时间
-      var now = new Date(initTime.getTime() - queueLength * refreshTimeNormal) // 当前时间减去前几分钟，以填充数据
+      var now = new Date(initTime.getTime()) // 当前时间
       function addData() {
         now =
           now.toLocaleDateString() +
@@ -87,21 +114,22 @@ export default {
           },
         },
         grid: {
-          top: 40, // 距离容器上边界40像素
+          top: 100, // 距离容器上边界40像素
           bottom: 80, // 距离容器下边界30像素
         },
         xAxis: {
           // x轴设置
           // type: 'category',
           boundaryGap: false,
-          splitLine: { show: false }, // 去除网格线
+          splitLine: { show: true }, // 去除网格线
           data: date,
+          // data: this.opinionData.time,
           splitNumber: 12, // 横坐标设置24个间隔
         },
         yAxis: {
           // y轴设置
           boundaryGap: [0, '50%'],
-          splitLine: { show: false }, // 去除网格线
+          splitLine: { show: true }, // 去除网格线
           type: 'value',
           axisLabel: {
             formatter: '{value} (°C)', // 给Y轴上的刻度加上单位
@@ -124,7 +152,7 @@ export default {
                 opacity: 1,
               },
             },
-            // fillerColor:'rgba(255,255,255,.6)'
+            fillerColor: 'rgba(255,255,255,.6)',
           },
           {
             type: 'inside', // 使鼠标在图表中时滚轮可用
@@ -136,93 +164,77 @@ export default {
             name: '區塊1',
             type: 'line',
             symbol: 'none',
+            smooth: true,
             lineStyle: {
               // color: '#8F2400',
               width: 3,
             },
-            data: this.opinionData.arr,
+            data: this.opinionData.spot1,
           },
           {
             name: '區塊2',
             type: 'line',
             symbol: 'none',
+            smooth: true,
             lineStyle: {
               // color: '#C23607',
               width: 3,
             },
-            data: this.opinionData.arr2,
+            data: this.opinionData.spot2,
           },
           {
             name: '區塊3',
             type: 'line',
             symbol: 'none',
+            smooth: true,
             lineStyle: {
               // color: '#E9430C',
               width: 3,
             },
-            data: this.opinionData.arr3,
+            data: this.opinionData.spot3,
           },
           {
             name: '區塊4',
             type: 'line',
             symbol: 'none',
+            smooth: true,
             lineStyle: {
               // color: '#F56B3D',
               width: 3,
             },
-            data: this.opinionData.arr4,
+            data: this.opinionData.spot4,
           },
           {
             name: '區塊5',
             type: 'line',
             symbol: 'none',
+            smooth: true,
             lineStyle: {
               // color: '#E7957A',
               width: 3,
             },
-            data: this.opinionData.arr5,
-          },
-          {
-            name: '區塊6',
-            type: 'line',
-            symbol: 'none',
-            lineStyle: {
-              // color: '#E9AD99',
-              width: 3,
-            },
-            data: this.opinionData.arr6,
-          },
-          {
-            name: '區塊7',
-            type: 'line',
-            symbol: 'none',
-            lineStyle: {
-              // color: '#EAC4B7',
-              width: 3,
-            },
-            data: this.opinionData.arr7,
+            data: this.opinionData.spot5,
           },
         ],
       }
 
       // -------------------------------------------------------------
-      // setInterval(function () {
 
       setInterval(function () {
         addData(true)
         myChart.setOption({
           xAxis: {
-            data: 'data',
+            data: date,
+            // data: this.opinionData.time,
           },
         })
-      }, refreshTimeNormal)
-      // }, refreshTimeNormal)
+      }, this.refreshTimeNormal)
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option)
+      
     },
   },
 }
-// let myChart = echarts.init(document.getElementById('charts'));
 </script>
 
 <style>
