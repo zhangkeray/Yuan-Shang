@@ -1516,10 +1516,10 @@ export default {
 
     // 右3顯示
     interval: {},
-    valueToday: 15,
-    valueLastday: 8,
-    valueThisWeek: 55,
-    valueThisMonth: 15,
+    valueToday: 0,
+    valueLastday: 0,
+    valueThisWeek: 0,
+    valueThisMonth: 0,
 
     // 右4顯示
     arrayEvents: null,
@@ -1636,8 +1636,7 @@ export default {
         this.Refresh()
       }
     }, 1000)
-    // 警報表單送出
-    // this.outputDialog()
+    this.alarmlist()
   },
   // 對話框
   computed: {
@@ -1646,6 +1645,31 @@ export default {
     },
   },
   methods: {
+    // 警報列表
+    alarmlist() {
+      axios({
+        method: 'post',
+        url: 'http://127.0.0.1:5000/api/alarm/list',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: JSON.stringify([
+          {
+            table_timeselectStart: '2022-05-06',
+            table_timeselectStop: '2022-06-06',
+          },
+        ]),
+      })
+        .then((events) => {
+          this.valueToday = 15
+          this.valueLastday = 8
+          this.valueThisWeek = 55
+          this.valueThisMonth = 15
+          console.log(events.data)
+        })
+        .catch((error) => console.log('error from axios', error))
+      console.log(this.Datecorrect(-7, 0))
+    },
     submitForm() {
       const opendid = this.openid
       const opentype = this.opentype
@@ -1827,15 +1851,17 @@ export default {
         .then((params) => {
           // 參考點
           var reference = params.data.reference[0]
-          var sumtmp = ""
-          if(reference.reference_temperature != null) {
+          var sumtmp = ''
+          if (reference.reference_temperature != null) {
             sumtmp = reference.reference_temperature.toFixed(1)
           }
           var referenceArr = {
             reference_temperature: sumtmp,
-            X: reference.reference_position.X *
+            X:
+              reference.reference_position.X *
               document.getElementById('image').offsetWidth,
-            Y: reference.reference_position.y *
+            Y:
+              reference.reference_position.y *
               document.getElementById('image').offsetHeight,
           }
           this.reference = referenceArr
@@ -1844,7 +1870,7 @@ export default {
           // console.log(params.data.spot)
           array.forEach(function (index) {
             // console.log(index.position.Y)
-            if(index.spot_temperature != null) {
+            if (index.spot_temperature != null) {
               index.spot_temperature = index.spot_temperature.toFixed(1)
             }
             index.spot_position.X =
@@ -1860,8 +1886,9 @@ export default {
           // 取得"範圍"資料
           var scopes = params.data.scope
           scopes.forEach(function (index) {
-            if(index.scope_temperature_max != null) {
-            index.scope_temperature_max = index.scope_temperature_max.toFixed(1)
+            if (index.scope_temperature_max != null) {
+              index.scope_temperature_max =
+                index.scope_temperature_max.toFixed(1)
             }
             index.scope_position_point_BR.X =
               document.getElementById('image').offsetWidth *
@@ -1887,8 +1914,8 @@ export default {
           // 取得"線"資料
           var lines = params.data.line
           lines.forEach(function (index) {
-            if(index.line_temperature_max != null) {
-            index.line_temperature_max = index.line_temperature_max.toFixed(1)
+            if (index.line_temperature_max != null) {
+              index.line_temperature_max = index.line_temperature_max.toFixed(1)
             }
             index.line_position_point_A.X =
               index.line_position_point_A.X *
@@ -2265,6 +2292,69 @@ export default {
         return ['#d8d8d8']
       if ([1, 6, 9, 10, 11, 16].includes(parseInt(day, 10))) return ['#828C8F']
       return false
+    },
+    Datecorrect(type) {
+      var now = new Date() // 當前日期
+      var nowDayOfWeek = now.getDay() // 今天本週的第幾天
+      var nowDay = now.getDate() // 當前日
+      var nowMonth = now.getMonth() // 當前月
+      var nowYear = now.getYear() // 當前年
+      nowYear += nowYear < 2000 ? 1900 : 0 //
+      var lastMonthDate = new Date() // 上月日期
+      lastMonthDate.setDate(1)
+      lastMonthDate.setMonth(lastMonthDate.getMonth() - 1)
+      // var lastMonth = lastMonthDate.getMonth() // 上一月
+      // 格式化日期：yyyy-MM-dd
+      function formatDate(date) {
+        var myyear = date.getFullYear()
+        var mymonth = date.getMonth() + 1
+        var myweekday = date.getDate()
+        if (mymonth < 10) {
+          mymonth = '0' + mymonth
+        }
+        if (myweekday < 10) {
+          myweekday = '0' + myweekday
+        }
+        return myyear + '-' + mymonth + '-' + myweekday
+      }
+      // 本周開始結束計算器
+      if (type === 'week') {
+        return [getWeekStartDate(), getWeekEndDate()]
+      } else {
+        return formatDate(now)
+      }
+      
+      function getWeekStartDate() {
+        var weekStartDate
+        if (nowDayOfWeek === 0) {
+          weekStartDate = new Date(
+            nowYear,
+            nowMonth,
+            nowDay - nowDayOfWeek + 1 - 7
+          )
+        } else {
+          weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 1)
+        }
+        return formatDate(weekStartDate)
+      }
+      // 本周end
+      function getWeekEndDate() {
+        var weekEndDate
+        if (nowDayOfWeek === 0) {
+          weekEndDate = new Date(
+            nowYear,
+            nowMonth,
+            nowDay + (6 - nowDayOfWeek) + 1 - 7
+          )
+        } else {
+          weekEndDate = new Date(
+            nowYear,
+            nowMonth,
+            nowDay + (6 - nowDayOfWeek) + 1
+          )
+        }
+        return formatDate(weekEndDate)
+      }
     },
     // 今天
     getCurrentDate() {
