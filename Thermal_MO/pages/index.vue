@@ -1250,8 +1250,10 @@
                 ><h4 class="chartTitle mr-16">本日</h4>
 
                 <p class="subtitle-right text-center mr-2">
-                  {{ Datecorrect('today') }}&nbsp;00:00<br />ǀ<br />{{
-                    Datecorrect('today')
+                  {{
+                    Datecorrect('today', this.alarmDate)
+                  }}&nbsp;00:00<br />ǀ<br />{{
+                    Datecorrect('today', this.alarmDate)
                   }}&nbsp;24:00
                 </p>
               </v-sheet>
@@ -1270,8 +1272,10 @@
               <v-sheet class="gg mt-5"
                 ><h4 class="chartTitle mr-16">昨日</h4>
                 <p class="subtitle-right text-center mr-2">
-                  {{ Datecorrect('yesterday') }}&nbsp;00:00<br />ǀ<br />{{
-                    Datecorrect('yesterday')
+                  {{
+                    Datecorrect('yesterday', this.alarmDate)
+                  }}&nbsp;00:00<br />ǀ<br />{{
+                    Datecorrect('yesterday', this.alarmDate)
                   }}&nbsp;24:00
                 </p>
               </v-sheet>
@@ -1306,8 +1310,10 @@
               <v-sheet class="gg mt-9"
                 ><h4 class="chartTitle mr-16">本週</h4>
                 <p class="subtitle-right text-center mr-2">
-                  {{ Datecorrect('week')[0] }}&nbsp;00:00<br />ǀ<br />{{
-                    Datecorrect('week')[1]
+                  {{
+                    Datecorrect('week', this.alarmDate)[0]
+                  }}&nbsp;00:00<br />ǀ<br />{{
+                    Datecorrect('week', this.alarmDate)[1]
                   }}&nbsp;24:00
                 </p>
               </v-sheet>
@@ -1326,8 +1332,10 @@
               <v-sheet class="gg mt-9"
                 ><h4 class="chartTitle mr-16">本月</h4>
                 <p class="subtitle-right text-center mr-2">
-                  {{ Datecorrect('month')[0] }}&nbsp;00:00<br />ǀ<br />{{
-                    Datecorrect('month')[1]
+                  {{
+                    Datecorrect('month', this.alarmDate)[0]
+                  }}&nbsp;00:00<br />ǀ<br />{{
+                    Datecorrect('month', this.alarmDate)[1]
                   }}&nbsp;24:00
                 </p>
               </v-sheet>
@@ -1535,6 +1543,8 @@ export default {
     atmospheric: `${20}°C`,
     humidity: `${50}%`,
     temperature: `${20}°C`,
+
+    alarmDate: new Date(),
   }),
 
   mounted() {
@@ -1636,7 +1646,8 @@ export default {
         this.Refresh()
       }
     }, 1000)
-    this.alarmlist()
+    // this.alarmDate = '2022-06-04'
+    this.alarmlist(this.alarmDate)
   },
   // 對話框
   computed: {
@@ -1646,7 +1657,10 @@ export default {
   },
   methods: {
     // 警報列表
-    alarmlist() {
+    alarmlist(Date1) {
+      var selectMonth = new Date(Date1)
+      // console.log(selectMonth)
+      var selectMonth1 = this.Datecorrect('month', selectMonth)
       axios({
         method: 'post',
         url: 'http://127.0.0.1:5000/api/alarm/list',
@@ -1655,17 +1669,55 @@ export default {
         },
         data: JSON.stringify([
           {
-            table_timeselectStart: '2022-05-06',
-            table_timeselectStop: '2022-06-06',
+            table_timeselectStart: selectMonth1[0],
+            table_timeselectStop: selectMonth1[1],
           },
         ]),
       })
         .then((events) => {
-          this.valueToday = 15
-          this.valueLastday = 8
-          this.valueThisWeek = 55
-          this.valueThisMonth = 15
-          console.log(events.data)
+          var data = events.data
+          var lastday = 0
+          var today = 0
+          var week = 0
+          var month = 0
+          data.forEach((index) => {
+            // console.log(index.table_alarm_start)
+            var tmp = new Date(index.table_alarm_start)
+            // 計算昨日警報次數
+            var lastCorr = this.Datecorrect('yesterday', Date1)
+            var lastdaystart = new Date(lastCorr + ' 00:00:00')
+            var lastdaystop = new Date(lastCorr + ' 23:59:59')
+            if (tmp >= lastdaystart && tmp <= lastdaystop) {
+              lastday = lastday + 1
+            }
+            // 計算今日警報次數
+            var todayCorr = this.Datecorrect('today', Date1)
+            var todaystart = new Date(todayCorr + ' 00:00:00')
+            var todaystop = new Date(todayCorr + ' 23:59:59')
+            if (tmp >= todaystart && tmp <= todaystop) {
+              today = today + 1
+            }
+            // 計算本周警報次數
+            var weekCorr = this.Datecorrect('week', Date1)
+            var weekstart = new Date(weekCorr[0] + ' 00:00:00')
+            var weekstop = new Date(weekCorr[1] + ' 23:59:59')
+            if (tmp >= weekstart && tmp <= weekstop) {
+              week = week + 1
+            }
+            // 計算本月警報次數
+            var monthCorr = this.Datecorrect('month', Date1)
+            var monthstart = new Date(monthCorr[0] + ' 00:00:00')
+            var monthstop = new Date(monthCorr[1] + ' 23:59:59')
+            if (tmp >= monthstart && tmp <= monthstop) {
+              month = month + 1
+            }
+          })
+
+          this.valueToday = today
+          this.valueLastday = lastday
+          this.valueThisWeek = week
+          this.valueThisMonth = month
+          // console.log(events.data)
         })
         .catch((error) => console.log('error from axios', error))
     },
@@ -2292,8 +2344,13 @@ export default {
       if ([1, 6, 9, 10, 11, 16].includes(parseInt(day, 10))) return ['#828C8F']
       return false
     },
-    Datecorrect(type) {
-      var now = new Date() // 當前日期
+    Datecorrect(type, selectDay) {
+      var now = null
+      if (selectDay != null) {
+        now = new Date(selectDay) // 當前日期
+      } else {
+        now = new Date() // 當前日期
+      }
       var nowDayOfWeek = now.getDay() // 今天本週的第幾天
       var nowDay = now.getDate() // 當前日
       var nowMonth = now.getMonth() // 當前月
@@ -2372,6 +2429,7 @@ export default {
         var monthEndDate = new Date(nowYear, nowMonth, getMonthDays(nowMonth))
         return formatDate(monthEndDate)
       }
+      // 參考:https://www.796t.com/content/1547472435.html
     },
   },
 }
