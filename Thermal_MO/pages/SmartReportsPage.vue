@@ -38,13 +38,64 @@ export default {
       // focusOnSelect: true,
       // touchThreshold: 3,
     },
+    // 定義
+    arr: [],
   }),
   mounted() {
     // this.mount()
     // this.echarts()
-    this.test2()
+    // 初始化
+    this.test3()
+    // 計時載入新資料
+    var start = setInterval(() => {
+      var arr = this.arr
+      this.test4(arr)
+    }, 300)
+    console.log(start)
   },
   methods: {
+    test4(arr) {
+      var chartDom = document.getElementById('my')
+      var myChart = echarts.init(chartDom)
+      // 把新資料放入arr陣列中
+      arr.push([arr.length + 1, getRandomInt(100)])
+      this.arr = arr
+      function getRandomInt(max) {
+        return Math.floor(Math.random() * max)
+      }
+      myChart.setOption({
+        series: [
+          {
+            name: 'spot1',
+            data: this.arr,
+          },
+        ],
+      })
+    },
+    test3() {
+      var chartDom = document.getElementById('my')
+      var myChart = echarts.init(chartDom)
+      var option
+
+      option = {
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+        },
+        yAxis: {
+          type: 'value',
+          boundaryGap: [0, '30%'],
+        },
+        series: [
+          {
+            name: 'spot1',
+            type: 'line',
+            symbol: 'none',
+          },
+        ],
+      }
+      option && myChart.setOption(option)
+    },
     test2() {
       var chartDom = document.getElementById('my')
       var myChart = echarts.init(chartDom)
@@ -80,7 +131,7 @@ export default {
               ['2019-10-13', 580],
               ['2019-10-14', 250],
               ['2019-10-15', 300],
-              ['2019-10-16', ""],
+              ['2019-10-16', ''],
               ['2019-10-17', 300],
               ['2019-10-18', 100],
             ],
@@ -99,7 +150,7 @@ export default {
               data: [{ xAxis: 1 }],
             },
             data: [
-              ['2019-10-10', ""],
+              ['2019-10-10', ''],
               ['2019-10-11', 360],
               ['2019-10-12', 450],
               ['2019-10-13', 280],

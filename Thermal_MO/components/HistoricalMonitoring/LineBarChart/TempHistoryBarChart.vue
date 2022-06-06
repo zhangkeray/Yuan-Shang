@@ -1,29 +1,54 @@
 <template>
-  <div
-    ref="lineBarChart"
-    id="lineBarChart001"
-    style="height: 335px; width: 1050px"
-  ></div>
+  <div>
+    <div
+      ref="lineBarChart"
+      id="lineBarChart001"
+      style="height: 335px; width: 1050px"
+    ></div>
+    <div id="echart-loading-cover">{{ loadingname }}</div>
+  </div>
 </template>
 
 <script>
 import * as echarts from 'echarts'
 import axios from 'axios'
 export default {
-  data: () => ({}),
+  data: () => ({
+    url: 'http://127.0.0.1:5000/api/normal',
+    url1: 'http://127.0.0.1:5000/api/change/roi',
+    loadingname: '',
+  }),
   mounted() {
     this.drawBar()
   },
 
   methods: {
     drawBar() {
+      // const DataStartTime = '2022-06-01 16:00:00'
+      // const DataEndTime = '2022-06-01 18:59:59'
+      const DataStartTime = '2022-06-01 00:00:00'
+      const DataEndTime = '2022-06-01 23:59:59'
+      var DataStartDay = new Date(DataStartTime)
+      DataStartDay =
+        DataStartDay.getFullYear() +
+        '-' +
+        (DataStartDay.getMonth() + 1) +
+        '-' +
+        DataStartDay.getDate()
+      var DataEndDay = new Date(DataEndTime)
+      DataEndDay.setDate(DataEndDay.getDate() + 1)
+      DataEndDay =
+        DataEndDay.getFullYear() +
+        '-' +
+        (DataEndDay.getMonth() + 1) +
+        '-' +
+        DataEndDay.getDate()
+      console.log(DataStartDay, DataEndDay)
       const chartDom = this.$refs.lineBarChart
       const myChart = echarts.init(chartDom) // echarts初始化
       const colorPalette = ['#37484C', '#9aa2a4', '#d8dddd', '#E6E8E9']
       var option
-
       // 選擇圖表樣式------------------------------------------
-
       option = {
         title: {
           left: '-6',
@@ -284,108 +309,212 @@ export default {
           // },
         ],
       }
-
       // -------------------------------------------------------------
-
       option && myChart.setOption(option)
 
       // GET DATA
-      var usersetdate = '2022-05-11'
-      var xAxisValue = []
-      var output = []
-      var totle = 0
+      const loadinname = document.getElementById('echart-loading-cover')
+      loadinname.style.display = 'unset'
+      this.loadingname =
+        '資料下載(' + DataStartTime + '~' + DataEndTime + ')中...'
+
       axios({
-        method: 'get',
-        url: 'http://localhost:8080/api/monitor/test?date=' + usersetdate,
+        method: 'post',
+        url: this.url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: JSON.stringify([
+          {
+            table_alarm_start: DataStartTime,
+            table_alarm_stop: DataEndTime,
+          },
+        ]),
       })
         .then((params) => {
-          console.log(params.data)
-          const array = params.data
-          var marker = []
-          Object.keys(array).forEach((key) => {
-            // 這邊用來判斷是否ponit為1
-            var make = false
-            Object.keys(array[key]).forEach((keys) => {
-              if (array[key][keys].point === 1) {
-                make = true
+          this.loadingname = '資料處理中'
+          var data = params.data[0]
+          data = getdata(data)
+          console.log(data)
+
+          var time = data.time
+          var timeKey = []
+          var max = data.max
+          // 列出全部物件
+
+          time.forEach((index, value) => {
+            timeKey.push(index)
+          })
+          var output = []
+          Object.keys(max).forEach((key) => {
+            var data1 = []
+            max[key].forEach((value) => {
+              var value1 = 'N/A'
+              if (value != null) {
+                value1 = value.toFixed(1)
               }
+              var data2 = {
+                value: value1,
+                point: 0,
+              }
+              data1.push(data2)
+              // console.log(value)
             })
-            if (make === true) {
-              marker.push({ xAxis: key })
-            }
-            // end
-            xAxisValue.push(key)
-            totle++
-          })
-          // console.log(xAxisValue)
-          Object.keys(array[xAxisValue[0]]).forEach((key) => {
-            var tmp = []
-            var data = {}
-            xAxisValue.forEach((value) => {
-              tmp.push({
-                value: array[value][key].value,
-                point: array[value][key].point,
-              })
-            })
-            if (
-              key === 'difference01' ||
-              key === 'difference02' ||
-              key === 'difference03'
-            ) {
-              data = {
-                name: key,
-                yAxisIndex: 1,
-                type: 'bar',
-                data: tmp,
-              }
-            } else {
-              data = {
-                name: key,
-                type: 'line',
-                yAxisIndex: 0,
-                data: tmp,
-                symbolSize: 1,
-              }
-            }
-            output.push(data)
-          })
-          // for (var i = 0; i < xAxisValue.length; i++) {
-          //   var randomD = [0, 1, 0]
-          //   var randomA = randomD[generateRandomInt(0, randomD.length)]
-          //   if (randomA === 1) {
-          //     marker.push({
-          //       xAxis: xAxisValue[i],
-          //     })
-          //   }
-          // }
-          // this.marker = marker
-          // console.log(this.marker)
-          var start = totle - 10
-          myChart.setOption({
-            dataZoom: [
-              {
-                startValue: start,
-                endValue: totle,
-              },
-            ],
-            xAxis: { data: xAxisValue },
-            series: output,
-          })
-          myChart.setOption({
-            series: {
-              name: '點1',
+            // avgKey.push(key)
+            output.push({
+              name: key,
+              type: 'line',
+              yAxisIndex: 0,
+              data: data1,
+              symbolSize: 1,
               markLine: {
                 symbol: ['none', 'none'],
-                label: { show: false },
+                label: {
+                  show: false,
+                },
                 lineStyle: {
                   width: 3,
                 },
-                data: marker,
+                data: [],
               },
-            },
+            })
           })
+          var totledisplay = timeKey.length - 50
+          myChart.setOption({
+            dataZoom: [
+              {
+                startValue: totledisplay,
+                endValue: timeKey.length,
+              },
+            ],
+            xAxis: {
+              data: timeKey,
+            },
+            series: output,
+          })
+          this.loadingname = '資料處理完成'
+
+          setTimeout(() => {
+            loadinname.style.display = 'none'
+          }, 3000)
+
+          // 標記修改
+          axios({
+            method: 'post',
+            url: this.url1,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            data: JSON.stringify([
+              {
+                table_timeselectStart: DataStartDay,
+                table_timeselectStop: DataEndDay,
+              },
+            ]),
+          })
+            .then((params) => {
+              // console.log(timeKey)
+              const data = params.data
+              var time = []
+              console.log(data)
+              data.forEach((index, value) => {
+                var dt = new Date(index.table_change_start)
+                console.log(dt)
+                var su = 0
+                timeKey.forEach((indexe, value) => {
+                  var nw = new Date(indexe)
+                  // console.log(dt, nw)
+                  if (dt.getTime() > nw.getTime()) {
+                    console.log(su,dt.getTime() , nw.getTime())
+                    // console.log(indexe)
+                    su = su + 1
+                  }
+                })
+                time.push({
+                  object: index.table_itemName,
+                  time: index.table_change_start,
+                  correspond: su,
+                })
+              })
+              var ar = []
+              time.forEach((index, value) => {
+                ar[index.object] = []
+              })
+              time.forEach((index, value) => {
+                ar[index.object].push({ xAxis: index.correspond })
+              })
+              var output1 = []
+              Object.keys(ar).forEach((key) => {
+                var are = {
+                  name: key,
+                  markLine: {
+                    symbol: ['none', 'none'],
+                    label: {
+                      show: false,
+                    },
+                    lineStyle: {
+                      width: 3,
+                    },
+                    data: ar[key],
+                  },
+                }
+                output1.push(are)
+              })
+              console.log(output1)
+              myChart.setOption({
+                series: output1,
+              })
+              // console.log(ar)
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+          // end
+
+          // 去除單一時間所有物件空值
+          function getdata(params) {
+            var time = params.time
+            var timeKey = []
+            var max = params.max
+            // var avgKey = []
+            // 列出time的時間
+            time.forEach((index, value) => {
+              timeKey.push(index)
+            })
+            var arr = {
+              time: [],
+              max: [],
+            }
+            Object.keys(max).forEach((key) => {
+              arr.max[key] = []
+            })
+            for (const i in timeKey) {
+              var st = false
+              // 判斷物件全部皆為空
+              Object.keys(max).forEach((keys) => {
+                var tp = max[keys][i]
+                if (tp != null) {
+                  st = true
+                }
+              })
+              // 將數值塞入物件
+              Object.keys(max).forEach((keys) => {
+                var tp = max[keys][i]
+                if (st) {
+                  arr.max[keys].push(tp)
+                }
+              })
+              if (st) {
+                arr.time.push(timeKey[i])
+              }
+            }
+            return arr
+          }
         })
-        .catch((error) => console.log('error from axios', error))
+        .catch((err) => {
+          console.log(err)
+        })
+      // console.log(params.data)
       // function generateRandomInt(min, max) {
       //   return Math.floor(Math.random() * (max - min) + min)
       // }
@@ -466,5 +595,8 @@ export default {
   border-radius: 2px;
   width: 10px;
   height: 10px;
+}
+.echart-loading-cover {
+  display: none;
 }
 </style>

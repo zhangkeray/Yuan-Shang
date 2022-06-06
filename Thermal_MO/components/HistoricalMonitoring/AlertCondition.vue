@@ -683,7 +683,7 @@ export default {
       if (input.length > 0) {
         const chartDom = document.getElementById('lineBarChart0001')
         const myChart = echarts.init(chartDom) // echarts初始化
-        console.log(input)
+        // console.log(input)
         var selectedStartTime =
           input[0].object_date + ' ' + input[0].object_time_start
         var selectedStopTime = new Date(selectedStartTime)
@@ -700,7 +700,7 @@ export default {
           selectedStopTime.getMinutes() +
           ':' +
           selectedStopTime.getSeconds()
-        console.log(selectedStartTime, selectedStopTime)
+        // console.log(selectedStartTime, selectedStopTime)
         axios({
           method: 'post',
           url: 'http://127.0.0.1:5000/api/alarm/max',
@@ -772,7 +772,7 @@ export default {
       const heat = document.getElementById('heatMap2_for_this')
       const myChart = echarts.getInstanceByDom(heat)
       myChart.on('click', (params) => {
-        console.log(params)
+        // console.log(params)
         var dates = this.dates
         var yeast = new Date(dates)
         yeast = yeast.setDate(yeast.getDate() + 1)
@@ -802,7 +802,7 @@ export default {
           ]),
         })
           .then((events) => {
-            console.log(events.data)
+            // console.log(events.data)
             var data = events.data
             var output = []
             var arr = []
@@ -832,7 +832,7 @@ export default {
               var ings = 'N/A'
               if (index.table_alarm_stop != null) {
                 stop = new Date(index.table_alarm_stop)
-                console.log(stop.getTime() - start.getTime())
+                // console.log(stop.getTime() - start.getTime())
                 ings = this.getDuration(
                   (stop.getTime() - start.getTime()) / 1000
                 )
@@ -906,7 +906,7 @@ export default {
             var ings = 'N/A'
             if (index.table_alarm_stop != null) {
               stop = new Date(index.table_alarm_stop)
-              console.log(stop.getTime() - start.getTime())
+              // console.log(stop.getTime() - start.getTime())
               ings = this.getDuration((stop.getTime() - start.getTime()) / 1000)
               stop =
                 ('0' + stop.getHours()).slice(-2) +

@@ -447,7 +447,7 @@ export default {
     getHeatData(data, params) {
       var start = new Date(params.data[0] + ' 00:00:00')
       var stop = new Date(params.data[0] + ' 23:59:59')
-      console.log(data, params)
+      // console.log(data, params)
       var arr = []
       data.forEach((index) => {
         var dataStartTime = new Date(index.table_alarm_start)
