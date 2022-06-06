@@ -26,8 +26,8 @@ export default {
     drawBar() {
       // const DataStartTime = '2022-06-01 16:00:00'
       // const DataEndTime = '2022-06-01 18:59:59'
-      const DataStartTime = '2022-06-01 00:00:00'
-      const DataEndTime = '2022-06-01 23:59:59'
+      const DataStartTime = '2022-06-01 15:00:00'
+      const DataEndTime = '2022-06-01 17:59:59'
       var DataStartDay = new Date(DataStartTime)
       DataStartDay =
         DataStartDay.getFullYear() +
@@ -315,9 +315,25 @@ export default {
       // GET DATA
       const loadinname = document.getElementById('echart-loading-cover')
       loadinname.style.display = 'unset'
-      this.loadingname =
-        '資料下載(' + DataStartTime + '~' + DataEndTime + ')中...'
-
+      var load = 0
+      var loadid = setInterval(() => {
+        this.loadingname =
+          '資料下載(' +
+          DataStartTime +
+          '~' +
+          DataEndTime +
+          ')中...(' +
+          load +
+          '%)'
+        if (load >= 80) {
+          clearInterval(loadid)
+        }
+        var redom = [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+        load = load + redom[getRandomInt(redom.length)]
+      }, 50)
+      function getRandomInt(max) {
+        return Math.floor(Math.random() * max)
+      }
       axios({
         method: 'post',
         url: this.url,
@@ -332,10 +348,11 @@ export default {
         ]),
       })
         .then((params) => {
-          this.loadingname = '資料處理中'
+          clearInterval(loadid)
+
           var data = params.data[0]
           data = getdata(data)
-          console.log(data)
+          // console.log(data)
 
           var time = data.time
           var timeKey = []
@@ -392,11 +409,24 @@ export default {
             },
             series: output,
           })
-          this.loadingname = '資料處理完成'
-
-          setTimeout(() => {
-            loadinname.style.display = 'none'
-          }, 3000)
+          loadid = setInterval(() => {
+            this.loadingname =
+              '資料下載(' +
+              DataStartTime +
+              '~' +
+              DataEndTime +
+              ')中...(' +
+              load +
+              '%)'
+            if (load >= 100) {
+              clearInterval(loadid)
+              this.loadingname = '資料處理完成(' + load + '%)'
+              setTimeout(() => {
+                loadinname.style.display = 'none'
+              }, 3000)
+            }
+            load = load + 1
+          }, 30)
 
           // 標記修改
           axios({
@@ -416,16 +446,16 @@ export default {
               // console.log(timeKey)
               const data = params.data
               var time = []
-              console.log(data)
+              // console.log(data)
               data.forEach((index, value) => {
                 var dt = new Date(index.table_change_start)
-                console.log(dt)
+                // console.log(dt)
                 var su = 0
                 timeKey.forEach((indexe, value) => {
                   var nw = new Date(indexe)
                   // console.log(dt, nw)
                   if (dt.getTime() > nw.getTime()) {
-                    console.log(su,dt.getTime() , nw.getTime())
+                    // console.log(su, dt.getTime(), nw.getTime())
                     // console.log(indexe)
                     su = su + 1
                   }
@@ -460,11 +490,21 @@ export default {
                 }
                 output1.push(are)
               })
-              console.log(output1)
+              output1.forEach((index) => {
+                var result = $.map(output, function (item, index) {
+                  return item.name
+                }).indexOf(index.name)
+                var data = index.markLine.data
+                data.forEach((el) => {
+                  output[result].data[el.xAxis].point = 1
+                })
+              })
+              myChart.setOption({
+                series: output,
+              })
               myChart.setOption({
                 series: output1,
               })
-              // console.log(ar)
             })
             .catch((err) => {
               console.log(err)
