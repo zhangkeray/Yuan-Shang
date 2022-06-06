@@ -1250,8 +1250,8 @@
                 ><h4 class="chartTitle mr-16">本日</h4>
 
                 <p class="subtitle-right text-center mr-2">
-                  {{ getCurrentDate() }}&nbsp;00:00<br />ǀ<br />{{
-                    getCurrentDate()
+                  {{ Datecorrect('today') }}&nbsp;00:00<br />ǀ<br />{{
+                    Datecorrect('today')
                   }}&nbsp;24:00
                 </p>
               </v-sheet>
@@ -1270,8 +1270,8 @@
               <v-sheet class="gg mt-5"
                 ><h4 class="chartTitle mr-16">昨日</h4>
                 <p class="subtitle-right text-center mr-2">
-                  {{ getLastDate() }}&nbsp;00:00<br />ǀ<br />{{
-                    getLastDate()
+                  {{ Datecorrect('yesterday') }}&nbsp;00:00<br />ǀ<br />{{
+                    Datecorrect('yesterday')
                   }}&nbsp;24:00
                 </p>
               </v-sheet>
@@ -1306,8 +1306,8 @@
               <v-sheet class="gg mt-9"
                 ><h4 class="chartTitle mr-16">本週</h4>
                 <p class="subtitle-right text-center mr-2">
-                  {{ getWeekStartDate() }}&nbsp;00:00<br />ǀ<br />{{
-                    getCurrentDate()
+                  {{ Datecorrect('week')[0] }}&nbsp;00:00<br />ǀ<br />{{
+                    Datecorrect('week')[1]
                   }}&nbsp;24:00
                 </p>
               </v-sheet>
@@ -1326,8 +1326,8 @@
               <v-sheet class="gg mt-9"
                 ><h4 class="chartTitle mr-16">本月</h4>
                 <p class="subtitle-right text-center mr-2">
-                  {{ getMonthStartDate() }}&nbsp;00:00<br />ǀ<br />{{
-                    getCurrentDate()
+                  {{ Datecorrect('month')[0] }}&nbsp;00:00<br />ǀ<br />{{
+                    Datecorrect('month')[1]
                   }}&nbsp;24:00
                 </p>
               </v-sheet>
@@ -1668,7 +1668,6 @@ export default {
           console.log(events.data)
         })
         .catch((error) => console.log('error from axios', error))
-      console.log(this.Datecorrect(-7, 0))
     },
     submitForm() {
       const opendid = this.openid
@@ -2299,11 +2298,10 @@ export default {
       var nowDay = now.getDate() // 當前日
       var nowMonth = now.getMonth() // 當前月
       var nowYear = now.getYear() // 當前年
-      nowYear += nowYear < 2000 ? 1900 : 0 //
+      nowYear += nowYear < 2000 ? 1900 : 0
       var lastMonthDate = new Date() // 上月日期
       lastMonthDate.setDate(1)
       lastMonthDate.setMonth(lastMonthDate.getMonth() - 1)
-      // var lastMonth = lastMonthDate.getMonth() // 上一月
       // 格式化日期：yyyy-MM-dd
       function formatDate(date) {
         var myyear = date.getFullYear()
@@ -2320,10 +2318,20 @@ export default {
       // 本周開始結束計算器
       if (type === 'week') {
         return [getWeekStartDate(), getWeekEndDate()]
-      } else {
+      } else if (type === 'today') {
         return formatDate(now)
+      } else if (type === 'yesterday') {
+        now.setDate(now.getDate() - 1)
+        return formatDate(now)
+      } else if (type === 'month') {
+        return [getMonthStartDate(), getMonthEndDate()]
       }
-      
+      function getMonthDays(myMonth) {
+        var monthStartDate = new Date(nowYear, myMonth, 1)
+        var monthEndDate = new Date(nowYear, myMonth + 1, 1)
+        var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24)
+        return days
+      }
       function getWeekStartDate() {
         var weekStartDate
         if (nowDayOfWeek === 0) {
@@ -2355,97 +2363,15 @@ export default {
         }
         return formatDate(weekEndDate)
       }
-    },
-    // 今天
-    getCurrentDate() {
-      var now = new Date() // 当前日期
-      // var nowDayOfWeek = now.getDay() - 1 // 今天本周的第几天
-      var nowDay = now.getDate() // 当前日
-      var nowMonth = now.getMonth() // 当前月
-      var nowYear = now.getYear() // 当前年
-      nowYear += nowYear < 2000 ? 1900 : 0 //
-
-      function formatDate(date) {
-        var myyear = date.getFullYear()
-        var mymonth = date.getMonth() + 1
-        var myweekday = date.getDate()
-        if (mymonth < 10) {
-          mymonth = '0' + mymonth
-        }
-        if (myweekday < 10) {
-          myweekday = '0' + myweekday
-        }
-        return myyear + '-' + mymonth + '-' + myweekday
+      function getMonthStartDate() {
+        var monthStartDate = new Date(nowYear, nowMonth, 1)
+        return formatDate(monthStartDate)
       }
-      var currentDate = new Date(nowYear, nowMonth, nowDay)
-      return formatDate(currentDate)
-    },
-
-    // 昨天
-    getLastDate() {
-      function getDay(num, str) {
-        var today = new Date()
-        var nowTime = today.getTime()
-        var ms = 24 * 3600 * 1000 * num
-        today.setTime(parseInt(nowTime + ms))
-        var oYear = today.getFullYear()
-        var oMoth = (today.getMonth() + 1).toString()
-        if (oMoth.length <= 1) oMoth = '0' + oMoth
-        var oDay = today.getDate().toString()
-        if (oDay.length <= 1) oDay = '0' + oDay
-        return oYear + str + oMoth + str + oDay
+      // 獲得上月停止時候
+      function getMonthEndDate() {
+        var monthEndDate = new Date(nowYear, nowMonth, getMonthDays(nowMonth))
+        return formatDate(monthEndDate)
       }
-      var yesterday = getDay(-1, '-')
-      return yesterday
-    },
-
-    // 本週
-    getWeekStartDate() {
-      var now = new Date() // 当前日期
-      var nowDayOfWeek = now.getDay() - 1 // 今天本周的第几天
-      var nowDay = now.getDate() // 当前日
-      var nowMonth = now.getMonth() // 当前月
-      var nowYear = now.getYear() // 当前年
-      nowYear += nowYear < 2000 ? 1900 : 0 //
-
-      function formatDate(date) {
-        var myyear = date.getFullYear()
-        var mymonth = date.getMonth() + 1
-        var myweekday = date.getDate()
-        if (mymonth < 10) {
-          mymonth = '0' + mymonth
-        }
-        if (myweekday < 10) {
-          myweekday = '0' + myweekday
-        }
-        return myyear + '-' + mymonth + '-' + myweekday
-      }
-      var weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek)
-      return formatDate(weekStartDate)
-    },
-    // 本月
-    getMonthStartDate() {
-      var now = new Date() // 当前日期
-      // var nowDayOfWeek = now.getDay() - 1 // 今天本周的第几天
-      // var nowDay = now.getDate() // 当前日
-      var nowMonth = now.getMonth() // 当前月
-      var nowYear = now.getYear() // 当前年
-      nowYear += nowYear < 2000 ? 1900 : 0 //
-
-      function formatDate(date) {
-        var myyear = date.getFullYear()
-        var mymonth = date.getMonth() + 1
-        var myweekday = date.getDate()
-        if (mymonth < 10) {
-          mymonth = '0' + mymonth
-        }
-        if (myweekday < 10) {
-          myweekday = '0' + myweekday
-        }
-        return myyear + '-' + mymonth + '-' + myweekday
-      }
-      var monthStartDate = new Date(nowYear, nowMonth, 1)
-      return formatDate(monthStartDate)
     },
   },
 }

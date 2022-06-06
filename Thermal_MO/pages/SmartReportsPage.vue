@@ -50,7 +50,7 @@ export default {
     var start = setInterval(() => {
       var arr = this.arr
       this.test4(arr)
-    }, 1000)
+    }, 300)
     console.log(start)
   },
   methods: {
