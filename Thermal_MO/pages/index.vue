@@ -1545,6 +1545,7 @@ export default {
     temperature: `${20}°C`,
 
     alarmDate: new Date(),
+    alarmCalendar: [],
   }),
 
   mounted() {
@@ -1659,7 +1660,6 @@ export default {
     // 警報列表
     alarmlist(Date1) {
       var selectMonth = new Date(Date1)
-      // console.log(selectMonth)
       var selectMonth1 = this.Datecorrect('month', selectMonth)
       axios({
         method: 'post',
@@ -1675,6 +1675,7 @@ export default {
         ]),
       })
         .then((events) => {
+          this.alarmCalendar = events.data
           var data = events.data
           var lastday = 0
           var today = 0
@@ -1717,7 +1718,6 @@ export default {
           this.valueLastday = lastday
           this.valueThisWeek = week
           this.valueThisMonth = month
-          // console.log(events.data)
         })
         .catch((error) => console.log('error from axios', error))
     },
@@ -2338,11 +2338,28 @@ export default {
     },
     // 右4日期
     functionEvents(date) {
-      const [, , day] = date.split('-')
-      if ([2, 3, 4, 5, 7, 8, 12, 13, 14, 15, 17].includes(parseInt(day, 10)))
-        return ['#d8d8d8']
-      if ([1, 6, 9, 10, 11, 16].includes(parseInt(day, 10))) return ['#828C8F']
-      return false
+      // console.log(this.alarmCalendar)
+      var cal = this.alarmCalendar
+      var dateStart = new Date(date + ' 00:00:00')
+      var dateStop = new Date(date + ' 23:59:59')
+      var status = false
+      cal.forEach((index) => {
+        var indexTime = new Date(index.table_alarm_start)
+        if (indexTime >= dateStart && indexTime <= dateStop) {
+          // console.log(date.split('-'))
+          status = true
+        }
+      })
+      var today = new Date()
+      if (today > dateStart) {
+        if (status) {
+          return ['#828C8F']
+        } else {
+          return ['#d8d8d8']
+        }
+      } else {
+        return false
+      }
     },
     Datecorrect(type, selectDay) {
       var now = null
