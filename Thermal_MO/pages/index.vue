@@ -912,12 +912,20 @@
                           class="right-btn"
                           @click="opendialog(item.spot_number, 'spot')"
                           ><img
-                            v-if="item.spot_alarm_status === 1"
+                            v-if="item.spot_alarm_status === 1 && item.spot_temperature <= item.spot_threshold"
                             class=""
                             alt=""
                             src="/right-icons/alert-on.png"
                             width="18em"
                             depressed />
+                            <img
+                            v-else-if="item.spot_alarm_status === 1 && item.spot_temperature >= item.spot_threshold"
+                            class=""
+                            alt=""
+                            src="/right-icons/alertOn.png"
+                            width="18em"
+                            depressed
+                        />
                           <img
                             v-else-if="item.spot_alarm_status === 0"
                             class=""
@@ -925,7 +933,8 @@
                             src="/right-icons/alert-off.png"
                             width="18em"
                             depressed
-                        /></v-btn>
+                        />
+                        </v-btn>
                       </td>
                       <td class="text-center" style="padding: 0px 13px">
                         <v-btn color="" icon class="right-btn"
@@ -969,10 +978,17 @@
                           class="right-btn"
                           @click="opendialog(item.scope_number, 'scope')"
                           ><img
-                            v-if="item.scope_alarm_status === 1"
+                            v-if="item.scope_alarm_status === 1 &&  item.scope_temperature_max <= item.scope_threshold"
                             class=""
                             alt=""
                             src="/right-icons/alert-on.png"
+                            width="18em"
+                            depressed />
+                            <img
+                            v-if="item.scope_alarm_status === 1 &&  item.scope_temperature_max >= item.scope_threshold"
+                            class=""
+                            alt=""
+                            src="/right-icons/alertOn.png"
                             width="18em"
                             depressed />
                           <img
@@ -982,7 +998,8 @@
                             src="/right-icons/alert-off.png"
                             width="18em"
                             depressed
-                        /></v-btn>
+                        />
+                        </v-btn>
                       </td>
                       <td class="text-center" style="padding: 0px 13px">
                         <v-btn color="" icon class="right-btn"
@@ -1026,10 +1043,17 @@
                           class="right-btn"
                           @click="opendialog(item.line_number, 'line')"
                           ><img
-                            v-if="item.line_alarm_status === 1"
+                            v-if="item.line_alarm_status === 1 && item.line_temperature_max <=  item.line_threshold"
                             class=""
                             alt=""
                             src="/right-icons/alert-on.png"
+                            width="18em"
+                            depressed />
+                            <img
+                            v-if="item.line_alarm_status === 1 && item.line_temperature_max >=  item.line_threshold"
+                            class=""
+                            alt=""
+                            src="/right-icons/alertOn.png"
                             width="18em"
                             depressed />
                           <img
