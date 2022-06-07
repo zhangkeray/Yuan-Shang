@@ -102,8 +102,11 @@ export default {
             var arr = params
             var status = false
             var record = []
+            var changeTime = null
+            // var report = false
             arr.forEach((index, value) => {
-              if (index.data.point === 1) {
+              if (index.data.point !== 0) {
+                changeTime = index.data.point
                 record.push(index.seriesName)
                 status = true
               }
@@ -130,13 +133,60 @@ export default {
                 }°C${changea}</div>
 								`
               }
+              // 圖片判斷
+              var nowtime = new Date(changeTime)
+              // var nowtime = new Date('2022-06-01 15:47:41')
+              console.log(changeTime)
+              var imgUrl =
+                'http://127.0.0.1:5000/api/database/share/setting%5Croisettinghistory%5Croi_setting_history_' +
+                nowtime.getFullYear() +
+                ('0' + (nowtime.getMonth() + 1)).slice(-2) +
+                ('0' + nowtime.getDate()).slice(-2) +
+                '_T' +
+                ('0' + nowtime.getHours()).slice(-2) +
+                ('0' + nowtime.getMinutes()).slice(-2) +
+                ('0' + nowtime.getSeconds()).slice(-2) +
+                '.jpg'
+              var lasttime = new Date(nowtime)
+              lasttime = lasttime.setSeconds(lasttime.getSeconds() - 1)
+              lasttime = new Date(lasttime)
+              var imgUrllast =
+                'http://127.0.0.1:5000/api/database/share/alarmtemp%5C' +
+                lasttime.getFullYear() +
+                ('0' + (lasttime.getMonth() + 1)).slice(-2) +
+                '%5Calarmtemp_' +
+                lasttime.getFullYear() +
+                ('0' + (lasttime.getMonth() + 1)).slice(-2) +
+                ('0' + lasttime.getDate()).slice(-2) +
+                '_T' +
+                ('0' + lasttime.getHours()).slice(-2) +
+                ('0' + lasttime.getMinutes()).slice(-2) +
+                ('0' + lasttime.getSeconds()).slice(-2) +
+                '.jpg'
+
+              // ImageExist(imgUrl)
+
+              // $.ajax({
+              //   type: 'GET',
+              //   url: imgUrl,
+              //   dataType: 'html',
+              //   crossDomain: 'true',
+              //   success: (data, status) => {
+              //     console.log('Status: ' + status)
+              //   },
+              //   error: (err) => {
+              //     console.log(err)
+              //   },
+              // })
+              // console.log(imgUrl)
+              //
               res += `</div><hr />`
               res += '<div class="echarts-tooltip-Monitoring-point">'
               res += `
               <div class="echarts-tooltip-Monitoring-content-title">Before</div>
               <div class="echarts-tooltip-Monitoring-content-title">After</div>
-              <div><img src="/xzoom/images/20220510_v1.jpg" /></div>
-              <div><img src="/xzoom/images/20220510_v1.jpg" /></div>`
+              <div><img id="history-before" src="${imgUrllast}" /></div>
+              <div><img id="history-after" src="${imgUrl}" /></div>`
               res += '</div>'
               res += '<div class="echarts-footer">此時段被修改的物件:'
               record.forEach((index) => {
@@ -154,6 +204,11 @@ export default {
               }
               res += `</div>`
             }
+            // function ImageExist(url) {
+            //   var img = new Image()
+            //   img.src = url
+            //   return img.height !== 0
+            // }
             return res
           },
         },
@@ -415,7 +470,7 @@ export default {
               DataStartTime +
               '~' +
               DataEndTime +
-              ')中...(' +
+              ')完成，系統正在準備資料中，請稍後...(' +
               load +
               '%)'
             if (load >= 100) {
@@ -446,17 +501,12 @@ export default {
               // console.log(timeKey)
               const data = params.data
               var time = []
-              // console.log(data)
               data.forEach((index, value) => {
                 var dt = new Date(index.table_change_start)
-                // console.log(dt)
                 var su = 0
                 timeKey.forEach((indexe, value) => {
                   var nw = new Date(indexe)
-                  // console.log(dt, nw)
                   if (dt.getTime() > nw.getTime()) {
-                    // console.log(su, dt.getTime(), nw.getTime())
-                    // console.log(indexe)
                     su = su + 1
                   }
                 })
@@ -464,14 +514,19 @@ export default {
                   object: index.table_itemName,
                   time: index.table_change_start,
                   correspond: su,
+                  table_change_status: index.table_change_status,
                 })
               })
+              // console.log(time)
               var ar = []
               time.forEach((index, value) => {
                 ar[index.object] = []
               })
               time.forEach((index, value) => {
-                ar[index.object].push({ xAxis: index.correspond })
+                ar[index.object].push({
+                  xAxis: index.correspond,
+                  data: index.time,
+                })
               })
               var output1 = []
               Object.keys(ar).forEach((key) => {
@@ -490,13 +545,15 @@ export default {
                 }
                 output1.push(are)
               })
+
               output1.forEach((index) => {
                 var result = $.map(output, function (item, index) {
                   return item.name
                 }).indexOf(index.name)
                 var data = index.markLine.data
                 data.forEach((el) => {
-                  output[result].data[el.xAxis].point = 1
+                  // console.log(output[result].data[el.xAxis])
+                  output[result].data[el.xAxis].point = el.data
                 })
               })
               myChart.setOption({
