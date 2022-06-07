@@ -17,33 +17,16 @@ export default {
     url: 'http://127.0.0.1:5000/api/normal',
     url1: 'http://127.0.0.1:5000/api/change/roi',
     loadingname: '',
+    output: [],
   }),
   mounted() {
-    this.drawBar()
+    var arr = ['2022-06-01', '2022-06-02']
+    this.myChartinit()
+    this.drawBar(arr)
   },
 
   methods: {
-    drawBar() {
-      // const DataStartTime = '2022-06-01 16:00:00'
-      // const DataEndTime = '2022-06-01 18:59:59'
-      const DataStartTime = '2022-06-01 15:00:00'
-      const DataEndTime = '2022-06-01 17:59:59'
-      var DataStartDay = new Date(DataStartTime)
-      DataStartDay =
-        DataStartDay.getFullYear() +
-        '-' +
-        (DataStartDay.getMonth() + 1) +
-        '-' +
-        DataStartDay.getDate()
-      var DataEndDay = new Date(DataEndTime)
-      DataEndDay.setDate(DataEndDay.getDate() + 1)
-      DataEndDay =
-        DataEndDay.getFullYear() +
-        '-' +
-        (DataEndDay.getMonth() + 1) +
-        '-' +
-        DataEndDay.getDate()
-      console.log(DataStartDay, DataEndDay)
+    myChartinit() {
       const chartDom = this.$refs.lineBarChart
       const myChart = echarts.init(chartDom) // echarts初始化
       const colorPalette = ['#37484C', '#9aa2a4', '#d8dddd', '#E6E8E9']
@@ -366,8 +349,31 @@ export default {
       }
       // -------------------------------------------------------------
       option && myChart.setOption(option)
+    },
+    drawBar(date) {
+      const chartDom = this.$refs.lineBarChart
+      const myChart = echarts.init(chartDom) // echarts初始化
+      const DataStartTime = date[0] + ' 00:00:00'
+      const DataEndTime = date[0] + ' 23:59:59'
+      var DataStartDay = new Date(DataStartTime)
+      DataStartDay =
+        DataStartDay.getFullYear() +
+        '-' +
+        (DataStartDay.getMonth() + 1) +
+        '-' +
+        DataStartDay.getDate()
+      var DataEndDay = new Date(DataEndTime)
+      DataEndDay.setDate(DataEndDay.getDate() + 1)
+      DataEndDay =
+        DataEndDay.getFullYear() +
+        '-' +
+        (DataEndDay.getMonth() + 1) +
+        '-' +
+        DataEndDay.getDate()
+      console.log(DataStartDay, DataEndDay)
 
       // GET DATA
+      // -------loading data-------
       const loadinname = document.getElementById('echart-loading-cover')
       loadinname.style.display = 'unset'
       var load = 0
@@ -389,6 +395,7 @@ export default {
       function getRandomInt(max) {
         return Math.floor(Math.random() * max)
       }
+      // -------loading data-------
       axios({
         method: 'post',
         url: this.url,
@@ -452,18 +459,10 @@ export default {
             })
           })
           var totledisplay = timeKey.length - 50
-          myChart.setOption({
-            dataZoom: [
-              {
-                startValue: totledisplay,
-                endValue: timeKey.length,
-              },
-            ],
-            xAxis: {
-              data: timeKey,
-            },
-            series: output,
-          })
+          // 輸出資料給cheats
+          this.dataProcessing(timeKey, totledisplay, output)
+          // 輸出資料給cheats
+          // -------loading data-------
           loadid = setInterval(() => {
             this.loadingname =
               '資料下載(' +
@@ -482,6 +481,7 @@ export default {
             }
             load = load + 1
           }, 30)
+          // -------loading data-------
 
           // 標記修改
           axios({
@@ -611,10 +611,22 @@ export default {
         .catch((err) => {
           console.log(err)
         })
-      // console.log(params.data)
-      // function generateRandomInt(min, max) {
-      //   return Math.floor(Math.random() * (max - min) + min)
-      // }
+    },
+    dataProcessing(timeKey, totledisplay, output) {
+      const chartDom = this.$refs.lineBarChart
+      const myChart = echarts.init(chartDom) // echarts初始化
+      myChart.setOption({
+        dataZoom: [
+          {
+            startValue: totledisplay,
+            endValue: timeKey.length,
+          },
+        ],
+        xAxis: {
+          data: timeKey,
+        },
+        series: output,
+      })
     },
   },
 }
