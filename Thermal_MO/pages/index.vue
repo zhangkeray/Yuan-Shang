@@ -912,20 +912,27 @@
                           class="right-btn"
                           @click="opendialog(item.spot_number, 'spot')"
                           ><img
-                            v-if="item.spot_alarm_status === 1 && item.spot_temperature <= item.spot_threshold"
+                            v-if="
+                              item.spot_alarm_status === 1 &&
+                              item.spot_temperature <= item.spot_threshold
+                            "
                             class=""
                             alt=""
                             src="/right-icons/alert-on.png"
                             width="18em"
-                            depressed />
-                            <img
-                            v-else-if="item.spot_alarm_status === 1 && item.spot_temperature >= item.spot_threshold"
+                            depressed
+                          />
+                          <img
+                            v-else-if="
+                              item.spot_alarm_status === 1 &&
+                              item.spot_temperature >= item.spot_threshold
+                            "
                             class=""
                             alt=""
                             src="/right-icons/alertOn.png"
                             width="18em"
                             depressed
-                        />
+                          />
                           <img
                             v-else-if="item.spot_alarm_status === 0"
                             class=""
@@ -933,7 +940,7 @@
                             src="/right-icons/alert-off.png"
                             width="18em"
                             depressed
-                        />
+                          />
                         </v-btn>
                       </td>
                       <td class="text-center" style="padding: 0px 13px">
@@ -978,19 +985,27 @@
                           class="right-btn"
                           @click="opendialog(item.scope_number, 'scope')"
                           ><img
-                            v-if="item.scope_alarm_status === 1 &&  item.scope_temperature_max <= item.scope_threshold"
+                            v-if="
+                              item.scope_alarm_status === 1 &&
+                              item.scope_temperature_max <= item.scope_threshold
+                            "
                             class=""
                             alt=""
                             src="/right-icons/alert-on.png"
                             width="18em"
-                            depressed />
-                            <img
-                            v-if="item.scope_alarm_status === 1 &&  item.scope_temperature_max >= item.scope_threshold"
+                            depressed
+                          />
+                          <img
+                            v-if="
+                              item.scope_alarm_status === 1 &&
+                              item.scope_temperature_max >= item.scope_threshold
+                            "
                             class=""
                             alt=""
                             src="/right-icons/alertOn.png"
                             width="18em"
-                            depressed />
+                            depressed
+                          />
                           <img
                             v-else-if="item.scope_alarm_status === 0"
                             class=""
@@ -998,7 +1013,7 @@
                             src="/right-icons/alert-off.png"
                             width="18em"
                             depressed
-                        />
+                          />
                         </v-btn>
                       </td>
                       <td class="text-center" style="padding: 0px 13px">
@@ -1043,14 +1058,20 @@
                           class="right-btn"
                           @click="opendialog(item.line_number, 'line')"
                           ><img
-                            v-if="item.line_alarm_status === 1 && item.line_temperature_max <=  item.line_threshold"
+                            v-if="
+                              item.line_alarm_status === 1 &&
+                              item.line_temperature_max <= item.line_threshold
+                            "
                             class=""
                             alt=""
                             src="/right-icons/alert-on.png"
                             width="18em"
                             depressed />
-                            <img
-                            v-if="item.line_alarm_status === 1 && item.line_temperature_max >=  item.line_threshold"
+                          <img
+                            v-if="
+                              item.line_alarm_status === 1 &&
+                              item.line_temperature_max >= item.line_threshold
+                            "
                             class=""
                             alt=""
                             src="/right-icons/alertOn.png"
@@ -1705,6 +1726,7 @@ export default {
           var today = 0
           var week = 0
           var month = 0
+          var alarmlist = []
           data.forEach((index) => {
             // console.log(index.table_alarm_start)
             var tmp = new Date(index.table_alarm_start)
@@ -1736,12 +1758,22 @@ export default {
             if (tmp >= monthstart && tmp <= monthstop) {
               month = month + 1
             }
+            // 警報紀錄
+            alarmlist.push({
+              temperature:0,
+              duration:0,
+              alertTemperature:0,
+              time:0
+            })
+            // 觸發時間為警報存在的時間(s)，開始時間為警報設定的時間
+            console.log(index)
           })
 
           this.valueToday = today
           this.valueLastday = lastday
           this.valueThisWeek = week
           this.valueThisMonth = month
+          this.temps = alarmlist
         })
         .catch((error) => console.log('error from axios', error))
     },
