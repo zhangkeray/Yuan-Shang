@@ -1859,6 +1859,13 @@ export default {
               time: index.table_alarm_start,
             })
             alarmlist.sort(function (a, b) {
+              if (a.time < b.time) {
+                return 1 // 正數時，後面的數放在前面
+              } else {
+                return -1 // 負數時，前面的數放在前面
+              }
+            })
+            alarmlist.sort(function (a, b) {
               if (a.duration[0] !== '持續中') {
                 return 1 // 正數時，後面的數放在前面
               } else {
