@@ -1241,7 +1241,7 @@
                         <td
                           class="text-center subtitle-right"
                           style="
-                            padding: 0px 29px;
+                            padding: 0px 13px;
                             background-color: rgb(232 149 159 / 33%);
                             color: #4c4c4c;
                           "
@@ -1317,7 +1317,7 @@
                         </td>
                         <td
                           class="text-center subtitle-right"
-                          style="padding: 0px 29px"
+                          style="padding: 0px 13px"
                         >
                           {{ item.duration }}
                         </td>
@@ -1877,7 +1877,10 @@ export default {
       // 秒 轉 分、時、天，並且隱藏時間未到的單位
       function durationCrr(start, stop) {
         if (stop !== null) {
-          var duration = getDuration(32)
+          const nowtime1 = new Date(start)
+          const startone1 = new Date(stop)
+          const time1 = (startone1.getTime() - nowtime1.getTime()) * 0.001
+          var duration = getDuration(time1)
           return duration
         } else {
           const nowtime = new Date()
