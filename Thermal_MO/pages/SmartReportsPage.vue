@@ -40,6 +40,7 @@ export default {
     },
     // 定義
     arr: [],
+    arr1: [],
   }),
   mounted() {
     // this.mount()
@@ -49,12 +50,13 @@ export default {
     // 計時載入新資料
     var start = setInterval(() => {
       var arr = this.arr
-      this.test4(arr)
-    }, 300)
+      var arr1 = this.arr1
+      this.test4(arr,arr1)
+    }, 150)
     console.log(start)
   },
   methods: {
-    test4(arr) {
+    test4(arr,arr1) {
       var chartDom = document.getElementById('my')
       var myChart = echarts.init(chartDom)
       // 把新資料放入arr陣列中
@@ -63,14 +65,33 @@ export default {
       function getRandomInt(max) {
         return Math.floor(Math.random() * max)
       }
-      myChart.setOption({
-        series: [
-          {
-            name: 'spot1',
-            data: this.arr,
-          },
-        ],
-      })
+      if (arr.length > 10) {
+        arr1.push([arr1.length + 1, getRandomInt(100)])
+        this.arr1 = arr1
+        myChart.setOption({
+          series: [
+            {
+              name: 'spot1',
+              data: this.arr,
+            },
+            {
+              name: 'spot2',
+              type: 'line',
+              symbol: 'none',
+              data: this.arr1,
+            },
+          ],
+        })
+      } else {
+        myChart.setOption({
+          series: [
+            {
+              name: 'spot1',
+              data: this.arr,
+            },
+          ],
+        })
+      }
     },
     test3() {
       var chartDom = document.getElementById('my')

@@ -1778,7 +1778,6 @@ export default {
     // this.alarmDate = '2022-06-04'
     this.alarmlist(this.alarmDate)
     setInterval(() => {
-      console.log('start')
       this.alarmlist(this.alarmDate)
     }, 5000)
   },
