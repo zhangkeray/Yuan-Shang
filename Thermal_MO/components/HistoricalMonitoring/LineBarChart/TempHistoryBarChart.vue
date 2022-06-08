@@ -28,8 +28,17 @@ export default {
     this.drawBar(this.date)
   },
   watch: {
-    output(data) {
+    output(data1) {
+      var data = data1
+      // data.sort(function (a, b) {
+      //   if (a.time < b.time) {
+      //     return 1 // 正數時，後面的數放在前面
+      //   } else {
+      //     return -1 // 負數時，前面的數放在前面
+      //   }
+      // })
       console.log(data)
+
       var arr = {}
       // 處理time key
       data.forEach((index) => {
@@ -554,7 +563,7 @@ export default {
       // var loadid = null
       // -------loading data-------
       const loadinname = document.getElementById('echart-loading-cover')
-      this.loadingname = "正在下載資料中:"
+      this.loadingname = '正在下載資料中:'
       // loadinname.style.display = 'unset'
       // var load = 0
       // loadid = setInterval(() => {
