@@ -39,7 +39,7 @@ export default {
       // 指定图表的配置项和数据
       var oneSecond = 5000
       var date = []
-      var queueLength = 5 // 队列长度
+      var queueLength = 2 // 队列长度
       var refreshTimeNormal = 5000 // 正常刷新时间
       // ------------------------------------------------------------------
 
@@ -49,7 +49,7 @@ export default {
       // 设置初试时间
       var initTime = new Date() // 获得当前时间
       // 此处是将时间戳改为正常Date格式时间
-      var now = new Date(initTime.getTime() - queueLength * refreshTimeNormal) // 当前时间减去前几分钟，以填充数据
+      var now = new Date(initTime.getTime()) // 当前时间
       function addData() {
         now =
           now.toLocaleDateString() +
@@ -94,14 +94,14 @@ export default {
           // x轴设置
           // type: 'category',
           boundaryGap: false,
-          splitLine: { show: false }, // 去除网格线
+          splitLine: { show: true }, // 去除网格线
           data: date,
           splitNumber: 12, // 横坐标设置24个间隔
         },
         yAxis: {
           // y轴设置
           boundaryGap: [0, '50%'],
-          splitLine: { show: false }, // 去除网格线
+          splitLine: { show: true }, // 去除网格线
           type: 'value',
           axisLabel: {
             formatter: '{value} (°C)', // 给Y轴上的刻度加上单位

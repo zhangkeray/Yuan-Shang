@@ -53,6 +53,7 @@
     "vue-tiny-slider": "^0.1.39",
     "vuelidate": "^0.7.7",
     "vuetify": "^2.6.1",
+    "vuetify-time-select": "^0.2.3",
     "webpack": "^4.46.0"
   },
   "devDependencies": {

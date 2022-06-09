@@ -92,46 +92,40 @@ export default {
         },
         // {
         //   icon: 'mdi-account-group-outline',
-        //   title: '測試用2',
-        //   // to: '5',
-        //   to: 'ForTesting2',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: '測試用3',
-        //   // to: '5',
-        //   to: 'ForTesting3',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: '溫升LineChart',
-        //   // to: '5',
-        //   to: 'ForTesting4',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: '溫升LineChart(mockAPI)',
-        //   // to: '5',
-        //   to: 'ForTesting5',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: '溫升LineChart2(mockAPI)',
-        //   // to: '5',
-        //   to: 'ForTesting5_1',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: '測試6',
-        //   // to: '5',
-        //   to: 'ForTesting6',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: '測試7',
+        //   title: '測試7:禁用',
         //   // to: '5',
         //   to: 'ForTesting7',
         // },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: '測試8:禁用',
+        //   // to: '5',
+        //   to: 'ForTesting8',
+        // },
+        {
+          icon: 'mdi-account-group-outline',
+          title: '測試9:Node.JS',
+          // to: '5',
+          to: 'ForTesting9',
+        },
+        {
+          icon: 'mdi-account-group-outline',
+          title: '測試10:實際使用',
+          // to: '5',
+          to: 'ForTesting10',
+        },
+        {
+          icon: 'mdi-account-group-outline',
+          title: '測試11',
+          // to: '5',
+          to: 'ForTesting11',
+        },
+        {
+          icon: 'mdi-account-group-outline',
+          title: '測試12',
+          // to: '5',
+          to: 'ForTesting12',
+        },
 
         // {
         //   icon: 'mdi-chart-bubble',
