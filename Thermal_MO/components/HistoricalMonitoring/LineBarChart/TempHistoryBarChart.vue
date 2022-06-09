@@ -30,15 +30,6 @@ export default {
   watch: {
     output(data1) {
       var data = data1
-      // data.sort(function (a, b) {
-      //   if (a.time < b.time) {
-      //     return 1 // 正數時，後面的數放在前面
-      //   } else {
-      //     return -1 // 負數時，前面的數放在前面
-      //   }
-      // })
-      console.log(data)
-
       var arr = {}
       // 處理time key
       data.forEach((index) => {
@@ -617,8 +608,9 @@ export default {
         // 計算時間
         // const DataStartTime = day + ' 15:00:00'
         // const DataEndTime = day + ' 17:00:00'
-        const DataStartTime = day + ' 00:00:00'
-        const DataEndTime = day + ' 23:59:59'
+        var DataStartTime = day + ' 14:00:00'
+        var DataEndTime = day + ' 17:59:59'
+
         // var DataStartDay = new Date(DataStartTime)
         // DataStartDay =
         //   DataStartDay.getFullYear() +
@@ -656,6 +648,15 @@ export default {
             var data = params.data[0]
             data = getdata(data)
             output.push(data)
+            output.sort(function (a, b) {
+              if (a.time[0] > b.time[0]) {
+                return 1 // 正數時，後面的數放在前面
+              } else {
+                return -1 // 負數時，前面的數放在前面
+              }
+            })
+            this.output = output
+
             // -------loading data-------
             const parentNode1 = document.querySelector('.my-' + day)
             parentNode1.style.display = 'none'
