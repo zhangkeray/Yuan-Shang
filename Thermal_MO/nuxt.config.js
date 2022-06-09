@@ -61,7 +61,10 @@ export default {
     },
     {
       src: './plugins/vue-slick-carousel.js'
-    }
+    },
+    // {
+    //   src: './plugins/vuetify-time-select.js'
+    // }
 
   ],
 
