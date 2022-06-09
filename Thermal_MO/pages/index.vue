@@ -912,12 +912,27 @@
                           class="right-btn"
                           @click="opendialog(item.spot_number, 'spot')"
                           ><img
-                            v-if="item.spot_alarm_status === 1"
+                            v-if="
+                              item.spot_alarm_status === 1 &&
+                              item.spot_temperature <= item.spot_threshold
+                            "
                             class=""
                             alt=""
                             src="/right-icons/alert-on.png"
                             width="18em"
-                            depressed />
+                            depressed
+                          />
+                          <img
+                            v-else-if="
+                              item.spot_alarm_status === 1 &&
+                              item.spot_temperature >= item.spot_threshold
+                            "
+                            class=""
+                            alt=""
+                            src="/right-icons/alertOn.png"
+                            width="18em"
+                            depressed
+                          />
                           <img
                             v-else-if="item.spot_alarm_status === 0"
                             class=""
@@ -925,7 +940,8 @@
                             src="/right-icons/alert-off.png"
                             width="18em"
                             depressed
-                        /></v-btn>
+                          />
+                        </v-btn>
                       </td>
                       <td class="text-center" style="padding: 0px 13px">
                         <v-btn color="" icon class="right-btn"
@@ -969,12 +985,27 @@
                           class="right-btn"
                           @click="opendialog(item.scope_number, 'scope')"
                           ><img
-                            v-if="item.scope_alarm_status === 1"
+                            v-if="
+                              item.scope_alarm_status === 1 &&
+                              item.scope_temperature_max <= item.scope_threshold
+                            "
                             class=""
                             alt=""
                             src="/right-icons/alert-on.png"
                             width="18em"
-                            depressed />
+                            depressed
+                          />
+                          <img
+                            v-if="
+                              item.scope_alarm_status === 1 &&
+                              item.scope_temperature_max >= item.scope_threshold
+                            "
+                            class=""
+                            alt=""
+                            src="/right-icons/alertOn.png"
+                            width="18em"
+                            depressed
+                          />
                           <img
                             v-else-if="item.scope_alarm_status === 0"
                             class=""
@@ -982,7 +1013,8 @@
                             src="/right-icons/alert-off.png"
                             width="18em"
                             depressed
-                        /></v-btn>
+                          />
+                        </v-btn>
                       </td>
                       <td class="text-center" style="padding: 0px 13px">
                         <v-btn color="" icon class="right-btn"
@@ -1026,10 +1058,23 @@
                           class="right-btn"
                           @click="opendialog(item.line_number, 'line')"
                           ><img
-                            v-if="item.line_alarm_status === 1"
+                            v-if="
+                              item.line_alarm_status === 1 &&
+                              item.line_temperature_max <= item.line_threshold
+                            "
                             class=""
                             alt=""
                             src="/right-icons/alert-on.png"
+                            width="18em"
+                            depressed />
+                          <img
+                            v-if="
+                              item.line_alarm_status === 1 &&
+                              item.line_temperature_max >= item.line_threshold
+                            "
+                            class=""
+                            alt=""
+                            src="/right-icons/alertOn.png"
                             width="18em"
                             depressed />
                           <img
@@ -1143,75 +1188,158 @@
                 <template #default>
                   <thead>
                     <tr>
-                      <th class="text-center">項目</th>
-                      <th class="text-center" style="">觸發時間</th>
-                      <th class="text-center" style="">監測溫度</th>
-                      <th class="text-center" style="">警報溫度</th>
-                      <th class="text-center" style="">開始時間</th>
+                      <th class="text-center alarmLogth">項目</th>
+                      <th class="text-center alarmLogth" style="">觸發時間</th>
+                      <th class="text-center alarmLogth" style="">監測溫度</th>
+                      <th class="text-center alarmLogth" style="">警報溫度</th>
+                      <th class="text-center alarmLogth" style="">開始時間</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="item in temps" :key="item.name">
-                      <td class="text-center" style="padding: 0px 13px">
-                        <v-badge
-                          content="1"
-                          overlap
-                          color="#828C8F"
-                          class="badge my-4"
-                          bordered
+                      <template v-if="item.duration[0] === '持續中'">
+                        <td
+                          class="text-center"
+                          style="
+                            padding: 0px 13px;
+                            background-color: rgb(232 149 159 / 33%);
+                            color: #4c4c4c;
+                          "
                         >
-                          <v-btn icon class="right-btn">
-                            <img
-                              class=""
-                              alt="alert"
-                              src="/right-icons/spot2.png"
-                              width="18em"
-                            />
-                          </v-btn>
-                        </v-badge>
-                      </td>
-                      <!-- <td class="text-center subtitle-right" v-if="item.temperature>30" style="color: red;">{{ item.duration }}s</td>
-                      <td class="text-center subtitle-right" v-else >{{ item.duration }}s</td> -->
-                      <td
-                        v-if="item.temperature > 35"
-                        class="text-center subtitle-right"
-                        style="padding: 0px 29px; color: #e89595"
-                      >
-                        {{ countdown() }}s
-                      </td>
-                      <td
-                        v-else
-                        class="text-center subtitle-right"
-                        style="padding: 0px 29px"
-                      >
-                        {{ item.duration }}s
-                      </td>
-                      <td
-                        v-if="item.temperature > 35"
-                        class="text-center subtitle-right"
-                        style="color: #e89595; padding: 0px 24.7px"
-                      >
-                        {{ item.temperature }}°C
-                      </td>
-                      <td
-                        v-else
-                        class="text-center subtitle-right"
-                        style="padding: 0px 24.7px"
-                      >
-                        {{ item.temperature }}°C
-                      </td>
-                      <td
-                        class="text-center subtitle-right"
-                        style="padding: 0px 24.7px"
-                      >
-                        {{ item.alertTemperature }}°C
-                      </td>
-                      <td
-                        class="text-center subtitle-right"
-                        style="padding: 0px 5px; font-size: 12px"
-                      >
-                        {{ item.time }}
-                      </td>
+                          <v-badge
+                            :content="item.objcet.number"
+                            overlap
+                            color="#828C8F"
+                            class="badge my-4"
+                            bordered
+                          >
+                            <v-btn icon class="right-btn">
+                              <img
+                                v-if="item.objcet.name === 'spot'"
+                                class=""
+                                alt="alert"
+                                src="/right-icons/spot2.png"
+                                width="18em"
+                              />
+                              <img
+                                v-if="item.objcet.name === 'scope'"
+                                class=""
+                                alt="alert"
+                                src="/right-icons/rectangle2.png"
+                                width="18em"
+                              />
+                              <img
+                                v-if="item.objcet.name === 'line'"
+                                class=""
+                                alt="alert"
+                                src="/right-icons/line2.png"
+                                width="18em"
+                              />
+                            </v-btn>
+                          </v-badge>
+                        </td>
+                        <td
+                          class="text-center subtitle-right"
+                          style="
+                            padding: 0px 13px;
+                            background-color: rgb(232 149 159 / 33%);
+                            color: #4c4c4c;
+                          "
+                        >
+                          {{ item.duration[1] }}<br />
+                          ({{ item.duration[0] }})
+                        </td>
+                        <td
+                          class="text-center subtitle-right"
+                          style="
+                            padding: 0px 24.7px;
+                            background-color: rgb(232 149 159 / 33%);
+                            color: #4c4c4c;
+                          "
+                        >
+                          {{ item.temperature }}°C
+                        </td>
+                        <td
+                          class="text-center subtitle-right"
+                          style="
+                            padding: 0px 24.7px;
+                            background-color: rgb(232 149 159 / 33%);
+                            color: #4c4c4c;
+                          "
+                        >
+                          {{ item.alertTemperature }}°C
+                        </td>
+                        <td
+                          class="text-center subtitle-right"
+                          style="
+                            padding: 0px 5px;
+                            font-size: 12px;
+                            background-color: rgb(232 149 159 / 33%);
+                            color: #4c4c4c;
+                          "
+                        >
+                          {{ item.time }}
+                        </td>
+                      </template>
+                      <template v-else>
+                        <td class="text-center" style="padding: 0px 13px">
+                          <v-badge
+                            :content="item.objcet.number"
+                            overlap
+                            color="#828C8F"
+                            class="badge my-4"
+                            bordered
+                          >
+                            <v-btn icon class="right-btn">
+                              <img
+                                v-if="item.objcet.name === 'spot'"
+                                class=""
+                                alt="alert"
+                                src="/right-icons/spot2.png"
+                                width="18em"
+                              />
+                              <img
+                                v-if="item.objcet.name === 'scope'"
+                                class=""
+                                alt="alert"
+                                src="/right-icons/rectangle2.png"
+                                width="18em"
+                              />
+                              <img
+                                v-if="item.objcet.name === 'line'"
+                                class=""
+                                alt="alert"
+                                src="/right-icons/line2.png"
+                                width="18em"
+                              />
+                            </v-btn>
+                          </v-badge>
+                        </td>
+                        <td
+                          class="text-center subtitle-right"
+                          style="padding: 0px 13px"
+                        >
+                          {{ item.duration }}
+                        </td>
+                        <td
+                          class="text-center subtitle-right"
+                          style="padding: 0px 24.7px"
+                        >
+                          {{ item.temperature }}°C
+                        </td>
+                        <td
+                          class="text-center subtitle-right"
+                          style="padding: 0px 24.7px"
+                        >
+                          {{ item.alertTemperature }}°C
+                        </td>
+                        <td
+                          class="text-center subtitle-right"
+                          style="padding: 0px 5px; font-size: 12px"
+                        >
+                          {{ item.time }}
+                        </td>
+                      </template>
                     </tr>
                   </tbody>
                 </template>
@@ -1649,6 +1777,9 @@ export default {
     }, 1000)
     // this.alarmDate = '2022-06-04'
     this.alarmlist(this.alarmDate)
+    setInterval(() => {
+      this.alarmlist(this.alarmDate)
+    }, 5000)
   },
   // 對話框
   computed: {
@@ -1681,6 +1812,7 @@ export default {
           var today = 0
           var week = 0
           var month = 0
+          var alarmlist = []
           data.forEach((index) => {
             // console.log(index.table_alarm_start)
             var tmp = new Date(index.table_alarm_start)
@@ -1712,14 +1844,75 @@ export default {
             if (tmp >= monthstart && tmp <= monthstop) {
               month = month + 1
             }
+            // 警報紀錄
+            var name = index.table_itemName.match(/^[a-z|A-Z]+/gi)
+            var number = index.table_itemName.match(/\d+$/gi)
+            alarmlist.push({
+              objcet: { name: name[0], number: number[0] },
+              duration: durationCrr(
+                index.table_alarm_start,
+                index.table_alarm_stop
+              ),
+              temperature: index.table_max.toFixed(1),
+              alertTemperature: index.table_alarm_threshold,
+              time: index.table_alarm_start,
+            })
+            alarmlist.sort(function (a, b) {
+              if (a.time < b.time) {
+                return 1 // 正數時，後面的數放在前面
+              } else {
+                return -1 // 負數時，前面的數放在前面
+              }
+            })
+            alarmlist.sort(function (a, b) {
+              if (a.duration[0] !== '持續中') {
+                return 1 // 正數時，後面的數放在前面
+              } else {
+                return -1 // 負數時，前面的數放在前面
+              }
+            })
+            // 觸發時間為警報存在的時間(s)，開始時間為警報設定的時間
           })
-
           this.valueToday = today
           this.valueLastday = lastday
           this.valueThisWeek = week
           this.valueThisMonth = month
+          this.temps = alarmlist
         })
         .catch((error) => console.log('error from axios', error))
+      // 秒 轉 分、時、天，並且隱藏時間未到的單位
+      function durationCrr(start, stop) {
+        if (stop !== null) {
+          const nowtime1 = new Date(start)
+          const startone1 = new Date(stop)
+          const time1 = (startone1.getTime() - nowtime1.getTime()) * 0.001
+          var duration = getDuration(time1)
+          return duration
+        } else {
+          const nowtime = new Date()
+          const startone = new Date(start)
+          const time = (nowtime.getTime() - startone.getTime()) * 0.001
+          return ['持續中', getDuration(time.toFixed(0))]
+        }
+      }
+      function getDuration(second) {
+        var days = Math.floor(second / 86400)
+        var hours = Math.floor((second % 86400) / 3600)
+        var minutes = Math.floor(((second % 86400) % 3600) / 60)
+        var seconds = Math.floor(((second % 86400) % 3600) % 60)
+        var duration = null
+        if (second < 60) {
+          duration = seconds + '秒'
+        } else if (second >= 60 && second < 3600) {
+          duration = minutes + '分' + seconds + '秒'
+        } else if (second >= 3600 && second < 86400) {
+          duration = hours + '時' + minutes + '分' + seconds + '秒'
+        } else if (second >= 86400) {
+          duration =
+            days + '天' + hours + '時' + minutes + '分' + seconds + '秒'
+        }
+        return duration
+      }
     },
     submitForm() {
       const opendid = this.openid
@@ -2469,6 +2662,9 @@ export default {
 }
 .box:hover .drawer {
   left: 0;
+}
+.alarmLogth {
+  padding: 0px 0px 0px 10px !important;
 }
 
 /* 影像串流 */

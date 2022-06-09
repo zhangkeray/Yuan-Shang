@@ -53,72 +53,7 @@
                       "
                       class="py-2"
                     >
-                      <v-row :column="$vuetify.breakpoint.mdAndDown">
-                        <v-menu
-                          ref="menu"
-                          v-model="menu"
-                          :close-on-content-click="false"
-                          transition="scale-transition"
-                          offset-y
-                          min-width="auto"
-                          ><template v-slot:activator="{ on, attrs }">
-                            <v-text-field
-                              v-model="dateRangeText"
-                              label=""
-                              readonly
-                              dense
-                              v-bind="attrs"
-                              v-on="on"
-                              style="
-                                font-size: 12px;
-                                margin-left: 160px;
-                                margin-top: 10px;
-
-                                position: absolute;
-                                z-index: 999999;
-                              "
-                            >
-                              <v-icon
-                                slot="prepend"
-                                small
-                                dense
-                                style="line-height: 22px"
-                                v-model="date"
-                              >
-                                mdi-calendar
-                              </v-icon>
-                            </v-text-field>
-                          </template>
-                          <v-date-picker
-                            no-title
-                            scrollable
-                            v-model="dates"
-                            range
-                            :active-picker.sync="activePicker"
-                            locale="zh-tw"
-                            :max="
-                              new Date(
-                                Date.now() -
-                                  new Date().getTimezoneOffset() * 60000
-                              )
-                                .toISOString()
-                                .substr(0, 10)
-                            "
-                            min="2010-01-01"
-                          >
-                            <v-btn text color="primary" @click="dateRange">
-                              確定
-                            </v-btn></v-date-picker
-                          >
-                        </v-menu>
-                        <v-col
-                          cols="12"
-                          lg="12"
-                          style="border: 1px solid rgba(0, 0, 0, 0)"
-                        >
-                          <temp-history-bar-chart />
-                        </v-col>
-                      </v-row>
+                      <temp-history-bar-chart />
                     </v-col>
                   </v-row>
                 </v-col>
@@ -177,7 +112,7 @@
                         margin-top: 8px;
 
                         position: absolute;
-                        z-index: 999999; 
+                        z-index: 999999;
                       "
                     >
                       <v-icon
@@ -270,7 +205,7 @@ export default {
     script: [],
   },
   data: () => ({
-    activePicker:null,
+    activePicker: null,
     date: ['', ''],
     dates: ['', ''],
     menu: false,
@@ -302,14 +237,6 @@ export default {
       // },
     ],
   }),
-  computed: {
-    dateRangeText() {
-      var datess = this.dates
-      datess = datess.sort()
-
-      return datess.join(' ~ ')
-    },
-  },
   mounted() {
     const unthumb = document.querySelectorAll('.thumb')
     for (const unthumbs of unthumb) {
@@ -571,7 +498,6 @@ export default {
   top: 0.5em;
   position: absolute;
 }
-
 </style>
 
 <style lang="scss">
@@ -608,7 +534,7 @@ export default {
     height: 250px;
   }
   .image-wrap .image {
-  width: 315px !important;
+    width: 315px !important;
     height: 100% !important;
     // clear: none !important;
   }
