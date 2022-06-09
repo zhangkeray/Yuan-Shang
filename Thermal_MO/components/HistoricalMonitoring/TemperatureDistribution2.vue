@@ -440,13 +440,13 @@ export default {
   position: absolute;
 }
 
-.scroll {
+/* .scroll { */
   /* width: 20px; */
   /* height: 200px; */
   /* overflow: auto; */
   /* float: right; */
   /* margin: 0 10px; */
-}
+/* } */
 
 .scroll4::-webkit-scrollbar {
   width: 10px;
@@ -552,9 +552,9 @@ export default {
   // -webkit-box-sizing: border-box;
   // box-sizing: border-box;
 }
-.image-wrap .image:first-child {
+// .image-wrap .image:first-child {
   // border-right: 1px solid #342420;
-}
+// }
 .image-wrap .image.result {
   background-position: 50% 25%;
 }
