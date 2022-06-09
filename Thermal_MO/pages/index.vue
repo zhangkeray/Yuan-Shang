@@ -1188,11 +1188,11 @@
                 <template #default>
                   <thead>
                     <tr>
-                      <th class="text-center">項目</th>
-                      <th class="text-center" style="">觸發時間</th>
-                      <th class="text-center" style="">監測溫度</th>
-                      <th class="text-center" style="">警報溫度</th>
-                      <th class="text-center" style="">開始時間</th>
+                      <th class="text-center alarmLogth">項目</th>
+                      <th class="text-center alarmLogth" style="">觸發時間</th>
+                      <th class="text-center alarmLogth" style="">監測溫度</th>
+                      <th class="text-center alarmLogth" style="">警報溫度</th>
+                      <th class="text-center alarmLogth" style="">開始時間</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -2662,6 +2662,9 @@ export default {
 }
 .box:hover .drawer {
   left: 0;
+}
+.alarmLogth {
+  padding: 0px 0px 0px 10px !important;
 }
 
 /* 影像串流 */
