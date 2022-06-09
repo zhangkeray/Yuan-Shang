@@ -37,7 +37,8 @@
       </template>
       <v-date-picker
         no-title
-        scrollable
+        scrollable="true"
+        :disabled="disabled"
         v-model="dates"
         range
         :active-picker.sync="activePicker"
@@ -49,9 +50,9 @@
         "
         min="2010-01-01"
       >
-        <v-btn text color="primary" @click="dateRange">
+        <v-btn text color="primary" @click="dateRange" :disabled="disabled">
           確定
-        </v-btn></v-date-picker
+        </v-btn><sanp class="error-date">{{errorM}}</sanp></v-date-picker
       >
     </v-menu>
     <v-col cols="12" lg="12" style="border: 1px solid rgba(0, 0, 0, 0)">
@@ -62,7 +63,7 @@
           style="height: 335px; width: 1050px"
         ></div>
         <div>{{ loadingname }}{{ percentage }}</div>
-        <div id="echart-loading-cover"></div>
+        <div id="echart-loading-cover" class="d-none"></div>
       </div>
     </v-col>
   </v-row>
@@ -76,6 +77,7 @@ export default {
     url: 'http://127.0.0.1:5000/api/normal',
     url1: 'http://127.0.0.1:5000/api/change/roi',
     loadingname: '',
+    disabled: false,
     dates: ['', ''],
     output: [],
     date: [],
@@ -88,6 +90,7 @@ export default {
     finish: 0,
     percentage: 0,
     sum: 0,
+    errorM:''
   }),
   computed: {
     dateRangeText() {
@@ -120,6 +123,7 @@ export default {
           setTimeout(() => {
             this.loadingname = ''
             this.percentage = null
+            this.disabled = false
           }, 3000)
         }, 2000)
       }
@@ -180,15 +184,19 @@ export default {
   methods: {
     dateRange() {
       if (this.dates.length > 1) {
+        this.errorM=""
         this.totledata = 0
         this.finish = 0
         this.percentage = 0
         this.output = []
         this.outputLast = { time: [] }
         this.menu = false
+        this.disabled = true
         var input = this.dates
         this.drawBar(input)
         // console.log(input)
+      }else{
+        this.errorM="請選擇一個日期範圍"
       }
     },
     myChartinit() {
@@ -731,8 +739,8 @@ export default {
         // 計算時間
         // const DataStartTime = day + ' 15:00:00'
         // const DataEndTime = day + ' 17:00:00'
-        var DataStartTime = day + ' 12:00:00'
-        var DataEndTime = day + ' 17:59:59'
+        var DataStartTime = day + ' 00:00:00'
+        var DataEndTime = day + ' 23:59:59'
 
         // var DataStartDay = new Date(DataStartTime)
         // DataStartDay =
@@ -1034,5 +1042,8 @@ export default {
   width: 100%;
   height: 26px;
   overflow: hidden;
+}
+.error-date{
+  color: rgb(187, 0, 0);
 }
 </style>
