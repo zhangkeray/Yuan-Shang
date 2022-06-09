@@ -61,7 +61,7 @@
           id="lineBarChart001"
           style="height: 335px; width: 1050px"
         ></div>
-        <div>{{ loadingname }}</div>
+        <div>{{ loadingname }}{{ percentage }}</div>
         <div id="echart-loading-cover"></div>
       </div>
     </v-col>
@@ -76,13 +76,18 @@ export default {
     url: 'http://127.0.0.1:5000/api/normal',
     url1: 'http://127.0.0.1:5000/api/change/roi',
     loadingname: '',
-    dates: ['2022-06-06', '2022-06-06'],
+    dates: ['', ''],
     output: [],
     date: [],
     menu: false,
     outputLast: {},
     loadingnumber: 0,
     activePicker: null,
+    // 進度計算
+    totledata: 0,
+    finish: 0,
+    percentage: 0,
+    sum: 0,
   }),
   computed: {
     dateRangeText() {
@@ -93,20 +98,36 @@ export default {
   },
   mounted() {
     // 上線要解除這邊的註解
-    // this.dates = [
-    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-    //     .toISOString()
-    //     .substr(0, 10),
-    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-    //     .toISOString()
-    //     .substr(0, 10),
-    // ]
+    this.dates = [
+      new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+    ]
     this.myChartinit()
     this.drawBar(this.dates)
   },
   watch: {
+    finish(data) {
+      var sum = (this.finish / this.totledata) * 100 * 0.8
+      if (sum >= 80) {
+        this.loadingname = '資料下載完成，正在處理標記資料....'
+        setTimeout(() => {
+          this.loadingname = '資料處理完成!'
+          this.percentage = '(' + 100.0 + '%)'
+          setTimeout(() => {
+            this.loadingname = ''
+            this.percentage = null
+          }, 3000)
+        }, 2000)
+      }
+      this.sum = sum
+      this.percentage = '(' + sum.toFixed(1) + '%)'
+    },
     output(data1) {
-      console.log(data1.length)
+      // console.log(data1.length)
       if (data1.length > 0) {
         var data = data1
         var arr = {}
@@ -148,23 +169,26 @@ export default {
       }
     },
     outputLast(data) {
-      console.log(data)
+      // console.log(data)
       // 將處理好的數據丟給echarts
       if (JSON.parse(JSON.stringify(data)).time.length > 0) {
         this.echartsCrr(data)
       }
-      console.log(JSON.parse(JSON.stringify(data)).time.length)
+      // console.log(JSON.parse(JSON.stringify(data)).time.length)
     },
   },
   methods: {
     dateRange() {
       if (this.dates.length > 1) {
+        this.totledata = 0
+        this.finish = 0
+        this.percentage = 0
         this.output = []
         this.outputLast = { time: [] }
         this.menu = false
         var input = this.dates
         this.drawBar(input)
-        console.log(input)
+        // console.log(input)
       }
     },
     myChartinit() {
@@ -557,88 +581,90 @@ export default {
         DataEndDay.getDate()
       // console.log(DataStartDay, DataEndDay)
       // 標記修改
-      axios({
-        method: 'post',
-        url: this.url1,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data: JSON.stringify([
-          {
-            table_timeselectStart: DataStartDay,
-            table_timeselectStop: DataEndDay,
+      if (this.sum >= 80) {
+        axios({
+          method: 'post',
+          url: this.url1,
+          headers: {
+            'Content-Type': 'application/json',
           },
-        ]),
-      })
-        .then((params) => {
-          // console.log(timeKey)
-          const data = params.data
-          var time = []
-          data.forEach((index, value) => {
-            var dt = new Date(index.table_change_start)
-            var su = 0
-            timeKey.forEach((indexe, value) => {
-              var nw = new Date(indexe)
-              if (dt.getTime() > nw.getTime()) {
-                su = su + 1
+          data: JSON.stringify([
+            {
+              table_timeselectStart: DataStartDay,
+              table_timeselectStop: DataEndDay,
+            },
+          ]),
+        })
+          .then((params) => {
+            // console.log(timeKey)
+            const data = params.data
+            var time = []
+            data.forEach((index, value) => {
+              var dt = new Date(index.table_change_start)
+              var su = 0
+              timeKey.forEach((indexe, value) => {
+                var nw = new Date(indexe)
+                if (dt.getTime() > nw.getTime()) {
+                  su = su + 1
+                }
+              })
+              time.push({
+                object: index.table_itemName,
+                time: index.table_change_start,
+                correspond: su,
+                table_change_status: index.table_change_status,
+              })
+            })
+            // console.log(time)
+            var ar = []
+            time.forEach((index, value) => {
+              ar[index.object] = []
+            })
+            time.forEach((index, value) => {
+              ar[index.object].push({
+                xAxis: index.correspond,
+                data: index.time,
+              })
+            })
+            var output1 = []
+            Object.keys(ar).forEach((key) => {
+              var are = {
+                name: key,
+                markLine: {
+                  symbol: ['none', 'none'],
+                  label: {
+                    show: false,
+                  },
+                  lineStyle: {
+                    width: 3,
+                  },
+                  data: ar[key],
+                },
               }
+              output1.push(are)
             })
-            time.push({
-              object: index.table_itemName,
-              time: index.table_change_start,
-              correspond: su,
-              table_change_status: index.table_change_status,
-            })
-          })
-          // console.log(time)
-          var ar = []
-          time.forEach((index, value) => {
-            ar[index.object] = []
-          })
-          time.forEach((index, value) => {
-            ar[index.object].push({
-              xAxis: index.correspond,
-              data: index.time,
-            })
-          })
-          var output1 = []
-          Object.keys(ar).forEach((key) => {
-            var are = {
-              name: key,
-              markLine: {
-                symbol: ['none', 'none'],
-                label: {
-                  show: false,
-                },
-                lineStyle: {
-                  width: 3,
-                },
-                data: ar[key],
-              },
-            }
-            output1.push(are)
-          })
 
-          output1.forEach((index) => {
-            var result = $.map(output, function (item, index) {
-              return item.name
-            }).indexOf(index.name)
-            var data = index.markLine.data
-            data.forEach((el) => {
-              // console.log(output[result].data[el.xAxis])
-              output[result].data[el.xAxis].point = el.data
+            output1.forEach((index) => {
+              var result = $.map(output, function (item, index) {
+                return item.name
+              }).indexOf(index.name)
+              var data = index.markLine.data
+              data.forEach((el) => {
+                // console.log(output[result].data[el.xAxis])
+                output[result].data[el.xAxis].point = el.data
+              })
+            })
+            myChart.setOption({
+              series: output,
+            })
+            myChart.setOption({
+              series: output1,
             })
           })
-          myChart.setOption({
-            series: output,
+          .catch((err) => {
+            console.log(err)
           })
-          myChart.setOption({
-            series: output1,
-          })
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      }
       // end
     },
     drawBar(date) {
@@ -647,7 +673,7 @@ export default {
       // var loadid = null
       // -------loading data-------
       const loadinname = document.getElementById('echart-loading-cover')
-      this.loadingname = '正在下載資料中:'
+
       // loadinname.style.display = 'unset'
       // var load = 0
       // loadid = setInterval(() => {
@@ -684,10 +710,14 @@ export default {
         div.classList.add('my-' + dd)
         div.innerHTML = '[' + dd + ']'
         loadinname.prepend(div)
+        this.totledata = this.totledata + 1
       }
       dd = `${endday.getFullYear()}-${('0' + (endday.getMonth() + 1)).slice(
         -2
       )}-${('0' + endday.getDate()).slice(-2)}`
+      this.totledata = this.totledata + 1
+      var thisdatatotle = this.totledata
+      this.loadingname = `正在下載總共${thisdatatotle}天分析資料:`
       const div1 = document.createElement('div')
       div1.classList.add('my-' + dd)
       div1.innerHTML = '[' + dd + ']'
@@ -701,7 +731,7 @@ export default {
         // 計算時間
         // const DataStartTime = day + ' 15:00:00'
         // const DataEndTime = day + ' 17:00:00'
-        var DataStartTime = day + ' 14:00:00'
+        var DataStartTime = day + ' 12:00:00'
         var DataEndTime = day + ' 17:59:59'
 
         // var DataStartDay = new Date(DataStartTime)
@@ -771,6 +801,7 @@ export default {
             //   }
             //   load = load + 1
             // }, 30)
+            this.finish = this.finish + 1
           })
           .catch((err) => {
             console.log(err)
