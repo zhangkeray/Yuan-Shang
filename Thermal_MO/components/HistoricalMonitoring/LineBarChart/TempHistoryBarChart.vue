@@ -1,13 +1,71 @@
 <template>
-  <div>
-    <div
-      ref="lineBarChart"
-      id="lineBarChart001"
-      style="height: 335px; width: 1050px"
-    ></div>
-    <div>{{ loadingname }}</div>
-    <div id="echart-loading-cover"></div>
-  </div>
+  <v-row :column="$vuetify.breakpoint.mdAndDown">
+    <v-menu
+      ref="menu"
+      v-model="menu"
+      :close-on-content-click="false"
+      transition="scale-transition"
+      offset-y
+      min-width="auto"
+      ><template v-slot:activator="{ on, attrs }">
+        <v-text-field
+          v-model="dateRangeText"
+          label=""
+          readonly
+          dense
+          v-bind="attrs"
+          v-on="on"
+          style="
+            font-size: 12px;
+            margin-left: 160px;
+            margin-top: 10px;
+
+            position: absolute;
+            z-index: 999999;
+          "
+        >
+          <v-icon
+            slot="prepend"
+            small
+            dense
+            style="line-height: 22px"
+            v-model="date"
+          >
+            mdi-calendar
+          </v-icon>
+        </v-text-field>
+      </template>
+      <v-date-picker
+        no-title
+        scrollable
+        v-model="dates"
+        range
+        :active-picker.sync="activePicker"
+        locale="zh-tw"
+        :max="
+          new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+            .toISOString()
+            .substr(0, 10)
+        "
+        min="2010-01-01"
+      >
+        <v-btn text color="primary" @click="dateRange">
+          確定
+        </v-btn></v-date-picker
+      >
+    </v-menu>
+    <v-col cols="12" lg="12" style="border: 1px solid rgba(0, 0, 0, 0)">
+      <div>
+        <div
+          ref="lineBarChart"
+          id="lineBarChart001"
+          style="height: 335px; width: 1050px"
+        ></div>
+        <div>{{ loadingname }}</div>
+        <div id="echart-loading-cover"></div>
+      </div>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -18,62 +76,97 @@ export default {
     url: 'http://127.0.0.1:5000/api/normal',
     url1: 'http://127.0.0.1:5000/api/change/roi',
     loadingname: '',
+    dates: ['2022-06-06', '2022-06-06'],
     output: [],
+    date: [],
+    menu: false,
     outputLast: {},
-    date: ['2022-06-01', '2022-06-3'],
     loadingnumber: 0,
+    activePicker: null,
   }),
+  computed: {
+    dateRangeText() {
+      var datess = this.dates
+      datess = datess.sort()
+      return datess.join(' ~ ')
+    },
+  },
   mounted() {
+    // 上線要解除這邊的註解
+    // this.dates = [
+    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    //     .toISOString()
+    //     .substr(0, 10),
+    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    //     .toISOString()
+    //     .substr(0, 10),
+    // ]
     this.myChartinit()
-    this.drawBar(this.date)
+    this.drawBar(this.dates)
   },
   watch: {
     output(data1) {
-      var data = data1
-      var arr = {}
-      // 處理time key
-      data.forEach((index) => {
-        Object.keys(index).forEach((key) => {
-          arr[key] = []
-        })
-      })
-      // 處理max key
-      data.forEach((index) => {
-        Object.keys(index.max).forEach((key) => {
-          arr.max[key] = []
-        })
-      })
-      // 處理資料
-      data.forEach((index) => {
-        index.time.forEach((time) => {
-          arr.time.push(time)
-        })
-      })
-      // 在指定時間中塞入value
-      Object.keys(arr.max).forEach((key) => {
+      console.log(data1.length)
+      if (data1.length > 0) {
+        var data = data1
+        var arr = {}
+        // 處理time key
         data.forEach((index) => {
-          var ae = index.max[key]
-          if (ae !== undefined) {
-            ae.forEach((value) => {
-              arr.max[key].push(value)
-            })
-          } else {
-            var nulltime = index.time
-            nulltime.forEach(() => {
-              arr.max[key].push(null)
-            })
-          }
+          Object.keys(index).forEach((key) => {
+            arr[key] = []
+          })
         })
-      })
-      this.outputLast = arr
+        // 處理max key
+        data.forEach((index) => {
+          Object.keys(index.max).forEach((key) => {
+            arr.max[key] = []
+          })
+        })
+        // 處理資料
+        data.forEach((index) => {
+          index.time.forEach((time) => {
+            arr.time.push(time)
+          })
+        })
+        // 在指定時間中塞入value
+        Object.keys(arr.max).forEach((key) => {
+          data.forEach((index) => {
+            var ae = index.max[key]
+            if (ae !== undefined) {
+              ae.forEach((value) => {
+                arr.max[key].push(value)
+              })
+            } else {
+              var nulltime = index.time
+              nulltime.forEach(() => {
+                arr.max[key].push(null)
+              })
+            }
+          })
+        })
+        this.outputLast = arr
+      }
     },
     outputLast(data) {
+      console.log(data)
       // 將處理好的數據丟給echarts
-      this.echartsCrr(data)
-      // console.log(data)
+      if (JSON.parse(JSON.stringify(data)).time.length > 0) {
+        this.echartsCrr(data)
+      }
+      console.log(JSON.parse(JSON.stringify(data)).time.length)
     },
   },
   methods: {
+    dateRange() {
+      if (this.dates.length > 1) {
+        this.output = []
+        this.outputLast = { time: [] }
+        this.menu = false
+        var input = this.dates
+        this.drawBar(input)
+        console.log(input)
+      }
+    },
     myChartinit() {
       const chartDom = this.$refs.lineBarChart
       const myChart = echarts.init(chartDom) // echarts初始化
@@ -447,14 +540,14 @@ export default {
       // 輸出資料給cheats
       this.dataProcessing(timeKey, totledisplay, output)
       // 輸出資料給cheats
-      var DataStartDay = new Date(this.date[0])
+      var DataStartDay = new Date(this.dates[0])
       DataStartDay =
         DataStartDay.getFullYear() +
         '-' +
         (DataStartDay.getMonth() + 1) +
         '-' +
         DataStartDay.getDate()
-      var DataEndDay = new Date(this.date[1])
+      var DataEndDay = new Date(this.dates[1])
       DataEndDay.setDate(DataEndDay.getDate() + 1)
       DataEndDay =
         DataEndDay.getFullYear() +
@@ -577,8 +670,8 @@ export default {
       // }
       // 把選取的時間一一列出來
       var datalist = []
-      var initday = new Date(this.date[0])
-      var endday = new Date(this.date[1])
+      var initday = new Date(this.dates[0])
+      var endday = new Date(this.dates[1])
       // console.log(initday,endday)
       while (initday.getTime() < endday.getTime()) {
         var dd = `${initday.getFullYear()}-${(
