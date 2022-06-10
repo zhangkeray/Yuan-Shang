@@ -364,7 +364,7 @@ export default {
                         var resultdata = lastdata.responseJSON
                         if (resultdata.length > 0) {
                           result01 =
-                          resultdata[resultdata.length - 1].table_change_start
+                            resultdata[resultdata.length - 1].table_change_start
                           lastReqStatus = false
                         }
                       }
@@ -516,12 +516,15 @@ export default {
               res += `
               <div class="echarts-tooltip-Monitoring-content-title">Before</div>
               <div class="echarts-tooltip-Monitoring-content-title">After</div>
-              <div><img id="history-before" src="${GetImageUrli(
+              <div class="echarts-tooltip-Monitoring-content-img"><img id="history-before" src="${GetImageUrli(
                 changeTimelast
-              )}" /></div>
-              <div><img id="history-after" src="${GetImageUrli(
+              )}" />
+              <div class="echarts-tooltip-Monitoring-content-img-txt">${changeTimelast}</div>
+              </div>
+              <div class="echarts-tooltip-Monitoring-content-img"><img id="history-after" src="${GetImageUrli(
                 changeTime
-              )}" /></div>`
+              )}" />
+              <div class="echarts-tooltip-Monitoring-content-img-txt">${changeTime}</div></div>`
               res += '</div>'
               res += '<div class="echarts-footer">此時段被修改的物件:'
               record.forEach((index) => {
@@ -838,7 +841,16 @@ export default {
   border-radius: 10px;
   cursor: pointer;
 }
-
+.echarts-tooltip-Monitoring-content-img {
+  position: relative;
+}
+.echarts-tooltip-Monitoring-content-img-txt {
+  position: absolute;
+  bottom: 9px;
+  color: white;
+  background-color: #00000047;
+  right: 5px;
+}
 #specialLook:hover {
   color: #37484c;
   background-color: #fff;
