@@ -78,7 +78,7 @@ export default {
     url1: 'http://127.0.0.1:5000/api/change/roi',
     loadingname: '',
     disabled: false,
-    dates: ['', ''],
+    dates: ['2022-06-01', '2022-06-01'],
     output: [],
     date: [],
     menu: false,
@@ -101,14 +101,14 @@ export default {
   },
   mounted() {
     // 上線要解除這邊的註解
-    this.dates = [
-      new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .substr(0, 10),
-      new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .substr(0, 10),
-    ]
+    // this.dates = [
+    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    //     .toISOString()
+    //     .substr(0, 10),
+    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    //     .toISOString()
+    //     .substr(0, 10),
+    // ]
     this.myChartinit()
     this.drawBar(this.dates)
   },
@@ -179,7 +179,6 @@ export default {
         this.echartsCrr(data)
       }
       if (this.sum >= 80) {
-        console.log('ok')
         this.changPoint(data)
       }
       // console.log(JSON.parse(JSON.stringify(data)).time.length)
@@ -231,21 +230,22 @@ export default {
       })
       const chartDom = this.$refs.lineBarChart
       const myChart = echarts.init(chartDom) // echarts初始化
-      var DataStartDay = new Date(this.dates[0])
-      DataStartDay =
-        DataStartDay.getFullYear() +
-        '-' +
-        (DataStartDay.getMonth() + 1) +
-        '-' +
-        DataStartDay.getDate()
-      var DataEndDay = new Date(this.dates[1])
-      DataEndDay.setDate(DataEndDay.getDate() + 1)
-      DataEndDay =
-        DataEndDay.getFullYear() +
-        '-' +
-        (DataEndDay.getMonth() + 1) +
-        '-' +
-        DataEndDay.getDate()
+      var DataStartDay1 = new Date(this.dates[0])
+      var DataStartDay = DataStartDay1.getFullYear()
+      // DataStartDay =
+      //   DataStartDay.getFullYear() +
+      //   '-' +
+      //   (DataStartDay.getMonth() + 1) +
+      //   '-' +
+      //   DataStartDay.getDate()
+      // var DataEndDay = new Date(this.dates[1])
+      // DataEndDay.setDate(DataEndDay.getDate() + 1)
+      // DataEndDay =
+      //   DataEndDay.getFullYear() +
+      //   '-' +
+      //   (DataEndDay.getMonth() + 1) +
+      //   '-' +
+      //   DataEndDay.getDate()
       // console.log(DataStartDay, DataEndDay)
       // 標記修改
       axios({
@@ -256,15 +256,28 @@ export default {
         },
         data: JSON.stringify([
           {
-            table_timeselectStart: DataStartDay,
-            table_timeselectStop: DataEndDay,
+            // table_timeselectStart: DataStartDay,
+            // table_timeselectStop: DataEndDay,
+            table_timeselectStart: DataStartDay + '-01-01',
+            table_timeselectStop: DataStartDay + '-12-31',
           },
         ]),
       })
         .then((params) => {
-          const data = params.data
-          console.log(data)
-
+          var data = params.data
+          var res = []
+          data.forEach((re) => {
+            res.push(re.table_change_start)
+          })
+          var uniqueArr = [...new Set(res)]
+          uniqueArr.sort(function (a, b) {
+            if (a < b) {
+              return -1
+            } else {
+              return 1
+            }
+          })
+          // console.log(uniqueArr)
           var time = []
           data.forEach((index, value) => {
             var dt = new Date(index.table_change_start)
@@ -317,11 +330,64 @@ export default {
             }).indexOf(index.name)
             var data = index.markLine.data
             data.forEach((el) => {
-              if (output[result].data[el.xAxis] !== undefined) {
-                output[result].data[el.xAxis].point = el.data
+              if (result >= 0) {
+                if (output[result].data[el.xAxis] !== undefined) {
+                  // 塞入上一個修改日期
+                  var result01 = uniqueArr.indexOf(el.data)
+                  if (result01 !== 0) {
+                    result01 = result01 - 1
+                  } else if (result01 === 0) {
+                    // 如果為第一個日期，則在呼叫前一年的資料，最大呼叫到前三年
+                    // 這邊因為axios無法同步請求，所以改用ajax要往前的資料
+                    var lastReqStatus = true
+                    // var lastReqMax = 0
+                    for (var i = 1; i <= 3; i++) {
+                      if (lastReqStatus) {
+                        var lastyear = new Date(DataStartDay1)
+                        lastyear.setFullYear(lastyear.getFullYear() - i)
+                        lastyear = lastyear.getFullYear()
+                        const lastdata = $.ajax({
+                          method: 'post',
+                          url: this.url1,
+                          async: false,
+                          dataType: 'json',
+                          contentType: 'application/json; charset=UTF-8',
+                          data: JSON.stringify([
+                            {
+                              // table_timeselectStart: DataStartDay,
+                              // table_timeselectStop: DataEndDay,
+                              table_timeselectStart: `${lastyear}-01-01`,
+                              table_timeselectStop: `${lastyear}-12-31`,
+                            },
+                          ]),
+                        })
+                        var resultdata = lastdata.responseJSON
+                        if (resultdata.length > 0) {
+                          result01 =
+                          resultdata[resultdata.length - 1].table_change_start
+                          lastReqStatus = false
+                        }
+                      }
+                    }
+                  }
+                  var lasttime = null
+                  if (typeof result01 === 'string') {
+                    lasttime = result01
+                  } else {
+                    lasttime = uniqueArr[result01]
+                  }
+
+                  // console.log("last:"+lasttime,"now:"+el.data)
+                  //
+                  output[result].data[el.xAxis].point = {
+                    now: el.data,
+                    last: lasttime,
+                  }
+                }
               }
             })
           })
+          // console.log(output)
           myChart.setOption({
             series: output,
           })
@@ -411,10 +477,13 @@ export default {
             var status = false
             var record = []
             var changeTime = null
+            var changeTimelast = null
             // var report = false
             arr.forEach((index, value) => {
               if (index.data.point !== 0) {
-                changeTime = index.data.point
+                changeTime = index.data.point.now
+                changeTimelast = index.data.point.last
+                console.log('last:' + changeTimelast, 'now:' + changeTime)
                 record.push(index.seriesName)
                 status = true
               }
@@ -441,60 +510,18 @@ export default {
                 }°C${changea}</div>
 								`
               }
-              // 圖片判斷
-              var nowtime = new Date(changeTime)
-              // var nowtime = new Date('2022-06-01 15:47:41')
-              // console.log(changeTime)
-              var imgUrl =
-                'http://127.0.0.1:5000/api/database/share/setting%5Croisettinghistory%5Croi_setting_history_' +
-                nowtime.getFullYear() +
-                ('0' + (nowtime.getMonth() + 1)).slice(-2) +
-                ('0' + nowtime.getDate()).slice(-2) +
-                '_T' +
-                ('0' + nowtime.getHours()).slice(-2) +
-                ('0' + nowtime.getMinutes()).slice(-2) +
-                ('0' + nowtime.getSeconds()).slice(-2) +
-                '.jpg'
-              var lasttime = new Date(nowtime)
-              lasttime = lasttime.setSeconds(lasttime.getSeconds() - 1)
-              lasttime = new Date(lasttime)
-              var imgUrllast =
-                'http://127.0.0.1:5000/api/database/share/alarmtemp%5C' +
-                lasttime.getFullYear() +
-                ('0' + (lasttime.getMonth() + 1)).slice(-2) +
-                '%5Calarmtemp_' +
-                lasttime.getFullYear() +
-                ('0' + (lasttime.getMonth() + 1)).slice(-2) +
-                ('0' + lasttime.getDate()).slice(-2) +
-                '_T' +
-                ('0' + lasttime.getHours()).slice(-2) +
-                ('0' + lasttime.getMinutes()).slice(-2) +
-                ('0' + lasttime.getSeconds()).slice(-2) +
-                '.jpg'
 
-              // ImageExist(imgUrl)
-
-              // $.ajax({
-              //   type: 'GET',
-              //   url: imgUrl,
-              //   dataType: 'html',
-              //   crossDomain: 'true',
-              //   success: (data, status) => {
-              //     console.log('Status: ' + status)
-              //   },
-              //   error: (err) => {
-              //     console.log(err)
-              //   },
-              // })
-              // console.log(imgUrl)
-              //
               res += `</div><hr />`
               res += '<div class="echarts-tooltip-Monitoring-point">'
               res += `
               <div class="echarts-tooltip-Monitoring-content-title">Before</div>
               <div class="echarts-tooltip-Monitoring-content-title">After</div>
-              <div><img id="history-before" src="${imgUrllast}" /></div>
-              <div><img id="history-after" src="${imgUrl}" /></div>`
+              <div><img id="history-before" src="${GetImageUrli(
+                changeTimelast
+              )}" /></div>
+              <div><img id="history-after" src="${GetImageUrli(
+                changeTime
+              )}" /></div>`
               res += '</div>'
               res += '<div class="echarts-footer">此時段被修改的物件:'
               record.forEach((index) => {
@@ -517,6 +544,20 @@ export default {
             //   img.src = url
             //   return img.height !== 0
             // }
+            function GetImageUrli(url) {
+              var nowtime = new Date(url)
+              var imgUrl =
+                'http://127.0.0.1:5000/api/database/share/setting%5Croisettinghistory%5Croi_setting_history_' +
+                nowtime.getFullYear() +
+                ('0' + (nowtime.getMonth() + 1)).slice(-2) +
+                ('0' + nowtime.getDate()).slice(-2) +
+                '_T' +
+                ('0' + nowtime.getHours()).slice(-2) +
+                ('0' + nowtime.getMinutes()).slice(-2) +
+                ('0' + nowtime.getSeconds()).slice(-2) +
+                '.jpg'
+              return imgUrl
+            }
             return res
           },
         },
@@ -684,10 +725,10 @@ export default {
       datalist.forEach((day) => {
         // console.log(day)
         // 計算時間
-        // const DataStartTime = day + ' 15:00:00'
-        // const DataEndTime = day + ' 17:00:00'
-        var DataStartTime = day + ' 00:00:00'
-        var DataEndTime = day + ' 23:59:59'
+        const DataStartTime = day + ' 15:00:00'
+        const DataEndTime = day + ' 17:00:00'
+        // var DataStartTime = day + ' 00:00:00'
+        // var DataEndTime = day + ' 23:59:59'
         // GET DATA
         axios({
           method: 'post',
