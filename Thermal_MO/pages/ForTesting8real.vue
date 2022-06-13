@@ -21,13 +21,13 @@ export default {
       F4: [],
       F5: [],
     },
-    output:[]
+    output: [],
   }),
   mounted() {
     // 初始化
     this.init()
     // 呼叫
-    this.getData()
+    // this.getData()
 
     // 計時載入新資料(1sec/1value)
     // var init = 0
@@ -40,11 +40,42 @@ export default {
     // console.log(start)
 
     // 計時載入新資料(1sec/1value)
-    var tmp = 1
+    var tmp = 5
+    var inittime = new Date('2022-06-01 00:00:00')
+    var formtstart =
+      inittime.getFullYear() +
+      '-' +
+      ('0' + (inittime.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + inittime.getDate()).slice(-2) +
+      ' ' +
+      ('0' + inittime.getHours()).slice(-2) +
+      ':' +
+      ('0' + inittime.getMinutes()).slice(-2) +
+      ':' +
+      ('0' + inittime.getSeconds()).slice(-2)
+
     var start = setInterval(() => {
-    this.getData(tmp)
-    tmp = tmp + 1
-    }, 1000)
+      var endtime = new Date(inittime)
+      endtime = endtime.setSeconds(endtime.getSeconds() + tmp)
+      endtime = new Date(endtime)
+      var formtend =
+        endtime.getFullYear() +
+        '-' +
+        ('0' + (endtime.getMonth() + 1)).slice(-2) +
+        '-' +
+        ('0' + endtime.getDate()).slice(-2) +
+        ' ' +
+        ('0' + endtime.getHours()).slice(-2) +
+        ':' +
+        ('0' + endtime.getMinutes()).slice(-2) +
+        ':' +
+        ('0' + endtime.getSeconds()).slice(-2)
+      console.log(formtstart, formtend)
+      this.getData(formtstart, formtend)
+      tmp = tmp + 5
+      console.log(tmp)
+    }, 5000)
     console.log(start)
   },
   methods: {
@@ -154,9 +185,9 @@ export default {
     },
 
     // 陣列 axios
-    getData() {
-      const DataStartTime = '2022-06-01 00:00:00'
-      const DataEndTime = '2022-06-01 00:00:05'
+    getData(formtstart, formtend) {
+      const DataStartTime = formtstart
+      const DataEndTime = formtend
       // 格式化開始時間
       var DataStartDay = new Date(DataStartTime)
       var month = DataStartDay.getMonth() + 1
@@ -248,41 +279,48 @@ export default {
         ]),
       }).then((params) => {
         var F1 = params.data[0].line1
+        this.arr.F1 = F1
         var F2 = params.data[0].line2
+        this.arr.F2 = F2
         var F3 = params.data[0].scope1
+        this.arr.F3 = F3
         var F4 = params.data[0].scope2
+        this.arr.F4 = F4
         var F5 = params.data[0].scope3
+        this.arr.F5 = F5
         var time = params.data[0].time
-        F1.forEach((index) => {
-          var arr = this.arr.F1
-          arr.push(index)
-          console.log(index)
-        })
-        F2.forEach((index) => {
-          var arr = this.arr.F2
-          arr.push(index)
-          // console.log(index)
-        })
-        F3.forEach((index) => {
-          var arr = this.arr.F3
-          arr.push(index)
-          // console.log(index)
-        })
-        F4.forEach((index) => {
-          var arr = this.arr.F4
-          arr.push(index)
-          // console.log(index)
-        })
-        F5.forEach((index) => {
-          var arr = this.arr.F5
-          arr.push(index)
-          // console.log(index)
-        })
-        time.forEach((index) => {
-          var time = this.time
-          time.push(index)
-          // console.log(index)
-        })
+        this.time = time
+
+        // F1.forEach((index) => {
+        //   var arr = this.arr.F1
+        //   arr.push(index)
+        //   console.log(index)
+        // })
+        // F2.forEach((index) => {
+        //   var arr = this.arr.F2
+        //   arr.push(index)
+        //   // console.log(index)
+        // })
+        // F3.forEach((index) => {
+        //   var arr = this.arr.F3
+        //   arr.push(index)
+        //   // console.log(index)
+        // })
+        // F4.forEach((index) => {
+        //   var arr = this.arr.F4
+        //   arr.push(index)
+        //   // console.log(index)
+        // })
+        // F5.forEach((index) => {
+        //   var arr = this.arr.F5
+        //   arr.push(index)
+        //   // console.log(index)
+        // })
+        // time.forEach((index) => {
+        //   var time = this.time
+        //   time.push(index)
+        //   // console.log(index)
+        // })
         this.render()
       })
     },

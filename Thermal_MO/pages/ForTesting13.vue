@@ -24,11 +24,11 @@ export default {
     output: [],
   }),
   mounted() {
-    // this.drawBar()
+    this.drawBar()
 
     // 計時載入新資料(1sec/1value)
     // var init = 0
-    var tmp = 5
+    var tmp = 1
     var start = setInterval(() => {
       this.drawBar(tmp)
       tmp++
@@ -46,37 +46,78 @@ export default {
   },
 
   methods: {
-    drawBar(tmp) {
+    drawBar() {
       const DataStartTime = '2022-06-01 00:00:00'
-      const DataEndTime = '2022-06-01 00:00:01'
+      const DataEndTime = '2022-06-01 00:00:05'
       var DataStartDay = new Date(DataStartTime)
+      var month = DataStartDay.getMonth() + 1
+      if (month.toString().length === 1) {
+        month = '0' + month
+      }
+      var day = DataStartDay.getDate()
+      if (day.toString().length === 1) {
+        day = '0' + day
+      }
+      var hour = DataStartDay.getHours()
+      if (hour.toString().length === 1) {
+        hour = '0' + hour
+      }
+      var min = DataStartDay.getMinutes()
+      if (min.toString().length === 1) {
+        min = '0' + min
+      }
+      var sec = DataStartDay.getSeconds()
+      if (sec.toString().length === 1) {
+        sec = '0' + sec
+      }
+
       DataStartDay =
         DataStartDay.getFullYear() +
         '-' +
-        (DataStartDay.getMonth() + 1) +
+        month +
         '-' +
-        DataStartDay.getDate() +
+        day +
         ' ' +
-        DataStartDay.getHours() +
+        hour +
         ':' +
-        DataStartDay.getMinutes() +
+        min +
         ':' +
-        DataStartDay.getSeconds()
+        sec
 
       var DataEndDay = new Date(DataEndTime)
-      DataEndDay.setSeconds(DataEndDay.getSeconds() + tmp)
+      var month2 = DataEndDay.getMonth() + 1
+      if (month2.toString().length === 1) {
+        month2 = '0' + month2
+      }
+      var day2 = DataEndDay.getDate()
+      if (day2.toString().length === 1) {
+        day2 = '0' + day2
+      }
+      var hour2 = DataEndDay.getHours()
+      if (hour2.toString().length === 1) {
+        hour2 = '0' + hour2
+      }
+      var min2 = DataEndDay.getMinutes()
+      if (min2.toString().length === 1) {
+        min2 = '0' + min2
+      }
+      var sec2 = DataEndDay.getSeconds()
+      if (sec2.toString().length === 1) {
+        sec2 = '0' + sec2
+      }
+
       DataEndDay =
         DataEndDay.getFullYear() +
         '-' +
-        (DataEndDay.getMonth() + 1) +
+        month2 +
         '-' +
-        DataEndDay.getDate() +
+        day2 +
         ' ' +
-        DataEndDay.getHours() +
+        hour2 +
         ':' +
-        DataEndDay.getMinutes() +
+        min2 +
         ':' +
-        DataEndDay.getSeconds()
+        sec2
       console.log(DataStartDay, DataEndDay)
 
       const chartDom = this.$refs.lineBarChart
@@ -156,9 +197,9 @@ export default {
       }
       // -------------------------------------------------------------
       option && myChart.setOption(option)
-    // },
-    // GET DATA
-    // getData() {
+      // },
+      // GET DATA
+      // getData() {
       axios({
         method: 'post',
         url: this.url,
@@ -208,6 +249,7 @@ export default {
             var time = this.time
             time.push(index)
             // console.log(index)
+          })
             myChart.setOption({
               xAxis: [
                 {
@@ -237,7 +279,6 @@ export default {
                 },
               ],
             })
-          })
         })
         .catch((err) => {
           console.log(err)
