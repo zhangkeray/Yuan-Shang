@@ -15,36 +15,67 @@ export default {
     // 時間
     time: [],
     // Curve
-    arr: {
-      F1: [],
-      F2: [],
-      F3: [],
-      F4: [],
-      F5: [],
-    },
+    key: [],
+    output: [],
   }),
+  watch: {
+    time(data) {
+      // console.log(JSON.parse(JSON.stringify(data)))
+      this.test4(data)
+    },
+  },
   mounted() {
     // 初始化
     this.test3()
-
+    this.test4()
+    var delayTime = 0 // 設定緩衝時間(給後端的)，避免後端還未記錄，我們就先要資料了
+    var falsetime = new Date('2022-06-08 15:16:20') // 正式上線請註解
+    var intervalData = setInterval(() => {
+      falsetime.setSeconds(falsetime.getSeconds() + 1)
+      var getTime = new Date(falsetime) // 正式上線請將falsetime 拿掉
+      getTime.setSeconds(getTime.getSeconds() - delayTime)
+      var crrtime = new Date(getTime)
+      var start =
+        crrtime.getFullYear() +
+        '-' +
+        ('0' + (crrtime.getMonth() + 1)).slice(-2) +
+        '-' +
+        ('0' + crrtime.getDate()).slice(-2) +
+        ' ' +
+        ('0' + crrtime.getHours()).slice(-2) +
+        ':' +
+        ('0' + crrtime.getMinutes()).slice(-2) +
+        ':' +
+        ('0' + crrtime.getSeconds()).slice(-2)
+      var stop = crrtime.setSeconds(crrtime.getSeconds() + 1)
+      stop = new Date(stop)
+      stop =
+        stop.getFullYear() +
+        '-' +
+        ('0' + (stop.getMonth() + 1)).slice(-2) +
+        '-' +
+        ('0' + stop.getDate()).slice(-2) +
+        ' ' +
+        ('0' + stop.getHours()).slice(-2) +
+        ':' +
+        ('0' + stop.getMinutes()).slice(-2) +
+        ':' +
+        ('0' + stop.getSeconds()).slice(-2)
+      this.getData(start, stop)
+    }, 1000)
+    console.log(intervalData)
     // 計時載入新資料(5sec/5value)
-    var init = 0
-    var tmp = 5
-    var start = setInterval(() => {
-      this.getData(init, tmp)
-      init = tmp + 1
-      tmp = tmp + 5
-    }, 5000)
-    console.log(start)
   },
   methods: {
     // axios
     getData(DataStartTime, DataEndTime) {
-      // console.log(start, stop)
+      // const chartDom = this.$refs.lineChart
+      // const myChart = echarts.init(chartDom)
+      console.log(DataStartTime, DataEndTime)
 
       axios({
         method: 'post',
-        url: this.url,
+        url: 'http://127.0.0.1:5000/api/alarm/max',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -56,100 +87,64 @@ export default {
         ]),
       })
         .then((events) => {
-          var arr = events.data
-          // var time = arr[0].time
-          delete arr[0].time
-          var data = arr[0]
-          var seriesData = []
+          var arr = events.data[0]
+          var thisTime = this.time
+          var time = arr.time
+          var timeleg = thisTime.length // 保存目前時間長度(如果有增加物件，前方需要補齊key)
+          thisTime.push(time[0])
+          delete arr.time
+          var data = arr
+          // console.log(data, timeleg)
+          // var seriesData = []
+          // var arr01 = this.key
           Object.keys(data).forEach((key) => {
-            var arr = {
-              type: 'line',
-              name: key,
-              yAxisIndex: 0,
-              data: data[key],
-              symbolSize: 1,
+            var ar = this.key[key]
+            if (ar !== undefined) {
+              // console.log(ar)
+              this.key[key].push(data[key][0])
+            } else {
+              // console.log(ar)
+              this.key[key] = []
+              for(var i = 0; i < timeleg; i++) {
+                this.key[key].push(null)
+              }
+              this.key[key].push(data[key][0])
             }
-            seriesData.push(arr)
+            // this.keycrr(timeleg, key, data[key]) // 將目前資料長度、目前key、資料傳到ketcrr進行處理
+            //   var arr = {
+            //     type: 'line',
+            //     name: key,
+            //     data: [5],
+            //   }
+            //   seriesData.push(arr)
           })
+          console.log(this.key)
+          // console.log(seriesData)
+          // myChart.setOption({
+          //   series: seriesData,
+          // })
         })
         .catch((err) => {
           console.log(err)
         })
-      // axios({
-      //   method: 'get',
-      //   url: 'http://127.0.0.1:5000/api/alarm/max',
-
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   params: {
-      //     start,
-      //     stop,
-      //   },
-      // }).then((params) => {
-      //   var F1 = params.data[0].spot1
-      //   var F2 = params.data[0].spot2
-      //   var F3 = params.data[0].spot3
-      //   var F4 = params.data[0].spot4
-      //   var F5 = params.data[0].spot5
-      //   var time = params.data[0].time
-      //   F1.forEach((index) => {
-      //     var arr = this.arr.F1
-      //     arr.push(index)
-      //     // console.log(index)
-      //   })
-      //   F2.forEach((index) => {
-      //     var arr = this.arr.F2
-      //     arr.push(index)
-      //     // console.log(index)
-      //   })
-      //   F3.forEach((index) => {
-      //     var arr = this.arr.F3
-      //     arr.push(index)
-      //     // console.log(index)
-      //   })
-      //   F4.forEach((index) => {
-      //     var arr = this.arr.F4
-      //     arr.push(index)
-      //     // console.log(index)
-      //   })
-      //   F5.forEach((index) => {
-      //     var arr = this.arr.F5
-      //     arr.push(index)
-      //     // console.log(index)
-      //   })
-      //   time.forEach((index) => {
-      //     var time = this.time
-      //     time.push(index)
-      //     // console.log(index)
-      //   })
-      //   this.test4()
-      // })
     },
+    // keycrr(totle, key, data) {
+    //   var arr = this.key
+
+    //   console.log(totle, key, data)
+    // },
     //
-    test4() {
-      // var start = setInterval(() => {
-      // var init = 0
-      // var tmp = 5
-      //   this.getData(init, tmp)
-      //   init = tmp + 1
-      //   tmp = tmp + 5
-      // }, 5000)
-      // console.log(start)
-      // ECHART初始化
-      // var chartDom = document.getElementById('my')
-      // var myChart = echarts.init(chartDom)
-      // 可重複使用之ECHART初始化
+    test4(time, data) {
       const chartDom = this.$refs.lineChart
       const myChart = echarts.init(chartDom)
 
       myChart.setOption({
         xAxis: [
           {
-            data: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            data: time,
           },
         ],
-        series: this.seriesData,
+        series: [data],
       })
     },
 
@@ -220,7 +215,7 @@ export default {
           type: 'value',
           boundaryGap: [0, '30%'],
         },
-        series: [this.seriesData],
+        series: [],
       }
       option && myChart.setOption(option)
     },
