@@ -21,7 +21,12 @@ export default {
   watch: {
     time(data) {
       // console.log(JSON.parse(JSON.stringify(data)))
-      this.test4(data)
+      var keys = this.key
+      keys.forEach((index)=>{
+        console.log(index)
+      })
+      console.log(this.key)
+      this.test4(data, '0')
     },
   },
   mounted() {
@@ -69,9 +74,6 @@ export default {
   methods: {
     // axios
     getData(DataStartTime, DataEndTime) {
-      // const chartDom = this.$refs.lineChart
-      // const myChart = echarts.init(chartDom)
-      console.log(DataStartTime, DataEndTime)
 
       axios({
         method: 'post',
@@ -94,57 +96,51 @@ export default {
           thisTime.push(time[0])
           delete arr.time
           var data = arr
-          // console.log(data, timeleg)
-          // var seriesData = []
-          // var arr01 = this.key
           Object.keys(data).forEach((key) => {
             var ar = this.key[key]
             if (ar !== undefined) {
-              // console.log(ar)
-              this.key[key].push(data[key][0])
+              console.log('ok')
             } else {
-              // console.log(ar)
               this.key[key] = []
-              for(var i = 0; i < timeleg; i++) {
+              for (var i = 0; i < timeleg; i++) {
                 this.key[key].push(null)
               }
-              this.key[key].push(data[key][0])
             }
-            // this.keycrr(timeleg, key, data[key]) // 將目前資料長度、目前key、資料傳到ketcrr進行處理
-            //   var arr = {
-            //     type: 'line',
-            //     name: key,
-            //     data: [5],
-            //   }
-            //   seriesData.push(arr)
           })
-          console.log(this.key)
-          // console.log(seriesData)
-          // myChart.setOption({
-          //   series: seriesData,
-          // })
+          var arr01 = this.key
+          Object.keys(arr01).forEach((key) => {
+            if (data[key] !== undefined) {
+              this.key[key].push(data[key][0])
+            } else {
+              this.key[key].push(null)
+            }
+          })
         })
         .catch((err) => {
           console.log(err)
         })
     },
-    // keycrr(totle, key, data) {
-    //   var arr = this.key
-
-    //   console.log(totle, key, data)
-    // },
-    //
+    
     test4(time, data) {
       const chartDom = this.$refs.lineChart
       const myChart = echarts.init(chartDom)
-
+      var arr01 = this.key
+      var output = []
+      Object.keys(arr01).forEach((key1) => {
+           console.log(key1)
+           output.push({
+              type: 'line',
+              name:key1,
+              data:arr01[key1]
+           })
+      })
       myChart.setOption({
         xAxis: [
           {
             data: time,
           },
         ],
-        series: [data],
+        series: output,
       })
     },
 
