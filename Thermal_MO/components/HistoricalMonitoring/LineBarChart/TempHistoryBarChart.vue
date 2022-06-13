@@ -84,7 +84,8 @@ export default {
     url1: 'http://127.0.0.1:5000/api/change/roi',
     loadingname: '',
     disabled: false,
-    dates: ['2022-06-01', '2022-06-01'],
+    // dates: ['2022-06-01', '2022-06-01'],
+    dates: ['', ''],
     output: [],
     date: [],
     menu: false,
@@ -115,14 +116,14 @@ export default {
   },
   mounted() {
     // 上線要解除這邊的註解
-    // this.dates = [
-    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-    //     .toISOString()
-    //     .substr(0, 10),
-    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-    //     .toISOString()
-    //     .substr(0, 10),
-    // ]
+    this.dates = [
+      new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+    ]
     this.myChartinit()
     this.drawBar(this.dates)
   },
@@ -249,23 +250,17 @@ export default {
         var data1 = JSON.parse(JSON.stringify(data))
         var time = data1.time
         var min = data.min
-        console.log(data.min)
-        // var min = []
-        // var object = []
         var arr = []
         Object.keys(min).forEach((key) => {
-          console.log(key)
-            arr.push({
-              name: key,
-              data: min[key],
-              type: 'line',
-              yAxisIndex: 0,
-              symbolSize: 1,
-            })
+          arr.push({
+            name: key,
+            data: min[key],
+            type: 'line',
+            yAxisIndex: 0,
+            symbolSize: 1,
+          })
         })
         var displaytotle = time.length - 50
-        // // console.log(time)
-        // // Object.keys()
         myChart.setOption({
           dataZoom: [
             {
@@ -278,9 +273,81 @@ export default {
           },
           series: arr,
         })
-        // // console.log(data1)
-        // console.log(arr)
       }
+    },
+    avgOutput(data1) {
+      if (data1.length > 0) {
+        // 處理time key
+        var data = data1
+        var arr = {}
+        data.forEach((index) => {
+          Object.keys(index).forEach((key) => {
+            arr[key] = []
+          })
+        })
+        // 處理max key
+        data.forEach((index) => {
+          Object.keys(index.avg).forEach((key) => {
+            arr.avg[key] = []
+          })
+        })
+        // 處理資料
+        data.forEach((index) => {
+          index.time.forEach((time) => {
+            arr.time.push(time)
+          })
+        })
+        // 在指定時間中塞入value
+        Object.keys(arr.avg).forEach((key) => {
+          data.forEach((index) => {
+            var ae = index.avg[key]
+            if (ae !== undefined) {
+              ae.forEach((value) => {
+                arr.avg[key].push(value)
+              })
+            } else {
+              var nulltime = index.time
+              nulltime.forEach(() => {
+                arr.avg[key].push(null)
+              })
+            }
+          })
+        })
+        this.avgoutputLast = arr
+      }
+    },
+    avgoutputLast(data) {
+      if (JSON.parse(JSON.stringify(data)).time.length > 0) {
+        const calendar = document.getElementById('lineAvgChart')
+        const myChart = echarts.getInstanceByDom(calendar)
+        var data1 = JSON.parse(JSON.stringify(data))
+        var time = data1.time
+        var avg = data.avg
+        var arr = []
+        Object.keys(avg).forEach((key) => {
+          arr.push({
+            name: key,
+            data: avg[key],
+            type: 'line',
+            yAxisIndex: 0,
+            symbolSize: 1,
+          })
+        })
+        var displaytotle = time.length - 50
+        myChart.setOption({
+          dataZoom: [
+            {
+              startValue: displaytotle,
+              endValue: time.length,
+            },
+          ],
+          xAxis: {
+            data: time,
+          },
+          series: arr,
+        })
+      }
+      console.log(data)
     },
   },
   methods: {
@@ -507,7 +574,7 @@ export default {
         this.percentage = 0
         this.output = []
         this.minOutput = []
-        this.avgoutputLast = []
+        this.avgOutput = []
         this.outputLast = { time: [] }
         this.menu = false
         this.disabled = true
@@ -828,10 +895,10 @@ export default {
       datalist.forEach((day) => {
         // console.log(day)
         // 計算時間
-        const DataStartTime = day + ' 15:00:00'
-        const DataEndTime = day + ' 17:00:00'
-        // var DataStartTime = day + ' 00:00:00'
-        // var DataEndTime = day + ' 23:59:59'
+        // const DataStartTime = day + ' 15:00:00'
+        // const DataEndTime = day + ' 17:00:00'
+        var DataStartTime = day + ' 00:00:00'
+        var DataEndTime = day + ' 23:59:59'
         // GET DATA
         axios({
           method: 'post',
@@ -849,10 +916,12 @@ export default {
           .then((params) => {
             var output = this.output
             var minOutput = this.minOutput
+            var avgOutput = this.avgOutput
             var data = params.data[0]
             data = getdata(data)
             output.push(data.max)
             minOutput.push(data.min)
+            avgOutput.push(data.avg)
             output.sort(function (a, b) {
               if (a.time[0] > b.time[0]) {
                 return 1 // 正數時，後面的數放在前面
@@ -867,9 +936,16 @@ export default {
                 return -1 // 負數時，前面的數放在前面
               }
             })
+            avgOutput.sort(function (a, b) {
+              if (a.time[0] > b.time[0]) {
+                return 1 // 正數時，後面的數放在前面
+              } else {
+                return -1 // 負數時，前面的數放在前面
+              }
+            })
             this.output = output
             this.minOutput = minOutput
-
+            this.avgOutput = avgOutput
             // -------loading data-------
             const parentNode1 = document.querySelector('.my-' + day)
             parentNode1.style.display = 'none'
