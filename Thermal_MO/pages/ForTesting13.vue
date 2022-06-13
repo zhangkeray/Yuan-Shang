@@ -28,12 +28,12 @@ export default {
 
     // 計時載入新資料(1sec/1value)
     // var init = 0
-    var tmp = 1
-    var start = setInterval(() => {
-      this.drawBar(tmp)
-      tmp++
-    }, 1000)
-    console.log(start)
+    // var tmp = 1
+    // var start = setInterval(() => {
+    //   this.drawBar(tmp)
+    //   tmp++
+    // }, 1000)
+    // console.log(start)
 
     //   const DataStartTime = '2022-06-01 00:00:00'
     //   const DataEndTime = '2022-06-01 00:00:05'

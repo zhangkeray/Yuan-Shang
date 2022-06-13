@@ -110,7 +110,7 @@ export default {
         },
         {
           icon: 'mdi-account-group-outline',
-          title: 'API動態測試(比造原寫法)',
+          title: 'API動態測試8real(比造原寫法)',
           // to: '5',
           to: 'ForTesting8real',
         },
@@ -119,24 +119,6 @@ export default {
         //   title: '測試9:Node.JS',
         //   // to: '5',
         //   to: 'ForTesting9',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: '測試10:實際使用',
-        //   // to: '5',
-        //   to: 'ForTesting10',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: '測試11',
-        //   // to: '5',
-        //   to: 'ForTesting11',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: '測試12',
-        //   // to: '5',
-        //   to: 'ForTesting12',
         // },
         {
           icon: 'mdi-account-group-outline',
