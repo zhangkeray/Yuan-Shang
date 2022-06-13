@@ -250,6 +250,7 @@ export default {
         sec2 = '0' + sec2
       }
 
+
       DataEndDay =
         DataEndDay.getFullYear() +
         '-' +
