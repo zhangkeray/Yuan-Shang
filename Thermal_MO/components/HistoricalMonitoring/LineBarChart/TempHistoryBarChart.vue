@@ -66,7 +66,7 @@
           v-model="valueDeterminate"
           :active="show"
           color="indigo darken-2"
-          style="width:975px"
+          style="width: 975px"
         ></v-progress-linear>
         <div>{{ loadingname }}{{ percentage }}</div>
         <div id="echart-loading-cover" class="d-none"></div>
@@ -93,12 +93,18 @@ export default {
     activePicker: null,
     // 進度計算
     valueDeterminate: 0,
-    show:true,
+    show: true,
     totledata: 0,
     finish: 0,
     percentage: 0,
     sum: 0,
     errorM: '',
+    // 最低溫度
+    minOutput: [],
+    minoutputLast: [],
+    // 平均溫度
+    avgOutput: [],
+    avgoutputLast: [],
   }),
   computed: {
     dateRangeText() {
@@ -126,7 +132,7 @@ export default {
       this.valueDeterminate = sum
       if (sum >= 80) {
         this.loadingname = '資料下載完成，正在處理標記資料....'
-        
+
         setTimeout(() => {
           this.loadingname = '資料處理完成!'
           this.percentage = '(' + 100.0 + '%)'
@@ -194,6 +200,87 @@ export default {
         this.changPoint(data)
       }
       // console.log(JSON.parse(JSON.stringify(data)).time.length)
+    },
+    minOutput(data1) {
+      if (data1.length > 0) {
+        // 處理time key
+        var data = data1
+        var arr = {}
+        data.forEach((index) => {
+          Object.keys(index).forEach((key) => {
+            arr[key] = []
+          })
+        })
+        // 處理max key
+        data.forEach((index) => {
+          Object.keys(index.min).forEach((key) => {
+            arr.min[key] = []
+          })
+        })
+        // 處理資料
+        data.forEach((index) => {
+          index.time.forEach((time) => {
+            arr.time.push(time)
+          })
+        })
+        // 在指定時間中塞入value
+        Object.keys(arr.min).forEach((key) => {
+          data.forEach((index) => {
+            var ae = index.min[key]
+            if (ae !== undefined) {
+              ae.forEach((value) => {
+                arr.min[key].push(value)
+              })
+            } else {
+              var nulltime = index.time
+              nulltime.forEach(() => {
+                arr.min[key].push(null)
+              })
+            }
+          })
+        })
+        this.minoutputLast = arr
+      }
+    },
+    minoutputLast(data) {
+      if (JSON.parse(JSON.stringify(data)).time.length > 0) {
+        const calendar = document.getElementById('lineLowChart')
+        const myChart = echarts.getInstanceByDom(calendar)
+        var data1 = JSON.parse(JSON.stringify(data))
+        var time = data1.time
+        var min = data.min
+        console.log(data.min)
+        // var min = []
+        // var object = []
+        var arr = []
+        Object.keys(min).forEach((key) => {
+          console.log(key)
+            arr.push({
+              name: key,
+              data: min[key],
+              type: 'line',
+              yAxisIndex: 0,
+              symbolSize: 1,
+            })
+        })
+        var displaytotle = time.length - 50
+        // // console.log(time)
+        // // Object.keys()
+        myChart.setOption({
+          dataZoom: [
+            {
+              startValue: displaytotle,
+              endValue: time.length,
+            },
+          ],
+          xAxis: {
+            data: time,
+          },
+          series: arr,
+        })
+        // // console.log(data1)
+        // console.log(arr)
+      }
     },
   },
   methods: {
@@ -419,6 +506,8 @@ export default {
         this.show = true
         this.percentage = 0
         this.output = []
+        this.minOutput = []
+        this.avgoutputLast = []
         this.outputLast = { time: [] }
         this.menu = false
         this.disabled = true
@@ -759,9 +848,11 @@ export default {
         })
           .then((params) => {
             var output = this.output
+            var minOutput = this.minOutput
             var data = params.data[0]
             data = getdata(data)
-            output.push(data)
+            output.push(data.max)
+            minOutput.push(data.min)
             output.sort(function (a, b) {
               if (a.time[0] > b.time[0]) {
                 return 1 // 正數時，後面的數放在前面
@@ -769,7 +860,15 @@ export default {
                 return -1 // 負數時，前面的數放在前面
               }
             })
+            minOutput.sort(function (a, b) {
+              if (a.time[0] > b.time[0]) {
+                return 1 // 正數時，後面的數放在前面
+              } else {
+                return -1 // 負數時，前面的數放在前面
+              }
+            })
             this.output = output
+            this.minOutput = minOutput
 
             // -------loading data-------
             const parentNode1 = document.querySelector('.my-' + day)
@@ -779,38 +878,59 @@ export default {
           .catch((err) => {
             console.log(err)
           })
-        // -------loading data-------
         // 去除單一時間所有物件空值
         function getdata(params) {
           var time = params.time
-          var timeKey = []
           var max = params.max
+          var min = params.min
+          var avg = params.avg
+          var dataMax = currentData(time, max)
+          var dataMin = currentData(time, min)
+          var dataAvg = currentData(time, avg)
+          var arr = {
+            max: {
+              time: dataMax.time,
+              max: dataMax.data,
+            },
+            min: {
+              time: dataMin.time,
+              min: dataMin.data,
+            },
+            avg: {
+              time: dataAvg.time,
+              avg: dataAvg.data,
+            },
+          }
           // var avgKey = []
           // 列出time的時間
+          return arr
+        }
+        function currentData(time, data) {
+          var timeKey = []
           time.forEach((index, value) => {
             timeKey.push(index)
           })
           var arr = {
             time: [],
-            max: [],
+            data: [],
           }
-          Object.keys(max).forEach((key) => {
-            arr.max[key] = []
+          Object.keys(data).forEach((key) => {
+            arr.data[key] = []
           })
           for (const i in timeKey) {
             var st = false
             // 判斷物件全部皆為空
-            Object.keys(max).forEach((keys) => {
-              var tp = max[keys][i]
+            Object.keys(data).forEach((keys) => {
+              var tp = data[keys][i]
               if (tp != null) {
                 st = true
               }
             })
             // 將數值塞入物件
-            Object.keys(max).forEach((keys) => {
-              var tp = max[keys][i]
+            Object.keys(data).forEach((keys) => {
+              var tp = data[keys][i]
               if (st) {
-                arr.max[keys].push(tp)
+                arr.data[keys].push(tp)
               }
             })
             if (st) {
