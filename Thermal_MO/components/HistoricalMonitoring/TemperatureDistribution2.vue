@@ -30,7 +30,7 @@
 
       <div style="margin-left: 20px; top: 12px; position: absolute">
         <v-btn color="#9BA3A5" rounded x-small depressed style="color: #fff">
-          溫度分布
+          溫度分佈
         </v-btn>
       </div>
 

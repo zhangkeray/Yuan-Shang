@@ -1,162 +1,111 @@
 <template>
-  <div>
-    <!-- <div id="my" style="width: 80%; height: 600px"></div> -->
-    <div ref="lineChart" style="width: 80%; height: 600px"></div>
-  </div>
+  <div ref="lineBarChart" style="height: 670px; width: 1250px"></div>
 </template>
+
 <script>
 import * as echarts from 'echarts'
 import axios from 'axios'
+
 export default {
-  name: 'HistoricalMonitoringPage',
-  data: () => ({
-    // 定義
-    arr: {
-      spot1: [],
-      spot2: [],
-      spot3: [],
-      spot4: [],
-      spot5: [],
-    },
-    data: [],
-  }),
-  mounted() {
-    // 初始化
-    this.test3()
-
-    // 計時載入新資料(1sec/1value)
-    // var init = 0
-    // var tmp = 5
-    // var start = setInterval(() => {
-    //   this.getData(init, tmp)
-    //   init = tmp + 1
-    //   tmp = tmp + 1
-    // }, 1000)
-    // console.log(start)
-
-    // // 計時載入新資料(5sec/5value)
-    // var init = 0
-    // var tmp = 5
-    // var start = setInterval(() => {
-    //   this.getData(init, tmp)
-    //   init = tmp + 1
-    //   tmp = tmp + 5
-    // }, 5000)
-    // console.log(start)
+  data() {
+    return {
+      opinionData: [],
+    }
   },
+  mounted() {
+    this.getData()
+    // this.drawBar()
+  },
+
   methods: {
     // axios
-    getData(start, stop) {
-      // console.log(start, stop)
-      axios({
-        method: 'get',
-        // url: 'http://localhost:8080/finalchartgo',
-                url: 'http://127.0.0.1:5000/api/alarm/max',
-
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        params: {
-          start,
-          stop,
-        },
-      }).then((params) => {
-        console.log(params.data[0]);
-        // console.log(object);
-        // var spot1 = params.data[0].spot1
-        // var spot2 = params.data[0].spot2
-        // var spot3 = params.data[0].spot3
-        // var spot4 = params.data[0].spot4
-        // var spot5 = params.data[0].spot5
-        // var time = params.data[0].time
-        // spot1.forEach((index) => {
-        //   var arr = this.arr.spot1
-        //   arr.push(index)
-        //   console.log(index)
-        // })
-        // spot2.forEach((index) => {
-        //   var arr = this.arr.spot2
-        //   arr.push(index)
-        //   console.log(index)
-        // })
-        // spot3.forEach((index) => {
-        //   var arr = this.arr.spot3
-        //   arr.push(index)
-        //   console.log(index)
-        // })
-        // spot4.forEach((index) => {
-        //   var arr = this.arr.spot4
-        //   arr.push(index)
-        //   console.log(index)
-        // })
-        // spot5.forEach((index) => {
-        //   var arr = this.arr.spot5
-        //   arr.push(index)
-        //   console.log(index)
-        // })
-        // time.forEach((index) => {
-        //   var data = this.data
-        //   data.push(index)
-        //   console.log(index)
-        // })
-
-        this.test4()
-      })
+    getData() {
+      axios
+        .get('http://localhost:8080/CHART5')
+        .then((response) => {
+          console.log(response.data)
+          this.opinionData = response.data
+          this.drawBar('main')
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
-    //
-    test4() {
-      // ECHART初始化
-      // var chartDom = document.getElementById('my')
-      // var myChart = echarts.init(chartDom)
-      // 可重複使用之ECHART初始化
-      const chartDom = this.$refs.lineChart
-      const myChart = echarts.init(chartDom)
-
-      myChart.setOption({
-        xAxis: {
-          // data: this.data,
-          data: this.date,
-        },
-        series: [
-          {
-            name: 'spot1',
-            data: this.arr.spot1,
-          },
-          // {
-          //   name: 'spot2',
-          //   data: this.arr.spot2,
-          // },
-          // {
-          //   name: 'spot3',
-          //   data: this.arr.spot3,
-          // },
-          // {
-          //   name: 'spot4',
-          //   data: this.arr.spot4,
-          // },
-          // {
-          //   name: 'spot5',
-          //   data: this.arr.spot5,
-          // },
-        ],
-      })
-    },
-
-    // 初始化
-    test3() {
-      // ECHART初始化
-      // var chartDom = document.getElementById('my')
-      // var myChart = echarts.init(chartDom)
-      // var option
-
-      // 可重複使用之ECHART初始化
-      const chartDom = this.$refs.lineChart
-      const myChart = echarts.init(chartDom)
+    drawBar() {
+      const chartDom = this.$refs.lineBarChart
+      const myChart = echarts.init(chartDom) // echarts初始化
       var option
+
+      // 指定图表的配置项和数据
+      var oneSecond = 5000
+      var date = []
+      var queueLength = 2 // 队列长度
+      var refreshTimeNormal = 5000 // 正常刷新时间
+      // ------------------------------------------------------------------
+
+      // ------------------------------------------------------------------
+
+      // var data = []
+      // 设置初试时间
+      var initTime = new Date() // 获得当前时间
+      // 此处是将时间戳改为正常Date格式时间
+      var now = new Date(initTime.getTime()) // 当前时间
+      function addData() {
+        now =
+          now.toLocaleDateString() +
+          '\n' +
+          now.getHours() +
+          now.toLocaleTimeString().substr(-6, 6)
+        date.push(now) // 填充横坐标数组 时间
+        // data.push((Math.random() - 0.4) * 10 + data[data.length - 1]); // 填充纵坐标
+
+        // if (shift) {
+        //   data.push((Math.random() - 0.4) * 10 + data[data.length - 1]) // 填充纵坐标
+        //   // date.shift();
+        //   // data.shift();
+        //   // 删除第一项
+        // } else {
+        //   data.push((Math.random() - 0.4) * 10 + data[data.length - 1]) // 填充纵坐标
+        //   // data.push(0); // 初始化填充纵坐标
+        // }
+        // 控制每次加多少一段时间
+        now = new Date(+new Date(now) + oneSecond)
+      }
+
+      // 先赋值10个，同时数组上限为20
+      for (var iv = 1; iv < queueLength; iv++) {
+        addData()
+      }
+
+      // 選擇圖表樣式------------------------------------------
 
       option = {
         tooltip: {
           trigger: 'axis',
+          axisPointer: {
+            animation: false,
+          },
+        },
+        grid: {
+          top: 40, // 距离容器上边界40像素
+          bottom: 80, // 距离容器下边界30像素
+        },
+        xAxis: {
+          // x轴设置
+          // type: 'category',
+          boundaryGap: false,
+          splitLine: { show: true }, // 去除网格线
+          data: date,
+          splitNumber: 12, // 横坐标设置24个间隔
+        },
+        yAxis: {
+          // y轴设置
+          boundaryGap: [0, '50%'],
+          splitLine: { show: true }, // 去除网格线
+          type: 'value',
+          axisLabel: {
+            formatter: '{value} (°C)', // 给Y轴上的刻度加上单位
+          },
         },
         dataZoom: [
           // 数据滑块设置
@@ -175,56 +124,121 @@ export default {
                 opacity: 1,
               },
             },
-            fillerColor: 'rgba(255,255,255,.6)',
+            // fillerColor:'rgba(255,255,255,.6)'
           },
           {
             type: 'inside', // 使鼠标在图表中时滚轮可用
           },
         ],
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-        },
-        yAxis: {
-          type: 'value',
-          boundaryGap: [0, '30%'],
-        },
         series: [
+          // 曲线设置
           {
-            name: 'spot1',
+            name: '區塊1',
             type: 'line',
             symbol: 'none',
+            lineStyle: {
+              // color: '#8F2400',
+              width: 3,
+            },
+            data: this.opinionData.arr,
           },
-          // {
-          //   name: 'spot2',
-          //   type: 'line',
-          //   symbol: 'none',
-          // },
-          // {
-          //   name: 'spot3',
-          //   type: 'line',
-          //   symbol: 'none',
-          // },
-          // {
-          //   name: 'spot4',
-          //   type: 'line',
-          //   symbol: 'none',
-          // },
-          // {
-          //   name: 'spot5',
-          //   type: 'line',
-          //   symbol: 'none',
-          // },
+          {
+            name: '區塊2',
+            type: 'line',
+            symbol: 'none',
+            lineStyle: {
+              // color: '#C23607',
+              width: 3,
+            },
+            data: this.opinionData.arr2,
+          },
+          {
+            name: '區塊3',
+            type: 'line',
+            symbol: 'none',
+            lineStyle: {
+              // color: '#E9430C',
+              width: 3,
+            },
+            data: this.opinionData.arr3,
+          },
+          {
+            name: '區塊4',
+            type: 'line',
+            symbol: 'none',
+            lineStyle: {
+              // color: '#F56B3D',
+              width: 3,
+            },
+            data: this.opinionData.arr4,
+          },
+          {
+            name: '區塊5',
+            type: 'line',
+            symbol: 'none',
+            lineStyle: {
+              // color: '#E7957A',
+              width: 3,
+            },
+            data: this.opinionData.arr5,
+          },
+          {
+            name: '區塊6',
+            type: 'line',
+            symbol: 'none',
+            lineStyle: {
+              // color: '#E9AD99',
+              width: 3,
+            },
+            data: this.opinionData.arr6,
+          },
+          {
+            name: '區塊7',
+            type: 'line',
+            symbol: 'none',
+            lineStyle: {
+              // color: '#EAC4B7',
+              width: 3,
+            },
+            data: this.opinionData.arr7,
+          },
         ],
       }
-      option && myChart.setOption(option)
+
+      // -------------------------------------------------------------
+      // setInterval(function () {
+
+      setInterval(function () {
+        addData(true)
+        myChart.setOption({
+          xAxis: {
+            data: date,
+          },
+        })
+      }, refreshTimeNormal)
+      // }, refreshTimeNormal)
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option)
     },
   },
 }
+// let myChart = echarts.init(document.getElementById('charts'));
 </script>
-<style scoped>
-#asdferg {
-  width: 300px;
-  height: 300px;
+
+<style>
+#specialLook {
+  pointer-events: all;
+
+  border: 0;
+  background-color: #37484c;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#specialLook:hover {
+  color: #37484c;
+  background-color: #fff;
+  border: 2px #37484c solid;
 }
 </style>
