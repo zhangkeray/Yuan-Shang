@@ -62,6 +62,12 @@
           id="lineBarChart001"
           style="height: 335px; width: 1050px"
         ></div>
+        <v-progress-linear
+          v-model="valueDeterminate"
+          :active="show"
+          color="indigo darken-2"
+          style="width:975px"
+        ></v-progress-linear>
         <div>{{ loadingname }}{{ percentage }}</div>
         <div id="echart-loading-cover" class="d-none"></div>
       </div>
@@ -78,7 +84,7 @@ export default {
     url1: 'http://127.0.0.1:5000/api/change/roi',
     loadingname: '',
     disabled: false,
-    dates: ['', ''],
+    dates: ['2022-06-01', '2022-06-01'],
     output: [],
     date: [],
     menu: false,
@@ -86,6 +92,8 @@ export default {
     loadingnumber: 0,
     activePicker: null,
     // 進度計算
+    valueDeterminate: 0,
+    show:true,
     totledata: 0,
     finish: 0,
     percentage: 0,
@@ -101,26 +109,30 @@ export default {
   },
   mounted() {
     // 上線要解除這邊的註解
-    this.dates = [
-      new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .substr(0, 10),
-      new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .substr(0, 10),
-    ]
+    // this.dates = [
+    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    //     .toISOString()
+    //     .substr(0, 10),
+    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    //     .toISOString()
+    //     .substr(0, 10),
+    // ]
     this.myChartinit()
     this.drawBar(this.dates)
   },
   watch: {
     finish(data) {
       var sum = (this.finish / this.totledata) * 100 * 0.8
+      this.valueDeterminate = sum
       if (sum >= 80) {
         this.loadingname = '資料下載完成，正在處理標記資料....'
+        
         setTimeout(() => {
           this.loadingname = '資料處理完成!'
           this.percentage = '(' + 100.0 + '%)'
+          this.valueDeterminate = 100
           setTimeout(() => {
+            this.show = false
             this.loadingname = ''
             this.percentage = null
             this.disabled = false
@@ -295,7 +307,6 @@ export default {
               table_change_status: index.table_change_status,
             })
           })
-          // console.log(time)
           var ar = []
           time.forEach((index, value) => {
             ar[index.object] = []
@@ -349,7 +360,7 @@ export default {
                         const lastdata = $.ajax({
                           method: 'post',
                           url: this.url1,
-                          async: false,
+                          async: false, // 關閉異步處理(主要是要這個功能才用ajax)
                           dataType: 'json',
                           contentType: 'application/json; charset=UTF-8',
                           data: JSON.stringify([
@@ -405,6 +416,7 @@ export default {
         this.errorM = ''
         this.totledata = 0
         this.finish = 0
+        this.show = true
         this.percentage = 0
         this.output = []
         this.outputLast = { time: [] }
@@ -483,7 +495,6 @@ export default {
               if (index.data.point !== 0) {
                 changeTime = index.data.point.now
                 changeTimelast = index.data.point.last
-                console.log('last:' + changeTimelast, 'now:' + changeTime)
                 record.push(index.seriesName)
                 status = true
               }
@@ -728,10 +739,10 @@ export default {
       datalist.forEach((day) => {
         // console.log(day)
         // 計算時間
-        // const DataStartTime = day + ' 15:00:00'
-        // const DataEndTime = day + ' 17:00:00'
-        var DataStartTime = day + ' 00:00:00'
-        var DataEndTime = day + ' 23:59:59'
+        const DataStartTime = day + ' 15:00:00'
+        const DataEndTime = day + ' 17:00:00'
+        // var DataStartTime = day + ' 00:00:00'
+        // var DataEndTime = day + ' 23:59:59'
         // GET DATA
         axios({
           method: 'post',
