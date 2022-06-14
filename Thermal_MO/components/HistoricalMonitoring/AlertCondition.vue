@@ -693,15 +693,15 @@ export default {
           selectedStopTime =
             selectedStopTime.getFullYear() +
             '-' +
-            ("0"+(selectedStopTime.getMonth() + 1)).slice(-2) +
+            ('0' + (selectedStopTime.getMonth() + 1)).slice(-2) +
             '-' +
-            ("0"+selectedStopTime.getDate()).slice(-2) +
+            ('0' + selectedStopTime.getDate()).slice(-2) +
             ' ' +
-            ("0"+selectedStopTime.getHours()).slice(-2) +
+            ('0' + selectedStopTime.getHours()).slice(-2) +
             ':' +
-            ("0"+selectedStopTime.getMinutes()).slice(-2) +
+            ('0' + selectedStopTime.getMinutes()).slice(-2) +
             ':' +
-            ("0"+selectedStopTime.getSeconds()).slice(-2)
+            ('0' + selectedStopTime.getSeconds()).slice(-2)
         } else {
           // }
           var startTime = new Date(
@@ -712,19 +712,21 @@ export default {
           )
           var totleTime = (stopTime.getTime() - startTime.getTime()) / 1000
           selectedStopTime = new Date(selectedStartTime)
-          selectedStopTime.setSeconds(selectedStopTime.getSeconds() + totleTime)
+          selectedStopTime.setSeconds(
+            selectedStopTime.getSeconds() + (totleTime + 1)
+          )
           selectedStopTime =
             selectedStopTime.getFullYear() +
             '-' +
-            ("0"+(selectedStopTime.getMonth() + 1)).slice(-2) +
+            ('0' + (selectedStopTime.getMonth() + 1)).slice(-2) +
             '-' +
-            ("0"+selectedStopTime.getDate()).slice(-2) +
+            ('0' + selectedStopTime.getDate()).slice(-2) +
             ' ' +
-            ("0"+selectedStopTime.getHours()).slice(-2) +
+            ('0' + selectedStopTime.getHours()).slice(-2) +
             ':' +
-            ("0"+selectedStopTime.getMinutes()).slice(-2) +
+            ('0' + selectedStopTime.getMinutes()).slice(-2) +
             ':' +
-            ("0"+selectedStopTime.getSeconds()).slice(-2)
+            ('0' + selectedStopTime.getSeconds()).slice(-2)
         }
         this.imageChange(selectedStartTime)
         // console.log(selectedStartTime, selectedStopTime)
