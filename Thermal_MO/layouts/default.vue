@@ -90,12 +90,12 @@ export default {
           // to: '5',
           to: 'PermissionPage',
         },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: '測試7:禁用',
-        //   // to: '5',
-        //   to: 'ForTesting7',
-        // },
+        {
+          icon: 'mdi-account-group-outline',
+          title: '測試7:JQ日期時間Range選擇',
+          // to: '5',
+          to: 'ForTesting7',
+        },
         {
           icon: 'mdi-account-group-outline',
           title: 'LouisAPI示範',
@@ -104,22 +104,34 @@ export default {
         },
         {
           icon: 'mdi-account-group-outline',
-          title: '原API動態',
+          title: 'API動態測試(南部)',
           // to: '5',
-          to: 'ForTesting8_5',
+          to: 'ForTesting11',
         },
         {
           icon: 'mdi-account-group-outline',
-          title: 'API動態測試',
+          title: 'API動態測試(後端)',
           // to: '5',
-          to: 'ForTesting8',
+          to: 'ForTesting10',
         },
-        {
-          icon: 'mdi-account-group-outline',
-          title: 'API動態測試8real(比造原寫法)',
-          // to: '5',
-          to: 'ForTesting8real',
-        },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: '原API動態',
+        //   // to: '5',
+        //   to: 'ForTesting8_5',
+        // },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: 'API動態測試',
+        //   // to: '5',
+        //   to: 'ForTesting8',
+        // },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: 'API動態測試8real(比造原寫法)',
+        //   // to: '5',
+        //   to: 'ForTesting8real',
+        // },
         // {
         //   icon: 'mdi-account-group-outline',
         //   title: '測試9:Node.JS',
@@ -128,7 +140,7 @@ export default {
         // },
         {
           icon: 'mdi-account-group-outline',
-          title: '測試13',
+          title: 'API測試(後端)',
           // to: '5',
           to: 'ForTesting13',
         },

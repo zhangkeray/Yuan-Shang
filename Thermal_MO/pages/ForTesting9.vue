@@ -34,7 +34,7 @@ export default {
     this.test3()
     this.test4()
     var delayTime = 0 // 設定緩衝時間(給後端的)，避免後端還未記錄，我們就先要資料了
-    var falsetime = new Date('2022-06-08 15:16:20') // 正式上線請註解
+    var falsetime = new Date('2022-05-31 09:34:37') // 正式上線請註解
     var intervalData = setInterval(() => {
       falsetime.setSeconds(falsetime.getSeconds() + 1)
       var getTime = new Date(falsetime) // 正式上線請將falsetime 拿掉

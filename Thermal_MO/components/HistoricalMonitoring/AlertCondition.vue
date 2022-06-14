@@ -79,14 +79,13 @@
               >
                 <h4 class="cardtitle ml-3" style="">監測項目超溫次數統計</h4>
                 <v-spacer />
-                <v-combobox
-                  v-model="select"
-                  :items="timeItems"
-                  label=""
-                  dense
-                  color="#505f62"
-                  style="font-size: 12px"
-                ></v-combobox>
+                <date-picker
+                  v-model="value1"
+                  type="datetime"
+                  range
+                  placeholder="Select datetime range"
+                  style="width:200px"
+                ></date-picker>
 
                 <!-- ------------------------------------- -->
                 <!-- <v-tooltip right class="tips">
@@ -269,7 +268,7 @@
                   </v-row>
                 </v-col>
                 <v-col cols="3">
-                   <!-- 放大鏡 -->
+                  <!-- 放大鏡 -->
                   <div class="image-wrap1 mt-4">
                     <div class="image1 viewer1">
                       <div class="magnifier1"></div>
@@ -312,6 +311,9 @@ export default {
     ],
   },
   data: () => ({
+    // date-picker
+    value1: [new Date(), new Date()],
+
     // 對話框
     dialog: false,
     dates: new Date().toISOString().substr(0, 10),
