@@ -244,7 +244,7 @@ export default {
   }),
   watch: {
     settingImg(data) {
-      console.log(data)
+      // console.log(data)
       this.imageChange(data)
     },
   },
@@ -371,10 +371,10 @@ export default {
       })
       setTimeout(() => {
         var arr = this.changeData
-        console.log(arr)
+        // console.log(arr)
         this.settingImg = arr[arr.length - 1]
       }, 1500)
-      console.log(myChart)
+      // console.log(myChart)
     },
     imageChange(oupTime) {
       var date = new Date(oupTime)
