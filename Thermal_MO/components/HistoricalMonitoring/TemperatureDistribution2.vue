@@ -162,7 +162,7 @@
                 class="mx-2 mt-2"
                 style="border: 3px solid #f1f1f1; border-radius: 10px"
               >
-                <h4 class="cardtitle ml-3">溫度參照點:時間{{settingImg}}</h4>
+                <h4 class="cardtitle ml-3">物件修改對照:時間{{settingImg}}</h4>
                 <v-col cols="12" md="12">
                   <div class="image-wrap">
                     <div class="image viewer" id="image-wrap-change">

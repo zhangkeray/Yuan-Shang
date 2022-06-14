@@ -347,7 +347,7 @@ export default {
           series: arr,
         })
       }
-      console.log(data)
+      // console.log(data)
     },
   },
   methods: {

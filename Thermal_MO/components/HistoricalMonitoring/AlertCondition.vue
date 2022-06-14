@@ -269,7 +269,7 @@
                   </v-row>
                 </v-col>
                 <v-col cols="3">
-                   <!-- 放大鏡 -->
+                  <!-- 放大鏡 -->
                   <div class="image-wrap1 mt-4">
                     <div class="image1 viewer1">
                       <div class="magnifier1"></div>
@@ -683,23 +683,49 @@ export default {
       if (input.length > 0) {
         const chartDom = document.getElementById('lineBarChart0001')
         const myChart = echarts.init(chartDom) // echarts初始化
-        // console.log(input)
+        console.log(input)
         var selectedStartTime =
           input[0].object_date + ' ' + input[0].object_time_start
-        var selectedStopTime = new Date(selectedStartTime)
-        selectedStopTime.setMinutes(selectedStopTime.getMinutes() + 10)
-        selectedStopTime =
-          selectedStopTime.getFullYear() +
-          '-' +
-          (selectedStopTime.getMonth() + 1) +
-          '-' +
-          selectedStopTime.getDate() +
-          ' ' +
-          selectedStopTime.getHours() +
-          ':' +
-          selectedStopTime.getMinutes() +
-          ':' +
-          selectedStopTime.getSeconds()
+        var selectedStopTime = null
+        if (input[0].object_tiem_stop === 'N/A') {
+          selectedStopTime = new Date(selectedStartTime)
+          selectedStopTime.setMinutes(selectedStopTime.getMinutes() + 10)
+          selectedStopTime =
+            selectedStopTime.getFullYear() +
+            '-' +
+            (selectedStopTime.getMonth() + 1) +
+            '-' +
+            selectedStopTime.getDate() +
+            ' ' +
+            selectedStopTime.getHours() +
+            ':' +
+            selectedStopTime.getMinutes() +
+            ':' +
+            selectedStopTime.getSeconds()
+        } else {
+          // }
+          var startTime = new Date(
+            input[0].object_date + ' ' + input[0].object_time_start
+          )
+          var stopTime = new Date(
+            input[0].object_date + ' ' + input[0].object_tiem_stop
+          )
+          var totleTime = (stopTime.getTime() - startTime.getTime()) / 1000
+          selectedStopTime = new Date(selectedStartTime)
+          selectedStopTime.setSeconds(selectedStopTime.getSeconds() + totleTime)
+          selectedStopTime =
+            selectedStopTime.getFullYear() +
+            '-' +
+            (selectedStopTime.getMonth() + 1) +
+            '-' +
+            selectedStopTime.getDate() +
+            ' ' +
+            selectedStopTime.getHours() +
+            ':' +
+            selectedStopTime.getMinutes() +
+            ':' +
+            selectedStopTime.getSeconds()
+        }
         // console.log(selectedStartTime, selectedStopTime)
         axios({
           method: 'post',
