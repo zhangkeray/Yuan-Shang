@@ -96,30 +96,30 @@ export default {
         //   // to: '5',
         //   to: 'ForTesting7',
         // },
-        {
-          icon: 'mdi-account-group-outline',
-          title: 'LouisAPI示範',
-          // to: '5',
-          to: 'ForTesting9',
-        },
-        {
-          icon: 'mdi-account-group-outline',
-          title: '原API動態',
-          // to: '5',
-          to: 'ForTesting8_5',
-        },
-        {
-          icon: 'mdi-account-group-outline',
-          title: 'API動態測試',
-          // to: '5',
-          to: 'ForTesting8',
-        },
-        {
-          icon: 'mdi-account-group-outline',
-          title: 'API動態測試(比造原寫法)',
-          // to: '5',
-          to: 'ForTesting8real',
-        },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: 'LouisAPI示範',
+        //   // to: '5',
+        //   to: 'ForTesting9',
+        // },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: '原API動態',
+        //   // to: '5',
+        //   to: 'ForTesting8_5',
+        // },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: 'API動態測試',
+        //   // to: '5',
+        //   to: 'ForTesting8',
+        // },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: 'API動態測試(比造原寫法)',
+        //   // to: '5',
+        //   to: 'ForTesting8real',
+        // },
         // {
         //   icon: 'mdi-account-group-outline',
         //   title: '測試9:Node.JS',
@@ -144,12 +144,12 @@ export default {
         //   // to: '5',
         //   to: 'ForTesting12',
         // },
-        {
-          icon: 'mdi-account-group-outline',
-          title: '測試13',
-          // to: '5',
-          to: 'ForTesting13',
-        },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: '測試13',
+        //   // to: '5',
+        //   to: 'ForTesting13',
+        // },
         // {
         //   icon: 'mdi-account-group-outline',
         //   title: '測試9',
