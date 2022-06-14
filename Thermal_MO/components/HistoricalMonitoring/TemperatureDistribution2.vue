@@ -162,13 +162,13 @@
                 class="mx-2 mt-2"
                 style="border: 3px solid #f1f1f1; border-radius: 10px"
               >
-                <h4 class="cardtitle ml-3">溫度參照點</h4>
+                <h4 class="cardtitle ml-3">溫度參照點:時間{{settingImg}}</h4>
                 <v-col cols="12" md="12">
                   <div class="image-wrap">
-                    <div class="image viewer">
+                    <div class="image viewer" id="image-wrap-change">
                       <div class="magnifier"></div>
                     </div>
-                    <div class="image result"></div>
+                    <div class="image result" id="image-wrap-img"></div>
                   </div>
                 </v-col>
               </v-row>
@@ -180,6 +180,8 @@
   </v-card>
 </template>
 <script>
+import * as echarts from 'echarts'
+import axios from 'axios'
 // echarts引入
 import TempHistoryBarChart from './LineBarChart/TempHistoryBarChart.vue'
 import TempLowBarChart from './LineBarChart/TempLowBarChart.vue'
@@ -206,8 +208,11 @@ export default {
   },
   data: () => ({
     activePicker: null,
+    url1: 'http://127.0.0.1:5000/api/change/roi',
     date: ['', ''],
     dates: ['', ''],
+    changeData: [],
+    settingImg: null,
     menu: false,
     options: {
       loop: false,
@@ -237,6 +242,12 @@ export default {
       // },
     ],
   }),
+  watch: {
+    settingImg(data) {
+      console.log(data)
+      this.imageChange(data)
+    },
+  },
   mounted() {
     const unthumb = document.querySelectorAll('.thumb')
     for (const unthumbs of unthumb) {
@@ -281,6 +292,10 @@ export default {
         })
       }, 0)
     })
+    this.myChartSelect()
+    var now = new Date()
+    now = now.getFullYear()
+    this.getDate(now)
   },
   methods: {
     dateRange() {
@@ -292,6 +307,91 @@ export default {
       this.menu2 = false
       var input = this.dates
       console.log(input)
+    },
+    getDate(year) {
+      axios({
+        method: 'post',
+        url: this.url1,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: JSON.stringify([
+          {
+            table_timeselectStart: `${year}-01-01`,
+            table_timeselectStop: `${year}-12-31`,
+          },
+        ]),
+      }).then((params) => {
+        var data = params.data
+        var arr = []
+        data.forEach((index) => arr.push(index.table_change_start))
+        arr.sort(function (a, b) {
+          if (a < b) {
+            return -1
+          } else {
+            return 1
+          }
+        })
+        this.changeData = arr
+        // console.log(arr)
+      })
+    },
+    myChartSelect() {
+      const calendar = document.getElementById('lineBarChart001')
+      const myChart = echarts.getInstanceByDom(calendar)
+      var tmp = null // 防止重複讀取
+      myChart.getZr().on('mousemove', (params) => {
+        var pointInPixel = [params.offsetX, params.offsetY]
+        if (myChart.containPixel('grid', pointInPixel)) {
+          var xIndex = myChart.convertFromPixel({ seriesIndex: 0 }, [
+            params.offsetX,
+            params.offsetY,
+          ])[0]
+          var op = myChart.getOption()
+          var xData = op.xAxis[0].data[xIndex]
+          if (xData !== tmp) {
+            // console.log(xData)
+            // 判斷圖片
+            var hoverTime = new Date(xData)
+            var getChangeData = this.changeData
+            var oupTime = null
+            getChangeData.forEach((index) => {
+              var changeTime = new Date(index)
+              if (hoverTime > changeTime) {
+                oupTime = index
+              }
+            })
+            // console.log(oupTime)
+            this.settingImg = oupTime
+            // this.imageChange(oupTime)
+          }
+          tmp = xData
+        }
+        // 參考:https://www.helloworld.net/p/7352350306
+      })
+      setTimeout(() => {
+        var arr = this.changeData
+        console.log(arr)
+        this.settingImg = arr[arr.length - 1]
+      }, 1500)
+      console.log(myChart)
+    },
+    imageChange(oupTime) {
+      var date = new Date(oupTime)
+      var YMD =
+        date.getFullYear() +
+        ('0' + (date.getMonth() + 1)).slice(-2) +
+        ('0' + date.getDate()).slice(-2)
+      var HMS =
+        ('0' + date.getHours()).slice(-2) +
+        ('0' + date.getMinutes()).slice(-2) +
+        ('0' + date.getSeconds()).slice(-2)
+      var image = document.getElementById('image-wrap-change')
+      image.style.background = `url('http://127.0.0.1:5000/api/database/share/setting%5Croisettinghistory%5Croi_setting_history_${YMD}_T${HMS}.jpg') no-repeat center center`
+      image.style.backgroundSize = '100%'
+      var imageresult = document.getElementById('image-wrap-img')
+      imageresult.style.background = `url('http://127.0.0.1:5000/api/database/share/setting%5Croisettinghistory%5Croi_setting_history_${YMD}_T${HMS}.jpg') no-repeat center center`
+      // console.log(image)
     },
   },
 }
@@ -441,11 +541,11 @@ export default {
 }
 
 /* .scroll { */
-  /* width: 20px; */
-  /* height: 200px; */
-  /* overflow: auto; */
-  /* float: right; */
-  /* margin: 0 10px; */
+/* width: 20px; */
+/* height: 200px; */
+/* overflow: auto; */
+/* float: right; */
+/* margin: 0 10px; */
 /* } */
 
 .scroll4::-webkit-scrollbar {
@@ -543,7 +643,7 @@ export default {
 .image-wrap .image {
   width: 322px !important;
   height: 97% !important;
-  background: url('static/xzoom/images/20220510_v1.jpg') no-repeat center center;
+  background: url('/loadingBG.png') no-repeat center center;
   float: left;
   margin: 0;
   margin-right: 10px;
@@ -553,7 +653,7 @@ export default {
   // box-sizing: border-box;
 }
 // .image-wrap .image:first-child {
-  // border-right: 1px solid #342420;
+// border-right: 1px solid #342420;
 // }
 .image-wrap .image.result {
   background-position: 50% 25%;

@@ -84,8 +84,8 @@ export default {
     url1: 'http://127.0.0.1:5000/api/change/roi',
     loadingname: '',
     disabled: false,
-    // dates: ['2022-06-01', '2022-06-01'],
-    dates: ['', ''],
+    dates: ['2022-06-01', '2022-06-01'],
+    // dates: ['', ''],
     output: [],
     date: [],
     menu: false,
@@ -116,14 +116,14 @@ export default {
   },
   mounted() {
     // 上線要解除這邊的註解
-    this.dates = [
-      new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .substr(0, 10),
-      new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .substr(0, 10),
-    ]
+    // this.dates = [
+    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    //     .toISOString()
+    //     .substr(0, 10),
+    //   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    //     .toISOString()
+    //     .substr(0, 10),
+    // ]
     this.myChartinit()
     this.drawBar(this.dates)
   },
@@ -880,13 +880,13 @@ export default {
       }
       dd = `${endday.getFullYear()}-${('0' + (endday.getMonth() + 1)).slice(
         -2
-      )}-${('0' + endday.getDate()).slice(-2)}`
+      )}-${(`0${endday.getDate()}`).slice(-2)}`
       this.totledata = this.totledata + 1
       var thisdatatotle = this.totledata
       this.loadingname = `正在下載總共${thisdatatotle}天分析資料:`
       const div1 = document.createElement('div')
-      div1.classList.add('my-' + dd)
-      div1.innerHTML = '[' + dd + ']'
+      div1.classList.add(`my-${dd}`)
+      div1.innerHTML = `[${dd}]`
       loadinname.prepend(div1)
       datalist.push(dd)
       // console.log(datalist)
@@ -895,10 +895,10 @@ export default {
       datalist.forEach((day) => {
         // console.log(day)
         // 計算時間
-        // const DataStartTime = day + ' 15:00:00'
-        // const DataEndTime = day + ' 17:00:00'
-        var DataStartTime = day + ' 00:00:00'
-        var DataEndTime = day + ' 23:59:59'
+        const DataStartTime = `${day} 15:00:00`
+        const DataEndTime = `${day} 17:00:00`
+        // var DataStartTime = day + ' 00:00:00'
+        // var DataEndTime = day + ' 23:59:59'
         // GET DATA
         axios({
           method: 'post',
