@@ -1,5 +1,5 @@
 <template>
-  <div ref="lineBarChart" style="height: 190px; width: 750px"></div>
+  <div ref="lineBarChart" id="lineAvgChart" style="height: 190px; width: 750px"></div>
 </template>
 
 <script>
@@ -65,6 +65,12 @@ export default {
           right: '110',
           left: '60', 
         },
+        dataZoom: [
+          {
+            type: 'inside',
+            realtime: true,
+          },
+        ],
         legend: {
           show: true,
           selectedMode: 'multiple', // 設定顯示單一圖例的圖形，點選可切換
@@ -80,32 +86,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: [
-              '19',
-              '20',
-              '21',
-              '22',
-              '23',
-              '00',
-              '1',
-              '2',
-              '3',
-              '4',
-              '5',
-              '6',
-              '7',
-              '8',
-              '9',
-              '10',
-              '11',
-              '12',
-              '13',
-              '14',
-              '15',
-              '16',
-              '17',
-              '18',
-            ],
+            data: [],
             axisPointer: {
               type: 'shadow',
             },
@@ -146,55 +127,7 @@ export default {
         // 每個裝置分數量、概率2個指標，只要讓他們的name一致，即可通過，legeng進行統一的切換
         color: colorPalette,
 
-        series: [
-          {
-            name: '矩形1',
-            type: 'line',
-            yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
-            data: [
-              33, 32, 30, 30, 31, 35, 33, 45, 32, 44, 33, 37, 27, 40, 49, 43,
-              42, 40, 40, 31, 30, 39, 34, 43,
-            ],
-            symbolSize: 1,
-            itemStyle: {
-              normal: {
-                color: '#505F62',
-              },
-            },
-          },
-
-          {
-            name: '矩形2',
-            type: 'line',
-            yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
-            data: [
-              45, 32, 44, 33, 37, 31, 35, 33, 40, 31, 30, 39, 34, 27, 40, 49,
-              43, 42, 40, 33, 32, 30, 30, 47,
-            ],
-            symbolSize: 1,
-            itemStyle: {
-              normal: {
-                color: '#9BA3A5',
-              },
-            },
-          },
-
-          {
-            name: '矩形3',
-            type: 'line',
-            yAxisIndex: 0, // 這裡要設定哪個y軸，預設是最左邊的是0，然後1，2順序來。
-            data: [
-              33, 40, 31, 30, 39, 34, 45, 32, 44, 33, 37, 31, 35, 27, 40, 49,
-              43, 43, 42, 40, 33, 32, 30, 30,
-            ],
-            symbolSize: 1,
-            itemStyle: {
-              normal: {
-                color: '#D9DDDD',
-              },
-            },
-          },
-        ],
+        series: [],
       }
 
       // -------------------------------------------------------------
