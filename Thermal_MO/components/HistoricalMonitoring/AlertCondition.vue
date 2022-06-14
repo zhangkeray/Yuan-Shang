@@ -716,15 +716,15 @@ export default {
           selectedStopTime =
             selectedStopTime.getFullYear() +
             '-' +
-            (selectedStopTime.getMonth() + 1) +
+            ("0"+(selectedStopTime.getMonth() + 1)).slice(-2) +
             '-' +
-            selectedStopTime.getDate() +
+            ("0"+selectedStopTime.getDate()).slice(-2) +
             ' ' +
-            selectedStopTime.getHours() +
+            ("0"+selectedStopTime.getHours()).slice(-2) +
             ':' +
-            selectedStopTime.getMinutes() +
+            ("0"+selectedStopTime.getMinutes()).slice(-2) +
             ':' +
-            selectedStopTime.getSeconds()
+            ("0"+selectedStopTime.getSeconds()).slice(-2)
         }
         this.imageChange(selectedStartTime)
         // console.log(selectedStartTime, selectedStopTime)
