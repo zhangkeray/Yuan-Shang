@@ -3,6 +3,8 @@
     <!-- <div id="my" style="width: 80%; height: 600px"></div> -->
     <!-- <v-btn id="start" @click="test3()">開始</v-btn> -->
     <div ref="lineChart" style="width: 80%; height: 600px"></div>
+    <v-btn @click="clearAPI">取消API請求</v-btn>
+    <v-btn @click="start">開始API請求</v-btn>
   </div>
 </template>
 <script>
@@ -12,6 +14,9 @@ export default {
   name: 'HistoricalMonitoringPage',
   data: () => ({
     // 定義
+    arr: [],
+    totle: 0,
+    controller: null,
     // 時間
     time: [],
     // Curve
@@ -22,14 +27,23 @@ export default {
     time(data) {
       // console.log(JSON.parse(JSON.stringify(data)))
       var keys = this.key
-      keys.forEach((index)=>{
-        console.log(index)
+      keys.forEach((index) => {
+        // console.log(index)
       })
-      console.log(this.key)
+      // console.log(this.key)
       this.test4(data, '0')
+    },
+    arr(data) {
+      if (this.totle < 10) {
+        this.getAxios()
+        this.totle = this.totle + 1
+      }
+      console.log(data)
     },
   },
   mounted() {
+    this.controller = new AbortController()
+    this.getAxios()
     // 初始化
     this.test3()
     this.test4()
@@ -72,9 +86,44 @@ export default {
     // 計時載入新資料(5sec/5value)
   },
   methods: {
+    restart() {
+      this.arr = []
+      this.totle = 0
+    },
+    clearAPI() {
+      console.log('ok')
+      this.restart()
+      this.controller.abort()
+    },
+    start() {
+      this.controller = new AbortController()
+      this.getAxios()
+    },
+    getAxios() {
+      console.log('請求API中')
+      axios({
+        method: 'post',
+        url: 'http://127.0.0.1:5000/api/normal',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: JSON.stringify([
+          {
+            table_alarm_start: '2022-06-02 17:00:00',
+            table_alarm_stop: '2022-06-02 20:59:59',
+          },
+        ]),
+        signal: this.controller.signal,
+      })
+        .then((events) => {
+          var data = this.arr
+          data.push(events.data[0])
+          // console.log(events.data[0])
+        })
+        .catch((error) => console.log('error from axios', error))
+    },
     // axios
     getData(DataStartTime, DataEndTime) {
-
       axios({
         method: 'post',
         url: 'http://127.0.0.1:5000/api/alarm/max',
@@ -98,9 +147,7 @@ export default {
           var data = arr
           Object.keys(data).forEach((key) => {
             var ar = this.key[key]
-            if (ar !== undefined) {
-              console.log('ok')
-            } else {
+            if (ar === undefined) {
               this.key[key] = []
               for (var i = 0; i < timeleg; i++) {
                 this.key[key].push(null)
@@ -120,19 +167,19 @@ export default {
           console.log(err)
         })
     },
-    
+
     test4(time, data) {
       const chartDom = this.$refs.lineChart
       const myChart = echarts.init(chartDom)
       var arr01 = this.key
       var output = []
       Object.keys(arr01).forEach((key1) => {
-           console.log(key1)
-           output.push({
-              type: 'line',
-              name:key1,
-              data:arr01[key1]
-           })
+        // console.log(key1)
+        output.push({
+          type: 'line',
+          name: key1,
+          data: arr01[key1],
+        })
       })
       myChart.setOption({
         xAxis: [

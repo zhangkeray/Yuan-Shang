@@ -96,12 +96,12 @@ export default {
         //   // to: '5',
         //   to: 'ForTesting7',
         // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: 'LouisAPI示範',
-        //   // to: '5',
-        //   to: 'ForTesting9',
-        // },
+        {
+          icon: 'mdi-account-group-outline',
+          title: 'LouisAPI示範',
+          // to: '5',
+          to: 'ForTesting9',
+        },
         // {
         //   icon: 'mdi-account-group-outline',
         //   title: '原API動態',
