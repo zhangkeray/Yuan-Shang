@@ -48,7 +48,7 @@ export default {
   methods: {
     drawBar() {
       const DataStartTime = '2022-06-01 00:00:00:000'
-      const DataEndTime = '2022-06-01 00:00:00:100'
+      const DataEndTime = '2022-06-01 02:00:00:000'
       var DataStartDay = new Date(DataStartTime)
       var month = DataStartDay.getMonth() + 1
       if (month.toString().length === 1) {

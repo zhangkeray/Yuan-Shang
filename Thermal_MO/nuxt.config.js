@@ -65,7 +65,6 @@ export default {
     {
      src:  '~/plugins/vue2-datepicker.js',
      ssr: false
-
     }
 
   ],
@@ -82,7 +81,7 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     // 字體
-    '@nuxtjs/google-fonts',
+    // '@nuxtjs/google-fonts',
   ],
   googleFonts: {
     families: {
