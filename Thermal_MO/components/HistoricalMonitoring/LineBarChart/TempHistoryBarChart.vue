@@ -70,17 +70,18 @@
         ></v-progress-linear>
         <v-row>
           <v-col cols="11"
-            ><div>
+            ><div style="margin: 12px 0px 0px 0px;">
               {{ loadingname }}{{ percentage }}{{ messageDate }}
             </div></v-col
           >
-          <v-col cols="1"
+          <v-col cols="1" class=""
             ><v-btn
               @click="stopRes"
               color="error"
               :loading="loading"
               :disabled="loading"
               :class="btushow"
+              style="margin: 5px 0px 0px 12px;"
               >中斷</v-btn
             ></v-col
           >
