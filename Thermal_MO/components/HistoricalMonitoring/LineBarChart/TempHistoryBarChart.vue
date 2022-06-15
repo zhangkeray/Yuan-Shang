@@ -54,6 +54,7 @@
         ><sanp class="error-date">{{ errorM }}</sanp></v-date-picker
       >
     </v-menu>
+
     <v-col cols="12" lg="12" style="border: 1px solid rgba(0, 0, 0, 0)">
       <div>
         <div
@@ -67,7 +68,23 @@
           color="indigo darken-2"
           style="width: 975px"
         ></v-progress-linear>
-        <div>{{ loadingname }}{{ percentage }}{{messageDate}}</div>
+        <v-row>
+          <v-col cols="11"
+            ><div>
+              {{ loadingname }}{{ percentage }}{{ messageDate }}
+            </div></v-col
+          >
+          <v-col cols="1"
+            ><v-btn
+              @click="stopRes"
+              color="error"
+              :loading="loading"
+              :disabled="loading"
+              :class="btushow"
+              >中斷</v-btn
+            ></v-col
+          >
+        </v-row>
         <div id="echart-loading-cover" class="d-none"></div>
       </div>
     </v-col>
@@ -82,7 +99,8 @@ export default {
     url: 'http://127.0.0.1:5000/api/normal',
     url1: 'http://127.0.0.1:5000/api/change/roi',
     loadingname: '',
-    disabled: false,
+    loading: false,
+    disabled: true,
     // dates: ['2022-06-01', '2022-06-01'],
     dates: ['', ''],
     controller: null, // axios 辨識ID
@@ -108,7 +126,8 @@ export default {
     // 平均溫度
     avgOutput: [],
     avgoutputLast: [],
-    messageDate:null
+    messageDate: null,
+    btushow: 'btudis',
   }),
   computed: {
     dateRangeText() {
@@ -136,13 +155,23 @@ export default {
       var sum = (this.finish / this.totledata) * 100 * 0.8
       this.valueDeterminate = sum
       if (sum >= 80) {
-        this.loadingname = '資料下載完成，正在處理標記資料....'
+        if (this.loading) {
+          this.loadingname = '中斷作業中，請稍後...'
+        } else {
+          this.loadingname = '資料下載完成，正在處理標記資料....'
+        }
         this.messageDate = null
         setTimeout(() => {
-          this.loadingname = '資料處理完成!'
+          if (this.loading) {
+            this.loadingname = '中斷作業執行完成，可重新選擇日期'
+          } else {
+            this.loadingname = '資料處理完成!'
+          }
           this.percentage = '(' + 100.0 + '%)'
           this.valueDeterminate = 100
           setTimeout(() => {
+            this.loading = false
+            this.btushow = 'btudis'
             this.show = false
             this.loadingname = ''
             this.percentage = null
@@ -354,12 +383,17 @@ export default {
       // console.log(data)
     },
     Currently(data) {
-      if (data < this.totledata ) {
+      if (data < this.totledata) {
         this.getAPI(this.datalist[data])
       }
     },
   },
   methods: {
+    stopRes() {
+      this.finish = this.totledata
+      this.loading = true
+      this.controller.abort()
+    },
     changPoint(data) {
       var time = data.time
       var timeKey = []
@@ -575,24 +609,25 @@ export default {
       // end
     },
     dateRange() {
-      if (this.dates.length > 1) {
-        this.errorM = ''
-        this.totledata = 0
-        this.finish = 0
-        this.show = true
-        this.percentage = 0
-        this.output = []
-        this.minOutput = []
-        this.avgOutput = []
-        this.outputLast = { time: [] }
-        this.menu = false
-        this.disabled = true
-        var input = this.dates
-        this.drawBar(input)
-        // console.log(input)
-      } else {
-        this.errorM = '請選擇一個日期範圍'
+      if (this.dates.length <= 1) {
+        var arr = this.dates
+        arr.push(this.dates[0])
+        this.dates = arr
       }
+      console.log(this.dates)
+      this.errorM = ''
+      this.totledata = 0
+      this.finish = 0
+      this.show = true
+      this.percentage = 0
+      this.output = []
+      this.minOutput = []
+      this.avgOutput = []
+      this.outputLast = { time: [] }
+      this.menu = false
+      this.disabled = true
+      var input = this.dates
+      this.drawBar(input)
     },
     myChartinit() {
       const chartDom = this.$refs.lineBarChart
@@ -864,6 +899,7 @@ export default {
       // 輸出資料給cheats
     },
     drawBar(date) {
+      this.btushow = ''
       // const chartDom = this.$refs.lineBarChart
       // const myChart = echarts.init(chartDom) // echarts初始化
       // var loadid = null
@@ -898,10 +934,17 @@ export default {
       div1.innerHTML = `[${dd}]`
       loadinname.prepend(div1)
       datalist.push(dd)
+      datalist.sort(function (a, b) {
+        if (a > b) {
+          return -1
+        } else {
+          return 1
+        }
+      })
       this.datalist = datalist
       this.controller = new AbortController()
       this.Currently = 0
-      
+
       // console.log(this.totledata)
       // -------loading data end-------
     },
@@ -910,10 +953,10 @@ export default {
       // datalist.forEach((day) => {
       // console.log(day)
       // 計算時間
-      const DataStartTime = `${day} 15:00:00`
-      const DataEndTime = `${day} 17:00:00`
-      // var DataStartTime = day + ' 00:00:00'
-      // var DataEndTime = day + ' 23:59:59'
+      // const DataStartTime = `${day} 15:00:00`
+      // const DataEndTime = `${day} 17:00:00`
+      var DataStartTime = day + ' 00:00:00'
+      var DataEndTime = day + ' 23:59:59'
       // GET DATA
       axios({
         method: 'post',
@@ -1058,6 +1101,9 @@ export default {
 </script>
 
 <style>
+.btudis {
+  display: none;
+}
 #specialLook {
   pointer-events: all;
 
