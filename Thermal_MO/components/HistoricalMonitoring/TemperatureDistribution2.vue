@@ -91,7 +91,7 @@
                 class="ml-2 mt-2"
                 style="border: 3px solid #f1f1f1; border-radius: 10px"
               >
-                <v-menu
+                <!-- <v-menu
                   ref="menu2"
                   v-model="menu2"
                   :close-on-content-click="false"
@@ -146,7 +146,15 @@
                       確定
                     </v-btn></v-date-picker
                   >
-                </v-menu>
+                </v-menu> -->
+                <!-- date-picker選擇時間日期區間 -->
+                <date-picker
+                  v-model="value1"
+                  type="datetime"
+                  range
+                  placeholder="Select datetime range"
+                  style="position:absolute;margin-left:130px;z-index:9999999"
+                ></date-picker>
                 <v-col cols="12" md="12">
                   <peak-hours-statistics-bar-chart />
                 </v-col>
@@ -207,6 +215,8 @@ export default {
     script: [],
   },
   data: () => ({
+    // date-picker
+    value1: [new Date(), new Date()],
     activePicker: null,
     url1: 'http://127.0.0.1:5000/api/change/roi',
     date: ['', ''],

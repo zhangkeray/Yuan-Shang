@@ -62,9 +62,11 @@ export default {
     {
       src: './plugins/vue-slick-carousel.js'
     },
-    // {
-    //   src: './plugins/vuetify-time-select.js'
-    // }
+    {
+     src:  '~/plugins/vue2-datepicker.js',
+     ssr: false
+
+    }
 
   ],
 
@@ -195,6 +197,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    cssSourceMap: false,
     extend(config, ctx) {},
     // plugins: [
     //   new webpack.ProvidePlugin({

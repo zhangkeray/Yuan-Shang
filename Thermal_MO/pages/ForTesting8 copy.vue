@@ -75,7 +75,7 @@ export default {
       this.getData(formtstart, formtend)
       tmp = tmp + 5
       console.log(tmp)
-    }, 1000)
+    }, 5000)
     console.log(start)
   },
   methods: {
@@ -278,14 +278,16 @@ export default {
           },
         ]),
       }).then((params) => {
-        // var F1 = params.data[0].line1
-        // var F2 = params.data[0].line2
-        // var F3 = params.data[0].scope1
+        var F1 = params.data[0].line1
+        this.arr.F1 = F1
+        var F2 = params.data[0].line2
+        this.arr.F2 = F2
+        var F3 = params.data[0].scope1
+        this.arr.F3 = F3
         var F4 = params.data[0].scope2
-                this.F4 = F4
-
+        this.arr.F4 = F4
         var F5 = params.data[0].scope3
-        this.F5 = F5
+        this.arr.F5 = F5
         var time = params.data[0].time
         this.time = time
 
