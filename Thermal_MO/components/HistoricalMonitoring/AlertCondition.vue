@@ -270,10 +270,10 @@
                 <v-col cols="3">
                   <!-- 放大鏡 -->
                   <div class="image-wrap1 mt-4">
-                    <div class="image1 viewer1">
+                    <div class="image1 viewer1" id="image-wrap-change">
                       <div class="magnifier1"></div>
                     </div>
-                    <div class="image1 result1"></div>
+                    <div class="image1 result1" id="image-wrap-img"></div>
                   </div>
                 </v-col>
               </v-row>
@@ -685,23 +685,52 @@ export default {
       if (input.length > 0) {
         const chartDom = document.getElementById('lineBarChart0001')
         const myChart = echarts.init(chartDom) // echarts初始化
-        // console.log(input)
+        console.log(input)
         var selectedStartTime =
           input[0].object_date + ' ' + input[0].object_time_start
-        var selectedStopTime = new Date(selectedStartTime)
-        selectedStopTime.setMinutes(selectedStopTime.getMinutes() + 10)
-        selectedStopTime =
-          selectedStopTime.getFullYear() +
-          '-' +
-          (selectedStopTime.getMonth() + 1) +
-          '-' +
-          selectedStopTime.getDate() +
-          ' ' +
-          selectedStopTime.getHours() +
-          ':' +
-          selectedStopTime.getMinutes() +
-          ':' +
-          selectedStopTime.getSeconds()
+        var selectedStopTime = null
+        if (input[0].object_tiem_stop === 'N/A') {
+          selectedStopTime = new Date()
+          // selectedStopTime.setMinutes(selectedStopTime.getMinutes() + 10)
+          selectedStopTime =
+            selectedStopTime.getFullYear() +
+            '-' +
+            ('0' + (selectedStopTime.getMonth() + 1)).slice(-2) +
+            '-' +
+            ('0' + selectedStopTime.getDate()).slice(-2) +
+            ' ' +
+            ('0' + selectedStopTime.getHours()).slice(-2) +
+            ':' +
+            ('0' + selectedStopTime.getMinutes()).slice(-2) +
+            ':' +
+            ('0' + selectedStopTime.getSeconds()).slice(-2)
+        } else {
+          // }
+          var startTime = new Date(
+            input[0].object_date + ' ' + input[0].object_time_start
+          )
+          var stopTime = new Date(
+            input[0].object_date + ' ' + input[0].object_tiem_stop
+          )
+          var totleTime = (stopTime.getTime() - startTime.getTime()) / 1000
+          selectedStopTime = new Date(selectedStartTime)
+          selectedStopTime.setSeconds(
+            selectedStopTime.getSeconds() + (totleTime + 1)
+          )
+          selectedStopTime =
+            selectedStopTime.getFullYear() +
+            '-' +
+            ('0' + (selectedStopTime.getMonth() + 1)).slice(-2) +
+            '-' +
+            ('0' + selectedStopTime.getDate()).slice(-2) +
+            ' ' +
+            ('0' + selectedStopTime.getHours()).slice(-2) +
+            ':' +
+            ('0' + selectedStopTime.getMinutes()).slice(-2) +
+            ':' +
+            ('0' + selectedStopTime.getSeconds()).slice(-2)
+        }
+        this.imageChange(selectedStartTime)
         // console.log(selectedStartTime, selectedStopTime)
         axios({
           method: 'post',
@@ -954,6 +983,23 @@ export default {
           days + '天' + hours + '時<br />' + minutes + '分' + seconds + '秒'
       }
       return duration
+    },
+    imageChange(oupTime) {
+      var date = new Date(oupTime)
+      var YMD =
+        date.getFullYear() +
+        ('0' + (date.getMonth() + 1)).slice(-2) +
+        ('0' + date.getDate()).slice(-2)
+      var HMS =
+        ('0' + date.getHours()).slice(-2) +
+        ('0' + date.getMinutes()).slice(-2) +
+        ('0' + date.getSeconds()).slice(-2)
+      var image = document.getElementById('image-wrap-change')
+      image.style.background = `url('http://127.0.0.1:5000/api/database/share/setting%5Croisettinghistory%5Croi_setting_history_${YMD}_T${HMS}.jpg') no-repeat center center`
+      image.style.backgroundSize = '100%'
+      var imageresult = document.getElementById('image-wrap-img')
+      imageresult.style.background = `url('http://127.0.0.1:5000/api/database/share/setting%5Croisettinghistory%5Croi_setting_history_${YMD}_T${HMS}.jpg') no-repeat center center`
+      // console.log(image)
     },
   },
 }
@@ -1253,7 +1299,7 @@ button.slick-next:before {
 .image-wrap1 .image1 {
   width: 100%;
   height: 60% !important;
-  background: url('static/xzoom/images/20220510_v1.jpg') no-repeat center center;
+  background: url('/loadingBG.png') no-repeat center center;
   float: left;
   margin: 0;
   padding: 0;

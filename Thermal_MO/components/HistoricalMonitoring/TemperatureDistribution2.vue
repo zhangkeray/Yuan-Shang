@@ -173,10 +173,10 @@
                 <h4 class="cardtitle ml-3">物件修改對照:時間{{settingImg}}</h4>
                 <v-col cols="12" md="12">
                   <div class="image-wrap">
-                    <div class="image viewer" id="image-wrap-change">
+                    <div class="image viewer" id="image-wrap-change1">
                       <div class="magnifier"></div>
                     </div>
-                    <div class="image result" id="image-wrap-img"></div>
+                    <div class="image result" id="image-wrap-img1"></div>
                   </div>
                 </v-col>
               </v-row>
@@ -254,7 +254,6 @@ export default {
   }),
   watch: {
     settingImg(data) {
-      // console.log(data)
       this.imageChange(data)
     },
   },
@@ -387,6 +386,7 @@ export default {
       // console.log(myChart)
     },
     imageChange(oupTime) {
+      console.log(oupTime)
       var date = new Date(oupTime)
       var YMD =
         date.getFullYear() +
@@ -396,10 +396,10 @@ export default {
         ('0' + date.getHours()).slice(-2) +
         ('0' + date.getMinutes()).slice(-2) +
         ('0' + date.getSeconds()).slice(-2)
-      var image = document.getElementById('image-wrap-change')
+      var image = document.getElementById('image-wrap-change1')
       image.style.background = `url('http://127.0.0.1:5000/api/database/share/setting%5Croisettinghistory%5Croi_setting_history_${YMD}_T${HMS}.jpg') no-repeat center center`
       image.style.backgroundSize = '100%'
-      var imageresult = document.getElementById('image-wrap-img')
+      var imageresult = document.getElementById('image-wrap-img1')
       imageresult.style.background = `url('http://127.0.0.1:5000/api/database/share/setting%5Croisettinghistory%5Croi_setting_history_${YMD}_T${HMS}.jpg') no-repeat center center`
       // console.log(image)
     },
