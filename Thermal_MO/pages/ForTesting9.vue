@@ -5,6 +5,10 @@
     <div ref="lineChart" style="width: 80%; height: 600px"></div>
     <v-btn @click="clearAPI">取消API請求</v-btn>
     <v-btn @click="start">開始API請求</v-btn>
+    <section>
+      <p>date range</p>
+      <date-picker v-model="date" type="date" range placeholder="請選擇日期" value-type="format" format="YYYY-MM-DD"></date-picker>
+    </section>
   </div>
 </template>
 <script>
@@ -14,6 +18,7 @@ export default {
   name: 'HistoricalMonitoringPage',
   data: () => ({
     // 定義
+    date:[new Date(),new Date()],
     arr: [],
     totle: 0,
     controller: null,
@@ -24,6 +29,9 @@ export default {
     output: [],
   }),
   watch: {
+    date(data){
+      console.log(data)
+    },
     time(data) {
       // console.log(JSON.parse(JSON.stringify(data)))
       var keys = this.key
@@ -38,7 +46,7 @@ export default {
         this.getAxios()
         this.totle = this.totle + 1
       }
-      console.log(data)
+      // console.log(data)
     },
   },
   mounted() {
@@ -91,7 +99,7 @@ export default {
       this.totle = 0
     },
     clearAPI() {
-      console.log('ok')
+      // console.log('ok')
       this.restart()
       this.controller.abort()
     },
@@ -100,7 +108,7 @@ export default {
       this.getAxios()
     },
     getAxios() {
-      console.log('請求API中')
+      // console.log('請求API中')
       axios({
         method: 'post',
         url: 'http://127.0.0.1:5000/api/normal',

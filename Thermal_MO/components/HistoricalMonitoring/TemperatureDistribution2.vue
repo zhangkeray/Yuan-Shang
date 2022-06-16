@@ -153,7 +153,11 @@
                   type="datetime"
                   range
                   placeholder="Select datetime range"
-                  style="position:absolute;margin-left:130px;z-index:9999999"
+                  style="
+                    position: absolute;
+                    margin-left: 130px;
+                    z-index: 9999999;
+                  "
                 ></date-picker>
                 <v-col cols="12" md="12">
                   <peak-hours-statistics-bar-chart />
@@ -170,7 +174,9 @@
                 class="mx-2 mt-2"
                 style="border: 3px solid #f1f1f1; border-radius: 10px"
               >
-                <h4 class="cardtitle ml-3">物件修改對照:時間{{settingImg}}</h4>
+                <h4 class="cardtitle ml-3">
+                  物件修改對照:時間{{ settingImg }}
+                </h4>
                 <v-col cols="12" md="12">
                   <div class="image-wrap">
                     <div class="image viewer" id="image-wrap-change1">
@@ -352,29 +358,34 @@ export default {
       myChart.getZr().on('mousemove', (params) => {
         var pointInPixel = [params.offsetX, params.offsetY]
         if (myChart.containPixel('grid', pointInPixel)) {
-          var xIndex = myChart.convertFromPixel({ seriesIndex: 0 }, [
-            params.offsetX,
-            params.offsetY,
-          ])[0]
-          var op = myChart.getOption()
-          var xData = op.xAxis[0].data[xIndex]
-          if (xData !== tmp) {
-            // console.log(xData)
-            // 判斷圖片
-            var hoverTime = new Date(xData)
-            var getChangeData = this.changeData
-            var oupTime = null
-            getChangeData.forEach((index) => {
-              var changeTime = new Date(index)
-              if (hoverTime > changeTime) {
-                oupTime = index
-              }
-            })
-            // console.log(oupTime)
-            this.settingImg = oupTime
-            // this.imageChange(oupTime)
+          try {
+            // statements to try
+            var xIndex = myChart.convertFromPixel({ seriesIndex: 0 }, [
+              params.offsetX,
+              params.offsetY,
+            ])[0]
+            var op = myChart.getOption()
+            var xData = op.xAxis[0].data[xIndex]
+            if (xData !== tmp) {
+              // console.log(xData)
+              // 判斷圖片
+              var hoverTime = new Date(xData)
+              var getChangeData = this.changeData
+              var oupTime = null
+              getChangeData.forEach((index) => {
+                var changeTime = new Date(index)
+                if (hoverTime > changeTime) {
+                  oupTime = index
+                }
+              })
+              // console.log(oupTime)
+              this.settingImg = oupTime
+              // this.imageChange(oupTime)
+            }
+            tmp = xData
+          } catch (e) {
+            console.log('err')
           }
-          tmp = xData
         }
         // 參考:https://www.helloworld.net/p/7352350306
       })

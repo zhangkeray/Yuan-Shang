@@ -1,6 +1,25 @@
 <template>
   <v-row :column="$vuetify.breakpoint.mdAndDown">
-    <v-menu
+    <date-picker
+      v-model="dates"
+      type="date"
+      :disabled="disabled"
+      range
+      placeholder="請選擇日期"
+      value-type="format"
+      format="YYYY-MM-DD"
+      style="
+        font-size: 12px;
+        margin-left: 145px;
+        margin-top: 10px;
+        position: absolute;
+        z-index: 999999;
+        width: 202px;
+      "
+      :disabled-date="notBeforeTodayTwelveOClock"
+      @change="dateRange"
+    ></date-picker>
+    <!-- <v-menu
       ref="menu"
       v-model="menu"
       :close-on-content-click="false"
@@ -53,7 +72,7 @@
           確定 </v-btn
         ><sanp class="error-date">{{ errorM }}</sanp></v-date-picker
       >
-    </v-menu>
+    </v-menu> -->
 
     <v-col cols="12" lg="12" style="border: 1px solid rgba(0, 0, 0, 0)">
       <div>
@@ -70,8 +89,8 @@
         ></v-progress-linear>
         <v-row>
           <v-col cols="11"
-            ><div style="margin: 12px 0px 0px 0px;">
-              {{ loadingname }}{{ percentage }}{{ messageDate }}
+            ><div style="margin: 12px 0px 0px 0px">
+              {{ loadingname }}{{ messageDate }}{{ percentage }}{{ timeleft }}
             </div></v-col
           >
           <v-col cols="1" class=""
@@ -81,7 +100,7 @@
               :loading="loading"
               :disabled="loading"
               :class="btushow"
-              style="margin: 5px 0px 0px 12px;"
+              style="margin: 5px 0px 0px 12px"
               >中斷</v-btn
             ></v-col
           >
@@ -113,6 +132,9 @@ export default {
     activePicker: null,
     Currently: 0, // 紀錄目前進度
     datalist: null,
+    downloadTime: null,
+    timeleft: null,
+    intervalTime: null,
     // 進度計算
     valueDeterminate: 0,
     show: true,
@@ -168,9 +190,12 @@ export default {
           } else {
             this.loadingname = '資料處理完成!'
           }
+          clearInterval(this.intervalTime)
+          this.timeleft = null
           this.percentage = '(' + 100.0 + '%)'
           this.valueDeterminate = 100
           setTimeout(() => {
+            this.Currently = null
             this.loading = false
             this.btushow = 'btudis'
             this.show = false
@@ -181,7 +206,32 @@ export default {
         }, 2000)
       }
       this.sum = sum
-      this.percentage = '(' + sum.toFixed(1) + '%)'
+      if (this.intervalTime !== null) {
+        clearInterval(this.intervalTime)
+      }
+
+      var now = new Date()
+      var lefttime = this.downloadTime
+      // this.timeleft = `${this.downloadTime}:${now}`
+      var timeleft1 =
+        ((this.totledata - this.finish) *
+          (now.getTime() - lefttime.getTime())) /
+        1000
+      this.intervalTime = setInterval(() => {
+        // console.log('oks')
+        timeleft1 = timeleft1 - 1
+        var timeleft2 = this.getDuration(timeleft1.toFixed(0))
+        if (this.finish > 2) {
+          if (timeleft1 < 4) {
+            this.timeleft = ` (少於3秒)`
+          } else {
+            this.timeleft = ` (預計剩餘:${timeleft2})`
+          }
+        }
+        this.downloadTime = now
+      }, 1000)
+      this.percentage = `[${this.finish}/${this.totledata}](${sum.toFixed(1)}%)`
+      this.percentage = `[${this.finish}/${this.totledata}]`
     },
     output(data1) {
       // console.log(data1.length)
@@ -384,7 +434,9 @@ export default {
       // console.log(data)
     },
     Currently(data) {
-      if (data < this.totledata) {
+      // 如果資料異動，則執行API請求
+      // console.log(data)
+      if (data < this.totledata && data !== null) {
         this.getAPI(this.datalist[data])
       }
     },
@@ -392,6 +444,7 @@ export default {
   methods: {
     stopRes() {
       this.finish = this.totledata
+      this.Currently = null
       this.loading = true
       this.controller.abort()
     },
@@ -610,25 +663,27 @@ export default {
       // end
     },
     dateRange() {
-      if (this.dates.length <= 1) {
-        var arr = this.dates
-        arr.push(this.dates[0])
-        this.dates = arr
+      if (this.dates[0] !== null) {
+        if (this.dates.length <= 1) {
+          var arr = this.dates
+          arr.push(this.dates[0])
+          this.dates = arr
+        }
+        // console.log(this.dates)
+        this.errorM = ''
+        this.totledata = 0
+        this.finish = 0
+        this.show = true
+        this.percentage = 0
+        this.output = []
+        this.minOutput = []
+        this.avgOutput = []
+        this.outputLast = { time: [] }
+        this.menu = false
+        this.disabled = true
+        var input = this.dates
+        this.drawBar(input)
       }
-      console.log(this.dates)
-      this.errorM = ''
-      this.totledata = 0
-      this.finish = 0
-      this.show = true
-      this.percentage = 0
-      this.output = []
-      this.minOutput = []
-      this.avgOutput = []
-      this.outputLast = { time: [] }
-      this.menu = false
-      this.disabled = true
-      var input = this.dates
-      this.drawBar(input)
     },
     myChartinit() {
       const chartDom = this.$refs.lineBarChart
@@ -900,6 +955,7 @@ export default {
       // 輸出資料給cheats
     },
     drawBar(date) {
+      this.downloadTime = new Date()
       this.btushow = ''
       // const chartDom = this.$refs.lineBarChart
       // const myChart = echarts.init(chartDom) // echarts初始化
@@ -928,8 +984,8 @@ export default {
         -2
       )}-${`0${endday.getDate()}`.slice(-2)}`
       this.totledata = this.totledata + 1
-      var thisdatatotle = this.totledata
-      this.loadingname = `總共${thisdatatotle}天分析資料:`
+      // var thisdatatotle = this.totledata
+      // this.loadingname = `總共${thisdatatotle}天分析資料:`
       const div1 = document.createElement('div')
       div1.classList.add(`my-${dd}`)
       div1.innerHTML = `[${dd}]`
@@ -945,17 +1001,15 @@ export default {
       this.datalist = datalist
       this.controller = new AbortController()
       this.Currently = 0
-
       // console.log(this.totledata)
-      // -------loading data end-------
     },
     getAPI(day) {
-      this.messageDate = `(正在下載:"${day}"資料)`
+      this.messageDate = `正在下載:"${day}"資料`
       // datalist.forEach((day) => {
       // console.log(day)
       // 計算時間
       // const DataStartTime = `${day} 15:00:00`
-      // const DataEndTime = `${day} 17:00:00`
+      // const DataEndTime = `${day} 22:00:00`
       var DataStartTime = day + ' 00:00:00'
       var DataEndTime = day + ' 23:59:59'
       // GET DATA
@@ -1006,7 +1060,7 @@ export default {
           this.output = output
           this.minOutput = minOutput
           this.avgOutput = avgOutput
-          console.log(this.Currently)
+          // console.log(this.Currently)
           this.Currently = this.Currently + 1
 
           // -------loading data-------
@@ -1095,6 +1149,30 @@ export default {
         },
         series: output,
       })
+    },
+    notBeforeTodayTwelveOClock(date) {
+      var today = new Date()
+      var minday = new Date('2010-01-01')
+      return date > today || date < minday
+    },
+    // 秒 轉 分、時、天，並且隱藏時間未到的單位
+    getDuration(second) {
+      var days = Math.floor(second / 86400)
+      var hours = Math.floor((second % 86400) / 3600)
+      var minutes = Math.floor(((second % 86400) % 3600) / 60)
+      var seconds = Math.floor(((second % 86400) % 3600) % 60)
+      var duration = null
+      if (second < 60) {
+        duration = seconds + '秒'
+      } else if (second >= 60 && second < 3600) {
+        duration = minutes + '分' + seconds + '秒'
+      } else if (second >= 3600 && second < 86400) {
+        duration = hours + '時<br />' + minutes + '分' + seconds + '秒'
+      } else if (second >= 86400) {
+        duration =
+          days + '天' + hours + '時<br />' + minutes + '分' + seconds + '秒'
+      }
+      return duration
     },
   },
 }
