@@ -90,24 +90,24 @@ export default {
           // to: '5',
           to: 'PermissionPage',
         },
-        {
-          icon: 'mdi-account-group-outline',
-          title: 'LouisAPI示範',
-          // to: '5',
-          to: 'ForTesting9',
-        },
-        {
-          icon: 'mdi-account-group-outline',
-          title: 'API動態測試(南部)',
-          // to: '5',
-          to: 'ForTesting11',
-        },
-        {
-          icon: 'mdi-account-group-outline',
-          title: 'API動態測試(後端)',
-          // to: '5',
-          to: 'ForTesting12',
-        },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: 'LouisAPI示範',
+        //   // to: '5',
+        //   to: 'ForTesting9',
+        // },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: 'API動態測試(南部)',
+        //   // to: '5',
+        //   to: 'ForTesting11',
+        // },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: 'API動態測試(後端)',
+        //   // to: '5',
+        //   to: 'ForTesting12',
+        // },
         // {
         //   icon: 'mdi-account-group-outline',
         //   title: '原API動態',
@@ -126,12 +126,12 @@ export default {
         //   // to: '5',
         //   to: 'ForTesting8real',
         // },
-        {
-          icon: 'mdi-account-group-outline',
-          title: 'API測試(後端)',
-          // to: '5',
-          to: 'ForTesting13',
-        },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: 'API測試(後端)',
+        //   // to: '5',
+        //   to: 'ForTesting13',
+        // },
         // {
         //   icon: 'mdi-chart-bubble',
         //   title: 'Inspire',
