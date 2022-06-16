@@ -90,30 +90,24 @@ export default {
           // to: '5',
           to: 'PermissionPage',
         },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: '測試7:JQ日期時間Range選擇',
-        //   // to: '5',
-        //   to: 'ForTesting7',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: 'LouisAPI示範',
-        //   // to: '5',
-        //   to: 'ForTesting9',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: 'API動態測試(南部)',
-        //   // to: '5',
-        //   to: 'ForTesting11',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: 'API動態測試(後端)',
-        //   // to: '5',
-        //   to: 'ForTesting10',
-        // },
+        {
+          icon: 'mdi-account-group-outline',
+          title: 'LouisAPI示範',
+          // to: '5',
+          to: 'ForTesting9',
+        },
+        {
+          icon: 'mdi-account-group-outline',
+          title: 'API動態測試(南部)',
+          // to: '5',
+          to: 'ForTesting11',
+        },
+        {
+          icon: 'mdi-account-group-outline',
+          title: 'API動態測試(後端)',
+          // to: '5',
+          to: 'ForTesting12',
+        },
         // {
         //   icon: 'mdi-account-group-outline',
         //   title: '原API動態',
@@ -132,25 +126,12 @@ export default {
         //   // to: '5',
         //   to: 'ForTesting8real',
         // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: '測試9:Node.JS',
-        //   // to: '5',
-        //   to: 'ForTesting9',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: 'API測試(後端)',
-        //   // to: '5',
-        //   to: 'ForTesting13',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: '測試9',
-        //   // to: '5',
-        //   to: 'ForTesting9',
-        // },
-
+        {
+          icon: 'mdi-account-group-outline',
+          title: 'API測試(後端)',
+          // to: '5',
+          to: 'ForTesting13',
+        },
         // {
         //   icon: 'mdi-chart-bubble',
         //   title: 'Inspire',

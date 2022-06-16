@@ -24,11 +24,15 @@ export default {
         content: 'telephone=no',
       },
     ],
-    link: [{
+    link: [
+      {
       rel: 'icon',
       type: 'image/x-icon',
       href: '/favicon.ico',
-    }, ],
+    },
+    { rel: 'stylesheet', href: 'css/details.css' },
+
+   ],
     script: [{
         src: '/js/jquery.js',
         type: 'text/javascript',
@@ -45,16 +49,7 @@ export default {
   transpileDependencies: ['some-imported-lib'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{
-      src: './plugins/vue-carousel.js',
-      mode: 'client',
-      src: './plugins/vue-product-zoomer.js',
-      src: './plugins/vue-image-magnifier',
-    },
-    {
-      src: '~/plugins/vue-awesome-swiper',
-      ssr: false
-    },
+  plugins: [
     {
       src: '~/plugins/slick',
       mode: 'client'
@@ -65,7 +60,6 @@ export default {
     {
      src:  '~/plugins/vue2-datepicker.js',
      ssr: false
-
     }
 
   ],
@@ -82,7 +76,7 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     // 字體
-    '@nuxtjs/google-fonts',
+    // '@nuxtjs/google-fonts',
   ],
   googleFonts: {
     families: {

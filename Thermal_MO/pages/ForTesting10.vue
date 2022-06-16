@@ -34,11 +34,15 @@ export default {
     this.test3()
     this.test4()
     var delayTime = 0 // 設定緩衝時間(給後端的)，避免後端還未記錄，我們就先要資料了
-    var falsetime = new Date('2022-05-31 09:34:37') // 正式上線請註解
-    // var intervalData = setInterval(() => {
-      falsetime.setSeconds(falsetime.getSeconds() + 1)
+    var falsetime = new Date('2022-06-01 11:04:00:000') // 正式上線請註解
+    var intervalData = setInterval(() => {
+      // falsetime.setSeconds(falsetime.getSeconds() + 1)
+      falsetime.setMilliseconds(falsetime.getMilliseconds() + 1000)
+
       var getTime = new Date(falsetime) // 正式上線請將falsetime 拿掉
-      getTime.setSeconds(getTime.getSeconds() - delayTime)
+      // getTime.setSeconds(getTime.getSeconds() - delayTime)
+      getTime.setMilliseconds(getTime.getMilliseconds() - delayTime)
+
       var crrtime = new Date(getTime)
       var start =
         crrtime.getFullYear() +
@@ -53,8 +57,11 @@ export default {
         ':' +
         ('0' + crrtime.getSeconds()).slice(-2) +
         ':' +
-        ('0' + crrtime.getMilliseconds()).slice(-2)
-      var stop = crrtime.setSeconds(crrtime.getSeconds() + 1)
+        ('0' + crrtime.getMilliseconds()).slice(-3)
+
+      // var stop = crrtime.setSeconds(crrtime.getSeconds() + 1)
+      var stop = crrtime.setMilliseconds(crrtime.getMilliseconds() + 1000)
+
       stop = new Date(stop)
       stop =
         stop.getFullYear() +
@@ -67,10 +74,13 @@ export default {
         ':' +
         ('0' + stop.getMinutes()).slice(-2) +
         ':' +
-        ('0' + stop.getSeconds()).slice(-2)
+        ('0' + stop.getSeconds()).slice(-2) +
+        ':' +
+        ('0' + stop.getMilliseconds()).slice(-3)
       this.getData(start, stop)
-    // }, 1000)
-    // console.log(intervalData)
+    }, 1000)
+    console.log(intervalData)
+    // 計時載入新資料(5sec/5value)
   },
   methods: {
     // axios
@@ -90,14 +100,17 @@ export default {
       })
         .then((events) => {
           var arr = events.data
+          console.log(arr)
           var thisTime = this.time
           var time = arr.time
           var timeleg = thisTime.length // 保存目前時間長度(如果有增加物件，前方需要補齊key)
-          thisTime.push(time)
+          thisTime.push(time[0])
           delete arr.time
           var data = arr
+          console.log(arr)
           Object.keys(data).forEach((key) => {
             var ar = this.key[key]
+            console.log(ar)
             if (ar !== undefined) {
               console.log('ok')
             } else {
@@ -108,13 +121,63 @@ export default {
             }
           })
           var arr01 = this.key
+          // console.log(arr01)
           Object.keys(arr01).forEach((key) => {
             if (data[key] !== undefined) {
-              this.key[key].push(data[key])
+              this.key[key].push(data[key][0])
             } else {
               this.key[key].push(null)
             }
           })
+          Object.keys(arr01).forEach((key) => {
+            if (data[key] !== undefined) {
+              this.key[key].push(data[key][1])
+            } else {
+              this.key[key].push(null)
+            }
+          })
+          Object.keys(arr01).forEach((key) => {
+            if (data[key] !== undefined) {
+              this.key[key].push(data[key][2])
+            } else {
+              this.key[key].push(null)
+            }
+          })
+          Object.keys(arr01).forEach((key) => {
+            if (data[key] !== undefined) {
+              this.key[key].push(data[key][3])
+            } else {
+              this.key[key].push(null)
+            }
+          })
+          Object.keys(arr01).forEach((key) => {
+            if (data[key] !== undefined) {
+              this.key[key].push(data[key][4])
+            } else {
+              this.key[key].push(null)
+            }
+          })
+          Object.keys(arr01).forEach((key) => {
+            if (data[key] !== undefined) {
+              this.key[key].push(data[key][5])
+            } else {
+              this.key[key].push(null)
+            }
+          })
+          // Object.keys(arr01).forEach((key) => {
+          //   if (data[key] !== undefined) {
+          //     this.key[key].push(data[key][6])
+          //   } else {
+          //     this.key[key].push(null)
+          //   }
+          // })
+          // Object.keys(arr01).forEach((key) => {
+          //   if (data[key] !== undefined) {
+          //     this.key[key].push(data[key][7])
+          //   } else {
+          //     this.key[key].push(null)
+          //   }
+          // })
         })
         .catch((err) => {
           console.log(err)
@@ -146,24 +209,24 @@ export default {
 
     // 初始化
     test3() {
-      const DataStartTime = '2022-06-01 00:00:00:000'
-      const DataEndTime = '2022-06-01 00:00:00:100'
-      var DataStartDay = new Date(DataStartTime)
-      DataStartDay =
-        DataStartDay.getFullYear() +
-        '-' +
-        (DataStartDay.getMonth() + 1) +
-        '-' +
-        DataStartDay.getDate()
-      var DataEndDay = new Date(DataEndTime)
-      DataEndDay.setDate(DataEndDay.getDate() + 1)
-      DataEndDay =
-        DataEndDay.getFullYear() +
-        '-' +
-        (DataEndDay.getMonth() + 1) +
-        '-' +
-        DataEndDay.getDate()
-      console.log(DataStartDay, DataEndDay)
+      // const DataStartTime = '2022-06-01 00:00:00'
+      // const DataEndTime = '2022-06-01 00:59:59'
+      // var DataStartDay = new Date(DataStartTime)
+      // DataStartDay =
+      //   DataStartDay.getFullYear() +
+      //   '-' +
+      //   (DataStartDay.getMonth() + 1) +
+      //   '-' +
+      //   DataStartDay.getDate()
+      // var DataEndDay = new Date(DataEndTime)
+      // DataEndDay.setDate(DataEndDay.getDate() + 1)
+      // DataEndDay =
+      //   DataEndDay.getFullYear() +
+      //   '-' +
+      //   (DataEndDay.getMonth() + 1) +
+      //   '-' +
+      //   DataEndDay.getDate()
+      // console.log(DataStartDay, DataEndDay)
 
       // ECHART初始化
       // var chartDom = document.getElementById('my')
@@ -209,7 +272,7 @@ export default {
         },
         yAxis: {
           type: 'value',
-          boundaryGap: [0, '30%'],
+          // boundaryGap: [0, '30%'],
         },
         series: [],
       }

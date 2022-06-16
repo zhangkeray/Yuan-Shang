@@ -1,167 +1,93 @@
 <template>
   <div>
-    <div ref="lineBarChart" style="height: 600px; width: 1800px"></div>
+    <!-- <div id="my" style="width: 80%; height: 600px"></div> -->
+    <!-- <v-btn id="start" @click="test3()">開始</v-btn> -->
+    <div ref="lineChart" style="width: 80%; height: 600px"></div>
   </div>
 </template>
-
 <script>
 import * as echarts from 'echarts'
 import axios from 'axios'
 export default {
+  name: 'HistoricalMonitoringPage',
   data: () => ({
-    url: 'http://127.0.0.1:5000/api/alarm/max',
-
+    // 定義
+    // 時間
     time: [],
     // Curve
-    arr: {
-      F1: [],
-      F2: [],
-      F3: [],
-      F4: [],
-      F5: [],
-    },
-
+    key: [],
     output: [],
   }),
-  mounted() {
-    // this.drawBar()
-
-    // 計時載入新資料(1sec/1value)
-    // var init = 0
-    var tmp = 5
-    var start = setInterval(() => {
-      this.drawBar(tmp)
-      tmp++
-    }, 1000)
-    console.log(start)
-
-    //   const DataStartTime = '2022-06-01 00:00:00'
-    //   const DataEndTime = '2022-06-01 00:00:05'
-    // var start = setInterval(() => {
-    //   this.drawBar(0, 5)
-    //   this.DataStartTime = this.DataStartTime + 1
-    //   this.DataEndTime = this.DataEndTime + 1
-    // }, 1000)
-    // console.log(start)
+  watch: {
+    time(data) {
+      // console.log(JSON.parse(JSON.stringify(data)))
+      var keys = this.key
+      keys.forEach((index) => {
+        console.log(index)
+      })
+      console.log(this.key)
+      this.test4(data, '0')
+    },
   },
+  mounted() {
+    // 初始化
+    this.test3()
+    this.test4()
+    var delayTime = 166 // 設定緩衝時間(給後端的)，避免後端還未記錄，我們就先要資料了
+    var falsetime = new Date('2022-06-01 11:04:00:000') // 正式上線請註解
+    var intervalData = setInterval(() => {
+      // falsetime.setSeconds(falsetime.getSeconds() + 1)
+      falsetime.setMilliseconds(falsetime.getMilliseconds() + 166)
 
+      var getTime = new Date(falsetime) // 正式上線請將falsetime 拿掉
+      // getTime.setSeconds(getTime.getSeconds() - delayTime)
+      getTime.setMilliseconds(getTime.getMilliseconds() - delayTime)
+
+      var crrtime = new Date(getTime)
+      var start =
+        crrtime.getFullYear() +
+        '-' +
+        ('0' + (crrtime.getMonth() + 1)).slice(-2) +
+        '-' +
+        ('0' + crrtime.getDate()).slice(-2) +
+        ' ' +
+        ('0' + crrtime.getHours()).slice(-2) +
+        ':' +
+        ('0' + crrtime.getMinutes()).slice(-2) +
+        ':' +
+        ('0' + crrtime.getSeconds()).slice(-2) +
+        ':' +
+        ('0' + crrtime.getMilliseconds()).slice(-3)
+
+      // var stop = crrtime.setSeconds(crrtime.getSeconds() + 1)
+      var stop = crrtime.setMilliseconds(crrtime.getMilliseconds() + 166)
+
+      stop = new Date(stop)
+      stop =
+        stop.getFullYear() +
+        '-' +
+        ('0' + (stop.getMonth() + 1)).slice(-2) +
+        '-' +
+        ('0' + stop.getDate()).slice(-2) +
+        ' ' +
+        ('0' + stop.getHours()).slice(-2) +
+        ':' +
+        ('0' + stop.getMinutes()).slice(-2) +
+        ':' +
+        ('0' + stop.getSeconds()).slice(-2) +
+        ':' +
+        ('0' + stop.getMilliseconds()).slice(-3)
+      this.getData(start, stop)
+    }, 1000)
+    console.log(intervalData)
+    // 計時載入新資料(5sec/5value)
+  },
   methods: {
-    drawBar(tmp) {
-      const DataStartTime = '2022-06-01 00:00:00'
-      const DataEndTime = '2022-06-01 00:00:01'
-      var DataStartDay = new Date(DataStartTime)
-      DataStartDay =
-        DataStartDay.getFullYear() +
-        '-' +
-        (DataStartDay.getMonth() + 1) +
-        '-' +
-        DataStartDay.getDate() +
-        ' ' +
-        DataStartDay.getHours() +
-        ':' +
-        DataStartDay.getMinutes() +
-        ':' +
-        DataStartDay.getSeconds()
-
-      var DataEndDay = new Date(DataEndTime)
-      DataEndDay.setSeconds(DataEndDay.getSeconds() + tmp)
-      DataEndDay =
-        DataEndDay.getFullYear() +
-        '-' +
-        (DataEndDay.getMonth() + 1) +
-        '-' +
-        DataEndDay.getDate() +
-        ' ' +
-        DataEndDay.getHours() +
-        ':' +
-        DataEndDay.getMinutes() +
-        ':' +
-        DataEndDay.getSeconds()
-      console.log(DataStartDay, DataEndDay)
-
-      const chartDom = this.$refs.lineBarChart
-      const myChart = echarts.init(chartDom) // echarts初始化
-      var option
-      // 選擇圖表樣式------------------------------------------
-      option = {
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            animation: false,
-          },
-        },
-        grid: {
-          show: false,
-          top: '70',
-          bottom: '55',
-          right: '130',
-          left: '60',
-        },
-        legend: {
-          show: true,
-          selectedMode: 'multiple', // 設定顯示單一圖例的圖形，點選可切換
-          right: 80,
-          width: '650px',
-          textStyle: {
-            color: '#666',
-            fontSize: 9,
-          },
-          itemGap: 10,
-        },
-        dataZoom: [
-          // 数据滑块设置
-          {
-            type: 'slider', // 数据滑块
-            // realtime: true,
-            bottom: '0%',
-          },
-          {
-            type: 'inside', // 使鼠标在图表中时滚轮可用
-          },
-        ],
-        xAxis: [
-          {
-            name: '(time)',
-            type: 'category',
-          },
-        ],
-        yAxis: [
-          {
-            type: 'value',
-            name: '(°C)',
-          },
-        ],
-        series: [
-          {
-            type: 'line',
-            // symbol: 'none',
-          },
-          {
-            type: 'line',
-            // symbol: 'none',
-          },
-          {
-            type: 'line',
-            // symbol: 'none',
-          },
-          {
-            type: 'line',
-            // symbol: 'none',
-          },
-          {
-            type: 'line',
-            // symbol: 'none',
-          },
-        ],
-      }
-      // -------------------------------------------------------------
-      option && myChart.setOption(option)
-    // },
-    // GET DATA
-    // getData() {
+    // axios
+    getData(DataStartTime, DataEndTime) {
       axios({
         method: 'post',
-        url: this.url,
+        url: 'http://127.0.0.1:5000/api/alarm/max',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -172,77 +98,192 @@ export default {
           },
         ]),
       })
-        .then((params) => {
-          var F1 = params.data[0].line1
-          var F2 = params.data[0].line2
-          var F3 = params.data[0].scope1
-          var F4 = params.data[0].scope2
-          var F5 = params.data[0].scope3
-          var time = params.data[0].time
-          F1.forEach((index) => {
-            var arr = this.arr.F1
-            arr.push(index)
-            // console.log(index)
+        .then((events) => {
+          var arr = events.data
+          console.log(arr)
+          var thisTime = this.time
+          var time = arr.time
+          var timeleg = thisTime.length // 保存目前時間長度(如果有增加物件，前方需要補齊key)
+          thisTime.push(time[0])
+          delete arr.time
+          var data = arr
+          console.log(arr)
+          Object.keys(data).forEach((key) => {
+            var ar = this.key[key]
+            console.log(ar)
+            if (ar !== undefined) {
+              console.log('ok')
+            } else {
+              this.key[key] = []
+              for (var i = 0; i < timeleg; i++) {
+                this.key[key].push(null)
+              }
+            }
           })
-          F2.forEach((index) => {
-            var arr = this.arr.F2
-            arr.push(index)
-            // console.log(index)
+          var arr01 = this.key
+          // console.log(arr01)
+          Object.keys(arr01).forEach((key) => {
+            if (data[key] !== undefined) {
+              this.key[key].push(data[key][0])
+            } else {
+              this.key[key].push(null)
+            }
           })
-          F3.forEach((index) => {
-            var arr = this.arr.F3
-            arr.push(index)
-            // console.log(index)
+          Object.keys(arr01).forEach((key) => {
+            if (data[key] !== undefined) {
+              this.key[key].push(data[key][1])
+            } else {
+              this.key[key].push(null)
+            }
           })
-          F4.forEach((index) => {
-            var arr = this.arr.F4
-            arr.push(index)
-            // console.log(index)
+          Object.keys(arr01).forEach((key) => {
+            if (data[key] !== undefined) {
+              this.key[key].push(data[key][2])
+            } else {
+              this.key[key].push(null)
+            }
           })
-          F5.forEach((index) => {
-            var arr = this.arr.F5
-            arr.push(index)
-            // console.log(index)
+          Object.keys(arr01).forEach((key) => {
+            if (data[key] !== undefined) {
+              this.key[key].push(data[key][3])
+            } else {
+              this.key[key].push(null)
+            }
           })
-          time.forEach((index) => {
-            var time = this.time
-            time.push(index)
-            // console.log(index)
-            myChart.setOption({
-              xAxis: [
-                {
-                  data: this.time,
-                },
-              ],
-              series: [
-                {
-                  name: 'F1',
-                  data: this.arr.F1,
-                },
-                {
-                  name: 'F2',
-                  data: this.arr.F2,
-                },
-                {
-                  name: 'F3',
-                  data: this.arr.F3,
-                },
-                {
-                  name: 'F4',
-                  data: this.arr.F4,
-                },
-                {
-                  name: 'F5',
-                  data: this.arr.F5,
-                },
-              ],
-            })
+          Object.keys(arr01).forEach((key) => {
+            if (data[key] !== undefined) {
+              this.key[key].push(data[key][4])
+            } else {
+              this.key[key].push(null)
+            }
           })
+          Object.keys(arr01).forEach((key) => {
+            if (data[key] !== undefined) {
+              this.key[key].push(data[key][5])
+            } else {
+              this.key[key].push(null)
+            }
+          })
+          // Object.keys(arr01).forEach((key) => {
+          //   if (data[key] !== undefined) {
+          //     this.key[key].push(data[key][6])
+          //   } else {
+          //     this.key[key].push(null)
+          //   }
+          // })
+          // Object.keys(arr01).forEach((key) => {
+          //   if (data[key] !== undefined) {
+          //     this.key[key].push(data[key][7])
+          //   } else {
+          //     this.key[key].push(null)
+          //   }
+          // })
         })
         .catch((err) => {
           console.log(err)
         })
     },
+
+    test4(time, data) {
+      const chartDom = this.$refs.lineChart
+      const myChart = echarts.init(chartDom)
+      var arr01 = this.key
+      var output = []
+      Object.keys(arr01).forEach((key1) => {
+        console.log(key1)
+        output.push({
+          type: 'line',
+          name: key1,
+          data: arr01[key1],
+        })
+      })
+      myChart.setOption({
+        xAxis: [
+          {
+            data: time,
+          },
+        ],
+        series: output,
+      })
+    },
+
+    // 初始化
+    test3() {
+      // const DataStartTime = '2022-06-01 00:00:00'
+      // const DataEndTime = '2022-06-01 00:59:59'
+      // var DataStartDay = new Date(DataStartTime)
+      // DataStartDay =
+      //   DataStartDay.getFullYear() +
+      //   '-' +
+      //   (DataStartDay.getMonth() + 1) +
+      //   '-' +
+      //   DataStartDay.getDate()
+      // var DataEndDay = new Date(DataEndTime)
+      // DataEndDay.setDate(DataEndDay.getDate() + 1)
+      // DataEndDay =
+      //   DataEndDay.getFullYear() +
+      //   '-' +
+      //   (DataEndDay.getMonth() + 1) +
+      //   '-' +
+      //   DataEndDay.getDate()
+      // console.log(DataStartDay, DataEndDay)
+
+      // ECHART初始化
+      // var chartDom = document.getElementById('my')
+      // var myChart = echarts.init(chartDom)
+      // var option
+
+      // 可重複使用之ECHART初始化
+      const chartDom = this.$refs.lineChart
+      const myChart = echarts.init(chartDom)
+      var option
+
+      option = {
+        tooltip: {
+          trigger: 'axis',
+        },
+        dataZoom: [
+          // 数据滑块设置
+          {
+            type: 'slider', // 数据滑块
+            start: 0, // 起始0
+            end: 100, // 终止100
+            minSpan: 8,
+            bottom: '0%',
+            dataBackground: {
+              lineStyle: {
+                color: '#F0F2F5',
+              },
+              areaStyle: {
+                color: '#F0F2F5',
+                opacity: 1,
+              },
+            },
+            fillerColor: 'rgba(255,255,255,.6)',
+          },
+          {
+            type: 'inside', // 使鼠标在图表中时滚轮可用
+          },
+        ],
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        },
+        yAxis: {
+          type: 'value',
+          // boundaryGap: [0, '30%'],
+        },
+        series: [],
+      }
+      option && myChart.setOption(option)
+    },
   },
 }
 </script>
+<style scoped>
+#asdferg {
+  width: 300px;
+  height: 300px;
+}
+</style>

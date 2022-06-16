@@ -201,24 +201,24 @@ export default {
 
     // 初始化
     test3() {
-      const DataStartTime = '2022-06-01 00:00:00'
-      const DataEndTime = '2022-06-01 00:59:59'
-      var DataStartDay = new Date(DataStartTime)
-      DataStartDay =
-        DataStartDay.getFullYear() +
-        '-' +
-        (DataStartDay.getMonth() + 1) +
-        '-' +
-        DataStartDay.getDate()
-      var DataEndDay = new Date(DataEndTime)
-      DataEndDay.setDate(DataEndDay.getDate() + 1)
-      DataEndDay =
-        DataEndDay.getFullYear() +
-        '-' +
-        (DataEndDay.getMonth() + 1) +
-        '-' +
-        DataEndDay.getDate()
-      console.log(DataStartDay, DataEndDay)
+      // const DataStartTime = '2022-06-01 00:00:00'
+      // const DataEndTime = '2022-06-01 00:59:59'
+      // var DataStartDay = new Date(DataStartTime)
+      // DataStartDay =
+      //   DataStartDay.getFullYear() +
+      //   '-' +
+      //   (DataStartDay.getMonth() + 1) +
+      //   '-' +
+      //   DataStartDay.getDate()
+      // var DataEndDay = new Date(DataEndTime)
+      // DataEndDay.setDate(DataEndDay.getDate() + 1)
+      // DataEndDay =
+      //   DataEndDay.getFullYear() +
+      //   '-' +
+      //   (DataEndDay.getMonth() + 1) +
+      //   '-' +
+      //   DataEndDay.getDate()
+      // console.log(DataStartDay, DataEndDay)
 
       // ECHART初始化
       // var chartDom = document.getElementById('my')

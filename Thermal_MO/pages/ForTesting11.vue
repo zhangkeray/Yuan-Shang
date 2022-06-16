@@ -22,7 +22,7 @@ export default {
     time(data) {
       // console.log(JSON.parse(JSON.stringify(data)))
       var keys = this.key
-      keys.forEach((index)=>{
+      keys.forEach((index) => {
         console.log(index)
       })
       console.log(this.key)
@@ -34,9 +34,9 @@ export default {
     this.test3()
     this.test4()
     var delayTime = 0 // 設定緩衝時間(給後端的)，避免後端還未記錄，我們就先要資料了
-    var falsetime = new Date('2022-05-31 09:34:37') // 正式上線請註解
+    var falsetime = new Date() // 正式上線請註解
     var intervalData = setInterval(() => {
-      falsetime.setSeconds(falsetime.getSeconds() + 1)
+      falsetime.setMilliseconds(falsetime.getMilliseconds() + 1)
       var getTime = new Date(falsetime) // 正式上線請將falsetime 拿掉
       getTime.setSeconds(getTime.getSeconds() - delayTime)
       var crrtime = new Date(getTime)
@@ -52,6 +52,10 @@ export default {
         ('0' + crrtime.getMinutes()).slice(-2) +
         ':' +
         ('0' + crrtime.getSeconds()).slice(-2)
+         +
+        ':' +
+        ('0' + crrtime.getMilliseconds()).slice(-3)
+
       var stop = crrtime.setSeconds(crrtime.getSeconds() + 1)
       stop = new Date(stop)
       stop =
@@ -66,6 +70,9 @@ export default {
         ('0' + stop.getMinutes()).slice(-2) +
         ':' +
         ('0' + stop.getSeconds()).slice(-2)
+         +
+        ':' +
+        ('0' + stop.getMilliseconds()).slice(-3)
       this.getData(start, stop)
     }, 1000)
     console.log(intervalData)
@@ -74,7 +81,6 @@ export default {
   methods: {
     // axios
     getData(DataStartTime, DataEndTime) {
-
       axios({
         method: 'post',
         url: 'http://127.0.0.1:5000/api/alarm/max',
@@ -120,19 +126,19 @@ export default {
           console.log(err)
         })
     },
-    
+
     test4(time, data) {
       const chartDom = this.$refs.lineChart
       const myChart = echarts.init(chartDom)
       var arr01 = this.key
       var output = []
       Object.keys(arr01).forEach((key1) => {
-           console.log(key1)
-           output.push({
-              type: 'line',
-              name:key1,
-              data:arr01[key1]
-           })
+        console.log(key1)
+        output.push({
+          type: 'line',
+          name: key1,
+          data: arr01[key1],
+        })
       })
       myChart.setOption({
         xAxis: [
@@ -146,24 +152,24 @@ export default {
 
     // 初始化
     test3() {
-      const DataStartTime = '2022-06-01 00:00:00'
-      const DataEndTime = '2022-06-01 00:59:59'
-      var DataStartDay = new Date(DataStartTime)
-      DataStartDay =
-        DataStartDay.getFullYear() +
-        '-' +
-        (DataStartDay.getMonth() + 1) +
-        '-' +
-        DataStartDay.getDate()
-      var DataEndDay = new Date(DataEndTime)
-      DataEndDay.setDate(DataEndDay.getDate() + 1)
-      DataEndDay =
-        DataEndDay.getFullYear() +
-        '-' +
-        (DataEndDay.getMonth() + 1) +
-        '-' +
-        DataEndDay.getDate()
-      console.log(DataStartDay, DataEndDay)
+      // const DataStartTime = '2022-06-01 00:00:00'
+      // const DataEndTime = '2022-06-01 00:59:59'
+      // var DataStartDay = new Date(DataStartTime)
+      // DataStartDay =
+      //   DataStartDay.getFullYear() +
+      //   '-' +
+      //   (DataStartDay.getMonth() + 1) +
+      //   '-' +
+      //   DataStartDay.getDate()
+      // var DataEndDay = new Date(DataEndTime)
+      // DataEndDay.setDate(DataEndDay.getDate() + 1)
+      // DataEndDay =
+      //   DataEndDay.getFullYear() +
+      //   '-' +
+      //   (DataEndDay.getMonth() + 1) +
+      //   '-' +
+      //   DataEndDay.getDate()
+      // console.log(DataStartDay, DataEndDay)
 
       // ECHART初始化
       // var chartDom = document.getElementById('my')
