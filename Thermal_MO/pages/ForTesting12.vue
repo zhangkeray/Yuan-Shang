@@ -1,7 +1,5 @@
 <template>
   <div>
-    <!-- <div id="my" style="width: 80%; height: 600px"></div> -->
-    <!-- <v-btn id="start" @click="test3()">開始</v-btn> -->
     <div ref="lineChart" style="width: 80%; height: 600px"></div>
   </div>
 </template>
@@ -23,9 +21,9 @@ export default {
       // console.log(JSON.parse(JSON.stringify(data)))
       var keys = this.key
       keys.forEach((index) => {
-        console.log(index)
+        // console.log(index)
       })
-      console.log(this.key)
+      // console.log(this.key)
       this.test4(data, '0')
     },
   },
@@ -33,11 +31,11 @@ export default {
     // 初始化
     this.test3()
     this.test4()
-    var delayTime = 166 // 設定緩衝時間(給後端的)，避免後端還未記錄，我們就先要資料了
-    var falsetime = new Date('2022-06-01 11:04:00:000') // 正式上線請註解
+    var delayTime = 1000 // 設定緩衝時間(給後端的)，避免後端還未記錄，我們就先要資料了
+    var falsetime = new Date('2022-06-01 11:00:00:000') // 正式上線請註解
     var intervalData = setInterval(() => {
       // falsetime.setSeconds(falsetime.getSeconds() + 1)
-      falsetime.setMilliseconds(falsetime.getMilliseconds() + 166)
+      falsetime.setMilliseconds(falsetime.getMilliseconds() + 1000)
 
       var getTime = new Date(falsetime) // 正式上線請將falsetime 拿掉
       // getTime.setSeconds(getTime.getSeconds() - delayTime)
@@ -60,7 +58,7 @@ export default {
         ('0' + crrtime.getMilliseconds()).slice(-3)
 
       // var stop = crrtime.setSeconds(crrtime.getSeconds() + 1)
-      var stop = crrtime.setMilliseconds(crrtime.getMilliseconds() + 166)
+      var stop = crrtime.setMilliseconds(crrtime.getMilliseconds() + 1000)
 
       stop = new Date(stop)
       stop =
@@ -100,17 +98,17 @@ export default {
       })
         .then((events) => {
           var arr = events.data
-          console.log(arr)
+          // console.log(arr)
           var thisTime = this.time
           var time = arr.time
           var timeleg = thisTime.length // 保存目前時間長度(如果有增加物件，前方需要補齊key)
           thisTime.push(time[0])
           delete arr.time
           var data = arr
-          console.log(arr)
+          // console.log(arr)
           Object.keys(data).forEach((key) => {
             var ar = this.key[key]
-            console.log(ar)
+            // console.log(ar)
             if (ar !== undefined) {
               console.log('ok')
             } else {
@@ -124,60 +122,13 @@ export default {
           // console.log(arr01)
           Object.keys(arr01).forEach((key) => {
             if (data[key] !== undefined) {
+              // console.log(this.key);
               this.key[key].push(data[key][0])
             } else {
               this.key[key].push(null)
             }
           })
-          Object.keys(arr01).forEach((key) => {
-            if (data[key] !== undefined) {
-              this.key[key].push(data[key][1])
-            } else {
-              this.key[key].push(null)
-            }
-          })
-          Object.keys(arr01).forEach((key) => {
-            if (data[key] !== undefined) {
-              this.key[key].push(data[key][2])
-            } else {
-              this.key[key].push(null)
-            }
-          })
-          Object.keys(arr01).forEach((key) => {
-            if (data[key] !== undefined) {
-              this.key[key].push(data[key][3])
-            } else {
-              this.key[key].push(null)
-            }
-          })
-          Object.keys(arr01).forEach((key) => {
-            if (data[key] !== undefined) {
-              this.key[key].push(data[key][4])
-            } else {
-              this.key[key].push(null)
-            }
-          })
-          Object.keys(arr01).forEach((key) => {
-            if (data[key] !== undefined) {
-              this.key[key].push(data[key][5])
-            } else {
-              this.key[key].push(null)
-            }
-          })
-          // Object.keys(arr01).forEach((key) => {
-          //   if (data[key] !== undefined) {
-          //     this.key[key].push(data[key][6])
-          //   } else {
-          //     this.key[key].push(null)
-          //   }
-          // })
-          // Object.keys(arr01).forEach((key) => {
-          //   if (data[key] !== undefined) {
-          //     this.key[key].push(data[key][7])
-          //   } else {
-          //     this.key[key].push(null)
-          //   }
-          // })
+
         })
         .catch((err) => {
           console.log(err)
@@ -188,9 +139,10 @@ export default {
       const chartDom = this.$refs.lineChart
       const myChart = echarts.init(chartDom)
       var arr01 = this.key
+      console.log(arr01);
       var output = []
       Object.keys(arr01).forEach((key1) => {
-        console.log(key1)
+        // console.log(key1)
         output.push({
           type: 'line',
           name: key1,
@@ -209,30 +161,6 @@ export default {
 
     // 初始化
     test3() {
-      // const DataStartTime = '2022-06-01 00:00:00'
-      // const DataEndTime = '2022-06-01 00:59:59'
-      // var DataStartDay = new Date(DataStartTime)
-      // DataStartDay =
-      //   DataStartDay.getFullYear() +
-      //   '-' +
-      //   (DataStartDay.getMonth() + 1) +
-      //   '-' +
-      //   DataStartDay.getDate()
-      // var DataEndDay = new Date(DataEndTime)
-      // DataEndDay.setDate(DataEndDay.getDate() + 1)
-      // DataEndDay =
-      //   DataEndDay.getFullYear() +
-      //   '-' +
-      //   (DataEndDay.getMonth() + 1) +
-      //   '-' +
-      //   DataEndDay.getDate()
-      // console.log(DataStartDay, DataEndDay)
-
-      // ECHART初始化
-      // var chartDom = document.getElementById('my')
-      // var myChart = echarts.init(chartDom)
-      // var option
-
       // 可重複使用之ECHART初始化
       const chartDom = this.$refs.lineChart
       const myChart = echarts.init(chartDom)
@@ -281,9 +209,4 @@ export default {
   },
 }
 </script>
-<style scoped>
-#asdferg {
-  width: 300px;
-  height: 300px;
-}
-</style>
+
