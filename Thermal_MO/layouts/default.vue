@@ -90,17 +90,11 @@ export default {
           // to: '5',
           to: 'PermissionPage',
         },
-        {
-          icon: 'mdi-account-group-outline',
-          title: 'LouisAPI示範',
-          // to: '5',
-          to: 'ForTesting9',
-        },
         // {
         //   icon: 'mdi-account-group-outline',
-        //   title: '已禁用',
+        //   title: 'LouisAPI示範',
         //   // to: '5',
-        //   to: 'ForTesting10',
+        //   to: 'ForTesting9',
         // },
         // {
         //   icon: 'mdi-account-group-outline',
