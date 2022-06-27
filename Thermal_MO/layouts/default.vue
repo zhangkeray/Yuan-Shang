@@ -90,12 +90,12 @@ export default {
           // to: '5',
           to: 'PermissionPage',
         },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: 'LouisAPI示範',
-        //   // to: '5',
-        //   to: 'ForTesting9',
-        // },
+        {
+          icon: 'mdi-account-group-outline',
+          title: 'LouisAPI示範',
+          // to: '5',
+          to: 'ForTesting9-5',
+        },
         // {
         //   icon: 'mdi-account-group-outline',
         //   title: 'API動態測試(南部)',
