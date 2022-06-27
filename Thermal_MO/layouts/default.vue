@@ -102,36 +102,18 @@ export default {
         //   // to: '5',
         //   to: 'ForTesting11',
         // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: 'API動態測試(後端)',
-        //   // to: '5',
-        //   to: 'ForTesting12',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: '原API動態',
-        //   // to: '5',
-        //   to: 'ForTesting8_5',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: 'API動態測試',
-        //   // to: '5',
-        //   to: 'ForTesting8',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: 'API動態測試8real(比造原寫法)',
-        //   // to: '5',
-        //   to: 'ForTesting8real',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: 'API測試(後端)',
-        //   // to: '5',
-        //   to: 'ForTesting13',
-        // },
+        {
+          icon: 'mdi-account-group-outline',
+          title: 'API動態測試(後端)',
+          // to: '5',
+          to: 'ForTesting12',
+        },
+        {
+          icon: 'mdi-account-group-outline',
+          title: 'API靜態測試(後端)',
+          // to: '5',
+          to: 'ForTesting13',
+        },
         // {
         //   icon: 'mdi-chart-bubble',
         //   title: 'Inspire',

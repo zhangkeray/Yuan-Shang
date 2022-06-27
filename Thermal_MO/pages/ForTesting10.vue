@@ -164,13 +164,13 @@ export default {
               this.key[key].push(null)
             }
           })
-          // Object.keys(arr01).forEach((key) => {
-          //   if (data[key] !== undefined) {
-          //     this.key[key].push(data[key][6])
-          //   } else {
-          //     this.key[key].push(null)
-          //   }
-          // })
+          Object.keys(arr01).forEach((key) => {
+            if (data[key] !== undefined) {
+              this.key[key].push(data[key][6])
+            } else {
+              this.key[key].push(null)
+            }
+          })
           // Object.keys(arr01).forEach((key) => {
           //   if (data[key] !== undefined) {
           //     this.key[key].push(data[key][7])
