@@ -96,6 +96,12 @@ export default {
           // to: '5',
           to: 'ForTesting9-5',
         },
+        {
+          icon: 'mdi-account-group-outline',
+          title: '多機畫面',
+          // to: '5',
+          to: 'MultiScreen',
+        },
         // {
         //   icon: 'mdi-account-group-outline',
         //   title: 'API動態測試(南部)',
