@@ -269,11 +269,79 @@
                     </v-tab-item>
                     <!-- 連線項目 -->
                     <v-tab-item>
-                      <div>3</div>
+                      <div class="connect-cover">
+                        <div>
+                          <div class="my-3">
+                            <strong class="Alert-title">相機</strong>
+                          </div>
+                          <v-data-table
+                            :headers="connectHeaders"
+                            :items="connectDesserts"
+                            disable-pagination
+                            hide-default-footer
+                            height="250px"
+                            class=""
+                          >
+                            <template v-slot:[`item.status`]="{ item }">
+                              <div class="connect-icon">
+                                <img :src="item.status" />
+                              </div>
+                            </template>
+                          </v-data-table>
+                        </div>
+                        <div>
+                          <div>
+                            <div class="my-3">
+                              <strong class="Alert-title">其他裝置</strong>
+                            </div>
+                            <v-data-table
+                              :headers="otherDevicesHeaders"
+                              :items="otherDevicesDesserts"
+                              disable-pagination
+                              hide-default-footer
+                              height="240px"
+                              class=""
+                            >
+                              <template v-slot:[`item.status`]="{ item }">
+                                <div class="connect-icon">
+                                  <div
+                                    v-if="item.status === 0"
+                                    class="status-open"
+                                  ></div>
+                                  <div v-else class="status-off"></div>
+                                </div>
+                              </template>
+                            </v-data-table>
+                          </div>
+                        </div>
+                      </div>
                     </v-tab-item>
                     <!-- 書籤 -->
                     <v-tab-item>
-                      <div>4</div>
+                      <div>
+                        <div class="my-3">
+                          <strong class="Alert-title">書籤項目</strong>
+                        </div>
+                        <v-data-table
+                          :headers="tagsHeaders"
+                          :items="tagsDesserts"
+                          disable-pagination
+                          hide-default-footer
+                          height="540px"
+                          class=""
+                        >
+                          <template v-slot:[`item.delete`]="{ item }">
+                            <div class="trash-icon">
+                              <img :src="item.delete" />
+                            </div>
+                          </template>
+                          <template v-slot:[`item.check`]="{ item }">
+                            <div class="connect-icon">
+                              {{ item.check }}
+                            </div>
+                          </template>
+                        </v-data-table>
+                      </div>
                     </v-tab-item>
                   </v-tabs>
                 </v-card>
@@ -331,7 +399,85 @@ export default {
     splitScreen: ['均分4分格', '4分格', '12分格'],
     // 標籤文字
     tabcontent: [],
+    // 連線項目
+    connectHeaders: [
+      {
+        text: '',
+        align: 'start',
+        sortable: false,
+        value: 'status',
+      },
+      { text: '編號', value: 'id' },
+      { text: '監測項目', value: 'item' },
+      { text: '上次更新時間', value: 'update' },
+    ],
+    connectDesserts: [],
+    // 其他裝置
+    otherDevicesHeaders: [
+      {
+        text: '',
+        align: 'start',
+        sortable: false,
+        value: 'status',
+      },
+      { text: '編號', value: 'id' },
+      { text: '位置', value: 'item' },
+      { text: '上次更新時間', value: 'update' },
+    ],
+    otherDevicesDesserts: [],
+    // 書籤項目
+    tagsHeaders: [
+      {
+        text: '',
+        // align: 'center',
+        sortable: false,
+        value: 'delete',
+      },
+      { text: '編號',align: 'center', value: 'id', width: '50px', class: 'tagsId' ,},
+      { text: '項目', value: 'item' },
+      { text: '', value: 'check' },
+    ],
+    tagsDesserts: [],
+    // end
   }),
+  mounted() {
+    // 連線裝置 假資料
+    var arr = []
+    for (var i = 0; i < 100; i++) {
+      arr.push({
+        status: '/images/eye-on.png',
+        id: `Cam-s1-${i}`,
+        item: 'A棟CS-04配電盤',
+        update: '2022/06/06 14:07:08',
+      })
+    }
+    this.connectDesserts = arr
+
+    // 其他裝置 假資料
+    var arr1 = []
+    for (var j = 0; j < 100; j++) {
+      arr1.push({
+        status: '0',
+        id: `Cam-s1-${j}`,
+        item: 'A棟CS-04配電盤',
+        update: '2022/06/06 14:07:08',
+      })
+    }
+    this.otherDevicesDesserts = arr1
+
+    // 書籤 假資料
+    var arr2 = []
+    for (var z = 0; z < 100; z++) {
+      arr2.push({
+        delete: '/images/trash.png',
+        id: `${z}`,
+        item: `Cam-s1-${z} A棟CS-04配電盤`,
+        check: '查看',
+      })
+    }
+    this.tagsDesserts = arr2
+    // end
+  },
   methods: {
     CustomTabs(data) {
       if (data === 0) {
@@ -508,5 +654,48 @@ export default {
 }
 .mags-cover {
   height: 585px;
+}
+
+.connect-cover {
+  display: grid;
+  grid-template-rows: 295px 295px;
+}
+.connect-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.connect-cover img {
+  width: 30px;
+  height: 30px;
+}
+
+.status-open {
+  width: 10px;
+  height: 10px;
+  background-color: #8ab284;
+  border-radius: 10px;
+}
+
+.status-off {
+  width: 10px;
+  height: 10px;
+  background-color: #de8788;
+  border-radius: 10px;
+}
+.tagsId {
+  /* width: 50px; */
+  /* min-width: 30px; */
+  padding: 0px 0px 0px 0px !important;
+  margin: 0px 0px 0px 0px !important;
+}
+.trash-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.trash-icon img{
+  width: 30px;
+  height: 30px;
 }
 </style>
