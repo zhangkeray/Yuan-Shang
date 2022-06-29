@@ -4,9 +4,10 @@
     <v-container fluid>
       <div>
         <v-row>
+          <!-- 分隔畫面 -->
           <v-col cols="9" class="p-1">
             <v-card class="camera-bg align-items-c mt-3" style="">
-              <div class="cam-grid">
+              <div :class="cam_grid">
                 <div v-for="(item01, index) in cam" :key="index">
                   <img
                     src="1656315342184.jpg"
@@ -15,11 +16,12 @@
                   />
                 </div>
               </div>
-              <div class="cam-only">
+              <div :class="cam_only">
                 <img src="1656315342184.jpg" class="test-cramre" width="100%" />
               </div>
             </v-card>
           </v-col>
+          <!-- 右方控制面板 -->
           <v-col cols="3">
             <v-card class="camera-bg mt-3" style="height: 830px">
               <div class="menu-top">
@@ -70,6 +72,7 @@
               </div>
               <!-- 選單組 -->
               <div class="custom-g-select">
+                <!-- 區域 -->
                 <div class="pl-0">
                   <v-select
                     class="custom-select"
@@ -79,6 +82,7 @@
                     solo
                   ></v-select>
                 </div>
+                <!-- 組別 -->
                 <div class="pl-0">
                   <v-select
                     class="custom-select"
@@ -88,6 +92,7 @@
                     solo
                   ></v-select>
                 </div>
+                <!-- page -->
                 <div class="pl-0">
                   <v-select
                     class="custom-select"
@@ -97,6 +102,7 @@
                     solo
                   ></v-select>
                 </div>
+                <!-- 畫面分格 -->
                 <div class="px-0">
                   <v-select
                     v-model="e4"
@@ -104,6 +110,7 @@
                     :items="splitScreen"
                     dense
                     solo
+                    @change="transition"
                   >
                     <template v-slot:prepend>
                       <v-fade-transition leave-absolute>
@@ -353,32 +360,6 @@
       </div>
     </v-container>
   </div>
-  <!-- <v-row>
-                <v-col cols="4">
-                  <v-img
-                    src="1656315342184.jpg"
-                    class="test-cramre"
-                    width="100%"
-                  ></v-img
-                  ><v-img
-                    src="1656315342184.jpg"
-                    class="test-cramre"
-                    width="100%"
-                  ></v-img
-                  ><v-img
-                    src="1656315342184.jpg"
-                    class="test-cramre"
-                    width="100%"
-                  ></v-img>
-                </v-col>
-                <v-col cols="8"
-                  ><v-img
-                    src="1656315342184.jpg"
-                    class="test-cramre"
-                    width="100%"
-                  ></v-img
-                ></v-col>
-              </v-row> -->
 </template>
 
 <script>
@@ -388,6 +369,8 @@ export default {
     cam: ['1', '2', '3'],
     depressed: true,
     carousel_checkbox: false,
+    cam_only: 'cam-only',
+    cam_grid: 'cam-grid4-olny',
     // 下拉選單
     e1: '第一區',
     areas: ['第一區', '第一區', '第一區'],
@@ -395,8 +378,12 @@ export default {
     groups: ['第一組', '第一組', '第一組'],
     e3: '第一頁',
     pages: ['第一頁', '第一頁', '第一頁'],
-    e4: '4分格',
-    splitScreen: ['均分4分格', '4分格', '12分格'],
+    e4: 1,
+    splitScreen: [
+      { text: '均分4分格', value: 0 },
+      { text: '4分格', value: 1 },
+      { text: '12分格', value: 2 },
+    ],
     // 標籤文字
     tabcontent: [],
     // 連線項目
@@ -433,7 +420,13 @@ export default {
         sortable: false,
         value: 'delete',
       },
-      { text: '編號',align: 'center', value: 'id', width: '50px', class: 'tagsId' ,},
+      {
+        text: '編號',
+        align: 'center',
+        value: 'id',
+        width: '50px',
+        class: 'tagsId',
+      },
       { text: '項目', value: 'item' },
       { text: '', value: 'check' },
     ],
@@ -479,6 +472,30 @@ export default {
     // end
   },
   methods: {
+    // 分格畫面判斷
+    transition(data) {
+      if (data === 0) {
+        // 均分 4格
+        this.cam_grid = 'cam-grid4'
+        this.cam_only = 'd-none'
+        this.cam = ['1', '2', '3', '4']
+      } else if (data === 1) {
+        // 4分格
+        this.cam_grid = 'cam-grid4-olny'
+        this.cam_only = 'cam-only'
+        this.cam = ['1', '2', '3']
+      } else if (data === 2) {
+        // 12分格
+        this.cam_grid = 'cam-grid12'
+        this.cam_only = 'd-none'
+        var arr = []
+        for (var i = 1; i <= 12; i++) {
+          arr.push(i)
+        }
+        this.cam = arr
+      }
+    },
+    // 標籤標題隱藏
     CustomTabs(data) {
       if (data === 0) {
         this.tabcontent = ['超溫警報', '', '', '']
@@ -489,7 +506,6 @@ export default {
       } else if (data === 3) {
         this.tabcontent = ['', '', '', '書籤']
       }
-      console.log(data)
     },
   },
 }
@@ -509,12 +525,25 @@ export default {
   display: flex;
   align-items: center;
 }
-.cam-grid {
+.cam-grid4 {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 38% 38%;
+  justify-content: center;
+}
+
+.cam-grid4-olny {
   display: grid;
   grid-template-columns: 338px;
   margin-right: 7px;
   grid-template-rows: 261px 261px 261px;
   align-items: center;
+}
+.cam-grid12 {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 25% 25% 25% 25%;
+  justify-content: center;
 }
 .cam-only {
   width: 100%;
@@ -689,12 +718,12 @@ export default {
   padding: 0px 0px 0px 0px !important;
   margin: 0px 0px 0px 0px !important;
 }
-.trash-icon{
+.trash-icon {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.trash-icon img{
+.trash-icon img {
   width: 30px;
   height: 30px;
 }
