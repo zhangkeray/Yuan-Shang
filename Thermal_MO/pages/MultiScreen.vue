@@ -162,6 +162,55 @@
                   </v-tooltip>
                 </div>
               </div>
+              <!-- 標籤 -->
+              <div>
+                <v-card class="custom-cards-tags">
+                  <v-tabs
+                    color="#4f5e62"
+                    class="custom-tabs"
+                    left
+                    @change="CustomTabs"
+                  >
+                    <v-tab
+                      ><img class="tab-icon" src="/images/bell.png" />{{
+                        tabcontent[0]
+                      }}</v-tab
+                    >
+                    <v-tab
+                      ><img class="tab-icon" src="/images/exclamation.png" />{{
+                        tabcontent[1]
+                      }}</v-tab
+                    >
+                    <v-tab
+                      ><img class="tab-icon" src="/images/wifi.png" />{{
+                        tabcontent[2]
+                      }}</v-tab
+                    >
+                    <v-tab
+                      ><img class="tab-icon" src="/images/tabs.png" />{{
+                        tabcontent[3]
+                      }}</v-tab
+                    >
+                    <!-- 超溫警報 -->
+                    <v-tab-item>
+                      <div>1</div>
+                    </v-tab-item>
+                    <!-- 通知 -->
+                    <v-tab-item>
+                      <div>2</div>
+                    </v-tab-item>
+                    <!-- 連線項目 -->
+                    <v-tab-item>
+                      <div>3</div>
+                    </v-tab-item>
+                    <!-- 書籤 -->
+                    <v-tab-item>
+                      <div>4</div>
+                    </v-tab-item>
+                  </v-tabs>
+                </v-card>
+              </div>
+              <!-- end -->
             </v-card>
           </v-col>
         </v-row>
@@ -212,7 +261,23 @@ export default {
     pages: ['第一頁', '第一頁', '第一頁'],
     e4: '4分格',
     splitScreen: ['均分4分格', '4分格', '12分格'],
+    // 標籤文字
+    tabcontent: [],
   }),
+  methods: {
+    CustomTabs(data) {
+      if (data === 0) {
+        this.tabcontent = ['超溫警報', '', '', '']
+      }else if (data === 1) {
+        this.tabcontent = ['', '通知', '', '']
+      }else if (data === 2) {
+        this.tabcontent = ['', '', '連線項目', '']
+      }else if (data === 3) {
+        this.tabcontent = ['', '', '', '書籤']
+      }
+      console.log(data)
+    },
+  },
 }
 </script>
 
@@ -314,5 +379,27 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.custom-cards-tags {
+  box-shadow: unset !important;
+}
+.custom-tabs-color {
+  color: rgb(155, 18, 18);
+}
+.custom-tabs > .v-tabs-bar {
+  border-bottom: 1px #d7dbdb solid !important;
+}
+.custom-tabs > .v-tabs-bar div {
+  font-weight: 900;
+}
+.tab-icon {
+  margin-right: 5px;
+  width: 25px !important;
+}
+.v-tab {
+  padding: 5px !important;
+  min-width: 0px !important;
+  max-width: none !important;
 }
 </style>
