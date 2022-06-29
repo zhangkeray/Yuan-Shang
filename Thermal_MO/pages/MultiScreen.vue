@@ -171,33 +171,101 @@
                     left
                     @change="CustomTabs"
                   >
-                    <v-tab
-                      ><img class="tab-icon" src="/images/bell.png" />{{
-                        tabcontent[0]
-                      }}</v-tab
-                    >
-                    <v-tab
-                      ><img class="tab-icon" src="/images/exclamation.png" />{{
-                        tabcontent[1]
-                      }}</v-tab
-                    >
-                    <v-tab
-                      ><img class="tab-icon" src="/images/wifi.png" />{{
-                        tabcontent[2]
-                      }}</v-tab
-                    >
-                    <v-tab
-                      ><img class="tab-icon" src="/images/tabs.png" />{{
-                        tabcontent[3]
-                      }}</v-tab
-                    >
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-tab v-bind="attrs" v-on="on"
+                          ><img class="tab-icon" src="/images/bell.png" />{{
+                            tabcontent[0]
+                          }}</v-tab
+                        >
+                      </template>
+                      <span>超溫警報</span>
+                    </v-tooltip>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-tab v-bind="attrs" v-on="on"
+                          ><img
+                            class="tab-icon"
+                            src="/images/exclamation.png"
+                          />{{ tabcontent[1] }}</v-tab
+                        >
+                      </template>
+                      <span>通知</span>
+                    </v-tooltip>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-tab v-bind="attrs" v-on="on"
+                          ><img class="tab-icon" src="/images/wifi.png" />{{
+                            tabcontent[2]
+                          }}</v-tab
+                        >
+                      </template>
+                      <span>連線項目</span>
+                    </v-tooltip>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-tab v-bind="attrs" v-on="on"
+                          ><img class="tab-icon" src="/images/tabs.png" />{{
+                            tabcontent[3]
+                          }}</v-tab
+                        >
+                      </template>
+                      <span>書籤</span>
+                    </v-tooltip>
                     <!-- 超溫警報 -->
                     <v-tab-item>
-                      <div>1</div>
+                      <div class="Overtemperature-Alert">
+                        <div class="py-2">
+                          <strong class="Alert-title">超溫項目警報</strong>
+                          <div class="Alert-txt py-3">
+                            <div v-for="i in 100" :key="i" class="px-3">
+                              <span v-if="i < 3" class="Alert-txt-alarm px-3"
+                                >2022/07/27 03:11 Cam-s1-58 區域{{ i }}</span
+                              >
+                              <span v-else class="Alert-font px-3"
+                                >2022/07/27 03:11 Cam-s1-58 區域{{ i }}</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <strong class="Alert-title">超溫警報通知</strong>
+                          <div class="Alert-txt2 py-3">
+                            <div v-for="i in 100" :key="i" class="my-1">
+                              <div v-if="i < 3" class="Alert-background1">
+                                <span class="Alert-font px-5"
+                                  >2022/07/27 03:11 Cam-s1-58 區域{{ i }}</span
+                                >
+                              </div>
+                              <div v-else class="Alert-background">
+                                <span class="Alert-font px-5"
+                                  >2022/07/27 03:11 Cam-s1-58 區域{{ i }}</span
+                                >
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </v-tab-item>
                     <!-- 通知 -->
                     <v-tab-item>
-                      <div>2</div>
+                      <div class="mags-cover py-3">
+                        <strong class="Alert-title">操作通知</strong>
+                        <div class="Alert-txt2 py-3">
+                          <div v-for="i in 100" :key="i" class="my-1">
+                            <div v-if="i < 3" class="Alert-background1">
+                              <span class="Alert-font px-5"
+                                >2022/07/27 03:11 Cam-s1-58 區域{{ i }}</span
+                              >
+                            </div>
+                            <div v-else class="Alert-background">
+                              <span class="Alert-font px-5"
+                                >2022/07/27 03:11 Cam-s1-58 區域{{ i }}</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </v-tab-item>
                     <!-- 連線項目 -->
                     <v-tab-item>
@@ -268,11 +336,11 @@ export default {
     CustomTabs(data) {
       if (data === 0) {
         this.tabcontent = ['超溫警報', '', '', '']
-      }else if (data === 1) {
+      } else if (data === 1) {
         this.tabcontent = ['', '通知', '', '']
-      }else if (data === 2) {
+      } else if (data === 2) {
         this.tabcontent = ['', '', '連線項目', '']
-      }else if (data === 3) {
+      } else if (data === 3) {
         this.tabcontent = ['', '', '', '書籤']
       }
       console.log(data)
@@ -392,14 +460,53 @@ export default {
 }
 .custom-tabs > .v-tabs-bar div {
   font-weight: 900;
+  font-size: 17px;
 }
 .tab-icon {
   margin-right: 5px;
   width: 25px !important;
 }
-.v-tab {
+.custom-tabs .v-tab {
   padding: 5px !important;
   min-width: 0px !important;
   max-width: none !important;
+}
+
+.Overtemperature-Alert {
+  display: grid;
+  grid-template-rows: 182px 407px;
+}
+
+.Alert-title {
+  font-size: 14px;
+  color: #4f5e62;
+  letter-spacing: 1.4px;
+}
+.Alert-txt {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  height: 83%;
+}
+.Alert-txt2 {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  height: 100%;
+}
+.Alert-txt-alarm {
+  color: #de8788;
+}
+.Alert-font {
+  color: #4f5e62;
+}
+.Alert-background {
+  background-color: #f0f2f3;
+}
+.Alert-background1 {
+  background-color: #f7e1e1;
+}
+.mags-cover {
+  height: 585px;
 }
 </style>
