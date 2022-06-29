@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-img class="bgimg" src="bgimg.png" height="93.2vh" />
-    <v-container fluid="true">
+    <v-container fluid>
       <div>
         <v-row>
           <v-col cols="9" class="p-1">
@@ -119,6 +119,49 @@
                   </v-select>
                 </div>
               </div>
+              <!-- 搜尋相機編號 -->
+              <div class="search-cover">
+                <div class="search-input">
+                  <v-text-field
+                    rounded
+                    class="pa-0 ma-0"
+                    label="搜尋 相機編號/監測項目"
+                  >
+                    <template v-slot:prepend>
+                      <v-fade-transition leave-absolute>
+                        <img
+                          width="24"
+                          height="24"
+                          class="transition-img"
+                          src="/images/search.png"
+                          alt=""
+                        />
+                      </v-fade-transition>
+                    </template>
+                  </v-text-field>
+                </div>
+                <div class="search-explore">
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        class="btu-setting"
+                        fab
+                        x-small
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        <img
+                          class=""
+                          alt="line"
+                          src="/images/explore.png"
+                          width="70%"
+                        />
+                      </v-btn>
+                    </template>
+                    <span>探索</span>
+                  </v-tooltip>
+                </div>
+              </div>
             </v-card>
           </v-col>
         </v-row>
@@ -200,7 +243,7 @@ export default {
 .arrow-custom {
   background-color: #fff !important;
   box-shadow: unset !important;
-  border: 2px rgb(218, 218, 218) solid;
+  border: 1px #d7dbdb solid;
   border-radius: 3px;
   width: 42px;
   min-width: 42px !important;
@@ -224,15 +267,16 @@ export default {
   grid-template-columns: 20% 21% 21% 38%;
 }
 
-.custom-g-select>div:first-child{
-  margin-left: 0px !important; 
+.custom-g-select > div:first-child {
+  margin-left: 0px !important;
 }
-.custom-g-select>div{
+.custom-g-select > div {
   margin-left: 5px;
 }
 .custom-select {
   height: 40px;
-  border: 1px rgb(218, 218, 218) solid;
+  border: 1px #d7dbdb solid;
+  color: #4f5e62;
   /* flex-direction: row-reverse; */
 }
 .transition-img {
@@ -245,5 +289,30 @@ export default {
   box-shadow: unset !important;
   padding-right: 3px !important;
   padding-left: 3px !important;
+}
+.search-cover {
+  display: grid;
+  grid-template-columns: 360px 60px;
+}
+.search-input {
+  border: 1px #d7dbdb solid;
+  height: 44px;
+  padding: 5px 8px;
+  margin: 8px 0px;
+  border-radius: 3px;
+}
+.search-input .v-text-field--rounded > .v-input__control > .v-input__slot {
+  /* padding:0px 10px !important; */
+  border-left: 1px #d7dbdb solid;
+  border-radius: 0px !important;
+}
+
+.search-input .v-label {
+  background-color: #fff;
+}
+.search-explore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
