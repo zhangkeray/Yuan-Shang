@@ -14,8 +14,11 @@
                   v-for="(item01, index) in cam"
                   :key="index"
                   :class="ui_state"
+                  id="diagoHover"
                 >
-                  <div>{{ index }}</div>
+                  <div>
+                    <a rel="busstop" class="busstop">{{ index }}</a>
+                  </div>
                   <img
                     src="1656315342184.jpg"
                     class="test-cramre"
@@ -388,7 +391,7 @@ export default {
   data: () => ({
     sortable: 'sortable4-1',
     ui_state: 'ui-state-default',
-    c_diago:'custom-dialog',
+    c_diago: 'custom-dialog',
     cam: ['1', '2', '3', '4'],
     depressed: true,
     carousel_checkbox: false,
@@ -455,6 +458,7 @@ export default {
     tagsDesserts: [],
     // end
   }),
+
   mounted() {
     // 連線裝置 假資料
     var arr = []
@@ -501,7 +505,44 @@ export default {
       $('#sortable').disableSelection()
     })
     // 對話視窗
-    $( ".custom-dialog" ).draggable({ containment: "parent" });
+    $('.custom-dialog').draggable({
+      start: () => {
+        $('.custom-dialog').css('transition', 'all 0s')
+      },
+      stop: () => {
+        $('.custom-dialog').css('transition', 'all 0.3s')
+      },
+      containment: 'parent',
+    })
+  },
+  updated() {
+    // 判斷視窗該在哪個方位
+    $(
+      '.ui-state-default,.ui-state-default4,.ui-state-default12,.ui-state-default100'
+      // ).on('mouseover', function () {
+    ).on('click', function () {
+      var position = $(this).position() // 取得點擊的元素座標
+      var dialog = $('.custom-dialog') // 宣告互動視窗
+      var div = $(this).find('img') // 選告元素底下的圖片
+      var document1Width = $(document).width() / 2 // 宣告目前頁面的一半寬度
+      var document1Height = $(document).height() / 2 // 宣告目前頁面的一半高度
+      var x = position.left + div.width() // 宣告元素右下角x軸
+      var y = position.top + div.height() // 宣告元素右下角y軸
+      // 如果x軸超過頁面寬度一半以上
+      if (x > document1Width) {
+        x = position.left - dialog.width()
+      }
+      // 如果y軸超過頁面高度一半以上
+      if (y > document1Height) {
+        y = position.top + div.height() - 400
+      } else {
+        y = position.top + div.height()
+      }
+      // 指定視窗該在哪個方位
+      dialog.css('top', y + 'px')
+      dialog.css('left', x + 30 + 'px')
+    })
+    console.log('update')
   },
   methods: {
     // 分格畫面判斷
@@ -542,6 +583,7 @@ export default {
           placeholder: 'ui-state-highlight100',
           // revert: true
         })
+
         this.sortable = 'sortable100'
         this.ui_state = 'ui-state-default100'
         // 12分格
@@ -578,16 +620,21 @@ export default {
   padding: 16px;
   border-radius: 0px !important;
 }
+/* 對話視窗 */
 .custom-dialog {
-  width: 300px;
-  height: 500px;
+  width: 370px;
+  height: 521px;
   position: fixed;
-  top: 50%;
-  left: 50%;
+  top: 25%;
+  left: 39%;
   background-color: #fff;
   z-index: 99999;
+  box-shadow: 5px 8px 8px rgb(108 108 108 / 27%);
+  border-radius: 3px;
+  transition: all 0.3s;
   /* transform: translate(-50%, -50%); */
 }
+/* 對話視窗 end */
 .align-items-c {
   /* display: flex; */
   align-items: center;
@@ -931,5 +978,11 @@ export default {
   top: 0;
   z-index: 99;
   left: 0;
+}
+.busstop {
+  font-size: 40px;
+}
+#diagoHover {
+  cursor: grab;
 }
 </style>
