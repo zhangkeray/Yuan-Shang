@@ -403,6 +403,7 @@ export default {
       { text: '均分4分格', value: 0 },
       { text: '4分格', value: 1 },
       { text: '12分格', value: 2 },
+      { text: '24分格', value: 3 },
     ],
     // 標籤文字
     tabcontent: [],
@@ -533,6 +534,19 @@ export default {
           arr.push(i)
         }
         this.cam = arr
+      } else if (data === 3) {
+        $('#sortable').sortable({
+          placeholder: 'ui-state-highlight100',
+          // revert: true
+        })
+        this.sortable = 'sortable100'
+        this.ui_state = 'ui-state-default100'
+        // 12分格
+        var arr1 = []
+        for (var z = 1; z <= 24; z++) {
+          arr1.push(i)
+        }
+        this.cam = arr1
       }
     },
     // 標籤標題隱藏
@@ -878,6 +892,36 @@ export default {
 }
 
 .ui-state-default12 > div {
+  position: absolute;
+  background-color: #fff;
+  top: 0;
+  z-index: 99;
+  left: 0;
+}
+/* 可移動排序 (均分24格) */
+.sortable100 {
+  list-style-type: none;
+  margin-top: 34px;
+  padding: 0 !important;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 17% 17% 17% 17% 17% 17%;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-state-highlight100 {
+  position: relative;
+  background-color: rgb(83, 144, 223);
+  width: 228px;
+  height: 178px;
+}
+.ui-state-default100 {
+  position: relative;
+  width: 99%;
+}
+
+.ui-state-default100 > div {
   position: absolute;
   background-color: #fff;
   top: 0;
