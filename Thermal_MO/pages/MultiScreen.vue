@@ -4,7 +4,35 @@
     <v-container fluid>
       <div>
         <!-- 對話框 -->
-        <div :class="c_diago"></div>
+        <div :class="c_diago">
+          <div class="diago-head">
+            <div class="diago-point-cover">
+              <div class="diago-point mt-5"></div>
+            </div>
+            <div class="diago-title mt-5">
+              <div>
+                Cam-s1-59 A棟 CS-02配電盤<v-btn
+                  class="arrow-diago"
+                  rounded
+                  tile
+                >
+                  <img class="" alt="line" src="/images/tabs.png" width="60%"
+                /></v-btn>
+              </div>
+              <div>IP: 192.168.0.173</div>
+            </div>
+            <div class="diago-close">
+              <v-btn
+                class="diago-close-icon"
+                rounded
+                outlined
+                @click="diagoOff"
+              >
+                <img class="" alt="line" src="/images/close.png" width="70%"
+              /></v-btn>
+            </div>
+          </div>
+        </div>
         <v-row>
           <!-- 分隔畫面 -->
           <v-col cols="9" class="p-1">
@@ -391,7 +419,7 @@ export default {
   data: () => ({
     sortable: 'sortable4-1',
     ui_state: 'ui-state-default',
-    c_diago: 'custom-dialog',
+    c_diago: 'custom-dialog dialog-close',
     cam: ['1', '2', '3', '4'],
     depressed: true,
     carousel_checkbox: false,
@@ -500,6 +528,7 @@ export default {
     $(function () {
       $('#sortable').sortable({
         placeholder: 'ui-state-highlight',
+        cursor: 'grabbing',
         // revert: true
       })
       $('#sortable').disableSelection()
@@ -512,6 +541,8 @@ export default {
       stop: () => {
         $('.custom-dialog').css('transition', 'all 0.3s')
       },
+      handle: '.diago-head',
+      cursor: 'grabbing',
       containment: 'parent',
     })
   },
@@ -521,6 +552,7 @@ export default {
       '.ui-state-default,.ui-state-default4,.ui-state-default12,.ui-state-default100'
       // ).on('mouseover', function () {
     ).on('click', function () {
+      $('.custom-dialog').removeClass('dialog-close')
       var position = $(this).position() // 取得點擊的元素座標
       var dialog = $('.custom-dialog') // 宣告互動視窗
       var div = $(this).find('img') // 選告元素底下的圖片
@@ -530,11 +562,11 @@ export default {
       var y = position.top + div.height() // 宣告元素右下角y軸
       // 如果x軸超過頁面寬度一半以上
       if (x > document1Width) {
-        x = position.left - dialog.width()
+        x = position.left - dialog.width() - 30
       }
       // 如果y軸超過頁面高度一半以上
       if (y > document1Height) {
-        y = position.top + div.height() - 400
+        y = position.top + div.height() - 420
       } else {
         y = position.top + div.height()
       }
@@ -545,6 +577,10 @@ export default {
     console.log('update')
   },
   methods: {
+    // 關閉對話窗
+    diagoOff() {
+      $('.custom-dialog').addClass('dialog-close')
+    },
     // 分格畫面判斷
     transition(data) {
       if (data === 0) {
@@ -629,10 +665,15 @@ export default {
   left: 39%;
   background-color: #fff;
   z-index: 99999;
-  box-shadow: 5px 8px 8px rgb(108 108 108 / 27%);
+  box-shadow: 0px 0px 8px 4px rgb(108 108 108 / 27%);
   border-radius: 3px;
   transition: all 0.3s;
+  opacity: 1;
   /* transform: translate(-50%, -50%); */
+}
+.dialog-close {
+  pointer-events: none;
+  opacity: 0;
 }
 /* 對話視窗 end */
 .align-items-c {
@@ -984,5 +1025,50 @@ export default {
 }
 #diagoHover {
   cursor: grab;
+}
+/* 互動視窗內容 */
+.diago-head {
+  display: grid;
+  grid-template-columns: 10% 77% 13%;
+  color: #4f5e62;
+  cursor: move;
+}
+.diago-point-cover {
+  display: flex;
+  justify-content: center;
+  padding: 7px 0 0 0;
+}
+.diago-point {
+  width: 15px;
+  height: 15px;
+  background-color: #8ab284;
+  border-radius: 15px;
+}
+.diago-title img {
+  width: 30px;
+  margin: 0 0 0 9px;
+}
+.diago-title > div {
+  display: flex;
+  align-items: center;
+}
+.arrow-diago {
+  background-color: #fff !important;
+  box-shadow: unset !important;
+  border: 0px #d7dbdb solid;
+  border-radius: 3px;
+  width: 42px;
+  min-width: 42px !important;
+  height: 30px !important;
+}
+.diago-close {
+  margin-top: 10px;
+}
+.diago-close-icon {
+  background-color: #fff !important;
+  box-shadow: unset !important;
+  border: 0px #d7dbdb solid !important;
+  width: 100% !important;
+  min-width: 0 !important;
 }
 </style>
