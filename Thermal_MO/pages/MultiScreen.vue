@@ -2,10 +2,10 @@
   <div>
     <v-img class="bgimg" src="bgimg.png" height="93.2vh" />
     <v-container fluid>
-      <div>
+      <div class="cover-bg" style="position: relative">
         <!-- 對話框 -->
         <div :class="c_diago">
-          <div class="draggable-bar"></div>
+          <!-- <div class="draggable-bar"></div> -->
           <div class="diago-head">
             <div class="diago-point-cover">
               <div class="diago-point mt-5"></div>
@@ -33,6 +33,7 @@
               /></v-btn>
             </div>
           </div>
+          <div class="diago-contnet"></div>
         </div>
         <v-row>
           <!-- 分隔畫面 -->
@@ -535,49 +536,66 @@ export default {
       $('#sortable').disableSelection()
     })
     // 對話視窗
-    $('.custom-dialog').draggable({
-      start: () => {
-        $('.custom-dialog').css('opacity', '0.9')
-        $('.custom-dialog').css('transition', 'all 0s')
-      },
-      stop: () => {
-        $('.custom-dialog').css('opacity', '1')
-        $('.custom-dialog').css('transition', 'all 0.1s')
-      },
-      handle: '.draggable-bar',
-      cursor: 'grabbing',
-      containment: 'parent',
-    })
+    // $('.custom-dialog').draggable({
+    //   start: () => {
+    //     $('.custom-dialog').css('opacity', '0.9')
+    //     $('.custom-dialog').css('transition', 'all 0s')
+    //   },
+    //   stop: () => {
+    //     $('.custom-dialog').css('opacity', '1')
+    //     $('.custom-dialog').css('transition', 'all 0.1s')
+    //   },
+    //   handle: '.draggable-bar',
+    //   cursor: 'grabbing',
+    //   containment: 'parent',
+    // })
   },
   updated() {
     // 判斷視窗該在哪個方位
     $(
       '.ui-state-default,.ui-state-default4,.ui-state-default12,.ui-state-default100'
-      // ).on('mouseover', function () {
-    ).on('click', function () {
+    ).on('mouseover', function () {
+      // 假高度
+          var flash = ['500px','400px','2000px']
+          $('.diago-contnet').css('height', flash[Math.floor(Math.random()*3)])
+      // 假高度
+      var cover = $('.cover-bg') // 宣告渲染畫面
+      // ).on('click', function () {
       $('.custom-dialog').removeClass('dialog-close')
-      var position = $(this).position() // 取得點擊的元素座標
+      var position = $(this).offset() // 取得點擊的元素座標
       var dialog = $('.custom-dialog') // 宣告互動視窗
       var div = $(this).find('img') // 選告元素底下的圖片
-      var document1Width = $(document).width() / 2 // 宣告目前頁面的一半寬度
-      var document1Height = $(document).height() / 2 // 宣告目前頁面的一半高度
+      dialog.css('max-height', cover.height() + 'px')
+
+      //   var document1Width = $(document).width() / 2 // 宣告目前頁面的一半寬度
+      //   var document1Height = $(document).height() / 2 // 宣告目前頁面的一半高度
       var x = position.left + div.width() // 宣告元素右下角x軸
-      var y = position.top + div.height() // 宣告元素右下角y軸
-      // 如果x軸超過頁面寬度一半以上
-      if (x > document1Width) {
-        x = position.left - dialog.width()
+      var dialogHeight = dialog.height() / 2
+      var y = position.top + div.height() / 2 - dialogHeight // 宣告元素右下角y軸
+      if (y < 64) {
+        y = 64
       }
-      // 如果y軸超過頁面高度一半以上
-      if (y > document1Height) {
-        y = position.top + div.height() - 420
-      } else {
-        y = position.top + div.height()
+      var bottomY = dialog.offset().top + dialog.height()
+      if (bottomY > cover.height()) {
+        y = 64
       }
-      // 指定視窗該在哪個方位
+      console.log(bottomY)
+
+      //   // 如果x軸超過頁面寬度一半以上
+      //   if (x > document1Width) {
+      //     x = position.left - dialog.width()
+      //   }
+      //   // 如果y軸超過頁面高度一半以上
+      //   if (y > document1Height) {
+      //     y = position.top + div.height() - 420
+      //   } else {
+      //     y = position.top + div.height()
+      //   }
+      //   // 指定視窗該在哪個方位
       dialog.css('top', y + 'px')
-      dialog.css('left', x + 30 + 'px')
+      dialog.css('left', x + 'px')
     })
-    console.log('update')
+    // console.log('update')
   },
   methods: {
     // 關閉對話窗
@@ -661,9 +679,11 @@ export default {
   border-radius: 0px !important;
 }
 /* 對話視窗 */
+.diago-contnet {
+}
 .custom-dialog {
   width: 370px;
-  height: 521px;
+  height: auto;
   position: fixed;
   top: 25%;
   left: 39%;
@@ -673,6 +693,7 @@ export default {
   border-radius: 3px;
   transition: all 0.1s;
   opacity: 1;
+  overflow-y: scroll;
   /* transform: translate(-50%, -50%); */
 }
 .draggable-bar {
@@ -695,7 +716,7 @@ export default {
 }
 .dialog-close {
   pointer-events: none;
-  opacity: 0 !important;
+  opacity: 1 !important;
 }
 .diago-head {
   display: grid;
