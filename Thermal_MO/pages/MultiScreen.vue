@@ -4,7 +4,7 @@
     <v-container fluid>
       <div>
         <!-- 對話框 -->
-        <!-- <div :class="c_diago"></div> -->
+        <div :class="c_diago"></div>
         <v-row>
           <!-- 分隔畫面 -->
           <v-col cols="9" class="p-1">
@@ -386,8 +386,9 @@ export default {
     ],
   },
   data: () => ({
-    sortable: 'sortable',
+    sortable: 'sortable4-1',
     ui_state: 'ui-state-default',
+    c_diago:'custom-dialog',
     cam: ['1', '2', '3', '4'],
     depressed: true,
     carousel_checkbox: false,
@@ -499,6 +500,8 @@ export default {
       })
       $('#sortable').disableSelection()
     })
+    // 對話視窗
+    $( ".custom-dialog" ).draggable({ containment: "parent" });
   },
   methods: {
     // 分格畫面判斷
@@ -517,7 +520,7 @@ export default {
           placeholder: 'ui-state-highlight',
           // revert: true
         })
-        this.sortable = 'sortable'
+        this.sortable = 'sortable4-1'
         this.ui_state = 'ui-state-default'
         // 4分格
         this.cam = ['1', '2', '3', '4']
@@ -583,7 +586,7 @@ export default {
   left: 50%;
   background-color: #fff;
   z-index: 99999;
-  transform: translate(-50%, -50%);
+  /* transform: translate(-50%, -50%); */
 }
 .align-items-c {
   /* display: flex; */
@@ -798,11 +801,12 @@ export default {
 }
 
 /* 可移動排序 (分4格) */
-.sortable {
+.sortable4-1 {
   list-style-type: none;
   margin: 0;
   padding: 0 !important;
   width: 100%;
+  height: 100%;
 }
 .ui-state-highlight {
   width: 334px;
