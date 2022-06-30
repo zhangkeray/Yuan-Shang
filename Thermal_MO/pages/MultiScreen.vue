@@ -5,6 +5,7 @@
       <div>
         <!-- 對話框 -->
         <div :class="c_diago">
+          <div class="draggable-bar"></div>
           <div class="diago-head">
             <div class="diago-point-cover">
               <div class="diago-point mt-5"></div>
@@ -536,12 +537,14 @@ export default {
     // 對話視窗
     $('.custom-dialog').draggable({
       start: () => {
+        $('.custom-dialog').css('opacity', '0.9')
         $('.custom-dialog').css('transition', 'all 0s')
       },
       stop: () => {
+        $('.custom-dialog').css('opacity', '1')
         $('.custom-dialog').css('transition', 'all 0.1s')
       },
-      handle: '.diago-head',
+      handle: '.draggable-bar',
       cursor: 'grabbing',
       containment: 'parent',
     })
@@ -583,6 +586,7 @@ export default {
     },
     // 分格畫面判斷
     transition(data) {
+      $('.custom-dialog').addClass('dialog-close')
       if (data === 0) {
         $('#sortable').sortable({
           placeholder: 'ui-state-highlight4',
@@ -671,9 +675,70 @@ export default {
   opacity: 1;
   /* transform: translate(-50%, -50%); */
 }
+.draggable-bar {
+  width: 70px;
+  height: 5px;
+  position: absolute;
+  top: 13px;
+  left: 50%;
+  background-color: #80898c;
+  border-radius: 3px;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s;
+  cursor: move;
+}
+.draggable-bar:hover {
+  width: 100px;
+}
+#diagoHover {
+  cursor: grab;
+}
 .dialog-close {
   pointer-events: none;
-  opacity: 0;
+  opacity: 0 !important;
+}
+.diago-head {
+  display: grid;
+  grid-template-columns: 10% 77% 13%;
+  color: #4f5e62;
+}
+.diago-point-cover {
+  display: flex;
+  justify-content: center;
+  padding: 7px 0 0 0;
+}
+.diago-point {
+  width: 15px;
+  height: 15px;
+  background-color: #8ab284;
+  border-radius: 15px;
+}
+.diago-title img {
+  width: 30px;
+  margin: 0 0 0 9px;
+}
+.diago-title > div {
+  display: flex;
+  align-items: center;
+}
+.arrow-diago {
+  background-color: #fff !important;
+  box-shadow: unset !important;
+  border: 0px #d7dbdb solid;
+  border-radius: 3px;
+  width: 42px;
+  min-width: 42px !important;
+  height: 30px !important;
+}
+.diago-close {
+  margin-top: 10px;
+}
+.diago-close-icon {
+  background-color: #fff !important;
+  box-shadow: unset !important;
+  border: 0px #d7dbdb solid !important;
+  width: 100% !important;
+  min-width: 0 !important;
 }
 /* 對話視窗 end */
 .align-items-c {
@@ -1022,53 +1087,5 @@ export default {
 }
 .busstop {
   font-size: 40px;
-}
-#diagoHover {
-  cursor: grab;
-}
-/* 互動視窗內容 */
-.diago-head {
-  display: grid;
-  grid-template-columns: 10% 77% 13%;
-  color: #4f5e62;
-  cursor: move;
-}
-.diago-point-cover {
-  display: flex;
-  justify-content: center;
-  padding: 7px 0 0 0;
-}
-.diago-point {
-  width: 15px;
-  height: 15px;
-  background-color: #8ab284;
-  border-radius: 15px;
-}
-.diago-title img {
-  width: 30px;
-  margin: 0 0 0 9px;
-}
-.diago-title > div {
-  display: flex;
-  align-items: center;
-}
-.arrow-diago {
-  background-color: #fff !important;
-  box-shadow: unset !important;
-  border: 0px #d7dbdb solid;
-  border-radius: 3px;
-  width: 42px;
-  min-width: 42px !important;
-  height: 30px !important;
-}
-.diago-close {
-  margin-top: 10px;
-}
-.diago-close-icon {
-  background-color: #fff !important;
-  box-shadow: unset !important;
-  border: 0px #d7dbdb solid !important;
-  width: 100% !important;
-  min-width: 0 !important;
 }
 </style>
