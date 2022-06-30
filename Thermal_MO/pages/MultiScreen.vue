@@ -539,7 +539,7 @@ export default {
         $('.custom-dialog').css('transition', 'all 0s')
       },
       stop: () => {
-        $('.custom-dialog').css('transition', 'all 0.3s')
+        $('.custom-dialog').css('transition', 'all 0.1s')
       },
       handle: '.diago-head',
       cursor: 'grabbing',
@@ -562,7 +562,7 @@ export default {
       var y = position.top + div.height() // 宣告元素右下角y軸
       // 如果x軸超過頁面寬度一半以上
       if (x > document1Width) {
-        x = position.left - dialog.width() - 30
+        x = position.left - dialog.width()
       }
       // 如果y軸超過頁面高度一半以上
       if (y > document1Height) {
@@ -667,7 +667,7 @@ export default {
   z-index: 99999;
   box-shadow: 0px 0px 8px 4px rgb(108 108 108 / 27%);
   border-radius: 3px;
-  transition: all 0.3s;
+  transition: all 0.1s;
   opacity: 1;
   /* transform: translate(-50%, -50%); */
 }
