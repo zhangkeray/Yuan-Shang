@@ -47,7 +47,7 @@
 export default {
   name: 'HistoricalMonitoringPage',
   data: () => ({
-    rtspLists: ['0', '0', '0', '0'],
+    rtspLists: ['0', '0', '0', '0','0', '0', '0', '0','0', '0', '0', '0'],
     CameraIP: 'rtsp://:@192.168.0.177:9554/live?channel=1&subtype=0',
     CameraName: null,
     CameraFps: null,
@@ -103,7 +103,7 @@ export default {
       this.socket = this.$nuxtSocket({
         name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
       })
-      for (var i = 0; i < 4; i++) {
+      for (var i = 0; i < 11; i++) {
         const img = document.getElementById('rtsp-img' + i)
         this.socket.on('data' + i, (data) => {
           // console.log(data)

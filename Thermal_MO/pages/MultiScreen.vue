@@ -3,22 +3,26 @@
     <v-img class="bgimg" src="bgimg.png" height="93.2vh" />
     <v-container fluid>
       <div>
+        <!-- 對話框 -->
+        <!-- <div :class="c_diago"></div> -->
         <v-row>
           <!-- 分隔畫面 -->
           <v-col cols="9" class="p-1">
             <v-card class="camera-bg align-items-c mt-3" style="">
-              <div :class="cam_grid">
-                <div v-for="(item01, index) in cam" :key="index">
+              <ul id="sortable" :class="sortable">
+                <li
+                  v-for="(item01, index) in cam"
+                  :key="index"
+                  :class="ui_state"
+                >
+                  <div>{{ index }}</div>
                   <img
                     src="1656315342184.jpg"
                     class="test-cramre"
                     width="100%"
                   />
-                </div>
-              </div>
-              <div :class="cam_only">
-                <img src="1656315342184.jpg" class="test-cramre" width="100%" />
-              </div>
+                </li>
+              </ul>
             </v-card>
           </v-col>
           <!-- 右方控制面板 -->
@@ -365,12 +369,28 @@
 <script>
 export default {
   name: 'MultiScreenPage',
+  head: {
+    link: [
+      // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: 'stylesheet', href: '/css/jquery-ui.css' },
+    ],
+    script: [
+      {
+        src: '/js/jquery-ui.js',
+        type: 'text/javascript',
+      },
+      {
+        src: '/js/jquery-collision.js',
+        type: 'text/javascript',
+      },
+    ],
+  },
   data: () => ({
-    cam: ['1', '2', '3'],
+    sortable: 'sortable',
+    ui_state: 'ui-state-default',
+    cam: ['1', '2', '3', '4'],
     depressed: true,
     carousel_checkbox: false,
-    cam_only: 'cam-only',
-    cam_grid: 'cam-grid4-olny',
     // 下拉選單
     e1: '第一區',
     areas: ['第一區', '第一區', '第一區'],
@@ -470,24 +490,44 @@ export default {
     }
     this.tagsDesserts = arr2
     // end
+    // 排序
+    $(function () {
+      $('#sortable').sortable({
+        placeholder: 'ui-state-highlight',
+        // revert: true
+      })
+      $('#sortable').disableSelection()
+    })
   },
   methods: {
     // 分格畫面判斷
     transition(data) {
       if (data === 0) {
+        $('#sortable').sortable({
+          placeholder: 'ui-state-highlight4',
+          // revert: true
+        })
+        this.sortable = 'sortable4'
+        this.ui_state = 'ui-state-default4'
         // 均分 4格
-        this.cam_grid = 'cam-grid4'
-        this.cam_only = 'd-none'
         this.cam = ['1', '2', '3', '4']
       } else if (data === 1) {
+        $('#sortable').sortable({
+          placeholder: 'ui-state-highlight',
+          // revert: true
+        })
+        this.sortable = 'sortable'
+        this.ui_state = 'ui-state-default'
         // 4分格
-        this.cam_grid = 'cam-grid4-olny'
-        this.cam_only = 'cam-only'
-        this.cam = ['1', '2', '3']
+        this.cam = ['1', '2', '3', '4']
       } else if (data === 2) {
+        $('#sortable').sortable({
+          placeholder: 'ui-state-highlight12',
+          // revert: true
+        })
+        this.sortable = 'sortable12'
+        this.ui_state = 'ui-state-default12'
         // 12分格
-        this.cam_grid = 'cam-grid12'
-        this.cam_only = 'd-none'
         var arr = []
         for (var i = 1; i <= 12; i++) {
           arr.push(i)
@@ -521,8 +561,18 @@ export default {
   padding: 16px;
   border-radius: 0px !important;
 }
+.custom-dialog {
+  width: 300px;
+  height: 500px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background-color: #fff;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+}
 .align-items-c {
-  display: flex;
+  /* display: flex; */
   align-items: center;
 }
 .cam-grid4 {
@@ -531,7 +581,9 @@ export default {
   grid-template-columns: 38% 38%;
   justify-content: center;
 }
-
+.cam-grid4 > div {
+  margin-right: 5px;
+}
 .cam-grid4-olny {
   display: grid;
   grid-template-columns: 338px;
@@ -544,6 +596,9 @@ export default {
   width: 100%;
   grid-template-columns: 25% 25% 25% 25%;
   justify-content: center;
+}
+.cam-grid12 > div {
+  margin-right: 5px;
 }
 .cam-only {
   width: 100%;
@@ -726,5 +781,107 @@ export default {
 .trash-icon img {
   width: 30px;
   height: 30px;
+}
+
+/* 可移動排序 (分4格) */
+.sortable {
+  list-style-type: none;
+  margin: 0;
+  padding: 0 !important;
+  width: 100%;
+}
+.ui-state-highlight {
+  width: 334px;
+  height: 250px;
+  background-color: rgb(83, 144, 223);
+  margin: 11px;
+}
+.ui-state-default {
+  position: relative;
+  width: 334px;
+  height: 250px;
+  background-color: rgb(150, 150, 150);
+  margin: 11px;
+}
+.ui-state-highlight:last-child {
+  width: 1032px;
+  height: 764px;
+  z-index: 9;
+  transform: translate(339px, -783px);
+}
+
+.ui-state-default:last-child {
+  width: 1032px;
+  height: 764px;
+  z-index: 9;
+  transform: translate(339px, -783px);
+}
+
+.ui-state-default > div {
+  position: absolute;
+  background-color: #fff;
+  top: 0;
+  z-index: 99;
+  left: 0;
+}
+/* 可移動排序 (均分4格) */
+.sortable4 {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 534px 534px;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-state-highlight4 {
+  position: relative;
+  background-color: rgb(83, 144, 223);
+  width: 528px;
+  height: 403px;
+}
+.ui-state-default4 {
+  position: relative;
+  width: 99%;
+}
+
+.ui-state-default4 > div {
+  position: absolute;
+  background-color: #fff;
+  top: 0;
+  z-index: 99;
+  left: 0;
+}
+/* 可移動排序 (均分12格) */
+.sortable12 {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-state-highlight12 {
+  position: relative;
+  background-color: rgb(83, 144, 223);
+  width: 335px;
+  height: 258px;
+}
+.ui-state-default12 {
+  position: relative;
+  width: 99%;
+}
+
+.ui-state-default12 > div {
+  position: absolute;
+  background-color: #fff;
+  top: 0;
+  z-index: 99;
+  left: 0;
 }
 </style>
