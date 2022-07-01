@@ -85,7 +85,7 @@
               <div class="diago-border1">
                 <strong class="diago-title">警報統計</strong>
                 <!-- 圖表1 本日 -->
-                <div class="donut-flex mt-3">
+                <div class="donut-flex mt-5">
                   <v-progress-circular
                     class="donut1"
                     :rotate="-90"
@@ -166,6 +166,17 @@
                   height="200"
                 ></v-date-picker>
               </div>
+            </div>
+            <div class="diago-btn-cover mt-1 mb-3 mr-4 ml-3">
+              <v-btn
+                color="#de8788"
+                class="diago-btn"
+                max-height="24px"
+                max-width="95px"
+                rounded
+              >
+                <span class="diago-btn-font">查看更多</span>
+              </v-btn>
             </div>
           </div>
         </div>
@@ -413,12 +424,16 @@
                             <div v-for="ieq in 100" :key="ieq" class="my-1">
                               <div v-if="ieq < 3" class="Alert-background1">
                                 <span class="Alert-font px-5"
-                                  >2022/07/27 03:11 Cam-s1-58 區域{{ ieq }}</span
+                                  >2022/07/27 03:11 Cam-s1-58 區域{{
+                                    ieq
+                                  }}</span
                                 >
                               </div>
                               <div v-else class="Alert-background">
                                 <span class="Alert-font px-5"
-                                  >2022/07/27 03:11 Cam-s1-58 區域{{ ieq }}</span
+                                  >2022/07/27 03:11 Cam-s1-58 區域{{
+                                    ieq
+                                  }}</span
                                 >
                               </div>
                             </div>
@@ -788,7 +803,7 @@ export default {
       this.diagoalarmDesserts = arr3
       // 警報紀錄 假資料
       var arr4 = []
-      var mock = [12,1000,10, 1]
+      var mock = [12, 1000, 10, 1]
       var d = mock[Math.floor(Math.random() * 4)]
       for (var zq1 = 0; zq1 < d; zq1++) {
         arr4.push({
@@ -1011,6 +1026,18 @@ export default {
 .reset1 > span {
   color: #4f5e62;
   font-size: 8px;
+}
+.diago-btn-cover {
+  display: flex;
+  justify-content: flex-end;
+}
+.diago-btn {
+  width: 95px;
+  height: 24px;
+}
+.diago-btn-font {
+  letter-spacing: 0px;
+  color: #fff;
 }
 /* 對話視窗 end */
 .align-items-c {
