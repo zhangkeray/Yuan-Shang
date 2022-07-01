@@ -47,7 +47,11 @@
                   hide-default-footer
                 >
                   <template v-slot:header="{ props }">
-                    <th v-for="head in props.headers" :key="head" class="diago-table-title">
+                    <th
+                      v-for="head in props.headers"
+                      :key="head"
+                      class="diago-table-title"
+                    >
                       {{ head.text.toUpperCase() }}
                     </th>
                   </template>
@@ -65,11 +69,102 @@
                   hide-default-footer
                 >
                   <template v-slot:header="{ props }">
-                    <th v-for="head in props.headers" :key="head" class="diago-table-title">
-                      {{ head.text.toUpperCase() }}
+                    <th
+                      v-for="head1 in props.headers"
+                      :key="head1"
+                      class="diago-table-title"
+                    >
+                      {{ head1.text.toUpperCase() }}
                     </th>
                   </template>
                 </v-data-table>
+              </div>
+            </div>
+            <div class="diago-alarm-cover1">
+              <!-- 警報統計 -->
+              <div class="diago-border1">
+                <strong class="diago-title">警報統計</strong>
+                <!-- 圖表1 本日 -->
+                <div class="donut-flex mt-3">
+                  <v-progress-circular
+                    class="donut1"
+                    :rotate="-90"
+                    :size="40"
+                    :width="5"
+                    :value="circularToday"
+                    color="#828c8f"
+                    backgroud
+                  >
+                    <h6>{{ circularToday }}</h6>
+                  </v-progress-circular>
+                  <div class="ml-3 donut-txt">當日</div>
+                </div>
+                <!-- 圖表1 昨日 -->
+                <div class="donut-flex mt-5">
+                  <v-progress-circular
+                    class="donut1"
+                    :rotate="-90"
+                    :size="40"
+                    :width="5"
+                    :value="circularYesterday"
+                    color="#828c8f"
+                    backgroud
+                  >
+                    <h6>{{ circularYesterday }}</h6>
+                  </v-progress-circular>
+                  <div class="ml-3 donut-txt">昨日</div>
+                </div>
+                <!-- 圖表1 當周 -->
+                <div class="donut-flex mt-5">
+                  <v-progress-circular
+                    class="donut1"
+                    :rotate="-90"
+                    :size="40"
+                    :width="5"
+                    :value="circularWeek"
+                    color="#de8788"
+                    backgroud
+                  >
+                    <h6>{{ circularWeek }}</h6>
+                  </v-progress-circular>
+                  <div class="ml-3 donut-txt">當周</div>
+                </div>
+                <!-- 圖表1 當月 -->
+                <div class="donut-flex mt-5">
+                  <v-progress-circular
+                    class="donut1"
+                    :rotate="-90"
+                    :size="40"
+                    :width="5"
+                    :value="circularMonth"
+                    color="#828c8f"
+                    backgroud
+                  >
+                    <h6>{{ circularMonth }}</h6>
+                  </v-progress-circular>
+                  <div class="ml-3 donut-txt">當月</div>
+                </div>
+              </div>
+              <!-- 警報歷史 -->
+              <div class="diago-border1 ml-2">
+                <strong class="diago-title">警報歷史</strong>
+                <div class="reset1">
+                  <v-icon color="#d8d8d8">mdi-circle-medium</v-icon
+                  ><span class="subtitle-right">正常</span>
+                  <v-icon color="#828c8f">mdi-circle-medium</v-icon
+                  ><span class="subtitle-right">超溫</span>
+                </div>
+                <v-date-picker
+                  v-model="date2"
+                  class="date-picker"
+                  :event-color="(date) => (date[9] % 2 ? 'red' : 'yellow')"
+                  events
+                  readonly
+                  no-title
+                  color="#828c8f"
+                  width="220"
+                  height="200"
+                ></v-date-picker>
               </div>
             </div>
           </div>
@@ -80,13 +175,14 @@
             <v-card class="camera-bg align-items-c mt-3" style="">
               <ul id="sortable" :class="sortable">
                 <li
-                  v-for="(item01, index) in cam"
-                  :key="index"
+                  v-for="(item01, index01) in cam"
+                  :key="index01"
                   :class="ui_state"
                   id="diagoHover"
+                  @click="testdata"
                 >
                   <div>
-                    <a rel="busstop" class="busstop">{{ index }}</a>
+                    <a rel="busstop" class="busstop">{{ index01 }}</a>
                   </div>
                   <img
                     src="1656315342184.jpg"
@@ -301,12 +397,12 @@
                         <div class="py-2">
                           <strong class="Alert-title">超溫項目警報</strong>
                           <div class="Alert-txt py-3">
-                            <div v-for="i in 100" :key="i" class="px-3">
-                              <span v-if="i < 3" class="Alert-txt-alarm px-3"
-                                >2022/07/27 03:11 Cam-s1-58 區域{{ i }}</span
+                            <div v-for="ie in 100" :key="ie" class="px-3">
+                              <span v-if="ie < 3" class="Alert-txt-alarm px-3"
+                                >2022/07/27 03:11 Cam-s1-58 區域{{ ie }}</span
                               >
                               <span v-else class="Alert-font px-3"
-                                >2022/07/27 03:11 Cam-s1-58 區域{{ i }}</span
+                                >2022/07/27 03:11 Cam-s1-58 區域{{ ie }}</span
                               >
                             </div>
                           </div>
@@ -314,15 +410,15 @@
                         <div>
                           <strong class="Alert-title">超溫警報通知</strong>
                           <div class="Alert-txt2 py-3">
-                            <div v-for="i in 100" :key="i" class="my-1">
-                              <div v-if="i < 3" class="Alert-background1">
+                            <div v-for="ieq in 100" :key="ieq" class="my-1">
+                              <div v-if="ieq < 3" class="Alert-background1">
                                 <span class="Alert-font px-5"
-                                  >2022/07/27 03:11 Cam-s1-58 區域{{ i }}</span
+                                  >2022/07/27 03:11 Cam-s1-58 區域{{ ieq }}</span
                                 >
                               </div>
                               <div v-else class="Alert-background">
                                 <span class="Alert-font px-5"
-                                  >2022/07/27 03:11 Cam-s1-58 區域{{ i }}</span
+                                  >2022/07/27 03:11 Cam-s1-58 區域{{ ieq }}</span
                                 >
                               </div>
                             </div>
@@ -335,15 +431,15 @@
                       <div class="mags-cover py-3">
                         <strong class="Alert-title">操作通知</strong>
                         <div class="Alert-txt2 py-3">
-                          <div v-for="i in 100" :key="i" class="my-1">
-                            <div v-if="i < 3" class="Alert-background1">
+                          <div v-for="iee in 100" :key="iee" class="my-1">
+                            <div v-if="iee < 3" class="Alert-background1">
                               <span class="Alert-font px-5"
-                                >2022/07/27 03:11 Cam-s1-58 區域{{ i }}</span
+                                >2022/07/27 03:11 Cam-s1-58 區域{{ iee }}</span
                               >
                             </div>
                             <div v-else class="Alert-background">
                               <span class="Alert-font px-5"
-                                >2022/07/27 03:11 Cam-s1-58 區域{{ i }}</span
+                                >2022/07/27 03:11 Cam-s1-58 區域{{ iee }}</span
                               >
                             </div>
                           </div>
@@ -464,6 +560,16 @@ export default {
     cam: ['1', '2', '3', '4'],
     depressed: true,
     carousel_checkbox: false,
+    circularToday: 10,
+    circularYesterday: 5,
+    circularWeek: 50,
+    circularMonth: 100,
+    functionEvents: true,
+    // 日曆
+    arrayEvents: null,
+    date2: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+      .toISOString()
+      .substr(0, 10),
     // 下拉選單
     e1: '第一區',
     areas: ['第一區', '第一區', '第一區'],
@@ -560,64 +666,6 @@ export default {
   }),
 
   mounted() {
-    // 連線裝置 假資料
-    var arr = []
-    for (var i = 0; i < 100; i++) {
-      arr.push({
-        status: '/images/eye-on.png',
-        id: `Cam-s1-${i}`,
-        item: 'A棟CS-04配電盤',
-        update: '2022/06/06 14:07:08',
-      })
-    }
-    this.connectDesserts = arr
-
-    // 其他裝置 假資料
-    var arr1 = []
-    for (var j = 0; j < 100; j++) {
-      arr1.push({
-        status: '0',
-        id: `Cam-s1-${j}`,
-        item: 'A棟CS-04配電盤',
-        update: '2022/06/06 14:07:08',
-      })
-    }
-    this.otherDevicesDesserts = arr1
-
-    // 書籤 假資料
-    var arr2 = []
-    for (var z = 0; z < 100; z++) {
-      arr2.push({
-        delete: '/images/trash.png',
-        id: `${z}`,
-        item: `Cam-s1-${z} A棟CS-04配電盤`,
-        check: '查看',
-      })
-    }
-    this.tagsDesserts = arr2
-    // 警報設置 假資料
-    var arr3 = []
-    for (var zq = 0; zq < 10; zq++) {
-      arr3.push({
-        item: '+',
-        temperature: `${zq}`,
-        setting: `++`,
-      })
-    }
-    this.diagoalarmDesserts = arr3
-    // 警報紀錄 假資料
-    var arr4 = []
-    for (var zq1 = 0; zq1 < 10; zq1++) {
-      arr4.push({
-        item: '+',
-        temperature: `${zq1}`,
-        status: `++`,
-        date:'03:03:01',
-        location:'303030'
-      })
-    }
-    this.diagoalarmlogDesserts = arr4
-    // end
     // 排序
     $(function () {
       $('#sortable').sortable({
@@ -691,6 +739,71 @@ export default {
     })
   },
   methods: {
+    // 測試假資料
+    testdata() {
+      // 連線裝置 假資料
+      var arr = []
+      for (var i = 0; i < Math.floor(Math.random() * 1000); i++) {
+        arr.push({
+          status: '/images/eye-on.png',
+          id: `Cam-s1-${i}`,
+          item: 'A棟CS-04配電盤',
+          update: '2022/06/06 14:07:08',
+        })
+      }
+      this.connectDesserts = arr
+
+      // 其他裝置 假資料
+      var arr1 = []
+      for (var j = 0; j < Math.floor(Math.random() * 1000); j++) {
+        arr1.push({
+          status: '0',
+          id: `Cam-s1-${j}`,
+          item: 'A棟CS-04配電盤',
+          update: '2022/06/06 14:07:08',
+        })
+      }
+      this.otherDevicesDesserts = arr1
+
+      // 書籤 假資料
+      var arr2 = []
+      for (var z = 0; z < Math.floor(Math.random() * 1000); z++) {
+        arr2.push({
+          delete: '/images/trash.png',
+          id: `${z}`,
+          item: `Cam-s1-${z} A棟CS-04配電盤`,
+          check: '查看',
+        })
+      }
+      this.tagsDesserts = arr2
+      // 警報設置 假資料
+      var arr3 = []
+      for (var zq = 0; zq < Math.floor(Math.random() * 16); zq++) {
+        arr3.push({
+          item: '+',
+          temperature: `${zq}`,
+          setting: `++`,
+        })
+      }
+      this.diagoalarmDesserts = arr3
+      // 警報紀錄 假資料
+      var arr4 = []
+      var mock = [12,1000,10, 1]
+      var d = mock[Math.floor(Math.random() * 4)]
+      for (var zq1 = 0; zq1 < d; zq1++) {
+        arr4.push({
+          item: '+',
+          temperature: `${zq1}`,
+          status: `++`,
+          date: '03:03:01',
+          location: '303030',
+        })
+      }
+      console.log(d)
+      this.diagoalarmlogDesserts = arr4
+      // end
+    },
+
     // 關閉對話窗
     diagoOff() {
       $('.custom-dialog').addClass('dialog-close')
@@ -780,7 +893,7 @@ export default {
   width: 370px;
   height: auto;
   position: fixed;
-  top: 25%;
+  top: 64px;
   left: 39%;
   background-color: #fff;
   z-index: 99999;
@@ -810,8 +923,8 @@ export default {
   cursor: grab;
 }
 .dialog-close {
-  /* pointer-events: none; */
-  opacity: 1 !important;
+  pointer-events: none;
+  opacity: 0 !important;
 }
 .diago-head {
   display: grid;
@@ -864,16 +977,40 @@ export default {
 .diago-border1 {
   border: 1px #d7dbdb solid;
   border-radius: 3px;
-  padding: 3px;
+  padding: 5px;
 }
-.diago-title{
-  color:#4f5e62;
+.diago-title {
+  color: #4f5e62;
   font-weight: bold;
 }
-.diago-table-title{
-  color:#4f5e62;
-  font-size:13px;
+.diago-table-title {
+  color: #4f5e62;
+  font-size: 13px;
   border-bottom: 1px #000000 solid;
+}
+.diago-alarm-cover1 {
+  display: grid;
+  grid-template-columns: 100px 247px;
+  padding: 10px;
+}
+.donut-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.donut-txt {
+  color: #4f5e62;
+  font-size: 10px;
+}
+.reset1 {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  float: right;
+}
+.reset1 > span {
+  color: #4f5e62;
+  font-size: 8px;
 }
 /* 對話視窗 end */
 .align-items-c {
