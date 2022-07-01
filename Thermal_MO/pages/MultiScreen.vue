@@ -5,7 +5,7 @@
       <div class="cover-bg" style="position: relative">
         <!-- 對話框 -->
         <div :class="c_diago">
-          <!-- <div class="draggable-bar"></div> -->
+          <div class="draggable-bar"></div>
           <div class="diago-head">
             <div class="diago-point-cover">
               <div class="diago-point mt-5"></div>
@@ -536,19 +536,19 @@ export default {
       $('#sortable').disableSelection()
     })
     // 對話視窗
-    // $('.custom-dialog').draggable({
-    //   start: () => {
-    //     $('.custom-dialog').css('opacity', '0.9')
-    //     $('.custom-dialog').css('transition', 'all 0s')
-    //   },
-    //   stop: () => {
-    //     $('.custom-dialog').css('opacity', '1')
-    //     $('.custom-dialog').css('transition', 'all 0.1s')
-    //   },
-    //   handle: '.draggable-bar',
-    //   cursor: 'grabbing',
-    //   containment: 'parent',
-    // })
+    $('.custom-dialog').draggable({
+      start: () => {
+        $('.custom-dialog').css('opacity', '0.9')
+        $('.custom-dialog').css('transition', 'all 0s')
+      },
+      stop: () => {
+        $('.custom-dialog').css('opacity', '1')
+        $('.custom-dialog').css('transition', 'all 0.1s')
+      },
+      handle: '.draggable-bar',
+      cursor: 'grabbing',
+      containment: 'parent',
+    })
   },
   updated() {
     // 判斷視窗該在哪個方位
@@ -556,8 +556,8 @@ export default {
       '.ui-state-default,.ui-state-default4,.ui-state-default12,.ui-state-default100'
     ).on('mouseover', function () {
       // 假高度
-          var flash = ['500px','400px','2000px']
-          $('.diago-contnet').css('height', flash[Math.floor(Math.random()*3)])
+      var flash = ['600px', '500px', '400px', '2000px']
+      $('.diago-contnet').css('height', flash[Math.floor(Math.random() * 4)])
       // 假高度
       var cover = $('.cover-bg') // 宣告渲染畫面
       // ).on('click', function () {
@@ -569,18 +569,27 @@ export default {
 
       //   var document1Width = $(document).width() / 2 // 宣告目前頁面的一半寬度
       //   var document1Height = $(document).height() / 2 // 宣告目前頁面的一半高度
-      var x = position.left + div.width() // 宣告元素右下角x軸
+      var x = 0
+      if (position.left + div.width() > cover.width() / 2) {
+        x = (position.left- dialog.width()) // 宣告元素右下角x軸
+      } else {
+        x = position.left + div.width() // 宣告元素右下角x軸
+      }
+
       var dialogHeight = dialog.height() / 2
       var y = position.top + div.height() / 2 - dialogHeight // 宣告元素右下角y軸
+      // var bottomY = dialog.offset().top + dialog.height()
+      // if (bottomY > cover.height()) {
+      //   y = 64
+      // }
+      // 如果計算結果，視窗畫面底部座標大於實際畫面的高度，將會實施以下公式: y = y - (y + 視窗高度 - 實際畫面高度)
+      if (y + dialog.height() > cover.height()) {
+        y = y - (y + dialog.height() - cover.height())
+      }
+      // 如果計算結果y座標是負的，那會直接把y座標強制設定為0+TOP BAR(高度)
       if (y < 64) {
         y = 64
       }
-      var bottomY = dialog.offset().top + dialog.height()
-      if (bottomY > cover.height()) {
-        y = 64
-      }
-      console.log(bottomY)
-
       //   // 如果x軸超過頁面寬度一半以上
       //   if (x > document1Width) {
       //     x = position.left - dialog.width()
