@@ -5,7 +5,7 @@
       <div class="cover-bg" style="position: relative">
         <!-- 對話框 -->
         <div :class="c_diago">
-          <div class="draggable-bar"></div>
+          <!-- <div class="draggable-bar"></div> -->
           <div class="diago-head">
             <div class="diago-point-cover">
               <div class="diago-point mt-5"></div>
@@ -33,7 +33,46 @@
               /></v-btn>
             </div>
           </div>
-          <div class="diago-contnet"></div>
+          <div class="diago-contnet-cover">
+            <div class="diago-alarm-cover">
+              <!-- 警報設置 -->
+              <div class="diago-border1">
+                <strong class="diago-title">警報設置</strong>
+                <v-data-table
+                  dense
+                  :headers="diagoalarmHeaders"
+                  :items="diagoalarmDesserts"
+                  disable-pagination
+                  hide-default-header
+                  hide-default-footer
+                >
+                  <template v-slot:header="{ props }">
+                    <th v-for="head in props.headers" :key="head" class="diago-table-title">
+                      {{ head.text.toUpperCase() }}
+                    </th>
+                  </template>
+                </v-data-table>
+              </div>
+              <!-- 警報紀錄 -->
+              <div class="diago-border1 ml-2">
+                <strong class="diago-title">警報紀錄</strong>
+                <v-data-table
+                  dense
+                  :headers="diagoalarmlogHeaders"
+                  :items="diagoalarmlogDesserts"
+                  disable-pagination
+                  hide-default-header
+                  hide-default-footer
+                >
+                  <template v-slot:header="{ props }">
+                    <th v-for="head in props.headers" :key="head" class="diago-table-title">
+                      {{ head.text.toUpperCase() }}
+                    </th>
+                  </template>
+                </v-data-table>
+              </div>
+            </div>
+          </div>
         </div>
         <v-row>
           <!-- 分隔畫面 -->
@@ -487,6 +526,37 @@ export default {
     ],
     tagsDesserts: [],
     // end
+    // dialog table
+
+    // 警報設置
+    diagoalarmHeaders: [
+      { text: '項目', value: 'item', align: 'center' },
+      {
+        text: '溫度',
+        align: 'center',
+        // value: 'id',
+        // width: '50px',
+        value: 'temperature',
+      },
+
+      { text: '設定', value: 'setting', align: 'center' },
+    ],
+    diagoalarmDesserts: [],
+    // 警報紀錄
+    diagoalarmlogHeaders: [
+      { text: '項目', value: 'item', align: 'center' },
+      {
+        text: '溫度',
+        align: 'center',
+        // value: 'id',
+        // width: '50px',
+        value: 'temperature',
+      },
+      { text: '狀態', value: 'status', align: 'center' },
+      { text: '時間', value: 'date', align: 'center' },
+      { text: '熱點座標', value: 'location', align: 'center' },
+    ],
+    diagoalarmlogDesserts: [],
   }),
 
   mounted() {
@@ -525,6 +595,28 @@ export default {
       })
     }
     this.tagsDesserts = arr2
+    // 警報設置 假資料
+    var arr3 = []
+    for (var zq = 0; zq < 10; zq++) {
+      arr3.push({
+        item: '+',
+        temperature: `${zq}`,
+        setting: `++`,
+      })
+    }
+    this.diagoalarmDesserts = arr3
+    // 警報紀錄 假資料
+    var arr4 = []
+    for (var zq1 = 0; zq1 < 10; zq1++) {
+      arr4.push({
+        item: '+',
+        temperature: `${zq1}`,
+        status: `++`,
+        date:'03:03:01',
+        location:'303030'
+      })
+    }
+    this.diagoalarmlogDesserts = arr4
     // end
     // 排序
     $(function () {
@@ -536,42 +628,42 @@ export default {
       $('#sortable').disableSelection()
     })
     // 對話視窗
-    $('.custom-dialog').draggable({
-      start: () => {
-        $('.custom-dialog').css('opacity', '0.9')
-        $('.custom-dialog').css('transition', 'all 0s')
-      },
-      stop: () => {
-        $('.custom-dialog').css('opacity', '1')
-        $('.custom-dialog').css('transition', 'all 0.1s')
-      },
-      handle: '.draggable-bar',
-      cursor: 'grabbing',
-      containment: 'parent',
-    })
+    // $('.custom-dialog').draggable({
+    //   start: () => {
+    //     $('.custom-dialog').css('opacity', '0.9')
+    //     $('.custom-dialog').css('transition', 'all 0s')
+    //   },
+    //   stop: () => {
+    //     $('.custom-dialog').css('opacity', '1')
+    //     $('.custom-dialog').css('transition', 'all 0.1s')
+    //   },
+    //   handle: '.draggable-bar',
+    //   cursor: 'grabbing',
+    //   containment: 'parent',
+    // })
   },
   updated() {
     // 判斷視窗該在哪個方位
     $(
       '.ui-state-default,.ui-state-default4,.ui-state-default12,.ui-state-default100'
-    ).on('mouseover', function () {
+      // ).on('mouseover', function () {
+    ).on('click', function () {
       // 假高度
-      var flash = ['600px', '500px', '400px', '2000px']
-      $('.diago-contnet').css('height', flash[Math.floor(Math.random() * 4)])
+      // var flash = ['600px', '500px', '400px', '2000px']
+      // $('.diago-contnet').css('height', flash[Math.floor(Math.random() * 4)])
       // 假高度
       var cover = $('.cover-bg') // 宣告渲染畫面
-      // ).on('click', function () {
       $('.custom-dialog').removeClass('dialog-close')
       var position = $(this).offset() // 取得點擊的元素座標
       var dialog = $('.custom-dialog') // 宣告互動視窗
       var div = $(this).find('img') // 選告元素底下的圖片
       dialog.css('max-height', cover.height() + 'px')
-
+      $('.diago-contnet-cover').css('max-height', cover.height() - 74 + 'px')
       //   var document1Width = $(document).width() / 2 // 宣告目前頁面的一半寬度
       //   var document1Height = $(document).height() / 2 // 宣告目前頁面的一半高度
       var x = 0
       if (position.left + div.width() > cover.width() / 2) {
-        x = (position.left- dialog.width()) // 宣告元素右下角x軸
+        x = position.left - dialog.width() // 宣告元素右下角x軸
       } else {
         x = position.left + div.width() // 宣告元素右下角x軸
       }
@@ -582,29 +674,21 @@ export default {
       // if (bottomY > cover.height()) {
       //   y = 64
       // }
+
       // 如果計算結果，視窗畫面底部座標大於實際畫面的高度，將會實施以下公式: y = y - (y + 視窗高度 - 實際畫面高度)
       if (y + dialog.height() > cover.height()) {
         y = y - (y + dialog.height() - cover.height())
       }
+
       // 如果計算結果y座標是負的，那會直接把y座標強制設定為0+TOP BAR(高度)
       if (y < 64) {
         y = 64
       }
-      //   // 如果x軸超過頁面寬度一半以上
-      //   if (x > document1Width) {
-      //     x = position.left - dialog.width()
-      //   }
-      //   // 如果y軸超過頁面高度一半以上
-      //   if (y > document1Height) {
-      //     y = position.top + div.height() - 420
-      //   } else {
-      //     y = position.top + div.height()
-      //   }
-      //   // 指定視窗該在哪個方位
+
+      // 指定視窗該在哪個方位
       dialog.css('top', y + 'px')
       dialog.css('left', x + 'px')
     })
-    // console.log('update')
   },
   methods: {
     // 關閉對話窗
@@ -688,7 +772,9 @@ export default {
   border-radius: 0px !important;
 }
 /* 對話視窗 */
-.diago-contnet {
+.diago-contnet-cover {
+  height: 100%;
+  overflow-y: auto;
 }
 .custom-dialog {
   width: 370px;
@@ -702,7 +788,7 @@ export default {
   border-radius: 3px;
   transition: all 0.1s;
   opacity: 1;
-  overflow-y: scroll;
+  /* overflow-y: auto; */
   /* transform: translate(-50%, -50%); */
 }
 .draggable-bar {
@@ -724,7 +810,7 @@ export default {
   cursor: grab;
 }
 .dialog-close {
-  pointer-events: none;
+  /* pointer-events: none; */
   opacity: 1 !important;
 }
 .diago-head {
@@ -769,6 +855,25 @@ export default {
   border: 0px #d7dbdb solid !important;
   width: 100% !important;
   min-width: 0 !important;
+}
+.diago-alarm-cover {
+  display: grid;
+  grid-template-columns: 111px 238px;
+  padding: 10px;
+}
+.diago-border1 {
+  border: 1px #d7dbdb solid;
+  border-radius: 3px;
+  padding: 3px;
+}
+.diago-title{
+  color:#4f5e62;
+  font-weight: bold;
+}
+.diago-table-title{
+  color:#4f5e62;
+  font-size:13px;
+  border-bottom: 1px #000000 solid;
 }
 /* 對話視窗 end */
 .align-items-c {
