@@ -55,6 +55,47 @@
                       {{ head.text.toUpperCase() }}
                     </th>
                   </template>
+                  <template v-slot:[`item.item`]="{ item }">
+                    <th
+                      v-for="items in item.item"
+                      :key="items"
+                      class="pa-0"
+                    >
+                      <v-badge
+                        :content="item.spot_number"
+                        overlap
+                        color="#828C8F"
+                        class="my-3"
+                        bordered
+                        ><v-btn icon class="right-btn"
+                          ><img
+                            class=""
+                            alt=""
+                            src="/right-icons/spot2.png"
+                            width="20em" /></v-btn
+                      ></v-badge>
+                    </th>
+                  </template>
+                  <template v-slot:[`item.setting`]="{ item }">
+                    <th
+                      v-for="itemss in item.setting"
+                      :key="itemss"
+                      class="pa-0"
+                    >
+                      <v-badge
+                        overlap
+                        color="#828C8F"
+                        class="my-3"
+                        bordered
+                        ><v-btn icon class="right-btn"
+                          ><img
+                            class=""
+                            alt=""
+                            src="/right-icons/spot2.png"
+                            width="20em" /></v-btn
+                      ></v-badge>
+                    </th>
+                  </template>
                 </v-data-table>
               </div>
               <!-- 警報紀錄 -->
@@ -704,6 +745,7 @@ export default {
     //   cursor: 'grabbing',
     //   containment: 'parent',
     // })
+    this.testdata()
   },
   updated() {
     // 判斷視窗該在哪個方位
@@ -796,15 +838,15 @@ export default {
       for (var zq = 0; zq < Math.floor(Math.random() * 16); zq++) {
         arr3.push({
           item: '+',
-          temperature: `${zq}`,
+          temperature: `${zq}°C`,
           setting: `++`,
         })
       }
       this.diagoalarmDesserts = arr3
       // 警報紀錄 假資料
       var arr4 = []
-      var mock = [12, 1000, 10, 1]
-      var d = mock[Math.floor(Math.random() * 4)]
+      var mock = [2, 1000]
+      var d = mock[Math.floor(Math.random() * 2)]
       for (var zq1 = 0; zq1 < d; zq1++) {
         arr4.push({
           item: '+',
@@ -938,8 +980,8 @@ export default {
   cursor: grab;
 }
 .dialog-close {
-  pointer-events: none;
-  opacity: 0 !important;
+  /* pointer-events: none; */
+  /* opacity: 0 !important; */
 }
 .diago-head {
   display: grid;

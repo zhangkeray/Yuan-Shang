@@ -84,7 +84,7 @@
                   type="datetime"
                   range
                   placeholder="Select datetime range"
-                  style="width:200px"
+                  style="width: 200px"
                 ></date-picker>
 
                 <!-- ------------------------------------- -->
@@ -990,17 +990,36 @@ export default {
         date.getFullYear() +
         ('0' + (date.getMonth() + 1)).slice(-2) +
         ('0' + date.getDate()).slice(-2)
+      var YM = date.getFullYear() +
+        ('0' + (date.getMonth() + 1)).slice(-2)
       var HMS =
         ('0' + date.getHours()).slice(-2) +
         ('0' + date.getMinutes()).slice(-2) +
         ('0' + date.getSeconds()).slice(-2)
       var image = document.getElementById('image-wrap-change')
-      image.style.background = `url('http://127.0.0.1:5000/api/database/share/setting%5Croisettinghistory%5Croi_setting_history_${YMD}_T${HMS}.jpg') no-repeat center center`
+      image.style.background = `url('http://127.0.0.1:5000/api/database/share/alarmtemp%5C${YM}%5Calarmtemp_${YMD}_T${HMS}.jpg') no-repeat center center`
       image.style.backgroundSize = '100%'
       var imageresult = document.getElementById('image-wrap-img')
-      imageresult.style.background = `url('http://127.0.0.1:5000/api/database/share/setting%5Croisettinghistory%5Croi_setting_history_${YMD}_T${HMS}.jpg') no-repeat center center`
+      imageresult.style.background = `url('http://127.0.0.1:5000/api/database/share/alarmtemp%5C${YM}%5Calarmtemp_${YMD}_T${HMS}.jpg') no-repeat center center`
       // console.log(image)
     },
+    // imageChange(oupTime) {
+    //   var date = new Date(oupTime)
+    //   var YMD =
+    //     date.getFullYear() +
+    //     ('0' + (date.getMonth() + 1)).slice(-2) +
+    //     ('0' + date.getDate()).slice(-2)
+    //   var HMS =
+    //     ('0' + date.getHours()).slice(-2) +
+    //     ('0' + date.getMinutes()).slice(-2) +
+    //     ('0' + date.getSeconds()).slice(-2)
+    //   var image = document.getElementById('image-wrap-change')
+    //   image.style.background = `url('http://127.0.0.1:5000/api/database/share/setting%5Croisettinghistory%5Croi_setting_history_${YMD}_T${HMS}.jpg') no-repeat center center`
+    //   image.style.backgroundSize = '100%'
+    //   var imageresult = document.getElementById('image-wrap-img')
+    //   imageresult.style.background = `url('http://127.0.0.1:5000/api/database/share/setting%5Croisettinghistory%5Croi_setting_history_${YMD}_T${HMS}.jpg') no-repeat center center`
+    //   // console.log(image)
+    // },
   },
 }
 </script>
