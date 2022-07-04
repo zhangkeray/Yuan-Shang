@@ -56,45 +56,49 @@
                     </th>
                   </template>
                   <template v-slot:[`item.item`]="{ item }">
-                    <th
-                      v-for="items in item.item"
-                      :key="items"
-                      class="pa-0"
-                    >
-                      <v-badge
-                        :content="item.spot_number"
-                        overlap
-                        color="#828C8F"
-                        class="my-3"
-                        bordered
-                        ><v-btn icon class="right-btn"
-                          ><img
-                            class=""
-                            alt=""
-                            src="/right-icons/spot2.png"
-                            width="20em" /></v-btn
-                      ></v-badge>
-                    </th>
+                    <v-badge
+                      :content="item.item"
+                      overlap
+                      color="#828C8F"
+                      class="my-3"
+                      bordered
+                      ><v-btn icon class="right-btn" width="28px"
+                        ><img
+                          class=""
+                          alt=""
+                          src="/right-icons/spot2.png"
+                          width="18px" /></v-btn
+                    ></v-badge>
                   </template>
                   <template v-slot:[`item.setting`]="{ item }">
-                    <th
-                      v-for="itemss in item.setting"
-                      :key="itemss"
-                      class="pa-0"
-                    >
-                      <v-badge
-                        overlap
-                        color="#828C8F"
-                        class="my-3"
-                        bordered
-                        ><v-btn icon class="right-btn"
-                          ><img
+                    <v-btn color="" icon class="right-btn" width="28px"
+                      ><img
+                        :class="item"
+                        alt=""
+                        src="/right-icons/alert-on.png"
+                        width="18px"
+                        depressed
+                      />
+                      <!-- <img
+                            v-else-if="
+                              item.spot_alarm_status === 1 &&
+                              item.spot_temperature >= item.spot_threshold
+                            "
                             class=""
                             alt=""
-                            src="/right-icons/spot2.png"
-                            width="20em" /></v-btn
-                      ></v-badge>
-                    </th>
+                            src="/right-icons/alertOn.png"
+                            width="18em"
+                            depressed
+                          />
+                          <img
+                            v-else-if="item.spot_alarm_status === 0"
+                            class=""
+                            alt=""
+                            src="/right-icons/alert-off.png"
+                            width="18em"
+                            depressed
+                          /> -->
+                    </v-btn>
                   </template>
                 </v-data-table>
               </div>
@@ -117,6 +121,24 @@
                     >
                       {{ head1.text.toUpperCase() }}
                     </th>
+                  </template>
+                  <template v-slot:[`item.item`]="{ item }">
+                    <v-badge
+                      :content="item.item"
+                      overlap
+                      color="#828C8F"
+                      class="my-3"
+                      bordered
+                      ><v-btn icon class="right-btn" width="28px"
+                        ><img
+                          class=""
+                          alt=""
+                          src="/right-icons/spot2.png"
+                          width="18px" /></v-btn
+                    ></v-badge>
+                  </template>
+                  <template v-slot:[`item.location`]="{ item }">
+                    X:{{ item.location.X }}<br />Y:{{ item.location.Y }}
                   </template>
                 </v-data-table>
               </div>
@@ -233,14 +255,18 @@
                   id="diagoHover"
                   @click="testdata"
                 >
-                  <div>
-                    <a rel="busstop" class="busstop">{{ index01 }}</a>
+                  <div class="ui-state-cover">
+                    <img
+                      src="loadingBG.png"
+                      class="test-cramre"
+                      :id="`test-cramre${index01}`"
+                      width="100%"
+                    />
+                    <div class="ui-state-default-footer">
+                      <div class="ui-state-default-point"></div>
+                      <span>Cam-s1-55 A棟CS-01配電盤({{index01}})</span>
+                    </div>
                   </div>
-                  <img
-                    src="1656315342184.jpg"
-                    class="test-cramre"
-                    width="100%"
-                  />
                 </li>
               </ul>
             </v-card>
@@ -613,7 +639,7 @@ export default {
     sortable: 'sortable4-1',
     ui_state: 'ui-state-default',
     c_diago: 'custom-dialog dialog-close',
-    cam: ['1', '2', '3', '4'],
+    cam: [],
     depressed: true,
     carousel_checkbox: false,
     circularToday: 10,
@@ -745,6 +771,7 @@ export default {
     //   cursor: 'grabbing',
     //   containment: 'parent',
     // })
+    this.transition(1)
     this.testdata()
   },
   updated() {
@@ -793,6 +820,7 @@ export default {
       // 指定視窗該在哪個方位
       dialog.css('top', y + 'px')
       dialog.css('left', x + 'px')
+      // end
     })
   },
   methods: {
@@ -837,7 +865,7 @@ export default {
       var arr3 = []
       for (var zq = 0; zq < Math.floor(Math.random() * 16); zq++) {
         arr3.push({
-          item: '+',
+          item: `${zq}`,
           temperature: `${zq}°C`,
           setting: `++`,
         })
@@ -845,18 +873,18 @@ export default {
       this.diagoalarmDesserts = arr3
       // 警報紀錄 假資料
       var arr4 = []
-      var mock = [2, 1000]
+      var mock = [2, 50]
       var d = mock[Math.floor(Math.random() * 2)]
       for (var zq1 = 0; zq1 < d; zq1++) {
         arr4.push({
-          item: '+',
-          temperature: `${zq1}`,
-          status: `++`,
+          item: `${zq1}`,
+          temperature: `${zq1}°C`,
+          status: `已超溫`,
           date: '03:03:01',
-          location: '303030',
+          location: { X: '50.12', Y: '33.54' },
         })
       }
-      console.log(d)
+      // console.log(d)
       this.diagoalarmlogDesserts = arr4
       // end
     },
@@ -868,6 +896,9 @@ export default {
     // 分格畫面判斷
     transition(data) {
       $('.custom-dialog').addClass('dialog-close')
+      var output = {
+        totle: null,
+      }
       if (data === 0) {
         $('#sortable').sortable({
           placeholder: 'ui-state-highlight4',
@@ -877,7 +908,10 @@ export default {
         this.ui_state = 'ui-state-default4'
         // 均分 4格
         this.cam = ['1', '2', '3', '4']
+        output.totle = 4
+        this.showDisplay(output)
       } else if (data === 1) {
+        console.log('oh ta')
         $('#sortable').sortable({
           placeholder: 'ui-state-highlight',
           // revert: true
@@ -886,6 +920,8 @@ export default {
         this.ui_state = 'ui-state-default'
         // 4分格
         this.cam = ['1', '2', '3', '4']
+        output.totle = 4
+        this.showDisplay(output)
       } else if (data === 2) {
         $('#sortable').sortable({
           placeholder: 'ui-state-highlight12',
@@ -899,6 +935,8 @@ export default {
           arr.push(i)
         }
         this.cam = arr
+        output.totle = 12
+        this.showDisplay(output)
       } else if (data === 3) {
         $('#sortable').sortable({
           placeholder: 'ui-state-highlight100',
@@ -913,7 +951,30 @@ export default {
           arr1.push(i)
         }
         this.cam = arr1
+        output.totle = 24
+        this.showDisplay(output)
       }
+    },
+    // 載入監視影像
+    showDisplay(output) {
+      if (this.socket !== undefined) {
+        this.socket.disconnect()
+      }
+      this.socket = this.$nuxtSocket({
+        name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
+      })
+      this.$nextTick(function () {
+        for (var z = 0; z < output.totle; z++) {
+          const img = document.getElementById(`test-cramre${z}`)
+          img.src = 'loadingBG.png'
+          this.socket.on('data' + z, (data) => {
+            img.src = 'data:image/jpeg;base64,' + data
+            img.style.transform = 'rotate(360deg)'
+          })
+          console.log(`test-cramre${z}`)
+        }
+        console.log('渲染完成')
+      })
     },
     // 標籤標題隱藏
     CustomTabs(data) {
@@ -978,10 +1039,11 @@ export default {
 }
 #diagoHover {
   cursor: grab;
+  margin: 0px 0px 11px 0px;
 }
 .dialog-close {
-  /* pointer-events: none; */
-  /* opacity: 0 !important; */
+  pointer-events: none;
+  opacity: 0 !important;
 }
 .diago-head {
   display: grid;
@@ -1028,7 +1090,7 @@ export default {
 }
 .diago-alarm-cover {
   display: grid;
-  grid-template-columns: 111px 238px;
+  grid-template-columns: 122px 230px;
   padding: 10px;
 }
 .diago-border1 {
@@ -1293,7 +1355,33 @@ export default {
   width: 30px;
   height: 30px;
 }
-
+/* 分隔畫面統整設定 */
+.ui-state-cover {
+  width: 100%;
+  height: 0;
+  position: relative;
+  padding-bottom: 75%;
+}
+.ui-state-default-footer {
+  position: absolute;
+  background-color: #0000008f;
+  /* top: 0; */
+  z-index: 99;
+  left: 0;
+  color: #fff;
+  bottom: 0;
+  width: 100%;
+  padding: 2% 0px;
+  display: flex;
+  align-items: center;
+}
+.ui-state-default-point {
+  background-color: #8ab284;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  margin: 0px 10px;
+}
 /* 可移動排序 (分4格) */
 .sortable4-1 {
   list-style-type: none;
@@ -1329,12 +1417,17 @@ export default {
   transform: translate(339px, -783px);
 }
 
-.ui-state-default > div {
-  position: absolute;
-  background-color: #fff;
-  top: 0;
-  z-index: 99;
-  left: 0;
+.ui-state-default-footer > span {
+  font-size: 1em;
+}
+.ui-state-default:last-child .ui-state-default-footer > span {
+  font-size: 2.5em;
+}
+.ui-state-default:last-child .ui-state-default-point {
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
+  margin: 0px 19px;
 }
 /* 可移動排序 (均分4格) */
 .sortable4 {
@@ -1359,13 +1452,13 @@ export default {
   width: 99%;
 }
 
-.ui-state-default4 > div {
+/* .ui-state-default4 > div {
   position: absolute;
   background-color: #fff;
   top: 0;
   z-index: 99;
   left: 0;
-}
+} */
 /* 可移動排序 (均分12格) */
 .sortable12 {
   list-style-type: none;
@@ -1389,13 +1482,13 @@ export default {
   width: 99%;
 }
 
-.ui-state-default12 > div {
+/* .ui-state-default12 > div {
   position: absolute;
   background-color: #fff;
   top: 0;
   z-index: 99;
   left: 0;
-}
+} */
 /* 可移動排序 (均分24格) */
 .sortable100 {
   list-style-type: none;
@@ -1419,13 +1512,13 @@ export default {
   width: 99%;
 }
 
-.ui-state-default100 > div {
+/* .ui-state-default100 > div {
   position: absolute;
   background-color: #fff;
   top: 0;
   z-index: 99;
   left: 0;
-}
+} */
 .busstop {
   font-size: 40px;
 }
