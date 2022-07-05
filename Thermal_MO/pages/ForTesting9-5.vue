@@ -105,6 +105,14 @@ export default {
           var data = response.data
           var arr = []
           data.forEach((index, i) => {
+            // var str = index.cam
+            // if(str.length > 20){
+            //   str = str.substr(0,20) + '...'
+            // }
+            // var str01 = index.proxy
+            // if(str01.length > 20){
+            //   str01 = str01.substr(0,20) + '...'
+            // }
             arr.push({
               id: i + 1,
               proxy: `/${index.proxy}`,
@@ -125,6 +133,10 @@ export default {
         })
         this.rtsp = []
       }
+      const rtpsimg = $('.rtpsimg')
+      rtpsimg.each(function () {
+        this.src = '/loadingBG.png'
+      })
       // 將目前相機列表存入陣列中
       var rtspStream = []
       this.desserts.forEach((index) => {
@@ -181,7 +193,7 @@ export default {
             // nodejs會做資料驗證，根據status做判斷
             if (data.status === '200') {
               this.getData()
-              this.startStream1()
+              // this.startStream1()
               this.proxy = null
             } else if (data.status === '403') {
               alert('輸入有誤，可能是"代理網址"有重複，請查明後重新輸入')
