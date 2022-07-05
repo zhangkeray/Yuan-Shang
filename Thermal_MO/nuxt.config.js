@@ -103,7 +103,7 @@ export default {
     sockets: [{
       default: true, // make this the default socket
       name: 'main', // give it a name that we can later use to choose this socket in the .vue file
-      url: 'http://localhost:6147', // URL wherever your socket IO server runs
+      url: 'http://192.168.0.173:6147', // URL wherever your socket IO server runs
     }, ],
   },
 

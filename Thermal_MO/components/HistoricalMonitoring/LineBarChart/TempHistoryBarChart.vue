@@ -13,7 +13,7 @@
         margin-left: 145px;
         margin-top: 10px;
         position: absolute;
-        z-index: 999999;
+        z-index: 4;
         width: 202px;
       "
       :disabled-date="notBeforeTodayTwelveOClock"

@@ -21,291 +21,231 @@
               權限管理
             </v-tab>
 
-            <v-tab href="#tab-2" style="font-size: 15px; justify-content: left">
+            <!-- <v-tab
+              href="#tab-2"
+              style="font-size: 15px; justify-content: left">
               <img class="" alt="" src="/data_scraping/data.png" width="14em" />
               <p>&nbsp;&nbsp;</p>
-              權限功能
-            </v-tab>
+              溫度分佈
+            </v-tab> -->
 
             <v-tab-item value="tab-1">
               <no-ssr>
-                <!-- <v-card> -->
-                <v-card-title>
-                  <h5>權限管理</h5>
-                </v-card-title>
-                <!-- this dialog is used for both create and update -->
-                <!-- <v-divider></v-divider> -->
-                <v-dialog v-model="dialog" max-width="700px">
-                  <template v-slot:activator="{ on }">
-                    <div class="d-flex">
-                      <v-text-field
-                        v-model="search"
-                        prepend-inner-icon="mdi-magnify"
-                        label="搜尋"
-                        outlined
-                        hide-details
-                        dense
-                        color="#828c8f"
-                        style="
-                          color: #828c8f;
-                          margin-left: 24px;
-                          height: 30px;
-                          width: 100px;
-                        "
-                      ></v-text-field>
-                      <v-spacer />
-                      <v-btn
-                        color="#828c8f"
-                        dark
-                        v-on="on"
-                        outlined
-                        style="margin-right: 24px"
-                      >
-                        <v-icon small>mdi-plus-circle-outline</v-icon>
-                        <h5>新增</h5>
-                      </v-btn>
-                    </div>
-                  </template>
-                  <v-card>
-                    <v-card-title>
-                      <span v-if="editedItem.id"
-                        >編輯 {{ editedItem.name }}</span
-                      >
-                      <span v-else>新增</span>
-                    </v-card-title>
-                    <v-card-text>
-                      <v-row>
-                        <v-col cols="12" sm="4">
-                          <v-text-field
-                            v-model="editedItem.name"
-                            label="名稱"
-                          ></v-text-field>
-                        </v-col>
+                <v-card>
+                  <v-card-title>
+                    <h4>權限管理</h4>
+                  </v-card-title>
+                  <!-- this dialog is used for both create and update -->
+                  <v-dialog v-model="dialog" max-width="700px">
+                    <template v-slot:activator="{ on }">
+                      <div class="d-flex">
+                        <v-text-field
+                          v-model="search"
+                          prepend-inner-icon="mdi-magnify"
+                          label="Search"
+                          outlined
+                          hide-details
+                          dense
+                          color="#828c8f"
+                          style="color: #828c8f"
+                        ></v-text-field>
+                        <v-spacer />
+                        <v-btn
+                          color="#828c8f"
+                          dark
+                          class="ml-auto mx-6"
+                          v-on="on"
+                          outlined
+                        >
+                          <v-icon small>mdi-plus-circle-outline</v-icon>
+                          <h5>新增</h5>
+                        </v-btn>
+                      </div>
+                    </template>
+                    <v-card>
+                      <v-card-title>
+                        <span v-if="editedItem.id"> {{ editedItem.name }}</span>
+                        <span v-else>Create</span>
+                      </v-card-title>
+                      <v-card-text>
+                        <v-row>
+                          <v-col cols="12" sm="4">
+                            <v-text-field
+                              v-model="editedItem.name"
+                              label="名稱"
+                            ></v-text-field>
+                          </v-col>
 
-                        <v-col cols="12" sm="4">
-                          <v-text-field
-                            v-model="editedItem.email"
-                            label="信箱"
-                            :rules="emailRules"
-                            required
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="4">
-                          <v-text-field
-                            v-model="editedItem.password"
-                            :type="show ? 'text' : 'password'"
-                            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                            @click:append="show = !show"
-                            label="密碼"
-                            required
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="4">
-                          <v-autocomplete
-                            v-model="editedItem.permission"
-                            label="權限"
-                            :items="itemsSelect"
-                            dense
-                          ></v-autocomplete>
-                        </v-col>
-                        <v-col cols="12" sm="4">
-                          <v-autocomplete
-                            v-model="editedItem.status"
-                            label="允許使用"
-                            :items="status"
-                            dense
-                          ></v-autocomplete>
-                        </v-col>
-                      </v-row>
-                    </v-card-text>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="showEditDialog()"
-                      >Cancel</v-btn
+                          <v-col cols="12" sm="4">
+                            <v-text-field
+                              v-model="editedItem.email"
+                              label="信箱"
+                              :rules="emailRules"
+                              required
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="4">
+                            <v-text-field
+                              v-model="editedItem.password"
+                              :type="show ? 'text' : 'password'"
+                              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                              @click:append="show = !show"
+                              label="密碼"
+                              required
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="4">
+                            <v-autocomplete
+                              v-model="editedItem.permission"
+                              label="權限"
+                              :items="itemsSelect"
+                              dense
+                            ></v-autocomplete>
+                          </v-col>
+                          <v-col cols="12" sm="4">
+                            <v-autocomplete
+                              v-model="editedItem.status"
+                              label="允許使用"
+                              :items="status"
+                              dense
+                            ></v-autocomplete>
+                          </v-col>
+                        </v-row>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          color="blue darken-1"
+                          text
+                          @click="showEditDialog()"
+                          >Cancel</v-btn
+                        >
+                        <v-btn
+                          color="blue darken-1"
+                          text
+                          @click="saveItem(editedItem)"
+                          >Save</v-btn
+                        >
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                  <v-divider></v-divider>
+                  <!-- 表格 -->
+                  <v-data-table
+                    :search="search"
+                    :headers="headers"
+                    :items="items"
+                    mobile-breakpoint="800"
+                    class="elevation-0 mx-6"
+                    :loading="loading ? '#828c8f' : null"
+                    loading-text="資料加載中... 請稍後"
+                    style="color: #828c8f"
+                    hide-default-footer
+                    :page.sync="page"
+                    :items-per-page="itemsPerPage"
+                    @page-count="pageCount = $event"
+                  >
+                    <!-- 分頁 -->
+                    <template v-slot:top>
+                      <!-- <template
+                      v-slot:top="{ pagination, options, updateOptions }"
                     >
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="saveItem(editedItem)"
-                      >Save</v-btn
-                    >
-                  </v-card>
-                </v-dialog>
-                <!-- <v-divider></v-divider> -->
-                <!-- 表格 -->
-                <v-data-table
-                  :search="search"
-                  :headers="headers"
-                  :items="items"
-                  mobile-breakpoint="800"
-                  class="elevation-0 mx-6"
-                  :loading="loading ? '#828c8f' : null"
-                  loading-text="資料加載中... 請稍後"
-                  style="color: #828c8f"
-                  hide-default-footer
-                >
-                  <!-- 刷新 -->
-
-                  <!-- 分頁 -->
-                  <template v-slot:top="{ pagination, options, updateOptions }">
-                    <div class="d-flex">
-                      <v-btn
-                        icon
-                        small
-                        @click="buttonCallback"
-                        style="margin-top: 20px"
-                      >
-                        <v-icon style="margin-left: 1.5px">mdi-reload</v-icon>
-                      </v-btn>
-                      <v-spacer />
                       <v-data-footer
                         :pagination="pagination"
                         :options="options"
                         @update:options="updateOptions"
-                        items-per-page-text="每行筆數"
-                      >
-                      </v-data-footer>
-                    </div>
-                    <v-divider></v-divider>
-                  </template>
-                  <template v-slot:[`item.idx`]="idxs">
-                    <tr>
-                      <td
-                        v-for="headerData in headers.filter(
-                          (val, index, arr) => {
-                            return index === 0
-                          }
-                        )"
-                        :key="headerData.value"
-                      >
-                        {{ idxs.index + 1 }}
-                      </td>
-                    </tr>
-                  </template>
+                        items-per-page-text="每行頁數"
+                      /> -->
+                      <!-- <div class="d-flex"> -->
+                      <v-row>
+                        <v-spacer />
+                        <v-col cols="1">
+                          <!-- <v-col cols="1"  style="border: 1px solid black"> -->
+                          <v-text-field
+                            :value="itemsPerPage"
+                            label="顯示筆數"
+                            outlined
+                            dense
+                            type="number"
+                            min="-1"
+                            max="15"
+                            @input="itemsPerPage = parseInt($event, 10)"
+                            style="width: 75px; margin-left: 40px"
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="2">
+                          <!-- <v-col cols="2" style="border: 1px solid black"> -->
+                          <v-pagination
+                            v-model="page"
+                            :length="pageCount"
+                            color="#828c8f"
+                          ></v-pagination>
+                        </v-col>
+                      </v-row>
+                      <!-- </div> -->
+                    </template>
+                    <template v-slot:[`item.idx`]="idxs">
+                      <tr>
+                        <td
+                          v-for="headerData in headers.filter(
+                            (val, index, arr) => {
+                              return index === 0
+                            }
+                          )"
+                          :key="headerData.value"
+                        >
+                          {{ idxs.index + 1 }}
+                        </td>
+                      </tr>
+                    </template>
 
-                  <template v-slot:[`item.status`]="sts">
-                    <v-chip
-                      v-if="sts.item.status === 'enable'"
-                      :color="getGreenColor()"
-                      dark
-                    >
-                      {{ sts.item.status }}
-                    </v-chip>
-                    <v-chip v-else :color="getRedColor()" dark>
-                      {{ sts.item.status }}
-                    </v-chip>
-                  </template>
-
-                  <!-- 編輯刪除 -->
-                  <template v-slot:[`item.actions`]="{ item }">
-                    <div class="text-truncate">
-                      <v-icon
-                        small
-                        class="mr-2"
-                        @click="showEditDialog(item)"
-                        color="#828c8f"
+                    <template v-slot:[`item.status`]="sts">
+                      <v-chip
+                        v-if="sts.item.status === 'enable'"
+                        :color="getGreenColor()"
+                        dark
                       >
-                        mdi-pencil
-                      </v-icon>
-                      <v-icon small @click="deleteItem(item)" color="#e89595">
-                        mdi-delete
-                      </v-icon>
-                    </div>
-                  </template>
+                        {{ sts.item.status }}
+                      </v-chip>
+                      <v-chip v-else :color="getRedColor()" dark>
+                        {{ sts.item.status }}
+                      </v-chip>
+                    </template>
 
-                  <!-- <template v-slot:[`opened`]="{ opened }">
+                    <!-- 編輯刪除 -->
+                    <template v-slot:[`item.actions`]="{ item }">
+                      <div class="text-truncate">
+                        <v-icon
+                          small
+                          class="mr-2"
+                          @click="showEditDialog(item)"
+                          color="#828c8f"
+                        >
+                          mdi-pencil
+                        </v-icon>
+                        <v-icon small @click="deleteItem(item)" color="#e89595">
+                          mdi-delete
+                        </v-icon>
+                      </div>
+                    </template>
+
+                    <!-- <template v-slot:[`opened`]="{ opened }">
                       <div class="text-truncate" style="width: 180px">
                         {{ opened }}
                       </div>
                     </template> -->
-                </v-data-table>
-                <!-- <v-divider></v-divider> -->
-                <v-card-title>
-                  <h5>權限開通數量</h5>
-                </v-card-title>
-                <!-- <p>admin 已使用 {{ n }} 個，尚有{{ n }}可用</p>
-                  <p>user 已使用 {{ n }} 個，尚有{{ n }}可用</p>
-                  <p>viewer 已使用 {{ n }} 個，尚有{{ n }}可用</p>
-                  <a href="https://www.w3schools.com">擴增權限數量</a> -->
-                <v-data-iterator
-                  hide-default-footer
-                  :headers="headers"
-                  :items="items1"
-                  mobile-breakpoint="800"
-                  class="elevation-0 mx-6"
-                  :loading="loading ? '#828c8f' : null"
-                  loading-text="資料加載中... 請稍後"
-                  style="color: #828c8f"
-                >
-                  <template v-slot:default="props">
-                    <v-row>
-                      <v-col
-                        v-for="item in props.items"
-                        :key="item"
-                        cols="12"
-                        lg="4"
-                        style=""
-                      >
-                        <v-card>
-                          <v-card-title
-                            class="py-0 font-weight-bold my-header-style2"
-                          >
-                            {{ item.name }}
-                          </v-card-title>
-
-                          <v-divider></v-divider>
-
-                          <v-list dense>
-                            <v-list-item>
-                              <v-list-item-content class="my-header-style"
-                                >已開通:</v-list-item-content
-                              >
-                              <v-list-item-content
-                                class="align-end my-header-style"
-                              >
-                                {{ item.opened }}
-                              </v-list-item-content>
-                            </v-list-item>
-
-                            <v-list-item>
-                              <v-list-item-content class="my-header-style"
-                                >已使用:</v-list-item-content
-                              >
-                              <v-list-item-content
-                                class="align-end my-header-style"
-                              >
-                                {{ item.used }}
-                              </v-list-item-content>
-                            </v-list-item>
-
-                            <v-list-item>
-                              <v-list-item-content class="my-header-style"
-                                >尚有:</v-list-item-content
-                              >
-                              <v-list-item-content
-                                class="align-end my-header-style"
-                              >
-                                {{ item.left }}
-                              </v-list-item-content>
-                            </v-list-item>
-                          </v-list>
-                        </v-card>
-                      </v-col>
-                      <!-- <v-col cols="3">
-                        <v-card>
-                          <div>擴增權限</div>
-                        </v-card>
-                      </v-col> -->
-                    </v-row>
-                  </template>
-                </v-data-iterator>
-                <!-- </v-card> -->
+                  </v-data-table>
+                  <v-divider></v-divider>
+                  <h3>權限數量</h3>
+                  <p>admin 已使用 {{ n }} 個，還剩{{ n }}可用</p>
+                  <p>user 已使用 {{ n }} 個，還剩{{ n }}可用</p>
+                  <p>viewer 已使用 {{ n }} 個，還剩{{ n }}可用</p>
+                </v-card>
               </no-ssr>
             </v-tab-item>
 
             <v-tab-item value="tab-2">
-              <no-ssr>
-                <TheTab2 />
-              </no-ssr>
+              <no-ssr> </no-ssr>
             </v-tab-item>
           </v-tabs>
         </v-card>
@@ -315,16 +255,12 @@
 </template>
 <script>
 import axios from 'axios'
-import TheTab2 from '../components/Permission/TheTab2.vue'
 
 const apiToken = 'keywVOqtjDGyPhH76'
 const airTableApp = 'appUuhKyRHpI79vK4'
 const airTableName = 'Table%201'
 
 export default {
-  components: {
-    TheTab2,
-  },
   data() {
     return {
       n: 0,
@@ -356,27 +292,6 @@ export default {
           class: 'my-header-style',
         },
       ],
-      // 權限數量管理
-      items1: [
-        {
-          name: 'user',
-          opened: 4,
-          used: 2,
-          left: 2,
-        },
-        {
-          name: 'viewer',
-          opened: 7,
-          used: 4,
-          left: 3,
-        },
-        {
-          name: 'admin',
-          opened: 1,
-          used: 1,
-          left: 0,
-        },
-      ],
       // 搜尋
       search: '',
       // 分頁
@@ -404,10 +319,10 @@ export default {
   methods: {
     // 允許使用之變色
     getGreenColor() {
-      return '#69c585'
+      return 'green'
     },
     getRedColor() {
-      return '#e89595'
+      return 'red'
     },
     // 對話框
     showEditDialog(item) {
@@ -672,35 +587,5 @@ export default {
 <style lang="scss">
 .my-header-style {
   color: #828c8f !important;
-  font-size: 9px;
 }
-
-.my-header-style2 {
-  color: #828c8f !important;
-  font-size: 16px;
-}
-
-.my-footer-style {
-  color: #828c8f !important;
-}
-
-// .v-data-footer {
-//   color: #828c8f;
-// }
-.v-data-footer .v-icon {
-  color: #828c8f;
-  // color: #69c585;
-}
-
-// .v-data-footer > .v-input__slot {
-//   min-height: 2.21em !important;
-//   // width: 8em !important;
-//   color: #828c8f;
-//   display: flex !important;
-//   align-items: center !important;
-// }
-
-// #table > .v-data-footer .v-icon {
-//   color: black;
-// }
 </style>

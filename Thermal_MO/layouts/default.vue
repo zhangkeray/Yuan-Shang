@@ -92,28 +92,22 @@ export default {
         },
         {
           icon: 'mdi-account-group-outline',
-          title: '權限管理2',
+          title: 'LouisAPI示範',
           // to: '5',
-          to: 'PermissionPage2',
+          to: 'ForTesting9-5',
         },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: '權限管理3',
-        //   // to: '5',
-        //   to: 'PermissionPage3',
-        // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: 'LouisAPI示範',
-        //   // to: '5',
-        //   to: 'ForTesting9',
-        // },
         {
           icon: 'mdi-account-group-outline',
-          title: 'API動態測試(南部)',
+          title: '多機畫面',
           // to: '5',
-          to: 'ForTesting8real',
+          to: 'MultiScreen',
         },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: 'API動態測試(南部)',
+        //   // to: '5',
+        //   to: 'ForTesting11',
+        // },
         {
           icon: 'mdi-account-group-outline',
           title: 'API動態測試(後端)',
