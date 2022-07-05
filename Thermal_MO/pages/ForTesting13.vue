@@ -47,8 +47,8 @@ export default {
 
   methods: {
     drawBar() {
-      const DataStartTime = '2022-06-01 11:04:00:000'
-      const DataEndTime = '2022-06-01 11:04:01:000'
+      const DataStartTime = '2022-06-01 11:00:00:000'
+      const DataEndTime = '2022-06-01 11:00:01:000'
       var DataStartDay = new Date(DataStartTime)
       var month = DataStartDay.getMonth() + 1
       if (month.toString().length === 1) {
@@ -223,12 +223,12 @@ export default {
           F1.forEach((index) => {
             var arr = this.arr.F1
             arr.push(index)
-            // console.log(index)
+            console.log(index)
           })
           F2.forEach((index) => {
             var arr = this.arr.F2
             arr.push(index)
-            // console.log(index)
+            console.log(index)
           })
           F3.forEach((index) => {
             var arr = this.arr.F3

@@ -12,14 +12,6 @@ export default {
     // 定義
     // 時間
     time: [],
-    arrCurves: {
-      arrF1: [],
-      arrF2: [],
-      arrF3: [],
-      arrF4: [],
-      arrF5: [],
-    },
-
     // Curve
     key: [],
     output: [],
@@ -62,38 +54,37 @@ export default {
         ':' +
         ('0' + crrtime.getMinutes()).slice(-2) +
         ':' +
-        ('0' + crrtime.getSeconds()).slice(-2)
-        
-        
-        // ('0' + crrtime.getMilliseconds()).slice(-3)
+        ('0' + crrtime.getSeconds()).slice(-2) +
+        ':' +
+        ('0' + crrtime.getMilliseconds()).slice(-3)
+
 
       // var stop = crrtime.setSeconds(crrtime.getSeconds() + 1)
-      // var stop = crrtime.setMilliseconds(crrtime.getMilliseconds() )
+      var stop = crrtime.setMilliseconds(crrtime.getMilliseconds() + tmp)
 
-      // stop = new Date(stop)
-      // stop =
-      //   stop.getFullYear() +
-      //   '-' +
-      //   ('0' + (stop.getMonth() + 1)).slice(-2) +
-      //   '-' +
-      //   ('0' + stop.getDate()).slice(-2) +
-      //   ' ' +
-      //   ('0' + stop.getHours()).slice(-2) +
-      //   ':' +
-      //   ('0' + stop.getMinutes()).slice(-2) +
-      //   ':' +
-      //   ('0' + stop.getSeconds()).slice(-2) +
-      //   ':' +
-      //   '999'
-        // ('0' + stop.getMilliseconds()).slice(-3)
-      this.getData(start)
+      stop = new Date(stop)
+      stop =
+        stop.getFullYear() +
+        '-' +
+        ('0' + (stop.getMonth() + 1)).slice(-2) +
+        '-' +
+        ('0' + stop.getDate()).slice(-2) +
+        ' ' +
+        ('0' + stop.getHours()).slice(-2) +
+        ':' +
+        ('0' + stop.getMinutes()).slice(-2) +
+        ':' +
+        ('0' + stop.getSeconds()).slice(-2) +
+        ':' +
+        ('0' + stop.getMilliseconds()).slice(-3)
+      this.getData(start, stop)
     }, 1000)
     console.log(intervalData)
     // 計時載入新資料(5sec/5value)
   },
   methods: {
     // axios
-    getData(DataStartTime) {
+    getData(DataStartTime, DataEndTime) {
       axios({
         method: 'post',
         url: 'http://127.0.0.1:5000/api/alarm/max',
@@ -102,83 +93,49 @@ export default {
         },
         data: JSON.stringify([
           {
-            table_alarm_start: `${DataStartTime}:000`,
-            table_alarm_stop: `${DataStartTime}:999`,
+            table_alarm_start: DataStartTime,
+            table_alarm_stop: DataEndTime,
           },
         ]),
       })
         .then((events) => {
           var arr = events.data
           // console.log(arr)
-          var thisTime = this.time // []?
+          var thisTime = this.time
           var time = arr.time
-          // console.log(time)
-          // var timeleg = thisTime.length // 保存目前時間長度(如果有增加物件，前方需要補齊key)
+          var timeleg = thisTime.length // 保存目前時間長度(如果有增加物件，前方需要補齊key)
           // thisTime.push(time[0])
           // var arrTimeTmp = []
-          time.forEach((index) => {
+          time.forEach((index)=>{
             thisTime.push(index)
             console.log(thisTime)
           })
           delete arr.time
-          // Curve
-          var thisArrF1 = this.arrCurves.arrF1
-          var thisArrF2 = this.arrCurves.arrF2
-          var thisArrF3 = this.arrCurves.arrF3
-          var thisArrF4 = this.arrCurves.arrF4
-          var thisArrF5 = this.arrCurves.arrF5
-          var F1 = arr.F1
-          var F2 = arr.F2
-          var F3 = arr.F3
-          var F4 = arr.F4
-          var F5 = arr.F5
 
-          F1.forEach((index) => {
-            thisArrF1.push(index)
-            console.log(thisArrF1)
-          })
-          F2.forEach((index) => {
-            thisArrF2.push(index)
-            // console.log(thisArrF2)
-          })
-          F3.forEach((index) => {
-            thisArrF3.push(index)
-            // console.log(thisArrF3)
-          })
-          F4.forEach((index) => {
-            thisArrF4.push(index)
-            // console.log(thisArrF4)
-          })
-          F5.forEach((index) => {
-            thisArrF5.push(index)
-            // console.log(thisArrF5)
-          })
 
-          // console.log(this.arrCurves); // Curves
-
-          // Object.keys(data).forEach((key) => {
-          //   var ar = this.key[key]
-          //   // console.log(ar)
-          //   if (ar !== undefined) {
-          //     console.log('ok')
-          //   } else {
-          //     this.key[key] = []
-          //     for (var i = 0; i < timeleg; i++) {
-          //       this.key[key].push(null)
-          //     }
-          //   }
-          // })
-          // var arr01 = this.key
+          var data = arr
+       Object.keys(data).forEach((key) => {
+            var ar = this.key[key]
+            // console.log(ar)
+            if (ar !== undefined) {
+              console.log('ok')
+            } else {
+              this.key[key] = []
+              for (var i = 0; i < timeleg; i++) {
+                this.key[key].push(null)
+              }
+            }
+          })
+          var arr01 = this.key
           // console.log(arr01)
-
-          // Object.keys(arr01).forEach((key) => {
-          //   if (data[key] !== undefined) {
-          //     // console.log(this.key);
-          //     this.key[key].push(data[key][0])
-          //   } else {
-          //     this.key[key].push(null)
-          //   }
-          // })
+          Object.keys(arr01).forEach((key) => {
+            if (data[key] !== undefined) {
+              // console.log(this.key);
+              this.key[key].push(data[key][0])
+            } else {
+              this.key[key].push(null)
+            }
+          })
         })
         .catch((err) => {
           console.log(err)
@@ -188,17 +145,18 @@ export default {
     test4(time, data) {
       const chartDom = this.$refs.lineChart
       const myChart = echarts.init(chartDom)
-      var arr01 = this.arrCurves
+      var arr01 = this.key
       // console.log(output);
       var output = []
       Object.keys(arr01).forEach((key1) => {
-        // console.log(arr01[key1])
+        console.log(arr01[key1])
         output.push({
           type: 'line',
           name: key1,
           data: arr01[key1],
         })
       })
+      
 
       myChart.setOption({
         xAxis: [

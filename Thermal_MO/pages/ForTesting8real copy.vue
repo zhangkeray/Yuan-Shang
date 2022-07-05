@@ -73,7 +73,7 @@ export default {
         ('0' + endtime.getSeconds()).slice(-2)
       console.log(formtstart, formtend)
       this.getData(formtstart, formtend)
-      tmp = tmp + 2
+      tmp = tmp + 5
       console.log(tmp)
     }, 5000)
     console.log(start)

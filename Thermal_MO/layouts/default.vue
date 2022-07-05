@@ -90,18 +90,30 @@ export default {
           // to: '5',
           to: 'PermissionPage',
         },
+        {
+          icon: 'mdi-account-group-outline',
+          title: '權限管理2',
+          // to: '5',
+          to: 'PermissionPage2',
+        },
+        // {
+        //   icon: 'mdi-account-group-outline',
+        //   title: '權限管理3',
+        //   // to: '5',
+        //   to: 'PermissionPage3',
+        // },
         // {
         //   icon: 'mdi-account-group-outline',
         //   title: 'LouisAPI示範',
         //   // to: '5',
         //   to: 'ForTesting9',
         // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: 'API動態測試(南部)',
-        //   // to: '5',
-        //   to: 'ForTesting11',
-        // },
+        {
+          icon: 'mdi-account-group-outline',
+          title: 'API動態測試(南部)',
+          // to: '5',
+          to: 'ForTesting8real',
+        },
         {
           icon: 'mdi-account-group-outline',
           title: 'API動態測試(後端)',
