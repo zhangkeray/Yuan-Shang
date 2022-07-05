@@ -27,7 +27,7 @@
           <v-col cols="5">
             <v-text-field
               v-model="proxy"
-              label="代理網址(連相機用)"
+              label="代理網址(可選)"
               required
             ></v-text-field>
           </v-col>
@@ -59,8 +59,8 @@ export default {
   name: 'HistoricalMonitoringPage',
   data: () => ({
     rtspLists: [],
-    CameraIP: 'rtsp://192.168.0.138/avc',
-    proxy: null,
+    CameraIP: 'rtsp://192.168.0.138/avc', // 輸入框
+    proxy: null, // 輸入框
     CameraName: null,
     CameraFps: null,
     rtsp: [],
@@ -78,42 +78,23 @@ export default {
     getDataSetInt: null,
   }),
   mounted() {
+    // 渲染分格畫面
     var ar = []
     for (var i = 0; i < 300; i++) {
       ar.push('0')
     }
     this.rtspLists = ar
+    // 避免SSR重複執行setint
     if (this.getDataSetInt !== null) {
       clearInterval(this.getDataSetInt)
     }
+    // 每秒刷新相機列表
     this.getDataSetInt = setInterval(() => {
       this.getData()
     }, 1000)
-    // this.socket = this.$nuxtSocket({
-    //   name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
-    // })
-    // const vm = this
-    // this.startStream()
-    // this.socket.on('connect', () => {
-    //   this.socket.on('newMessage', (data2) => {
-    //     this.rtspLists.push(data2)
-    //     // const img = document.getElementById(`rtsp-img${data - 1}`)
-    //     // this.socket.on(`data${data}`, (data1) => {
-    //     //   img.src = 'data:image/jpeg;base64,' + data1
-    //     //   // img.style.transform = 'rotate(360deg)'
-    //     // })
-    //     // console.log(img.src)
-    //   })
-    // })
-    // const img1 = document.getElementById('rtsp-img1')
-    // vm.socket.on('connect', () => {
-    //   vm.socket.on('data1', (data) => {
-    //     img1.src = 'data:image/jpeg;base64,' + data
-    //     img1.style.transform = 'rotate(360deg)'
-    //   })
-    // })
   },
   methods: {
+    // 取得資料
     getData() {
       // 抓取資料
       axios({
@@ -134,7 +115,9 @@ export default {
         })
         .catch((error) => console.log('error from axios', error))
     },
+    // 開始直播
     startStream1() {
+      // 切斷目前正在直播的相機(如果有)
       var rtspid = this.rtsp
       if (rtspid.length > 0) {
         rtspid.forEach((index) => {
@@ -151,7 +134,7 @@ export default {
           rtsp: index.rtsp,
         })
       })
-      // console.log(rtspStream)
+      // 把目前要轉碼直播的列表傳送給nodejs
       axios({
         method: 'post',
         url: 'http://192.168.0.173:6148/stream',
@@ -169,21 +152,25 @@ export default {
             this.socket.on('data', function (data) {
               img.src = 'data:image/jpeg;base64,' + data
             })
+            // 將socket ID 存入arr陣列中
             arr.push(this.socket)
           }
+          // 保存socket ID至記憶體
           this.rtsp = arr
         })
         .catch((error) => console.log('error from axios', error))
     },
+    // 新增相機
     cameraadd() {
-      if (
-        this.CameraIP !== null &&
-        this.proxy !== null &&
-        this.CameraIP !== '' &&
-        this.proxy !== ''
-      ) {
-        console.log(this.CameraIP)
+      // CameraIP 必須要有值，否則彈出錯誤視窗，proxy如果沒值，nodejs 會給予隨機唯一辨識碼
+      if (this.CameraIP !== null && this.CameraIP !== '') {
+        // 過濾proxy
+        if (this.proxy === '') {
+          this.proxy = null
+        }
+        // 宣告IP & proxy
         var data = { ip: this.CameraIP, proxy: this.proxy }
+        // 把相機資訊傳送給nodejs保存
         axios({
           method: 'post',
           url: 'http://192.168.0.173:6148/add',
@@ -191,20 +178,21 @@ export default {
         })
           .then((params) => {
             const data = params.data
+            // nodejs會做資料驗證，根據status做判斷
             if (data.status === '200') {
-              console.log('add')
               this.getData()
               this.startStream1()
+              this.proxy = null
             } else if (data.status === '403') {
               alert('輸入有誤，可能是"代理網址"有重複，請查明後重新輸入')
             }
-            // this.startStream1()
           })
           .catch((error) => console.log('error from axios', error))
       } else {
         alert('請輸入完整資訊')
       }
     },
+    // 關閉直播
     streamStop() {
       var rtspid = this.rtsp
       if (this.socket !== undefined) {
