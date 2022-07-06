@@ -53,9 +53,12 @@
                   >
                     Login
                   </v-btn>
-                  <v-text class="text mx-16">default : admin/admin</v-text
+                  <v-text class="text mx-16">default : <div class="mx-16">admin/admin</div>
+                  <div class="mx-16">user01/0000</div>
+                  <div class="mx-16">user02/0000</div>
+                  <div class="mx-16">user03/0000</div></v-text
                   >
-                  <br/><br/><br/>
+                  <!-- <br/><br/><br/> -->
                   <div class="text mx-16">
                     If you forgot your password you need to hard reset THERMAL
                     MO device to the default settings. The default login
@@ -155,7 +158,6 @@ export default {
   z-index: 0;
   left: 0em;
   top: 0em;
-
 }
 .btn {
   width: 12em;
@@ -172,25 +174,18 @@ export default {
 
 .card {
   margin-top: 8em;
-
 }
 .left-card {
-  background: linear-gradient(
-    to right,
-    #59595b,
-    rgba(5, 26, 31, 1)
-  );
+  background: linear-gradient(to right, #59595b, rgba(5, 26, 31, 1));
   border-radius: 5px 0px 0px 5px;
 }
 
 .right-card2 {
   border-radius: 0px 0px 5px 0px;
-
 }
 .right-card1 {
   border-radius: 0px 5px 0px 0px;
   height: 2.5em;
-  
 }
 
 .logo {

@@ -32,11 +32,14 @@
             ></v-text-field>
           </v-col>
           <v-col cols="12">
-            <v-btn @click="cameraadd">新增</v-btn>
-            <v-btn @click="startStream1">start stream</v-btn>
-            <v-btn @click="streamStop">stop stream</v-btn>
+            <template v-if="this.$auth.hasScope('admin')">
+              <v-btn @click="cameraadd">新增</v-btn>
+              <v-btn @click="startStream1">start stream</v-btn>
+              <v-btn @click="streamStop">stop stream</v-btn>
+            </template>
           </v-col>
           <v-col cols="12">
+            <div>permission:{{ this.$auth.hasScope('admin') }}</div>
             <v-data-table
               dense
               :headers="headers"
@@ -57,6 +60,11 @@
 import axios from 'axios'
 export default {
   name: 'HistoricalMonitoringPage',
+  beforeCreate() {
+    if (!this.$auth.hasScope('admin')) {
+      this.$router.push('/')
+    }
+  },
   data: () => ({
     rtspLists: [],
     CameraIP: 'rtsp://192.168.0.138/avc', // 輸入框
