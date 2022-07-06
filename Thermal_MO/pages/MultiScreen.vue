@@ -264,7 +264,7 @@
                     />
                     <div class="ui-state-default-footer">
                       <div class="ui-state-default-point"></div>
-                      <span>Cam-s1-55 A棟CS-01配電盤({{index01}})</span>
+                      <span>Cam-s1-55 A棟CS-01配電盤({{ index01 }})</span>
                     </div>
                   </div>
                 </li>
@@ -749,30 +749,34 @@ export default {
 
   mounted() {
     // 排序
-    $(function () {
-      $('#sortable').sortable({
-        placeholder: 'ui-state-highlight',
-        cursor: 'grabbing',
-        // revert: true
-      })
-      $('#sortable').disableSelection()
+    this.$nextTick(() => {
+      setTimeout(() => {
+        $(function () {
+          $('#sortable').sortable({
+            placeholder: 'ui-state-highlight',
+            cursor: 'grabbing',
+            // revert: true
+          })
+          $('#sortable').disableSelection()
+        })
+        // 對話視窗
+        // $('.custom-dialog').draggable({
+        //   start: () => {
+        //     $('.custom-dialog').css('opacity', '0.9')
+        //     $('.custom-dialog').css('transition', 'all 0s')
+        //   },
+        //   stop: () => {
+        //     $('.custom-dialog').css('opacity', '1')
+        //     $('.custom-dialog').css('transition', 'all 0.1s')
+        //   },
+        //   handle: '.draggable-bar',
+        //   cursor: 'grabbing',
+        //   containment: 'parent',
+        // })
+        this.transition(1)
+        this.testdata()
+      }, 1000)
     })
-    // 對話視窗
-    // $('.custom-dialog').draggable({
-    //   start: () => {
-    //     $('.custom-dialog').css('opacity', '0.9')
-    //     $('.custom-dialog').css('transition', 'all 0s')
-    //   },
-    //   stop: () => {
-    //     $('.custom-dialog').css('opacity', '1')
-    //     $('.custom-dialog').css('transition', 'all 0.1s')
-    //   },
-    //   handle: '.draggable-bar',
-    //   cursor: 'grabbing',
-    //   containment: 'parent',
-    // })
-    this.transition(1)
-    this.testdata()
   },
   updated() {
     // 判斷視窗該在哪個方位
