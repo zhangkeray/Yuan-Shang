@@ -86,7 +86,7 @@ export default {
         },
         {
           icon: 'mdi-account-group-outline',
-          title: '權限管理',
+          title: '使用者管理',
           // to: '5',
           to: 'PermissionPage',
         },

@@ -18,7 +18,7 @@
             <v-tab href="#tab-1" style="font-size: 15px; justify-content: left">
               <img class="" alt="" src="/data_scraping/data.png" width="14em" />
               <p>&nbsp;&nbsp;</p>
-              權限管理
+              使用者管理
             </v-tab>
 
             <v-tab href="#tab-2" style="font-size: 15px; justify-content: left">
@@ -31,7 +31,7 @@
               <no-ssr>
                 <!-- <v-card> -->
                 <v-card-title>
-                  <h5>權限管理</h5>
+                  <h5>使用者管理</h5>
                 </v-card-title>
                 <!-- this dialog is used for both create and update -->
                 <!-- <v-divider></v-divider> -->
@@ -69,30 +69,30 @@
                   <v-card>
                     <v-card-title>
                       <span v-if="editedItem.id"
-                        >編輯 {{ editedItem.name }}</span
+                        >編輯 {{ editedItem.Name }}</span
                       >
                       <span v-else>新增</span>
                     </v-card-title>
                     <v-card-text>
                       <v-row>
-                        <v-col cols="12" sm="4">
+                        <v-col cols="12" sm="6">
                           <v-text-field
-                            v-model="editedItem.name"
+                            v-model="editedItem.Name"
                             label="名稱"
                           ></v-text-field>
                         </v-col>
 
-                        <v-col cols="12" sm="4">
+                        <!-- <v-col cols="12" sm="4">
                           <v-text-field
                             v-model="editedItem.email"
                             label="信箱"
                             :rules="emailRules"
                             required
                           ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="4">
+                        </v-col> -->
+                        <v-col cols="12" sm="6">
                           <v-text-field
-                            v-model="editedItem.password"
+                            v-model="editedItem.Password"
                             :type="show ? 'text' : 'password'"
                             :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                             @click:append="show = !show"
@@ -100,18 +100,18 @@
                             required
                           ></v-text-field>
                         </v-col>
-                        <v-col cols="12" sm="4">
+                        <v-col cols="12" sm="6">
                           <v-autocomplete
-                            v-model="editedItem.permission"
+                            v-model="editedItem.Permission"
                             label="權限"
                             :items="itemsSelect"
                             dense
                           ></v-autocomplete>
                         </v-col>
-                        <v-col cols="12" sm="4">
+                        <v-col cols="12" sm="6">
                           <v-autocomplete
-                            v-model="editedItem.status"
-                            label="允許使用"
+                            v-model="editedItem.Status"
+                            label="狀態"
                             :items="status"
                             dense
                           ></v-autocomplete>
@@ -119,14 +119,14 @@
                       </v-row>
                     </v-card-text>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="showEditDialog()"
-                      >Cancel</v-btn
+                    <v-btn color="" text @click="showEditDialog()"
+                      >取消</v-btn
                     >
                     <v-btn
-                      color="blue darken-1"
+                      color=""
                       text
                       @click="saveItem(editedItem)"
-                      >Save</v-btn
+                      >儲存</v-btn
                     >
                   </v-card>
                 </v-dialog>
@@ -182,16 +182,16 @@
                     </tr>
                   </template>
 
-                  <template v-slot:[`item.status`]="sts">
+                  <template v-slot:[`item.Status`]="sts">
                     <v-chip
-                      v-if="sts.item.status === 'enable'"
+                      v-if="sts.item.Status === 'enable'"
                       :color="getGreenColor()"
                       dark
                     >
-                      {{ sts.item.status }}
+                      {{ sts.item.Status }}
                     </v-chip>
                     <v-chip v-else :color="getRedColor()" dark>
-                      {{ sts.item.status }}
+                      {{ sts.item.Status }}
                     </v-chip>
                   </template>
 
@@ -220,7 +220,7 @@
                 </v-data-table>
                 <!-- <v-divider></v-divider> -->
                 <v-card-title>
-                  <h5>權限開通數量</h5>
+                  <h5>使用者開通數量</h5>
                 </v-card-title>
                 <!-- <p>admin 已使用 {{ n }} 個，尚有{{ n }}可用</p>
                   <p>user 已使用 {{ n }} 個，尚有{{ n }}可用</p>
@@ -331,14 +331,14 @@ export default {
       headers: [
         // { text: 'Id', value: 'id' },
         { text: '#', value: 'idx', class: 'my-header-style' },
-        { text: '允許使用', value: 'status', class: 'my-header-style' },
-        { text: '權限', value: 'permission', class: 'my-header-style' },
-        { text: '編號', value: 'id', class: 'my-header-style' },
-        { text: '名稱', value: 'name', class: 'my-header-style' },
+        { text: '狀態', value: 'Status', class: 'my-header-style' },
+          { text: 'ID', value: 'id', class: 'my-header-style' },
+        { text: '名稱', value: 'Name', class: 'my-header-style' },
+        { text: '權限', value: 'Permission', class: 'my-header-style' },
         // { text: '信箱', value: 'email', class: 'my-header-style' },
         {
           text: '密碼',
-          value: 'password',
+          value: 'Password',
           class: 'my-header-style pwd-hide',
           sortable: false,
           type: 'password',
@@ -346,7 +346,7 @@ export default {
         { text: '建立時間', value: 'createdTime', class: 'my-header-style' },
         {
           text: '最後編輯時間',
-          value: 'Last Modified',
+          value: 'Lastmodified',
           class: 'my-header-style',
         },
         {
@@ -384,13 +384,15 @@ export default {
       pageCount: 0,
       itemsPerPage: 1,
       // 密碼
+
+      // 信箱
       show: false,
       loading: true,
-      email: '',
-      emailRules: [
-        (v) => !!v || '有效的信箱',
-        (v) => /.+@.+/.test(v) || '無效的信箱格式',
-      ],
+      // email: '',
+      // emailRules: [
+      //   (v) => !!v || '有效的信箱',
+      //   (v) => /.+@.+/.test(v) || '無效的信箱格式',
+      // ],
       items: [],
       status: ['enable', 'disable'],
       itemsSelect: ['user', 'viewer', 'admin'],
@@ -426,6 +428,7 @@ export default {
             return {
               id: item.id,
               createdTime: item.createdTime,
+              Lastmodified: item.Lastmodified,
               ...item.fields,
             }
           })
@@ -456,6 +459,7 @@ export default {
         // must remove id from the data for airtable patch to work
         delete data.fields.id
         delete data.fields.createdTime
+        delete data.fields.Lastmodified
       }
 
       // save the record

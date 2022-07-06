@@ -2,230 +2,120 @@
   <div class="fluid mt-3">
     <v-img class="bgimg" src="bgimg.png" height="93.2vh" />
 
-
     <v-row>
-      <!-- 左畫面影像顯示----------------------------------------------------------------------------------------------- -->
+      <!-- 左測選項----------------------------------------------------------------------------------------------- -->
       <v-col cols="12" md="12">
         <!-- <v-col cols="12" md="7" style="border: 1px solid red"> -->
         <v-card class="mt-3 mx-6" rounded="md" elevation="6" height="51.55em">
+          <v-tabs
+            vertical
+            slider-size="3"
+            color="#37484C"
+            background-color="#f1f1f1"
+            height="51.55em"
+            v-model="tab"
+          >
+            <v-tab href="#tab-1" style="font-size: 15px; justify-content: left">
+              <img class="" alt="" src="/data_scraping/data.png" width="14em" />
+              <p>&nbsp;&nbsp;</p>
+              警報設定
+            </v-tab>
 
+            <v-tab href="#tab-2" style="font-size: 15px; justify-content: left">
+              <img class="" alt="" src="/data_scraping/data.png" width="14em" />
+              <p>&nbsp;&nbsp;</p>
+              硬體分配管理
+            </v-tab>
 
-    <v-tabs vertical>
-      <v-tab> 相機資訊 </v-tab>
-      <v-tab> ip設定 </v-tab>
-      <v-tab> 軟體版本維護 </v-tab>
-      <v-tab> 採樣條件設定 </v-tab>
-      <v-tab> 加密憑證 </v-tab>
-      <v-tab> 智慧通知 </v-tab>
-      <v-tab> 監測排程管理 </v-tab>
-      <v-tab> FTP </v-tab>
-      <v-tab> 通訊協議 </v-tab>
-      <v-tab> Server線程管理 </v-tab>
-      <v-tab> DI/DO </v-tab>
-      <v-tab> 歷史資料運算 </v-tab>
-      <v-tab> API輸出項目 </v-tab>
+            <v-tab href="#tab-1" style="font-size: 15px; justify-content: left">
+              <img class="" alt="" src="/data_scraping/data.png" width="14em" />
+              <p>&nbsp;&nbsp;</p>
+              伺服器主機管理
+            </v-tab>
 
-      <v-tab-item>
-        <v-card flat>
-          <v-col class="d-flex" cols="12">
-            <v-tabs v-model="tab" align-with-title>
-              <v-tabs-slider color="yellow"></v-tabs-slider>
+            <v-tab href="#tab-2" style="font-size: 15px; justify-content: left">
+              <img class="" alt="" src="/data_scraping/data.png" width="14em" />
+              <p>&nbsp;&nbsp;</p>
+              相機管理
+            </v-tab>
 
-              <v-tab v-for="item in items" :key="item">
-                {{ item }}
-              </v-tab>
-            </v-tabs>
-          </v-col>
-          <v-card-text>
-            <v-tabs-items v-model="tab">
-              <v-tab-item v-for="item in text" :key="item">
-                <v-card flat>
-                  <v-card-text class="d-flex flex-column">
-                    <div class="pb-4">
-                      <span style="font-size: 2em"
-                        >設備名稱:<a>{{ item.name }}</a></span
-                      >
-                    </div>
-                    <div class="pb-4">
-                    <span style="font-size: 2em"
-                      >設備編號:<a>{{ item.uid }}</a></span
-                    >
-                    </div>
-                    <div class="pb-4">
-                    <span style="font-size: 2em"
-                      >設備FPS:<a>{{ item.fps }}</a></span
-                    >
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </v-tab-item>
-            </v-tabs-items>
-          </v-card-text>
+            <v-tab-item value="tab-1">
+              <no-ssr>
+                <SettingAlert />
+              </no-ssr>
+            </v-tab-item>
+
+            <v-tab-item value="tab-2">
+              <no-ssr>
+                <TemperatureDistribution2 />
+              </no-ssr>
+            </v-tab-item>
+
+            <v-tab-item value="tab-3">
+              <no-ssr>
+                <TemperatureDistribution2 />
+              </no-ssr>
+            </v-tab-item>
+
+            <v-tab-item value="tab-4">
+              <no-ssr>
+                <TemperatureDistribution2 />
+              </no-ssr>
+            </v-tab-item>
+          </v-tabs>
         </v-card>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <h2>ip設定</h2>
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <h2>軟體版本維護</h2>
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <h2>採樣條件設定</h2>
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <h2>加密憑證</h2>
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <h2>智慧通知</h2>
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <h2>監測排程管理</h2>
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <h2>FTP</h2>
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <h2>通訊協議</h2>
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <h2>Server線程管理</h2>
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <h2>DI/DO</h2>
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <h2>歷史資料運算</h2>
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <h2>API輸出項目</h2>
-            <!-- ------------------------------------------------------------ -->
-            <v-simple-table>
-              <template v-slot:default>
-                <thead>
-                  <tr>
-                    <th class="text-left">相機</th>
-                    <th class="text-left">編號</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="item in title" :key="item">
-                    <td>{{ title }}</td>
-                    <td>{{ uid }}</td>
-                  </tr>
-                </tbody>
-              </template>
-            </v-simple-table>
-            <!-- ------------------------------------------------------------ -->
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
-    </v-tabs>
-  </v-card>
       </v-col>
-     </v-row>
-         
+    </v-row>
   </div>
 </template>
 
 <script>
-// import axios from 'axios'
+// echarts引入
+import SettingAlert from '../components/Setup/SettingAlert.vue'
+import TemperatureDistribution2 from '../components/HistoricalMonitoring/TemperatureDistribution2.vue'
+
 export default {
-  name: 'SetupPage',
-    head: {
+  // echarts引入
+  components: {
+    SettingAlert,
+    TemperatureDistribution2,
+  },
+  name: 'IndexPage',
+  head: {
     title: '即時監控',
     link: [
+      // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: 'stylesheet', href: '/css/jquery-ui.css' },
+      { rel: 'stylesheet', href: '/css/object.css' },
+      { rel: 'stylesheet', href: '/css/card3.css' },
       { rel: 'stylesheet', href: 'css/details.css' },
     ],
     script: [
-
-
+      // {
+      //   src: '/js/jquery.js',
+      //   type: 'text/javascript',
+      // },
+      {
+        src: '/js/jquery-ui.js',
+        type: 'text/javascript',
+      },
+      {
+        src: '/js/jquery-collision.js',
+        type: 'text/javascript',
+      },
+      // {
+      //   src: '/js/object.js',
+      //   type: 'text/javascript',
+      // },
     ],
   },
-  // async asyncData({ params }) {
-  //   const { data } = await axios.get(`http://192.168.0.173:8080/camera`)
-  //   // console.log(Object.values。(data));
-  //   const cameraname = []
-  //   const camerauid = []
-  //   const test = Object.values(data)
-  //   test.forEach(function (item) {
-  //     cameraname.push(item.name)
-  //     camerauid.push(item)
-  //   })
-
-  //   console.log(cameraname)
-  //   return {
-  //     title: data.camera1.name,
-  //     uid: data.camera1.uid,
-  //     tab: null,
-  //     items: cameraname,
-  //     text: camerauid,
-
-      //   desc: data.description // be mute
-    // }
-
-  // },
-  
+  data: () => ({
+    tab: 'tab-1',
+    // tab: 'null',
+  }),
+  methods: {},
 }
 </script>
-
 <style scoped>
 /* 左側浮動按鈕 */
 .drawer {
@@ -291,7 +181,6 @@ export default {
   color: #9ba3a5;
   text-align: left;
   font-family: 'Noto Sans TC', sans-serif;
-
 }
 /* h4 {
   line-height: 2em;
@@ -371,18 +260,10 @@ export default {
   position: absolute;
 }
 
-.scroll {
-  /* width: 20px; */
-  /* height: 200px; */
-  /* overflow: auto; */
-  /* float: right; */
-  /* margin: 0 10px; */
-}
-
 .scroll4::-webkit-scrollbar {
   width: 10px;
 }
- 
+
 .scroll4::-webkit-scrollbar-thumb {
   background: #666;
   border-radius: 20px;
@@ -391,5 +272,49 @@ export default {
 .scroll4::-webkit-scrollbar-track {
   background: #ddd;
   border-radius: 20px;
+}
+</style>
+
+<style lang="scss">
+.carousel-wrapper {
+  margin-top: 10px;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+
+.ycoordinates {
+  position: absolute;
+  font-size: 12px;
+  right: 80px;
+  bottom: 49px;
+}
+.xcoordinates {
+  position: absolute;
+  font-size: 12px;
+  bottom: 275px;
+  left: 505px;
+}
+.faketime {
+  font-weight: 500;
+  margin-left: 10px;
+}
+
+// 熱圖影像
+.place-image {
+  display: none;
+  position: absolute;
+  // width: 126px;
+  // z-index: 9999;
+  bottom: 80px;
+  left: 100px;
+}
+
+.place-image2 {
+  display: none;
+  position: absolute;
+  // width: 126px;
+  // z-index: 9999;
+  bottom: 80px;
+  right: 290px;
 }
 </style>
