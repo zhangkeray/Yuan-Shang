@@ -2,10 +2,9 @@
   <div>
     <v-img class="bgimg" src="bgimg.png" height="93.2vh" />
     <v-tabs v-model="tab" vertical>
-      <v-tab></v-tab>
-      <v-tab></v-tab>
-      <v-tab-items>
-        <v-tab-item value="page-1">
+      <v-tab href="#tab-1">1</v-tab>
+      <v-tab href="#tab-2">2</v-tab>
+        <v-tab-item value="tab-1">
           <no-ssr>
             <v-container fluid>
               <div class="cover-bg" style="position: relative">
@@ -350,7 +349,7 @@
                                   width="70%"
                                 />
                               </v-btn>
-                            </template>
+                            </template> 
                             <span>畫面設定</span>
                           </v-tooltip>
                         </div>
@@ -689,8 +688,7 @@
             </v-container>
           </no-ssr>
         </v-tab-item>
-        <v-tab-item value="page-2"></v-tab-item>
-      </v-tab-items>
+        <v-tab-item value="tab-2"></v-tab-item>
     </v-tabs>
   </div>
 </template>
@@ -715,7 +713,9 @@ export default {
     ],
   },
   data: () => ({
-    tab: null,
+    // tab: null,
+        tab: 'tab-1',
+
     sortable: 'sortable4-1',
     ui_state: 'ui-state-default',
     c_diago: 'custom-dialog dialog-close',
