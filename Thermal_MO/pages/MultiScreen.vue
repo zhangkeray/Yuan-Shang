@@ -1,85 +1,99 @@
 <template>
   <div>
     <v-img class="bgimg" src="bgimg.png" height="93.2vh" />
-    <v-container fluid>
-      <div class="cover-bg" style="position: relative">
-        <!-- 對話框 -->
-        <div :class="c_diago">
-          <!-- <div class="draggable-bar"></div> -->
-          <div class="diago-head">
-            <div class="diago-point-cover">
-              <div class="diago-point mt-5"></div>
-            </div>
-            <div class="diago-title mt-5">
-              <div>
-                Cam-s1-59 A棟 CS-02配電盤<v-btn
-                  class="arrow-diago"
-                  rounded
-                  tile
-                >
-                  <img class="" alt="line" src="/images/tabs.png" width="60%"
-                /></v-btn>
-              </div>
-              <div>IP: 192.168.0.173</div>
-            </div>
-            <div class="diago-close">
-              <v-btn
-                class="diago-close-icon"
-                rounded
-                outlined
-                @click="diagoOff"
-              >
-                <img class="" alt="line" src="/images/close.png" width="70%"
-              /></v-btn>
-            </div>
-          </div>
-          <div class="diago-contnet-cover">
-            <div class="diago-alarm-cover">
-              <!-- 警報設置 -->
-              <div class="diago-border1">
-                <strong class="diago-title">警報設置</strong>
-                <v-data-table
-                  dense
-                  :headers="diagoalarmHeaders"
-                  :items="diagoalarmDesserts"
-                  disable-pagination
-                  hide-default-header
-                  hide-default-footer
-                >
-                  <template v-slot:header="{ props }">
-                    <th
-                      v-for="head in props.headers"
-                      :key="head"
-                      class="diago-table-title"
-                    >
-                      {{ head.text.toUpperCase() }}
-                    </th>
-                  </template>
-                  <template v-slot:[`item.item`]="{ item }">
-                    <v-badge
-                      :content="item.item"
-                      overlap
-                      color="#828C8F"
-                      class="my-3"
-                      bordered
-                      ><v-btn icon class="right-btn" width="28px"
-                        ><img
+    <v-tabs v-model="tab" vertical>
+      <v-tab></v-tab>
+      <v-tab></v-tab>
+      <v-tab-items>
+        <v-tab-item value="page-1">
+          <no-ssr>
+            <v-container fluid>
+              <div class="cover-bg" style="position: relative">
+                <!-- 對話框 -->
+                <div :class="c_diago">
+                  <!-- <div class="draggable-bar"></div> -->
+                  <div class="diago-head">
+                    <div class="diago-point-cover">
+                      <div class="diago-point mt-5"></div>
+                    </div>
+                    <div class="diago-title mt-5">
+                      <div>
+                        Cam-s1-59 A棟 CS-02配電盤<v-btn
+                          class="arrow-diago"
+                          rounded
+                          tile
+                        >
+                          <img
+                            class=""
+                            alt="line"
+                            src="/images/tabs.png"
+                            width="60%"
+                        /></v-btn>
+                      </div>
+                      <div>IP: 192.168.0.173</div>
+                    </div>
+                    <div class="diago-close">
+                      <v-btn
+                        class="diago-close-icon"
+                        rounded
+                        outlined
+                        @click="diagoOff"
+                      >
+                        <img
                           class=""
-                          alt=""
-                          src="/right-icons/spot2.png"
-                          width="18px" /></v-btn
-                    ></v-badge>
-                  </template>
-                  <template v-slot:[`item.setting`]="{ item }">
-                    <v-btn color="" icon class="right-btn" width="28px"
-                      ><img
-                        :class="item"
-                        alt=""
-                        src="/right-icons/alert-on.png"
-                        width="18px"
-                        depressed
-                      />
-                      <!-- <img
+                          alt="line"
+                          src="/images/close.png"
+                          width="70%"
+                      /></v-btn>
+                    </div>
+                  </div>
+                  <div class="diago-contnet-cover">
+                    <div class="diago-alarm-cover">
+                      <!-- 警報設置 -->
+                      <div class="diago-border1">
+                        <strong class="diago-title">警報設置</strong>
+                        <v-data-table
+                          dense
+                          :headers="diagoalarmHeaders"
+                          :items="diagoalarmDesserts"
+                          disable-pagination
+                          hide-default-header
+                          hide-default-footer
+                        >
+                          <template v-slot:header="{ props }">
+                            <th
+                              v-for="head in props.headers"
+                              :key="head"
+                              class="diago-table-title"
+                            >
+                              {{ head.text.toUpperCase() }}
+                            </th>
+                          </template>
+                          <template v-slot:[`item.item`]="{ item }">
+                            <v-badge
+                              :content="item.item"
+                              overlap
+                              color="#828C8F"
+                              class="my-3"
+                              bordered
+                              ><v-btn icon class="right-btn" width="28px"
+                                ><img
+                                  class=""
+                                  alt=""
+                                  src="/right-icons/spot2.png"
+                                  width="18px" /></v-btn
+                            ></v-badge>
+                          </template>
+                          <template v-slot:[`item.setting`]="{ item }">
+                            <v-btn color="" icon class="right-btn" width="28px"
+                              ><img
+                                :class="item"
+                                alt=""
+                                src="/right-icons/alert-on.png"
+                                width="18px"
+                                depressed
+                              />
+                              <!-- <img
                             v-else-if="
                               item.spot_alarm_status === 1 &&
                               item.spot_temperature >= item.spot_threshold
@@ -98,536 +112,586 @@
                             width="18em"
                             depressed
                           /> -->
-                    </v-btn>
-                  </template>
-                </v-data-table>
-              </div>
-              <!-- 警報紀錄 -->
-              <div class="diago-border1 ml-2">
-                <strong class="diago-title">警報紀錄</strong>
-                <v-data-table
-                  dense
-                  :headers="diagoalarmlogHeaders"
-                  :items="diagoalarmlogDesserts"
-                  disable-pagination
-                  hide-default-header
-                  hide-default-footer
-                >
-                  <template v-slot:header="{ props }">
-                    <th
-                      v-for="head1 in props.headers"
-                      :key="head1"
-                      class="diago-table-title"
-                    >
-                      {{ head1.text.toUpperCase() }}
-                    </th>
-                  </template>
-                  <template v-slot:[`item.item`]="{ item }">
-                    <v-badge
-                      :content="item.item"
-                      overlap
-                      color="#828C8F"
-                      class="my-3"
-                      bordered
-                      ><v-btn icon class="right-btn" width="28px"
-                        ><img
-                          class=""
-                          alt=""
-                          src="/right-icons/spot2.png"
-                          width="18px" /></v-btn
-                    ></v-badge>
-                  </template>
-                  <template v-slot:[`item.location`]="{ item }">
-                    X:{{ item.location.X }}<br />Y:{{ item.location.Y }}
-                  </template>
-                </v-data-table>
-              </div>
-            </div>
-            <div class="diago-alarm-cover1">
-              <!-- 警報統計 -->
-              <div class="diago-border1">
-                <strong class="diago-title">警報統計</strong>
-                <!-- 圖表1 本日 -->
-                <div class="donut-flex mt-5">
-                  <v-progress-circular
-                    class="donut1"
-                    :rotate="-90"
-                    :size="40"
-                    :width="5"
-                    :value="circularToday"
-                    color="#828c8f"
-                    backgroud
-                  >
-                    <h6>{{ circularToday }}</h6>
-                  </v-progress-circular>
-                  <div class="ml-3 donut-txt">當日</div>
-                </div>
-                <!-- 圖表1 昨日 -->
-                <div class="donut-flex mt-5">
-                  <v-progress-circular
-                    class="donut1"
-                    :rotate="-90"
-                    :size="40"
-                    :width="5"
-                    :value="circularYesterday"
-                    color="#828c8f"
-                    backgroud
-                  >
-                    <h6>{{ circularYesterday }}</h6>
-                  </v-progress-circular>
-                  <div class="ml-3 donut-txt">昨日</div>
-                </div>
-                <!-- 圖表1 當周 -->
-                <div class="donut-flex mt-5">
-                  <v-progress-circular
-                    class="donut1"
-                    :rotate="-90"
-                    :size="40"
-                    :width="5"
-                    :value="circularWeek"
-                    color="#de8788"
-                    backgroud
-                  >
-                    <h6>{{ circularWeek }}</h6>
-                  </v-progress-circular>
-                  <div class="ml-3 donut-txt">當周</div>
-                </div>
-                <!-- 圖表1 當月 -->
-                <div class="donut-flex mt-5">
-                  <v-progress-circular
-                    class="donut1"
-                    :rotate="-90"
-                    :size="40"
-                    :width="5"
-                    :value="circularMonth"
-                    color="#828c8f"
-                    backgroud
-                  >
-                    <h6>{{ circularMonth }}</h6>
-                  </v-progress-circular>
-                  <div class="ml-3 donut-txt">當月</div>
-                </div>
-              </div>
-              <!-- 警報歷史 -->
-              <div class="diago-border1 ml-2">
-                <strong class="diago-title">警報歷史</strong>
-                <div class="reset1">
-                  <v-icon color="#d8d8d8">mdi-circle-medium</v-icon
-                  ><span class="subtitle-right">正常</span>
-                  <v-icon color="#828c8f">mdi-circle-medium</v-icon
-                  ><span class="subtitle-right">超溫</span>
-                </div>
-                <v-date-picker
-                  v-model="date2"
-                  class="date-picker"
-                  :event-color="(date) => (date[9] % 2 ? 'red' : 'yellow')"
-                  events
-                  readonly
-                  no-title
-                  color="#828c8f"
-                  width="220"
-                  height="200"
-                ></v-date-picker>
-              </div>
-            </div>
-            <div class="diago-btn-cover mt-1 mb-3 mr-4 ml-3">
-              <v-btn
-                color="#de8788"
-                class="diago-btn"
-                max-height="24px"
-                max-width="95px"
-                rounded
-              >
-                <span class="diago-btn-font">查看更多</span>
-              </v-btn>
-            </div>
-          </div>
-        </div>
-        <v-row>
-          <!-- 分隔畫面 -->
-          <v-col cols="9" class="p-1">
-            <v-card class="camera-bg align-items-c mt-3" style="">
-              <ul id="sortable" :class="sortable">
-                <li
-                  v-for="(item01, index01) in cam"
-                  :key="index01"
-                  :class="ui_state"
-                  id="diagoHover"
-                  @click="testdata()"
-                >
-                  <div
-                    class="ui-state-cover"
-                    v-bind:class="[
-                      index01 % 2 !== 0 ? 'ui-state-cover-outline' : '',
-                    ]"
-                  >
-                    <img
-                      src="loadingBG.png"
-                      class="test-cramre"
-                      :id="`test-cramre${index01}`"
-                      width="100%"
-                    />
-                    <div class="ui-state-default-footer">
-                      <div class="ui-state-default-point"></div>
-                      <span>Cam-s1-55 A棟CS-01配電盤({{ index01 }})</span>
-                    </div>
-                    <div
-                      v-if="index01 % 2 !== 0"
-                      class="ui-state-default-alarm"
-                    >
-                      <div>
-                        <img src="/images/alarm-200.png" />超溫警報<img
-                          src="/images/alarm-200.png"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </v-card>
-          </v-col>
-          <!-- 右方控制面板 -->
-          <v-col cols="3">
-            <v-card class="camera-bg mt-3" style="height: 830px">
-              <div class="menu-top">
-                <div>
-                  <v-btn class="arrow-custom" tile>
-                    <img
-                      class=""
-                      alt="line"
-                      src="/images/Previous.png"
-                      width="60%"
-                    />
-                  </v-btn>
-                  <v-btn class="arrow-custom" tile>
-                    <img
-                      class=""
-                      alt="line"
-                      src="/images/next.png"
-                      width="60%"
-                    />
-                  </v-btn>
-                </div>
-                <div class="menu-top-setting">
-                  <v-checkbox
-                    v-model="carousel_checkbox"
-                    label="輪播"
-                    class="mr-3"
-                  ></v-checkbox>
-                  <v-tooltip top>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        class="btu-setting"
-                        fab
-                        x-small
-                        v-bind="attrs"
-                        v-on="on"
-                      >
-                        <img
-                          class=""
-                          alt="line"
-                          src="/images/setting.png"
-                          width="70%"
-                        />
-                      </v-btn>
-                    </template>
-                    <span>畫面設定</span>
-                  </v-tooltip>
-                </div>
-              </div>
-              <!-- 選單組 -->
-              <div class="custom-g-select">
-                <!-- 區域 -->
-                <div class="pl-0">
-                  <v-select
-                    class="custom-select"
-                    v-model="e1"
-                    :items="areas"
-                    dense
-                    solo
-                  ></v-select>
-                </div>
-                <!-- 組別 -->
-                <div class="pl-0">
-                  <v-select
-                    class="custom-select"
-                    v-model="e2"
-                    :items="groups"
-                    dense
-                    solo
-                  ></v-select>
-                </div>
-                <!-- page -->
-                <div class="pl-0">
-                  <v-select
-                    class="custom-select"
-                    v-model="e3"
-                    :items="pages"
-                    dense
-                    solo
-                  ></v-select>
-                </div>
-                <!-- 畫面分格 -->
-                <div class="px-0">
-                  <v-select
-                    v-model="e4"
-                    class="custom-select"
-                    :items="splitScreen"
-                    dense
-                    solo
-                    @change="transition"
-                  >
-                    <template v-slot:prepend>
-                      <v-fade-transition leave-absolute>
-                        <img
-                          width="24"
-                          height="24"
-                          class="transition-img"
-                          src="/images/display.png"
-                          alt=""
-                        />
-                      </v-fade-transition>
-                    </template>
-                  </v-select>
-                </div>
-              </div>
-              <!-- 搜尋相機編號 -->
-              <div class="search-cover">
-                <div class="search-input">
-                  <v-text-field
-                    rounded
-                    class="pa-0 ma-0"
-                    label="搜尋 相機編號/監測項目"
-                  >
-                    <template v-slot:prepend>
-                      <v-fade-transition leave-absolute>
-                        <img
-                          width="24"
-                          height="24"
-                          class="transition-img"
-                          src="/images/search.png"
-                          alt=""
-                        />
-                      </v-fade-transition>
-                    </template>
-                  </v-text-field>
-                </div>
-                <div class="search-explore">
-                  <v-tooltip top>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        class="btu-setting"
-                        fab
-                        x-small
-                        v-bind="attrs"
-                        v-on="on"
-                      >
-                        <img
-                          class=""
-                          alt="line"
-                          src="/images/explore.png"
-                          width="70%"
-                        />
-                      </v-btn>
-                    </template>
-                    <span>探索</span>
-                  </v-tooltip>
-                </div>
-              </div>
-              <!-- 標籤 -->
-              <div>
-                <v-card class="custom-cards-tags">
-                  <v-tabs
-                    color="#4f5e62"
-                    class="custom-tabs"
-                    left
-                    @change="CustomTabs"
-                  >
-                    <v-tooltip top>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-tab v-bind="attrs" v-on="on"
-                          ><img class="tab-icon" src="/images/bell.png" />{{
-                            tabcontent[0]
-                          }}</v-tab
-                        >
-                      </template>
-                      <span>超溫警報</span>
-                    </v-tooltip>
-                    <v-tooltip top>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-tab v-bind="attrs" v-on="on"
-                          ><img
-                            class="tab-icon"
-                            src="/images/exclamation.png"
-                          />{{ tabcontent[1] }}</v-tab
-                        >
-                      </template>
-                      <span>通知</span>
-                    </v-tooltip>
-                    <v-tooltip top>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-tab v-bind="attrs" v-on="on"
-                          ><img class="tab-icon" src="/images/wifi.png" />{{
-                            tabcontent[2]
-                          }}</v-tab
-                        >
-                      </template>
-                      <span>連線項目</span>
-                    </v-tooltip>
-                    <v-tooltip top>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-tab v-bind="attrs" v-on="on"
-                          ><img class="tab-icon" src="/images/tabs.png" />{{
-                            tabcontent[3]
-                          }}</v-tab
-                        >
-                      </template>
-                      <span>書籤</span>
-                    </v-tooltip>
-                    <!-- 超溫警報 -->
-                    <v-tab-item>
-                      <div class="Overtemperature-Alert">
-                        <div class="py-2">
-                          <strong class="Alert-title">超溫項目警報</strong>
-                          <div class="Alert-txt py-3">
-                            <div v-for="ie in 100" :key="ie" class="px-3">
-                              <span v-if="ie < 3" class="Alert-txt-alarm px-3"
-                                >2022/07/27 03:11 Cam-s1-58 區域{{ ie }}</span
-                              >
-                              <span v-else class="Alert-font px-3"
-                                >2022/07/27 03:11 Cam-s1-58 區域{{ ie }}</span
-                              >
-                            </div>
-                          </div>
-                        </div>
-                        <div>
-                          <strong class="Alert-title">超溫警報通知</strong>
-                          <div class="Alert-txt2 py-3">
-                            <div v-for="ieq in 100" :key="ieq" class="my-1">
-                              <div v-if="ieq < 3" class="Alert-background1">
-                                <span class="Alert-font px-5"
-                                  >2022/07/27 03:11 Cam-s1-58 區域{{
-                                    ieq
-                                  }}</span
-                                >
-                              </div>
-                              <div v-else class="Alert-background">
-                                <span class="Alert-font px-5"
-                                  >2022/07/27 03:11 Cam-s1-58 區域{{
-                                    ieq
-                                  }}</span
-                                >
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </v-tab-item>
-                    <!-- 通知 -->
-                    <v-tab-item>
-                      <div class="mags-cover py-3">
-                        <strong class="Alert-title">操作通知</strong>
-                        <div class="Alert-txt2 py-3">
-                          <div v-for="iee in 100" :key="iee" class="my-1">
-                            <div v-if="iee < 3" class="Alert-background1">
-                              <span class="Alert-font px-5"
-                                >2022/07/27 03:11 Cam-s1-58 區域{{ iee }}</span
-                              >
-                            </div>
-                            <div v-else class="Alert-background">
-                              <span class="Alert-font px-5"
-                                >2022/07/27 03:11 Cam-s1-58 區域{{ iee }}</span
-                              >
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </v-tab-item>
-                    <!-- 連線項目 -->
-                    <v-tab-item>
-                      <div class="connect-cover">
-                        <div>
-                          <div class="my-3">
-                            <strong class="Alert-title">相機</strong>
-                          </div>
-                          <v-data-table
-                            :headers="connectHeaders"
-                            :items="connectDesserts"
-                            disable-pagination
-                            hide-default-footer
-                            height="250px"
-                            class=""
-                          >
-                            <template v-slot:[`item.status`]="{ item }">
-                              <div class="connect-icon">
-                                <img :src="item.status" />
-                              </div>
-                            </template>
-                          </v-data-table>
-                        </div>
-                        <div>
-                          <div>
-                            <div class="my-3">
-                              <strong class="Alert-title">其他裝置</strong>
-                            </div>
-                            <v-data-table
-                              :headers="otherDevicesHeaders"
-                              :items="otherDevicesDesserts"
-                              disable-pagination
-                              hide-default-footer
-                              height="240px"
-                              class=""
-                            >
-                              <template v-slot:[`item.status`]="{ item }">
-                                <div class="connect-icon">
-                                  <div
-                                    v-if="item.status === 0"
-                                    class="status-open"
-                                  ></div>
-                                  <div v-else class="status-off"></div>
-                                </div>
-                              </template>
-                            </v-data-table>
-                          </div>
-                        </div>
-                      </div>
-                    </v-tab-item>
-                    <!-- 書籤 -->
-                    <v-tab-item>
-                      <div>
-                        <div class="my-3">
-                          <strong class="Alert-title">書籤項目</strong>
-                        </div>
-                        <v-data-table
-                          :headers="tagsHeaders"
-                          :items="tagsDesserts"
-                          disable-pagination
-                          hide-default-footer
-                          height="540px"
-                          class=""
-                        >
-                          <template v-slot:[`item.delete`]="{ item }">
-                            <div class="trash-icon">
-                              <img :src="item.delete" />
-                            </div>
-                          </template>
-                          <template v-slot:[`item.check`]="{ item }">
-                            <div class="connect-icon">
-                              {{ item.check }}
-                            </div>
+                            </v-btn>
                           </template>
                         </v-data-table>
                       </div>
-                    </v-tab-item>
-                  </v-tabs>
-                </v-card>
+                      <!-- 警報紀錄 -->
+                      <div class="diago-border1 ml-2">
+                        <strong class="diago-title">警報紀錄</strong>
+                        <v-data-table
+                          dense
+                          :headers="diagoalarmlogHeaders"
+                          :items="diagoalarmlogDesserts"
+                          disable-pagination
+                          hide-default-header
+                          hide-default-footer
+                        >
+                          <template v-slot:header="{ props }">
+                            <th
+                              v-for="head1 in props.headers"
+                              :key="head1"
+                              class="diago-table-title"
+                            >
+                              {{ head1.text.toUpperCase() }}
+                            </th>
+                          </template>
+                          <template v-slot:[`item.item`]="{ item }">
+                            <v-badge
+                              :content="item.item"
+                              overlap
+                              color="#828C8F"
+                              class="my-3"
+                              bordered
+                              ><v-btn icon class="right-btn" width="28px"
+                                ><img
+                                  class=""
+                                  alt=""
+                                  src="/right-icons/spot2.png"
+                                  width="18px" /></v-btn
+                            ></v-badge>
+                          </template>
+                          <template v-slot:[`item.location`]="{ item }">
+                            X:{{ item.location.X }}<br />Y:{{ item.location.Y }}
+                          </template>
+                        </v-data-table>
+                      </div>
+                    </div>
+                    <div class="diago-alarm-cover1">
+                      <!-- 警報統計 -->
+                      <div class="diago-border1">
+                        <strong class="diago-title">警報統計</strong>
+                        <!-- 圖表1 本日 -->
+                        <div class="donut-flex mt-5">
+                          <v-progress-circular
+                            class="donut1"
+                            :rotate="-90"
+                            :size="40"
+                            :width="5"
+                            :value="circularToday"
+                            color="#828c8f"
+                            backgroud
+                          >
+                            <h6>{{ circularToday }}</h6>
+                          </v-progress-circular>
+                          <div class="ml-3 donut-txt">當日</div>
+                        </div>
+                        <!-- 圖表1 昨日 -->
+                        <div class="donut-flex mt-5">
+                          <v-progress-circular
+                            class="donut1"
+                            :rotate="-90"
+                            :size="40"
+                            :width="5"
+                            :value="circularYesterday"
+                            color="#828c8f"
+                            backgroud
+                          >
+                            <h6>{{ circularYesterday }}</h6>
+                          </v-progress-circular>
+                          <div class="ml-3 donut-txt">昨日</div>
+                        </div>
+                        <!-- 圖表1 當周 -->
+                        <div class="donut-flex mt-5">
+                          <v-progress-circular
+                            class="donut1"
+                            :rotate="-90"
+                            :size="40"
+                            :width="5"
+                            :value="circularWeek"
+                            color="#de8788"
+                            backgroud
+                          >
+                            <h6>{{ circularWeek }}</h6>
+                          </v-progress-circular>
+                          <div class="ml-3 donut-txt">當周</div>
+                        </div>
+                        <!-- 圖表1 當月 -->
+                        <div class="donut-flex mt-5">
+                          <v-progress-circular
+                            class="donut1"
+                            :rotate="-90"
+                            :size="40"
+                            :width="5"
+                            :value="circularMonth"
+                            color="#828c8f"
+                            backgroud
+                          >
+                            <h6>{{ circularMonth }}</h6>
+                          </v-progress-circular>
+                          <div class="ml-3 donut-txt">當月</div>
+                        </div>
+                      </div>
+                      <!-- 警報歷史 -->
+                      <div class="diago-border1 ml-2">
+                        <strong class="diago-title">警報歷史</strong>
+                        <div class="reset1">
+                          <v-icon color="#d8d8d8">mdi-circle-medium</v-icon
+                          ><span class="subtitle-right">正常</span>
+                          <v-icon color="#828c8f">mdi-circle-medium</v-icon
+                          ><span class="subtitle-right">超溫</span>
+                        </div>
+                        <v-date-picker
+                          v-model="date2"
+                          class="date-picker"
+                          :event-color="
+                            (date) => (date[9] % 2 ? 'red' : 'yellow')
+                          "
+                          events
+                          readonly
+                          no-title
+                          color="#828c8f"
+                          width="220"
+                          height="200"
+                        ></v-date-picker>
+                      </div>
+                    </div>
+                    <div class="diago-btn-cover mt-1 mb-3 mr-4 ml-3">
+                      <v-btn
+                        color="#de8788"
+                        class="diago-btn"
+                        max-height="24px"
+                        max-width="95px"
+                        rounded
+                      >
+                        <span class="diago-btn-font" @click="toOnlyVideo()"
+                          >查看更多</span
+                        >
+                      </v-btn>
+                    </div>
+                  </div>
+                </div>
+                <v-row>
+                  <!-- 分隔畫面 -->
+                  <v-col cols="9" class="p-1">
+                    <v-card class="camera-bg align-items-c mt-3" style="">
+                      <ul id="sortable" :class="sortable">
+                        <li
+                          v-for="(item01, index01) in cam"
+                          :key="index01"
+                          :class="ui_state"
+                          id="diagoHover"
+                          @click="testdata()"
+                        >
+                          <div
+                            class="ui-state-cover"
+                            v-bind:class="[
+                              index01 % 2 !== 0 ? 'ui-state-cover-outline' : '',
+                            ]"
+                          >
+                            <img
+                              src="loadingBG.png"
+                              class="test-cramre"
+                              :id="`test-cramre${index01}`"
+                              width="100%"
+                            />
+                            <div class="ui-state-default-footer">
+                              <div class="ui-state-default-point"></div>
+                              <span
+                                >Cam-s1-55 A棟CS-01配電盤({{ index01 }})</span
+                              >
+                            </div>
+                            <div
+                              v-if="index01 % 2 !== 0"
+                              class="ui-state-default-alarm"
+                            >
+                              <div>
+                                <img src="/images/alarm-200.png" />超溫警報<img
+                                  src="/images/alarm-200.png"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </v-card>
+                  </v-col>
+                  <!-- 右方控制面板 -->
+                  <v-col cols="3">
+                    <v-card class="camera-bg mt-3" style="height: 830px">
+                      <div class="menu-top">
+                        <div>
+                          <v-btn class="arrow-custom" tile>
+                            <img
+                              class=""
+                              alt="line"
+                              src="/images/Previous.png"
+                              width="60%"
+                            />
+                          </v-btn>
+                          <v-btn class="arrow-custom" tile>
+                            <img
+                              class=""
+                              alt="line"
+                              src="/images/next.png"
+                              width="60%"
+                            />
+                          </v-btn>
+                        </div>
+                        <div class="menu-top-setting">
+                          <v-checkbox
+                            v-model="carousel_checkbox"
+                            label="輪播"
+                            class="mr-3"
+                          ></v-checkbox>
+                          <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                class="btu-setting"
+                                fab
+                                x-small
+                                v-bind="attrs"
+                                v-on="on"
+                              >
+                                <img
+                                  class=""
+                                  alt="line"
+                                  src="/images/setting.png"
+                                  width="70%"
+                                />
+                              </v-btn>
+                            </template>
+                            <span>畫面設定</span>
+                          </v-tooltip>
+                        </div>
+                      </div>
+                      <!-- 選單組 -->
+                      <div class="custom-g-select">
+                        <!-- 區域 -->
+                        <div class="pl-0">
+                          <v-select
+                            class="custom-select"
+                            v-model="e1"
+                            :items="areas"
+                            dense
+                            solo
+                          ></v-select>
+                        </div>
+                        <!-- 組別 -->
+                        <div class="pl-0">
+                          <v-select
+                            class="custom-select"
+                            v-model="e2"
+                            :items="groups"
+                            dense
+                            solo
+                          ></v-select>
+                        </div>
+                        <!-- page -->
+                        <div class="pl-0">
+                          <v-select
+                            class="custom-select"
+                            v-model="e3"
+                            :items="pages"
+                            dense
+                            solo
+                          ></v-select>
+                        </div>
+                        <!-- 畫面分格 -->
+                        <div class="px-0">
+                          <v-select
+                            v-model="e4"
+                            class="custom-select"
+                            :items="splitScreen"
+                            dense
+                            solo
+                            @change="transition"
+                          >
+                            <template v-slot:prepend>
+                              <v-fade-transition leave-absolute>
+                                <img
+                                  width="24"
+                                  height="24"
+                                  class="transition-img"
+                                  src="/images/display.png"
+                                  alt=""
+                                />
+                              </v-fade-transition>
+                            </template>
+                          </v-select>
+                        </div>
+                      </div>
+                      <!-- 搜尋相機編號 -->
+                      <div class="search-cover">
+                        <div class="search-input">
+                          <v-text-field
+                            rounded
+                            class="pa-0 ma-0"
+                            label="搜尋 相機編號/監測項目"
+                          >
+                            <template v-slot:prepend>
+                              <v-fade-transition leave-absolute>
+                                <img
+                                  width="24"
+                                  height="24"
+                                  class="transition-img"
+                                  src="/images/search.png"
+                                  alt=""
+                                />
+                              </v-fade-transition>
+                            </template>
+                          </v-text-field>
+                        </div>
+                        <div class="search-explore">
+                          <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                class="btu-setting"
+                                fab
+                                x-small
+                                v-bind="attrs"
+                                v-on="on"
+                              >
+                                <img
+                                  class=""
+                                  alt="line"
+                                  src="/images/explore.png"
+                                  width="70%"
+                                />
+                              </v-btn>
+                            </template>
+                            <span>探索</span>
+                          </v-tooltip>
+                        </div>
+                      </div>
+                      <!-- 標籤 -->
+                      <div>
+                        <v-card class="custom-cards-tags">
+                          <v-tabs
+                            color="#4f5e62"
+                            class="custom-tabs"
+                            left
+                            @change="CustomTabs"
+                          >
+                            <v-tooltip top>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-tab v-bind="attrs" v-on="on"
+                                  ><img
+                                    class="tab-icon"
+                                    src="/images/bell.png"
+                                  />{{ tabcontent[0] }}</v-tab
+                                >
+                              </template>
+                              <span>超溫警報</span>
+                            </v-tooltip>
+                            <v-tooltip top>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-tab v-bind="attrs" v-on="on"
+                                  ><img
+                                    class="tab-icon"
+                                    src="/images/exclamation.png"
+                                  />{{ tabcontent[1] }}</v-tab
+                                >
+                              </template>
+                              <span>通知</span>
+                            </v-tooltip>
+                            <v-tooltip top>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-tab v-bind="attrs" v-on="on"
+                                  ><img
+                                    class="tab-icon"
+                                    src="/images/wifi.png"
+                                  />{{ tabcontent[2] }}</v-tab
+                                >
+                              </template>
+                              <span>連線項目</span>
+                            </v-tooltip>
+                            <v-tooltip top>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-tab v-bind="attrs" v-on="on"
+                                  ><img
+                                    class="tab-icon"
+                                    src="/images/tabs.png"
+                                  />{{ tabcontent[3] }}</v-tab
+                                >
+                              </template>
+                              <span>書籤</span>
+                            </v-tooltip>
+                            <!-- 超溫警報 -->
+                            <v-tab-item>
+                              <div class="Overtemperature-Alert">
+                                <div class="py-2">
+                                  <strong class="Alert-title"
+                                    >超溫項目警報</strong
+                                  >
+                                  <div class="Alert-txt py-3">
+                                    <div
+                                      v-for="ie in 100"
+                                      :key="ie"
+                                      class="px-3"
+                                    >
+                                      <span
+                                        v-if="ie < 3"
+                                        class="Alert-txt-alarm px-3"
+                                        >2022/07/27 03:11 Cam-s1-58 區域{{
+                                          ie
+                                        }}</span
+                                      >
+                                      <span v-else class="Alert-font px-3"
+                                        >2022/07/27 03:11 Cam-s1-58 區域{{
+                                          ie
+                                        }}</span
+                                      >
+                                    </div>
+                                  </div>
+                                </div>
+                                <div>
+                                  <strong class="Alert-title"
+                                    >超溫警報通知</strong
+                                  >
+                                  <div class="Alert-txt2 py-3">
+                                    <div
+                                      v-for="ieq in 100"
+                                      :key="ieq"
+                                      class="my-1"
+                                    >
+                                      <div
+                                        v-if="ieq < 3"
+                                        class="Alert-background1"
+                                      >
+                                        <span class="Alert-font px-5"
+                                          >2022/07/27 03:11 Cam-s1-58 區域{{
+                                            ieq
+                                          }}</span
+                                        >
+                                      </div>
+                                      <div v-else class="Alert-background">
+                                        <span class="Alert-font px-5"
+                                          >2022/07/27 03:11 Cam-s1-58 區域{{
+                                            ieq
+                                          }}</span
+                                        >
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </v-tab-item>
+                            <!-- 通知 -->
+                            <v-tab-item>
+                              <div class="mags-cover py-3">
+                                <strong class="Alert-title">操作通知</strong>
+                                <div class="Alert-txt2 py-3">
+                                  <div
+                                    v-for="iee in 100"
+                                    :key="iee"
+                                    class="my-1"
+                                  >
+                                    <div
+                                      v-if="iee < 3"
+                                      class="Alert-background1"
+                                    >
+                                      <span class="Alert-font px-5"
+                                        >2022/07/27 03:11 Cam-s1-58 區域{{
+                                          iee
+                                        }}</span
+                                      >
+                                    </div>
+                                    <div v-else class="Alert-background">
+                                      <span class="Alert-font px-5"
+                                        >2022/07/27 03:11 Cam-s1-58 區域{{
+                                          iee
+                                        }}</span
+                                      >
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </v-tab-item>
+                            <!-- 連線項目 -->
+                            <v-tab-item>
+                              <div class="connect-cover">
+                                <div>
+                                  <div class="my-3">
+                                    <strong class="Alert-title">相機</strong>
+                                  </div>
+                                  <v-data-table
+                                    :headers="connectHeaders"
+                                    :items="connectDesserts"
+                                    disable-pagination
+                                    hide-default-footer
+                                    height="250px"
+                                    class=""
+                                  >
+                                    <template v-slot:[`item.status`]="{ item }">
+                                      <div class="connect-icon">
+                                        <img :src="item.status" />
+                                      </div>
+                                    </template>
+                                  </v-data-table>
+                                </div>
+                                <div>
+                                  <div>
+                                    <div class="my-3">
+                                      <strong class="Alert-title"
+                                        >其他裝置</strong
+                                      >
+                                    </div>
+                                    <v-data-table
+                                      :headers="otherDevicesHeaders"
+                                      :items="otherDevicesDesserts"
+                                      disable-pagination
+                                      hide-default-footer
+                                      height="240px"
+                                      class=""
+                                    >
+                                      <template
+                                        v-slot:[`item.status`]="{ item }"
+                                      >
+                                        <div class="connect-icon">
+                                          <div
+                                            v-if="item.status === 0"
+                                            class="status-open"
+                                          ></div>
+                                          <div v-else class="status-off"></div>
+                                        </div>
+                                      </template>
+                                    </v-data-table>
+                                  </div>
+                                </div>
+                              </div>
+                            </v-tab-item>
+                            <!-- 書籤 -->
+                            <v-tab-item>
+                              <div>
+                                <div class="my-3">
+                                  <strong class="Alert-title">書籤項目</strong>
+                                </div>
+                                <v-data-table
+                                  :headers="tagsHeaders"
+                                  :items="tagsDesserts"
+                                  disable-pagination
+                                  hide-default-footer
+                                  height="540px"
+                                  class=""
+                                >
+                                  <template v-slot:[`item.delete`]="{ item }">
+                                    <div class="trash-icon">
+                                      <img :src="item.delete" />
+                                    </div>
+                                  </template>
+                                  <template v-slot:[`item.check`]="{ item }">
+                                    <div class="connect-icon">
+                                      {{ item.check }}
+                                    </div>
+                                  </template>
+                                </v-data-table>
+                              </div>
+                            </v-tab-item>
+                          </v-tabs>
+                        </v-card>
+                      </div>
+                      <!-- end -->
+                    </v-card>
+                  </v-col>
+                </v-row>
               </div>
-              <!-- end -->
-            </v-card>
-          </v-col>
-        </v-row>
-      </div>
-    </v-container>
+            </v-container>
+          </no-ssr>
+        </v-tab-item>
+        <v-tab-item value="page-2"></v-tab-item>
+      </v-tab-items>
+    </v-tabs>
   </div>
 </template>
 
@@ -651,6 +715,7 @@ export default {
     ],
   },
   data: () => ({
+    tab: null,
     sortable: 'sortable4-1',
     ui_state: 'ui-state-default',
     c_diago: 'custom-dialog dialog-close',
@@ -763,6 +828,7 @@ export default {
   }),
 
   mounted() {
+    this.camPages = 'page-1'
     // 排序
     this.$nextTick(() => {
       setTimeout(() => {
@@ -788,8 +854,8 @@ export default {
         //   cursor: 'grabbing',
         //   containment: 'parent',
         // })
-        this.transition(1)
-        this.testdata()
+        // this.transition(1)
+        // this.testdata()
       }, 1000)
     })
   },
@@ -854,6 +920,10 @@ export default {
     })
   },
   methods: {
+    // 跳轉到指定監視
+    toOnlyVideo() {
+      this.tabs = 'page-2'
+    },
     // 測試假資料
     testdata() {
       // 連線裝置 假資料
@@ -1428,7 +1498,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition:all .1s
+  transition: all 0.1s;
 }
 .ui-state-default-alarm > div {
   display: flex;
@@ -1522,12 +1592,19 @@ export default {
 .ui-state-default:last-child .ui-state-default-alarm > div img {
   width: 8%;
 }
-.ui-state-default:last-child .ui-state-default-alarm-outline > .ui-state-default-alarm > div {
+.ui-state-default:last-child
+  .ui-state-default-alarm-outline
+  > .ui-state-default-alarm
+  > div {
   justify-content: flex-end;
   font-size: 40px;
   padding: 0 2em 0 0px;
 }
-.ui-state-default:last-child .ui-state-default-alarm-outline > .ui-state-default-alarm > div > img {
+.ui-state-default:last-child
+  .ui-state-default-alarm-outline
+  > .ui-state-default-alarm
+  > div
+  > img {
   width: 4%;
 }
 /* 可移動排序 (均分4格) */
@@ -1622,5 +1699,9 @@ export default {
 } */
 .busstop {
   font-size: 40px;
+}
+/* 自訂標籤 */
+.custom-tab-items {
+  background-color: #fff0 !important;
 }
 </style>
