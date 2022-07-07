@@ -1420,7 +1420,7 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
-  top: 0;
+  bottom: 0;
   left: 0;
   background-color: #de8788ad;
   z-index: 2;
@@ -1428,6 +1428,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  transition:all .1s
 }
 .ui-state-default-alarm > div {
   display: flex;
