@@ -1,187 +1,275 @@
 <template>
   <v-row>
-    <v-col cols="12" lg="5" md="5">
-      <v-card ref="form" class=" my-6">
-        <v-card-title class="py-0">
-          電子郵件警報通知
+    <v-col cols="12" lg="6" md="6">
+      <v-card ref="form" class="my-6 ml-6" flat outlined height="48.5em">
+        <v-card-title>
+          <h5>電子郵件警報通知</h5>
           <v-spacer></v-spacer>
-          <v-switch v-model="switch1" dense></v-switch>
+          <!-- on off -->
+          <form>
+            <div class="switch-field py-0 my-0 px-1">
+              <input
+                type="radio"
+                id="radio-one-email-notice"
+                name="switch-one"
+                value="yes"
+                checked
+              />
+              <label for="radio-one-email-notice">ON</label>
+              <input
+                type="radio"
+                id="radio-two-email-notice"
+                name="switch-one"
+                value="no"
+              />
+              <label for="radio-two-email-notice">OFF</label>
+            </div>
+          </form>
         </v-card-title>
         <v-divider class="mx-4"></v-divider>
-        <v-card-text>
-          <!-- ----- -->
-          <!-- <v-card ref="form"> -->
-          <v-card-text>
-            <v-row>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  dense
-                  ref="name"
-                  v-model="name"
-                  :rules="[() => !!name || 'This field is required']"
-                  :error-messages="errorMessages"
-                  label="Smtp Host"
-                  placeholder=""
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-autocomplete
-                  dense
-                  ref=""
-                  v-model="country"
-                  :rules="[() => !!country || 'This field is required']"
-                  :items="countries"
-                  label="發報設定"
-                  placeholder="Select..."
-                  required
-                ></v-autocomplete>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  dense
-                  ref="address"
-                  v-model="address"
-                  :rules="[
-                    () => !!address || 'This field is required',
-                    () =>
-                      (!!address && address.length <= 25) ||
-                      'Address must be less than 25 characters',
-                    addressCheck,
-                  ]"
-                  label="Smtp Post"
-                  placeholder="Snowy Rock Pl"
-                  counter="25"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-autocomplete
-                  dense
-                  ref=""
-                  v-model="country"
-                  :rules="[() => !!country || 'This field is required']"
-                  :items="countries"
-                  label="重複發報"
-                  placeholder="Select..."
-                  required
-                ></v-autocomplete>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  dense
-                  ref="city"
-                  v-model="city"
-                  :rules="[
-                    () => !!city || 'This field is required',
-                    addressCheck,
-                  ]"
-                  label="寄件人帳號"
-                  placeholder="El Paso"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-autocomplete
-                  dense
-                  ref=""
-                  v-model="country"
-                  :rules="[() => !!country || 'This field is required']"
-                  :items="countries"
-                  label="發報頻率"
-                  placeholder="Select..."
-                  required
-                ></v-autocomplete>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  dense
-                  ref="state"
-                  v-model="state"
-                  :rules="[() => !!state || 'This field is required']"
-                  label="寄件人密碼"
-                  required
-                  placeholder="TX"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-autocomplete
-                  dense
-                  ref=""
-                  v-model="country"
-                  :rules="[() => !!country || 'This field is required']"
-                  :items="countries"
-                  label="是否含發報圖"
-                  placeholder="Select..."
-                  required
-                ></v-autocomplete>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  dense
-                  ref="zip"
-                  v-model="zip"
-                  :rules="[() => !!zip || 'This field is required']"
-                  label="收件人帳號"
-                  required
-                  placeholder="79938"
-                ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" md="6">
-                <v-autocomplete
-                  dense
-                  ref=""
-                  v-model="country"
-                  :rules="[() => !!country || 'This field is required']"
-                  :items="countries"
-                  label="郵件主題"
-                  placeholder="Select..."
-                  required
-                ></v-autocomplete>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" md="6">
-                <v-autocomplete
-                  dense
-                  ref=""
-                  v-model="country"
-                  :rules="[() => !!country || 'This field is required']"
-                  :items="countries"
-                  label="寄件者類型"
-                  placeholder="Select..."
-                  required
-                ></v-autocomplete>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" md="6">
-                <v-autocomplete
-                  dense
-                  ref=""
-                  v-model="country"
-                  :rules="[() => !!country || 'This field is required']"
-                  :items="countries"
-                  label="驗證"
-                  placeholder="Select..."
-                  required
-                ></v-autocomplete>
-              </v-col>
-            </v-row>
-          </v-card-text>
-          <v-divider class="mt-12"></v-divider>
-          <v-card-actions>
-            <!-- <v-btn text> Cancel </v-btn> -->
+        <v-card-text class="pt-10 px-6">
+          <v-row>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1">Smtp Host</v-subheader>
+                </v-col>
+                <v-col cols="12" md="7">
+                  <v-text-field
+                    dense
+                    outlined
+                    ref=""
+                    placeholder="smpt.gmail.com"
+                    required
+                    append-icon="mdi-pencil"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1">發報設定</v-subheader>
+                </v-col>
+                <v-col cols="12" md="7">
+                  <!-- on off -->
+                  <form class="form">
+                    <div class="switch-field pt-1 my-0">
+                      <input
+                        type="radio"
+                        id="radio-one-repos-setting1"
+                        name="switch-one"
+                        value="yes"
+                        checked
+                      />
+                      <label for="radio-one-repos-setting1">ON</label>
+                      <input
+                        type="radio"
+                        id="radio-two-repos-setting1"
+                        name="switch-one"
+                        value="no"
+                      />
+                      <label for="radio-two-repos-setting1">OFF</label>
+                    </div>
+                  </form>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1">Smtp Post</v-subheader>
+                </v-col>
+                <v-col cols="12" md="7">
+                  <v-text-field
+                    dense
+                    outlined
+                    ref=""
+                    placeholder="smpt.gmail.com"
+                    required
+                    append-icon="mdi-pencil"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1">重複發報</v-subheader>
+                </v-col>
+                <v-col cols="12" md="7">
+                  <v-select
+                    dense
+                    outlined
+                    ref=""
+                    :rules="[() => !!repeat_transmission || '不可為空']"
+                    :items="repeat_transmission"
+                    placeholder="請選擇"
+                    required
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1">寄件人帳號</v-subheader>
+                </v-col>
+                <v-col cols="12" md="7">
+                  <v-text-field
+                    dense
+                    outlined
+                    ref=""
+                    placeholder="smpt.gmail.com"
+                    required
+                    append-icon="mdi-pencil"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1">發報頻率</v-subheader>
+                </v-col>
+                <v-col cols="12" md="7">
+                  <v-select
+                    dense
+                    outlined
+                    ref=""
+                    :rules="[() => !!frequency || '不可為空']"
+                    :items="frequency"
+                    placeholder="請選擇"
+                    required
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1">寄件人密碼</v-subheader>
+                </v-col>
+                <v-col cols="12" md="7">
+                  <v-text-field
+                    dense
+                    outlined
+                    ref=""
+                    placeholder="smpt.gmail.com"
+                    required
+                    append-icon="mdi-pencil"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1"
+                    >是否含警報圖</v-subheader
+                  >
+                </v-col>
+                <v-col cols="12" md="7">
+                  <v-select
+                    dense
+                    outlined
+                    ref=""
+                    :rules="[() => !!alert_pics || '不可為空']"
+                    :items="alert_pics"
+                    placeholder="請選擇"
+                    required
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1">收件人帳號</v-subheader>
+                </v-col>
+                <v-col cols="12" md="7">
+                  <v-text-field
+                    dense
+                    outlined
+                    ref=""
+                    placeholder="smpt.gmail.com"
+                    required
+                    append-icon="mdi-pencil"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1">郵件主題</v-subheader>
+                </v-col>
+                <v-col cols="12" md="7">
+                  <v-text-field
+                    dense
+                    outlined
+                    ref=""
+                    placeholder="警報發送000"
+                    required
+                    append-icon="mdi-pencil"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1">寄件者類型</v-subheader>
+                </v-col>
+                <v-col cols="12" md="7">
+                  <v-select
+                    dense
+                    outlined
+                    ref=""
+                    :rules="[() => !!user_type || '不可為空']"
+                    :items="user_type"
+                    placeholder="請選擇"
+                    required
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1">驗證</v-subheader>
+                </v-col>
+                <v-col cols="12" md="7">
+                  <v-select
+                    dense
+                    outlined
+                    ref=""
+                    :rules="[() => !!verify || '不可為空']"
+                    :items="verify"
+                    placeholder="請選擇"
+                    required
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <footer class="footer">
+          <v-card-actions class="px-6">
             <v-spacer></v-spacer>
             <v-slide-x-reverse-transition>
               <v-tooltip v-if="formHasErrors" left>
@@ -190,7 +278,7 @@
                     icon
                     class="my-0"
                     v-bind="attrs"
-                    @click="resetForm"
+                    @click="resetForm1"
                     v-on="on"
                   >
                     <v-icon>mdi-refresh</v-icon>
@@ -199,98 +287,159 @@
                 <span>Refresh form</span>
               </v-tooltip>
             </v-slide-x-reverse-transition>
-            <v-btn color="primary" text @click="submit"> 確認 </v-btn>
+            <v-btn color="primary" outlined text @click="submit"> 確認 </v-btn>
           </v-card-actions>
-          <!-- </v-card> -->
-        </v-card-text>
+        </footer>
+        <!-- </v-card> -->
       </v-card>
     </v-col>
     <v-col cols="12" lg="6" md="6">
-      <v-card ref="form" class=" my-6">
-        <v-card-title class="py-0">
-          LINE發報通知
+      <v-card ref="form" class="my-6 mr-6" flat outlined height="48.5em">
+        <v-card-title>
+          <h5>LINE發報通知</h5>
           <v-spacer></v-spacer>
-          <v-switch v-model="switch1" dense></v-switch>
+          <!-- on off -->
+          <form>
+            <div class="switch-field py-0 my-0 px-1">
+              <input
+                type="radio"
+                id="radio-one-line-notice"
+                name="switch-one"
+                value="yes"
+                checked
+              />
+              <label for="radio-one-line-notice">ON</label>
+              <input
+                type="radio"
+                id="radio-two-line-notice"
+                name="switch-one"
+                value="no"
+              />
+              <label for="radio-two-line-notice">OFF</label>
+            </div>
+          </form>
         </v-card-title>
         <v-divider class="mx-4"></v-divider>
-        <v-card-text>
-          <!-- <v-card ref="form"> -->
-          <v-card-text>
-            <v-row>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  dense
-                  ref="name"
-                  v-model="name"
-                  :rules="[() => !!name || 'This field is required']"
-                  :error-messages="errorMessages"
-                  label="LINE Token"
-                  placeholder=""
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-autocomplete
-                  dense
-                  ref=""
-                  v-model="country"
-                  :rules="[() => !!country || 'This field is required']"
-                  :items="countries"
-                  label="發報設定"
-                  placeholder="Select..."
-                  required
-                ></v-autocomplete>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" md="6"> </v-col>
-              <v-col cols="12" md="6">
-                <v-autocomplete
-                  dense
-                  ref=""
-                  v-model="country"
-                  :rules="[() => !!country || 'This field is required']"
-                  :items="countries"
-                  label="重複發報"
-                  placeholder="Select..."
-                  required
-                ></v-autocomplete>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" md="6"> </v-col>
-              <v-col cols="12" md="6">
-                <v-autocomplete
-                  dense
-                  ref=""
-                  v-model="country"
-                  :rules="[() => !!country || 'This field is required']"
-                  :items="countries"
-                  label="發報頻率"
-                  placeholder="Select..."
-                  required
-                ></v-autocomplete>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" md="6"> </v-col>
-              <v-col cols="12" md="6">
-                <v-autocomplete
-                  dense
-                  ref=""
-                  v-model="country"
-                  :rules="[() => !!country || 'This field is required']"
-                  :items="countries"
-                  label="是否含發報圖"
-                  placeholder="Select..."
-                  required
-                ></v-autocomplete>
-              </v-col>
-            </v-row>
-          </v-card-text>
-          <v-divider class="mt-12"></v-divider>
-          <v-card-actions>
-            <!-- <v-btn text> Cancel </v-btn> -->
+        <v-card-text class="pt-10 px-6">
+          <v-row>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1">LINE Token</v-subheader>
+                </v-col>
+                <v-col cols="12" md="7">
+                  <v-text-field
+                    dense
+                    outlined
+                    ref=""
+                    v-model="country"
+                    :rules="[() => !!country || '不可為空']"
+                    :items="countries"
+                    placeholder="Select..."
+                    required
+                    append-icon="mdi-pencil"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1">發報設定</v-subheader>
+                </v-col>
+                <v-col cols="12" md="7">
+                  <!-- on off -->
+                  <form class="form">
+                    <div class="switch-field pt-1 my-0">
+                      <input
+                        type="radio"
+                        id="radio-one-repos-setting2"
+                        name="switch-one"
+                        value="yes"
+                        checked
+                      />
+                      <label for="radio-one-repos-setting2">ON</label>
+                      <input
+                        type="radio"
+                        id="radio-two-repos-setting2"
+                        name="switch-one"
+                        value="no"
+                      />
+                      <label for="radio-two-repos-setting2">OFF</label>
+                    </div>
+                  </form>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" md="6" class="pa-0 ma-0"> </v-col>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1">重複發報</v-subheader>
+                </v-col>
+                <v-col cols="12" md="7">
+                  <v-select
+                    dense
+                    outlined
+                    ref=""
+                    :rules="[() => !!repeat_transmission2 || '不可為空']"
+                    :items="repeat_transmission2"
+                    placeholder="請選擇"
+                    required
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" md="6" class="pa-0 ma-0"> </v-col>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1">發報頻率</v-subheader>
+                </v-col>
+                <v-col cols="12" md="7">
+                  <v-select
+                    dense
+                    outlined
+                    ref=""
+                    :rules="[() => !!frequency2 || '不可為空']"
+                    :items="frequency2"
+                    placeholder="請選擇"
+                    required
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" md="6" class="pa-0 ma-0"> </v-col>
+            <v-col cols="12" md="6" class="pa-0 ma-0">
+              <v-row>
+                <v-col cols="12" md="5">
+                  <v-subheader class="py-0 pl-12 pb-1"
+                    >是否含警報圖</v-subheader
+                  >
+                </v-col>
+                <v-col cols="12" md="7">
+                  <v-select
+                    dense
+                    outlined
+                    ref=""
+                    :rules="[() => !!alert_pics2 || '不可為空']"
+                    :items="alert_pics2"
+                    placeholder="請選擇"
+                    required
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <footer class="footer">
+          <v-card-actions class="px-6">
             <v-spacer></v-spacer>
             <v-slide-x-reverse-transition>
               <v-tooltip v-if="formHasErrors" left>
@@ -299,7 +448,7 @@
                     icon
                     class="my-0"
                     v-bind="attrs"
-                    @click="resetForm"
+                    @click="resetForm2"
                     v-on="on"
                   >
                     <v-icon>mdi-refresh</v-icon>
@@ -308,10 +457,10 @@
                 <span>Refresh form</span>
               </v-tooltip>
             </v-slide-x-reverse-transition>
-            <v-btn color="primary" text @click="submit"> 確認 </v-btn>
+            <v-btn color="primary" outlined text @click="submit2"> 確認 </v-btn>
           </v-card-actions>
-          <!-- </v-card> -->
-        </v-card-text>
+        </footer>
+        <!-- </v-card> -->
       </v-card>
     </v-col>
   </v-row>
@@ -319,7 +468,23 @@
 <script>
 export default {
   data: () => ({
-    countries: ['Afghanistan', 'Albania', 'Algeria', 'Andorra'],
+    // 重複發報
+    repeat_transmission: ['YES', 'NO'],
+    // 寄件者類型
+    user_type: ['viewer', 'user', 'admin'],
+    // 驗證
+    verify: ['YES', 'NO'],
+    // 發報頻率
+    frequency: ['30秒', '1分鐘', '5分鐘', '10分鐘'],
+    // 是否含警報圖
+    alert_pics: ['YES', 'NO'],
+
+    // 重複發報
+    repeat_transmission2: ['YES', 'NO'],
+    // 發報頻率
+    frequency2: ['30秒', '1分鐘', '5分鐘', '10分鐘'],
+    // 是否含警報圖
+    alert_pics2: ['YES', 'NO'],
     errorMessages: '',
     name: null,
     address: null,
@@ -350,11 +515,6 @@ export default {
   },
 
   methods: {
-    addressCheck() {
-      this.errorMessages = this.address && !this.name ? `Hey! I'm required` : ''
-
-      return true
-    },
     resetForm() {
       this.errorMessages = []
       this.formHasErrors = false
@@ -364,6 +524,23 @@ export default {
       })
     },
     submit() {
+      this.formHasErrors = false
+
+      Object.keys(this.form).forEach((f) => {
+        if (!this.form[f]) this.formHasErrors = true
+
+        this.$refs[f].validate(true)
+      })
+    },
+    resetForm2() {
+      this.errorMessages = []
+      this.formHasErrors = false
+
+      Object.keys(this.form).forEach((f) => {
+        this.$refs[f].reset()
+      })
+    },
+    submit2() {
       this.formHasErrors = false
 
       Object.keys(this.form).forEach((f) => {
@@ -576,5 +753,79 @@ export default {
   right: 0.5em;
   top: 0.5em;
   position: absolute;
+}
+.v-input__slot {
+  max-height: 1em !important;
+  width: 15em !important;
+  // color: red;
+  display: flex !important;
+  align-items: left !important;
+  font-size: 12px;
+  // padding: 0px 0px 0px 0px;
+}
+
+.v-input__slot .v-icon {
+  // max-height: 1em !important;
+  // width: 20em !important;
+  // color: red;
+  // display: flex !important;
+  // align-items: left !important;
+  font-size: 15px;
+  // padding: 0px 0px 0px 0px;
+}
+
+// on off
+.switch-field {
+  display: flex;
+  margin-bottom: 36px;
+  overflow: hidden;
+}
+
+.switch-field input {
+  position: absolute !important;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  width: 1px;
+  border: 0;
+  overflow: hidden;
+}
+
+.switch-field label {
+  /* 	background-color: #e4e4e4; */
+  font-size: 9px;
+  line-height: 1;
+  text-align: center;
+  padding: 8px 16px;
+  margin-right: -1px;
+  border: 1px solid #828c8f;
+  /* 	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1); */
+  transition: all 0.1s ease-in-out;
+  color: rgba(0, 0, 0, 0.2);
+  font-size: 9px;
+}
+
+.switch-field label:hover {
+  cursor: pointer;
+}
+
+.switch-field input:checked + label {
+  background-color: white;
+  box-shadow: none;
+  color: #828c8f;
+}
+
+.switch-field label:first-of-type {
+  border-radius: 4px 0 0 4px;
+}
+
+.switch-field label:last-of-type {
+  border-radius: 0 4px 4px 0;
+}
+
+.footer {
+  position: absolute;
+  bottom: 12px;
+  float: bottom;
+  left: 44em;
 }
 </style>
