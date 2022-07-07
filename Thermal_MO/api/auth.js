@@ -82,6 +82,11 @@ app.post('/login', (req, res) => {
         permission: 'admin'
       },
       {
+        uid: 'louis',
+        pwd: '0000',
+        permission: 'louis'
+      },
+      {
         uid: 'user01',
         pwd: '0000',
         permission: 'user'
@@ -107,6 +112,9 @@ app.post('/login', (req, res) => {
           permission = ['admin', 'user']
         }else if(verify.permission === 'user'){
           permission = ['user']
+        }
+        else if (verify.permission === 'louis') {
+          permission = ['louis', 'admin', 'user']
         }
         return [true, permission]
       } else {

@@ -253,9 +253,14 @@
                   :key="index01"
                   :class="ui_state"
                   id="diagoHover"
-                  @click="testdata"
+                  @click="testdata()"
                 >
-                  <div class="ui-state-cover">
+                  <div
+                    class="ui-state-cover"
+                    v-bind:class="[
+                      index01 % 2 !== 0 ? 'ui-state-cover-outline' : '',
+                    ]"
+                  >
                     <img
                       src="loadingBG.png"
                       class="test-cramre"
@@ -265,6 +270,16 @@
                     <div class="ui-state-default-footer">
                       <div class="ui-state-default-point"></div>
                       <span>Cam-s1-55 A棟CS-01配電盤({{ index01 }})</span>
+                    </div>
+                    <div
+                      v-if="index01 % 2 !== 0"
+                      class="ui-state-default-alarm"
+                    >
+                      <div>
+                        <img src="/images/alarm-200.png" />超溫警報<img
+                          src="/images/alarm-200.png"
+                        />
+                      </div>
                     </div>
                   </div>
                 </li>
@@ -784,6 +799,12 @@ export default {
       '.ui-state-default,.ui-state-default4,.ui-state-default12,.ui-state-default100'
       // ).on('mouseover', function () {
     ).on('click', function () {
+      $('.ui-state-cover-outline').each(function () {
+        $(this).removeClass('ui-state-default-alarm-outline')
+      })
+      $(this)
+        .find('.ui-state-cover-outline')
+        .addClass('ui-state-default-alarm-outline')
       // 假高度
       // var flash = ['600px', '500px', '400px', '2000px']
       // $('.diago-contnet').css('height', flash[Math.floor(Math.random() * 4)])
@@ -794,16 +815,21 @@ export default {
       var dialog = $('.custom-dialog') // 宣告互動視窗
       var div = $(this).find('img') // 選告元素底下的圖片
       dialog.css('max-height', cover.height() + 'px')
-      $('.diago-contnet-cover').css('max-height', cover.height() - 74 + 'px')
+      $('.diago-contnet-cover').css(
+        'max-height',
+        cover.height() - 74 - 10 + 'px'
+      )
       //   var document1Width = $(document).width() / 2 // 宣告目前頁面的一半寬度
       //   var document1Height = $(document).height() / 2 // 宣告目前頁面的一半高度
       var x = 0
       if (position.left + div.width() > cover.width() / 2) {
-        x = position.left - dialog.width() // 宣告元素右下角x軸
+        x = position.left - dialog.width() - 5 // 宣告元素右下角x軸
       } else {
-        x = position.left + div.width() // 宣告元素右下角x軸
+        x = position.left + div.width() + 5 // 宣告元素右下角x軸
       }
-
+      if (x < 0) {
+        x = 8
+      }
       var dialogHeight = dialog.height() / 2
       var y = position.top + div.height() / 2 - dialogHeight // 宣告元素右下角y軸
       // var bottomY = dialog.offset().top + dialog.height()
@@ -816,9 +842,9 @@ export default {
         y = y - (y + dialog.height() - cover.height())
       }
 
-      // 如果計算結果y座標是負的，那會直接把y座標強制設定為0+TOP BAR(高度)
+      // 如果計算結果y座標是負的，那會直接把y座標強制設定為0+header(高度)
       if (y < 64) {
-        y = 64
+        y = 70
       }
 
       // 指定視窗該在哪個方位
@@ -832,11 +858,13 @@ export default {
     testdata() {
       // 連線裝置 假資料
       var arr = []
+      var status01 = [true, false]
       for (var i = 0; i < Math.floor(Math.random() * 1000); i++) {
         arr.push({
           status: '/images/eye-on.png',
           id: `Cam-s1-${i}`,
           item: 'A棟CS-04配電盤',
+          alarm: status01[Math.floor(Math.random() * 1)],
           update: '2022/06/06 14:07:08',
         })
       }
@@ -892,10 +920,12 @@ export default {
       this.diagoalarmlogDesserts = arr4
       // end
     },
-
     // 關閉對話窗
     diagoOff() {
       $('.custom-dialog').addClass('dialog-close')
+      $('.ui-state-cover-outline').each(function () {
+        $(this).removeClass('ui-state-default-alarm-outline')
+      })
     },
     // 分格畫面判斷
     transition(data) {
@@ -1370,7 +1400,7 @@ export default {
   position: absolute;
   background-color: #0000008f;
   /* top: 0; */
-  z-index: 99;
+  z-index: 1;
   left: 0;
   color: #fff;
   bottom: 0;
@@ -1385,6 +1415,54 @@ export default {
   height: 10px;
   border-radius: 10px;
   margin: 0px 10px;
+}
+.ui-state-default-alarm {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #de8788ad;
+  z-index: 2;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ui-state-default-alarm > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  animation: neon 0.6s infinite alternate;
+}
+.ui-state-default-alarm > div img {
+  width: 8%;
+}
+@keyframes neon {
+  0% {
+    opacity: 40%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
+.ui-state-default-alarm-outline {
+  outline: 5px rgb(222 135 136) solid;
+}
+.ui-state-default-alarm-outline > .ui-state-default-alarm {
+  height: 15%;
+  top: unset;
+  background-color: rgba(222, 135, 136, 0.67843);
+  bottom: 0;
+}
+.ui-state-default-alarm-outline > .ui-state-default-alarm > div {
+  justify-content: flex-end;
+  font-size: 23px;
+  padding: 0 1em 0 0px;
+}
+.ui-state-default-alarm-outline > .ui-state-default-alarm > div > img {
+  width: 7%;
 }
 /* 可移動排序 (分4格) */
 .sortable4-1 {
@@ -1432,6 +1510,24 @@ export default {
   height: 24px;
   border-radius: 24px;
   margin: 0px 19px;
+}
+.ui-state-default:last-child .ui-state-default-alarm > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 78px;
+  width: 100%;
+}
+.ui-state-default:last-child .ui-state-default-alarm > div img {
+  width: 8%;
+}
+.ui-state-default:last-child .ui-state-default-alarm-outline > .ui-state-default-alarm > div {
+  justify-content: flex-end;
+  font-size: 40px;
+  padding: 0 2em 0 0px;
+}
+.ui-state-default:last-child .ui-state-default-alarm-outline > .ui-state-default-alarm > div > img {
+  width: 4%;
 }
 /* 可移動排序 (均分4格) */
 .sortable4 {

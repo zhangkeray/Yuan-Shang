@@ -101,17 +101,24 @@ export default {
         },
         {
           icon: 'mdi-account-group-outline',
-          title: 'LouisAPI示範',
+          title: '多畫面test',
           // to: '5',
           to: 'ForTesting9-5',
-          permission: this.$auth.hasScope('user'),
+          permission: this.$auth.hasScope('louis'),
+        },
+        {
+          icon: 'mdi-account-group-outline',
+          title: '多邊形test',
+          // to: '5',
+          to: 'ForTesting9-6',
+          permission: this.$auth.hasScope('louis'),
         },
         {
           icon: 'mdi-account-group-outline',
           title: '多機畫面',
           // to: '5',
           to: 'MultiScreen',
-          permission: this.$auth.hasScope('user'),
+          permission: this.$auth.hasScope('admin'),
         },
         // {
         //   icon: 'mdi-account-group-outline',
