@@ -754,15 +754,15 @@ export default {
   top: 0.5em;
   position: absolute;
 }
-.v-input__slot {
-  max-height: 1em !important;
-  width: 15em !important;
-  // color: red;
-  display: flex !important;
-  align-items: left !important;
-  font-size: 12px;
-  // padding: 0px 0px 0px 0px;
-}
+// .v-input__slot {
+//   // max-height: 1em !important;
+//   // width: 15em !important;
+//   // color: red;
+//   display: flex !important;
+//   align-items: left !important;
+//   font-size: 12px;
+//   // padding: 0px 0px 0px 0px;
+// }
 
 .v-input__slot .v-icon {
   // max-height: 1em !important;
