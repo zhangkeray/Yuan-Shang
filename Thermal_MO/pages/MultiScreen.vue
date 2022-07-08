@@ -1,107 +1,942 @@
 <template>
-  <div>
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<!-- 注意此頁面，用來保存index 原先單機程式碼，這頁不再做任何更新 -->
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+  <div class="fluid mt-3">
     <v-img class="bgimg" src="bgimg.png" height="93.2vh" />
-    <v-tabs v-model="tab" vertical background-color="#fff0">
-      <v-tab v-show="false" href="#tab-1">1</v-tab>
-      <v-tab v-show="false" href="#tab-2">2</v-tab>
-      <v-tabs-items v-model="tab" class="custom-tab-items">
-        <v-tab-item value="tab-1">
-          <v-container fluid>
-            <div class="cover-bg" style="position: relative">
-              <!-- 對話框 -->
-              <div :class="c_diago">
-                <!-- <div class="draggable-bar"></div> -->
-                <div class="diago-head">
-                  <div class="diago-point-cover">
-                    <div class="diago-point mt-5"></div>
-                  </div>
-                  <div class="diago-title mt-5">
-                    <div>
-                      Cam-s1-59 A棟 CS-02配電盤
-                      <v-btn class="arrow-diago" rounded tile width="20px">
-                        <img
-                          class=""
-                          alt="line"
-                          src="/images/tabs.png"
-                          width="60%"
-                      /></v-btn>
-                      <v-btn
-                        class="arrow-diago"
-                        rounded
-                        tile
-                        @click="openDialogImage()"
-                      >
-                        <img
-                          class=""
-                          alt="line"
-                          src="/images/photo.png"
-                          width="60%"
-                      /></v-btn>
-                    </div>
-                    <div>IP: 192.168.0.173</div>
-                  </div>
-                  <div class="diago-close">
-                    <v-btn
-                      class="diago-close-icon"
-                      rounded
-                      outlined
-                      @click="diagoOff"
-                    >
-                      <img
-                        class=""
-                        alt="line"
-                        src="/images/close.png"
-                        width="70%"
-                    /></v-btn>
+
+    <!-- 左側浮動按鈕---------------------------------------------------------------------------------------------------- -->
+    <div class="box">
+      <v-card class="mt-6 drawer" elevation="10" color="#59595b">
+        <v-sheet class="arrow" elevation="5" color="#59595b"></v-sheet>
+        <!-- 監測工具monitoring tools-------------------------------------------------------------------------------- -->
+        <p class="subtitle text-center"><br />監測<br />項目</p>
+        <!-- 點spot -->
+        <v-tooltip right class="tips">
+          <template #activator="{ on, attrs }">
+            <v-btn
+              class="left-btn mx-3"
+              elevation="6"
+              icon
+              v-bind="attrs"
+              v-on="on"
+              @click="addspot()"
+            >
+              <img alt="spot" src="/left-icons/spot.png" width="20em" />
+            </v-btn>
+            <!-- <v-btn x-small icon class="btn reset" color="#9BA3A5">
+                  <v-icon x-small class="icon">mdi-restore</v-icon>
+                </v-btn> -->
+          </template>
+          <span>點</span>
+        </v-tooltip>
+        <!-- 線line -->
+        <v-tooltip right class="tips">
+          <template #activator="{ on, attrs }">
+            <v-btn
+              class="left-btn mx-3 mt-3"
+              elevation="6"
+              icon
+              v-bind="attrs"
+              v-on="on"
+              @click="addline()"
+            >
+              <img alt="line" src="/left-icons/line.png" width="15em" />
+            </v-btn>
+          </template>
+          <span>直線</span>
+        </v-tooltip>
+        <!-- 矩形rectangle -->
+        <v-tooltip right class="tips">
+          <template #activator="{ on, attrs }">
+            <v-btn
+              class="left-btn mx-3 my-3"
+              elevation="6"
+              icon
+              v-bind="attrs"
+              v-on="on"
+              @click="addscope()"
+            >
+              <img
+                alt="rectangle"
+                src="/left-icons/rectangle.png"
+                width="18em"
+              />
+            </v-btn>
+          </template>
+          <span>矩形</span>
+        </v-tooltip>
+        <v-divider></v-divider>
+        <!-- 影像呈現image presentation------------------------------------------------------------------------------ -->
+        <p class="subtitle text-center"><br />影像<br />呈現</p>
+        <!-- 影像模式image mode -->
+        <v-speed-dial
+          :direction="direction_imageMode"
+          :transition="transition_imageMode"
+        >
+          <template #activator>
+            <v-tooltip right class="tips">
+              <template #activator="{ on, attrs }">
+                <v-btn
+                  v-model="fab_imageMode"
+                  elevation="6"
+                  class="left-btn mx-3"
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon v-if="fab_imageMode"> mdi-close </v-icon>
+                  <img
+                    v-else
+                    alt="palette"
+                    src="/left-icons/image-mode/image-mode.png"
+                    width="21em"
+                  />
+                </v-btn>
+              </template>
+              <span>影像模式</span>
+            </v-tooltip>
+          </template>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt="image-mode-thermal"
+                  src="/left-icons/image-mode/image-mode-thermal.png"
+                  width="22em"
+                />
+              </v-btn>
+            </template>
+            <span>Thermal</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt="image-mode-thermal-msx"
+                  src="/left-icons/image-mode/image-mode-thermal-msx.png"
+                  width="22em"
+                />
+              </v-btn>
+            </template>
+            <span>Thermal MSX</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt="image-mode-digital-camera"
+                  src="/left-icons/image-mode/image-mode-digital-camera.png"
+                  width="22em"
+                />
+              </v-btn>
+            </template>
+            <span>Digital Camera</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt="image-mode-marco"
+                  src="/left-icons/image-mode/image-mode-marco.png"
+                  width="22em"
+                />
+              </v-btn>
+            </template>
+            <span>Marco</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt="image-mode-thermal-fsx"
+                  src="/left-icons/image-mode/image-mode-thermal-fsx.png"
+                  width="22em"
+                />
+              </v-btn>
+            </template>
+            <span>Thermal FSX</span>
+          </v-tooltip>
+        </v-speed-dial>
+        <!-- 色譜模式palette -->
+        <v-speed-dial
+          :direction="direction_palette"
+          :transition="transition_palette"
+        >
+          <template #activator>
+            <v-tooltip right class="tips">
+              <template #activator="{ on, attrs }">
+                <v-btn
+                  v-model="fab_palette"
+                  class="left-btn mx-3 my-3"
+                  elevation="6"
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon v-if="fab_palette"> mdi-close </v-icon>
+                  <img
+                    v-else
+                    alt="palette"
+                    src="/left-icons/palette/palette.png"
+                    width="18em"
+                  />
+                </v-btn>
+              </template>
+              <span>色譜模式</span>
+            </v-tooltip>
+          </template>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class=""
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt="palette-iron"
+                  src="/left-icons/palette/palette-iron.png"
+                  width="24em"
+                />
+              </v-btn>
+            </template>
+            <span>Iron</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class=""
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt="palette-lava"
+                  src="/left-icons/palette/palette-lava.png"
+                  width="24em"
+                />
+              </v-btn>
+            </template>
+            <span>Lava</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class=""
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt="palette-gray"
+                  src="/left-icons/palette/palette-gray.png"
+                  width="24em"
+                />
+              </v-btn>
+            </template>
+            <span>Gray</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class=""
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt="palette-rainbow"
+                  src="/left-icons/palette/palette-rainbow.png"
+                  width="24em"
+                />
+              </v-btn>
+            </template>
+            <span>Rainbow</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class=""
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt="palette-rainbow-hc"
+                  src="/left-icons/palette/palette-rainbow-hc.png"
+                  width="24em"
+                />
+              </v-btn>
+            </template>
+            <span>Rainbow HC</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class=""
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt="palette-arctic"
+                  src="/left-icons/palette/palette-arctic.png"
+                  width="20em"
+                />
+              </v-btn>
+            </template>
+            <span>Arctic</span>
+          </v-tooltip>
+        </v-speed-dial>
+        <v-divider></v-divider>
+
+        <!-- 計算工具calibration tools------------------------------------------------------------------------------ -->
+        <p class="subtitle text-center"><br />校正<br />工具</p>
+
+        <!-- 計算calibration -->
+        <v-speed-dial
+          :direction="direction_calibration"
+          :transition="transition_calibration"
+        >
+          <template #activator>
+            <v-tooltip right class="tips">
+              <template #activator="{ on, attrs }">
+                <v-btn
+                  v-model="fab_calibration"
+                  class="left-btn mx-3"
+                  elevation="6"
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon v-if="fab_calibration"> mdi-close </v-icon>
+                  <img
+                    v-else
+                    alt="palette"
+                    src="/left-icons/calibration/calibration.png"
+                    width="16em"
+                  />
+                </v-btn>
+              </template>
+              <span>校正</span>
+            </v-tooltip>
+          </template>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt=""
+                  src="/left-icons/calibration/calibration-now.png"
+                  width="23em"
+                />
+              </v-btn>
+            </template>
+            <span>立即校正</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt=""
+                  src="/left-icons/calibration/calibration-auto.png"
+                  width="20em"
+                />
+              </v-btn>
+            </template>
+            <span>自動校正</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt=""
+                  src="/left-icons/calibration/calibration-10min.png"
+                  width="20em"
+                />
+              </v-btn>
+            </template>
+            <span>每10分鐘</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt=""
+                  src="/left-icons/calibration/calibration-30min.png"
+                  width="20em"
+                />
+              </v-btn>
+            </template>
+            <span>每30分鐘</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt=""
+                  src="/left-icons/calibration/calibration-60min.png"
+                  width="20em"
+                />
+              </v-btn>
+            </template>
+            <span>每60分鐘</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt=""
+                  src="/left-icons/calibration/calibration-manual.png"
+                  width="20em"
+                />
+              </v-btn>
+            </template>
+            <span>手動校正</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="mt-2"
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt=""
+                  src="/left-icons/calibration/calibration-stop.png"
+                  width="20em"
+                />
+              </v-btn>
+            </template>
+            <span>停止校正</span>
+          </v-tooltip>
+        </v-speed-dial>
+        <!-- 照明light -->
+        <v-speed-dial
+          :direction="direction_light"
+          :transition="transition_light"
+        >
+          <template #activator>
+            <v-tooltip right class="tips">
+              <template #activator="{ on, attrs }">
+                <v-btn
+                  v-model="fab_light"
+                  class="left-btn mx-3 mt-3"
+                  elevation="6"
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="light"
+                >
+                  <v-icon v-if="fab_light"> mdi-close </v-icon>
+                  <img
+                    v-else
+                    id="light_img"
+                    alt="palette"
+                    src="/left-icons/light/light-off.png"
+                    width="14em"
+                  />
+                </v-btn>
+              </template>
+              <span>照明</span>
+            </v-tooltip>
+          </template>
+        </v-speed-dial>
+        <!-- 自動對焦autoFocus -->
+        <v-speed-dial
+          :direction="direction_autofocus"
+          :transition="transition_autofocus"
+        >
+          <template #activator>
+            <v-tooltip right class="tips">
+              <template #activator="{ on, attrs }">
+                <v-btn
+                  v-model="fab_autofocus"
+                  class="left-btn mx-3 my-3"
+                  elevation="6"
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon v-if="fab_autofocus"> mdi-close </v-icon>
+                  <img
+                    v-else
+                    alt="palette"
+                    src="/left-icons/autofocus/autofocus.png"
+                    width="16em"
+                  />
+                </v-btn>
+              </template>
+              <span>自動對焦</span>
+            </v-tooltip>
+          </template>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class=""
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt="palette-iron"
+                  src="/left-icons/autofocus/autofocus-focus-further.png"
+                  width="18em"
+                />
+              </v-btn>
+            </template>
+            <span>遠景</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class=""
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt="palette-lava"
+                  src="/left-icons/autofocus/autofocus-focus-closer.png"
+                  width="18em"
+                />
+              </v-btn>
+            </template>
+            <span>近景</span>
+          </v-tooltip>
+          <v-tooltip top class="tips">
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class=""
+                elevation="6"
+                x-small
+                dark
+                fab
+                v-bind="attrs"
+                v-on="on"
+              >
+                <img
+                  alt="palette-gray"
+                  src="/left-icons/autofocus/autofocus-autofocus.png"
+                  width="18em"
+                />
+              </v-btn>
+            </template>
+            <span>自動對焦</span>
+          </v-tooltip>
+        </v-speed-dial>
+        <v-divider></v-divider>
+        <!-- 影像調整image adjustment ------------------------------------------------------------------------------ -->
+        <p class="subtitle text-center"><br />影像<br />調整</p>
+        <!-- 全螢幕fullscreen -->
+        <v-tooltip right class="tips">
+          <template #activator="{ on, attrs }">
+            <v-btn
+              class="left-btn mx-3"
+              elevation="6"
+              icon
+              v-bind="attrs"
+              v-on="on"
+            >
+              <img
+                class=""
+                alt="spot"
+                src="/left-icons/fullscreen.png"
+                width="19em"
+              />
+            </v-btn>
+          </template>
+          <span>全螢幕</span>
+        </v-tooltip>
+        <!-- 影像快照snapshot -->
+        <v-tooltip right class="tips">
+          <template #activator="{ on, attrs }">
+            <v-btn
+              class="left-btn mx-3 mt-3"
+              elevation="6"
+              icon
+              v-bind="attrs"
+              v-on="on"
+            >
+              <img
+                class=""
+                alt="line"
+                src="/left-icons/snapshot.png"
+                width="19em"
+              />
+            </v-btn>
+          </template>
+          <span>影像快照</span>
+        </v-tooltip>
+        <!-- 串流暫停freeze/持續unfreeze -->
+        <v-tooltip right class="tips">
+          <template #activator="{ on, attrs }">
+            <v-btn
+              class="left-btn mx-3 mt-3"
+              icon
+              v-bind="attrs"
+              elevation="6"
+              v-on="on"
+              @click="freeze"
+            >
+              <img
+                id="unfreeze"
+                alt="rectangle"
+                src="/left-icons/freeze/unfreeze.png"
+                width="9em"
+              />
+            </v-btn>
+          </template>
+          <span>串流暫停/持續</span>
+        </v-tooltip>
+
+        <!-- 隱藏/顯示監測項目hide/show overlay -->
+        <v-tooltip right class="tips">
+          <template #activator="{ on, attrs }">
+            <v-btn
+              class="left-btn mx-3 my-3"
+              elevation="6"
+              icon
+              v-bind="attrs"
+              v-on="on"
+            >
+              <img
+                class=""
+                alt="rectangle"
+                src="/left-icons/hide-overlay.png"
+                width="18em"
+              />
+            </v-btn>
+          </template>
+          <span>隱藏/顯示監測項目</span>
+        </v-tooltip>
+      </v-card>
+    </div>
+
+    <!-- ------------------------------------------------------------------
+    ------------------------------------------------------------------
+    ------------------------------------------------------------------ -->
+
+    <v-row>
+      <!-- 左畫面影像顯示----------------------------------------------------------------------------------------------- -->
+      <v-col cols="12" md="7">
+        <!-- <v-col cols="12" md="7" style="border: 1px solid red"> -->
+        <v-card class="mt-3 ml-6" rounded="md" elevation="6">
+          <!-- <v-responsive :aspect-ratio="4 / 3"> -->
+          <v-card-text>
+            <div class="frame">
+              <div id="cover" class="cover">
+                <div class="d-none" id="rtsp-status"></div>
+                <div class="d-none" id="rtsp-stay"></div>
+                <img
+                  id="image"
+                  src="https://dummyimage.com/640x480/969696/000000&text=loading...."
+                />
+                <div
+                  :style="{
+                    top: this.reference.Y + 'px',
+                    left: this.reference.X + 'px',
+                  }"
+                  id="spot"
+                  class="spot"
+                >
+                  <img src="/images/spot_1.png" />
+                  <div class="spot-span">
+                    <div>R</div>
                   </div>
                 </div>
-                <div class="diago-contnet-cover">
-                  <div class="diago-alarm-cover">
-                    <!-- 警報設置 -->
-                    <div class="diago-border1">
-                      <strong class="diago-title">警報設置</strong>
-                      <v-data-table
-                        dense
-                        :headers="diagoalarmHeaders"
-                        :items="diagoalarmDesserts"
-                        disable-pagination
-                        hide-default-header
-                        hide-default-footer
-                      >
-                        <template v-slot:header="{ props }">
-                          <th
-                            v-for="(head ,idx) in props.headers"
-                            :key="idx"
-                            class="diago-table-title"
-                          >
-                            {{ head.text.toUpperCase() }}
-                          </th>
-                        </template>
-                        <template v-slot:[`item.item`]="{ item }">
-                          <v-badge
-                            :content="item.item"
-                            overlap
-                            color="#828C8F"
-                            class="my-3"
-                            bordered
-                            ><v-btn icon class="right-btn" width="28px"
-                              ><img
-                                class=""
-                                alt=""
-                                src="/right-icons/spot2.png"
-                                width="18px" /></v-btn
-                          ></v-badge>
-                        </template>
-                        <template v-slot:[`item.setting`]="{ item }">
-                          <v-btn color="" icon class="right-btn" width="28px"
+                <!-- 點物件 -->
+                <div
+                  v-for="(item01, index) in spots"
+                  :key="'B' + index"
+                  :style="{
+                    top: item01.spot_position.Y + 'px',
+                    left: item01.spot_position.X + 'px',
+                  }"
+                  id="spot"
+                  class="spot"
+                  v-bind:data-name="item01.spot_number"
+                >
+                  <img src="/images/spot_1.png" />
+                  <div class="spot-span">
+                    <div>{{ item01.spot_number }}</div>
+                  </div>
+                </div>
+                <!-- 範圍物件 -->
+                <div
+                  v-for="(item02, index) in scopes"
+                  :key="'A' + index"
+                  :style="{
+                    top: item02.scope_position_point_LT.Y + 'px',
+                    left: item02.scope_position_point_LT.X + 'px',
+                    width: item02.scope_position_point_BR.X + 'px',
+                    height: item02.scope_position_point_BR.Y + 'px',
+                  }"
+                  id="scope"
+                  class="scope"
+                  v-bind:data-name="item02.scope_number"
+                >
+                  <div class="scope-span">
+                    <div>{{ item02.scope_number }}</div>
+                  </div>
+                  <!-- <span class="scope-test-xy-TL">X:Y:</span
+                  ><span class="scope-test-xy-BR">X:Y:</span> -->
+                </div>
+                <!-- 線物件 -->
+                <div
+                  v-for="(item, index) in lines"
+                  :key="'point1' + index"
+                  :style="{
+                    top: item.line_position_point_A.Y + 'px',
+                    left: item.line_position_point_A.X + 'px',
+                  }"
+                  id="pointA"
+                  :class="'point-totle ' + 'point' + (index + 1)"
+                  v-bind:data-name="item.line_number"
+                >
+                  <div class="line-span">
+                    <div>{{ item.line_number }}</div>
+                  </div>
+                </div>
+                <div
+                  v-for="(item, index) in lines"
+                  :key="'point2' + index"
+                  :style="{
+                    top: item.line_position_point_B.Y + 'px',
+                    left: item.line_position_point_B.X + 'px',
+                  }"
+                  id="pointB"
+                  :class="'point' + (index + 1) + ' point_hover' + (index + 1)"
+                  v-bind:data-name="item.line_number"
+                ></div>
+                <div
+                  v-for="(item, index) in lines"
+                  :key="'line' + index"
+                  :class="'line' + (index + 1)"
+                  id="line"
+                ></div>
+              </div>
+            </div>
+          </v-card-text>
+          <!-- </v-responsive> -->
+        </v-card>
+      </v-col>
+      <!--右1畫面顯示----------------------------------------------------------------------------------------------- -->
+      <v-col cols="12" md="5">
+        <v-row :column="$vuetify.breakpoint.mdAndDown">
+          <v-col cols="12" lg="5">
+            <v-card class="mt-3" rounded="md" elevation="6">
+              <h4 class="cardtitle ml-3">警報設置</h4>
+              <v-simple-table
+                id="style-3"
+                fixed-header
+                height="300px"
+                class="mx-2"
+              >
+                <template #default>
+                  <thead>
+                    <tr>
+                      <th class="text-center">項目</th>
+                      <th class="text-center">監測溫度</th>
+                      <th class="text-center">設定警報</th>
+                      <th class="text-center">刪除</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-center" style="padding: 0px 13px">
+                        <v-badge
+                          content="R"
+                          overlap
+                          color="#828C8F"
+                          class="my-4"
+                          bordered
+                          ><v-btn icon class="right-btn"
                             ><img
-                              :class="item"
+                              class=""
                               alt=""
-                              src="/right-icons/alert-on.png"
-                              width="18px"
-                              depressed
-                            />
-                            <!-- <img
+                              src="/right-icons/spot2.png"
+                              width="20em" /></v-btn
+                        ></v-badge>
+                      </td>
+                      <td
+                        class="text-center subtitle-right"
+                        style="padding: 0px 25px"
+                      >
+                        {{ reference.reference_temperature }}°C
+                      </td>
+                      <td class="text-center" style="padding: 0px 25px">N/A</td>
+                      <td class="text-center" style="padding: 0px 13px">N/A</td>
+                    </tr>
+                    <!-- spot -->
+                    <tr v-for="(item, index) in spots" :key="'C' + index">
+                      <td class="text-center" style="padding: 0px 13px">
+                        <v-badge
+                          :content="item.spot_number"
+                          overlap
+                          color="#828C8F"
+                          class="my-4"
+                          bordered
+                          ><v-btn icon class="right-btn"
+                            ><img
+                              class=""
+                              alt=""
+                              src="/right-icons/spot2.png"
+                              width="20em" /></v-btn
+                        ></v-badge>
+                      </td>
+                      <td
+                        class="text-center subtitle-right"
+                        style="padding: 0px 25px"
+                      >
+                        {{ item.spot_temperature }}°C
+                      </td>
+                      <td class="text-center" style="padding: 0px 25px">
+                        <!-- 點:警報對話框 -->
+                        <v-btn
+                          color=""
+                          icon
+                          class="right-btn"
+                          @click="opendialog(item.spot_number, 'spot')"
+                          ><img
+                            v-if="
+                              item.spot_alarm_status === 1 &&
+                              item.spot_temperature <= item.spot_threshold
+                            "
+                            class=""
+                            alt=""
+                            src="/right-icons/alert-on.png"
+                            width="18em"
+                            depressed
+                          />
+                          <img
                             v-else-if="
                               item.spot_alarm_status === 1 &&
                               item.spot_temperature >= item.spot_threshold
@@ -119,656 +954,639 @@
                             src="/right-icons/alert-off.png"
                             width="18em"
                             depressed
-                          /> -->
-                          </v-btn>
-                        </template>
-                      </v-data-table>
-                    </div>
-                    <!-- 警報紀錄 -->
-                    <div class="diago-border1 ml-2">
-                      <strong class="diago-title">警報紀錄</strong>
-                      <v-data-table
-                        dense
-                        :headers="diagoalarmlogHeaders"
-                        :items="diagoalarmlogDesserts"
-                        disable-pagination
-                        hide-default-header
-                        hide-default-footer
+                          />
+                        </v-btn>
+                      </td>
+                      <td class="text-center" style="padding: 0px 13px">
+                        <v-btn color="" icon class="right-btn"
+                          ><img
+                            class=""
+                            alt=""
+                            src="/right-icons/delete.png"
+                            width="18em"
+                            @click="deletespot(item.spot_number)"
+                        /></v-btn>
+                      </td>
+                    </tr>
+                    <!-- SCOPE -->
+                    <tr v-for="(item, index) in scopes" :key="'D' + index">
+                      <td class="text-center" style="padding: 0px 13px">
+                        <v-badge
+                          :content="item.scope_number"
+                          overlap
+                          color="#828C8F"
+                          class="my-4"
+                          bordered
+                          ><v-btn icon class="right-btn"
+                            ><img
+                              class="rectangle"
+                              alt=""
+                              src="/right-icons/rectangle2.png"
+                              width="17em" /></v-btn
+                        ></v-badge>
+                      </td>
+                      <td
+                        class="text-center subtitle-right"
+                        style="padding: 0px 25px"
                       >
-                        <template v-slot:header="{ props }">
-                          <th
-                            v-for="(head1 , idz) in props.headers"
-                            :key="idz"
-                            class="diago-table-title"
-                          >
-                            {{ head1.text.toUpperCase() }}
-                          </th>
-                        </template>
-                        <template v-slot:[`item.item`]="{ item }">
+                        {{ item.scope_temperature_max }}°C
+                      </td>
+                      <td class="text-center" style="padding: 0px 25px">
+                        <!-- 面:警報對話框 -->
+                        <v-btn
+                          color=""
+                          icon
+                          class="right-btn"
+                          @click="opendialog(item.scope_number, 'scope')"
+                          ><img
+                            v-if="
+                              item.scope_alarm_status === 1 &&
+                              item.scope_temperature_max <= item.scope_threshold
+                            "
+                            class=""
+                            alt=""
+                            src="/right-icons/alert-on.png"
+                            width="18em"
+                            depressed
+                          />
+                          <img
+                            v-if="
+                              item.scope_alarm_status === 1 &&
+                              item.scope_temperature_max >= item.scope_threshold
+                            "
+                            class=""
+                            alt=""
+                            src="/right-icons/alertOn.png"
+                            width="18em"
+                            depressed
+                          />
+                          <img
+                            v-else-if="item.scope_alarm_status === 0"
+                            class=""
+                            alt=""
+                            src="/right-icons/alert-off.png"
+                            width="18em"
+                            depressed
+                          />
+                        </v-btn>
+                      </td>
+                      <td class="text-center" style="padding: 0px 13px">
+                        <v-btn color="" icon class="right-btn"
+                          ><img
+                            class=""
+                            alt="delete"
+                            src="/right-icons/delete.png"
+                            width="18em"
+                            @click="deletescope(item.scope_number)"
+                        /></v-btn>
+                      </td>
+                    </tr>
+                    <!-- LINE -->
+                    <tr v-for="(item, index) in lines" :key="'H' + index">
+                      <td class="text-center" style="padding: 0px 13px">
+                        <v-badge
+                          :content="item.line_number"
+                          overlap
+                          color="#828C8F"
+                          class="my-4"
+                          bordered
+                          ><v-btn icon class="right-btn"
+                            ><img
+                              class=""
+                              alt="alert"
+                              src="/right-icons/line2.png"
+                              width="15em" /></v-btn
+                        ></v-badge>
+                      </td>
+                      <td
+                        class="text-center subtitle-right"
+                        style="padding: 0px 25px"
+                      >
+                        {{ item.line_temperature_max }}°C
+                      </td>
+                      <td class="text-center" style="padding: 0px 25px">
+                        <!-- 線:警報對話框 -->
+                        <v-btn
+                          color=""
+                          icon
+                          class="right-btn"
+                          @click="opendialog(item.line_number, 'line')"
+                          ><img
+                            v-if="
+                              item.line_alarm_status === 1 &&
+                              item.line_temperature_max <= item.line_threshold
+                            "
+                            class=""
+                            alt=""
+                            src="/right-icons/alert-on.png"
+                            width="18em"
+                            depressed />
+                          <img
+                            v-if="
+                              item.line_alarm_status === 1 &&
+                              item.line_temperature_max >= item.line_threshold
+                            "
+                            class=""
+                            alt=""
+                            src="/right-icons/alertOn.png"
+                            width="18em"
+                            depressed />
+                          <img
+                            v-else-if="item.line_alarm_status === 0"
+                            class=""
+                            alt=""
+                            src="/right-icons/alert-off.png"
+                            width="18em"
+                            depressed
+                        /></v-btn>
+                      </td>
+                      <td class="text-center" style="padding: 0px 13px">
+                        <v-btn
+                          color=""
+                          icon
+                          class="right-btn"
+                          @click="deleteline(item.line_number)"
+                          ><img
+                            class=""
+                            alt="delete"
+                            src="/right-icons/delete.png"
+                            width="18em"
+                        /></v-btn>
+                      </td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
+            </v-card>
+          </v-col>
+          <!-- 物件警報(共用) -->
+          <v-dialog v-model="dialog" persistent max-width="290">
+            <form @submit.prevent="submitForm">
+              <v-card>
+                <h4 class="cardtitle ml-3">設定警報</h4>
+                <!-- <v-divider></v-divider> -->
+                <v-card-text>
+                  <v-select
+                    disabled
+                    class="subtitle text-color"
+                    v-model="conditionSelect"
+                    :items="conditionItems"
+                    :rules="[(v) => !!v || 'Item is required']"
+                    label="條件"
+                    required
+                  ></v-select>
+                  <v-text-field
+                    v-model="threshold"
+                    class="subtitle text-color qwcegzsd"
+                    label="閾值"
+                    name="threshold"
+                    color="#828c8f"
+                    required
+                  ></v-text-field>
+                  <v-text-field
+                    disabled
+                    v-model="hysteresis"
+                    class="subtitle text-color"
+                    label="滯後"
+                    color="#828c8f"
+                  ></v-text-field>
+                  <v-text-field
+                    disabled
+                    v-model="thresholdTime"
+                    class="subtitle text-color"
+                    label="閾值時間(毫秒)"
+                    color="#828c8f"
+                  ></v-text-field>
+                  <v-select
+                    disabled
+                    class="subtitle text-color"
+                    v-model="captureSelect"
+                    :items="captureItems"
+                    :rules="[(v) => !!v || 'Item is required']"
+                    label="捕捉"
+                    required
+                  ></v-select>
+                  <v-text-field
+                    disabled
+                    v-model="pulseTime"
+                    class="subtitle text-color"
+                    label="脈衝時間(毫秒)"
+                    color="#828c8f"
+                  ></v-text-field>
+                </v-card-text>
+
+                <v-card-actions>
+                  <v-switch
+                    label=""
+                    v-model="checkbox"
+                    color="#828c8f"
+                  ></v-switch>
+                  <v-spacer></v-spacer>
+
+                  <v-btn color="#828C8F" text @click="dialog = false">
+                    取消
+                  </v-btn>
+
+                  <v-btn color="#828C8F" type="submit" text> 確定 </v-btn>
+                </v-card-actions>
+              </v-card>
+            </form>
+          </v-dialog>
+          <!--右2畫面顯示----------------------------------------------------------------------------------------------- -->
+          <v-col cols="12" lg="7">
+            <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
+
+            <v-card class="mt-3 mr-6" rounded="md" elevation="6">
+              <h4 class="cardtitle ml-3">警報紀錄</h4>
+              <v-simple-table fixed-header height="300px" class="mx-2 table2">
+                <template #default>
+                  <thead>
+                    <tr>
+                      <th class="text-center alarmLogth">項目</th>
+                      <th class="text-center alarmLogth" style="">觸發時間</th>
+                      <th class="text-center alarmLogth" style="">監測溫度</th>
+                      <th class="text-center alarmLogth" style="">警報溫度</th>
+                      <th class="text-center alarmLogth" style="">開始時間</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="item in temps" :key="item.name">
+                      <template v-if="item.duration[0] === '持續中'">
+                        <td
+                          class="text-center"
+                          style="
+                            padding: 0px 13px;
+                            background-color: rgb(232 149 159 / 33%);
+                            color: #4c4c4c;
+                          "
+                        >
                           <v-badge
-                            :content="item.item"
+                            :content="item.objcet.number"
                             overlap
                             color="#828C8F"
-                            class="my-3"
+                            class="badge my-4"
                             bordered
-                            ><v-btn icon class="right-btn" width="28px"
-                              ><img
+                          >
+                            <v-btn icon class="right-btn">
+                              <img
+                                v-if="item.objcet.name === 'spot'"
                                 class=""
-                                alt=""
+                                alt="alert"
                                 src="/right-icons/spot2.png"
-                                width="18px" /></v-btn
-                          ></v-badge>
-                        </template>
-                        <template v-slot:[`item.location`]="{ item }">
-                          X:{{ item.location.X }}<br />Y:{{ item.location.Y }}
-                        </template>
-                      </v-data-table>
-                    </div>
-                  </div>
-                  <div class="diago-alarm-cover1">
-                    <!-- 警報統計 -->
-                    <div class="diago-border1">
-                      <strong class="diago-title">警報統計</strong>
-                      <!-- 圖表1 本日 -->
-                      <div class="donut-flex mt-5">
-                        <v-progress-circular
-                          class="donut1"
-                          :rotate="-90"
-                          :size="40"
-                          :width="5"
-                          :value="circularToday"
-                          color="#828c8f"
-                          backgroud
+                                width="18em"
+                              />
+                              <img
+                                v-if="item.objcet.name === 'scope'"
+                                class=""
+                                alt="alert"
+                                src="/right-icons/rectangle2.png"
+                                width="18em"
+                              />
+                              <img
+                                v-if="item.objcet.name === 'line'"
+                                class=""
+                                alt="alert"
+                                src="/right-icons/line2.png"
+                                width="18em"
+                              />
+                            </v-btn>
+                          </v-badge>
+                        </td>
+                        <td
+                          class="text-center subtitle-right"
+                          style="
+                            padding: 0px 13px;
+                            background-color: rgb(232 149 159 / 33%);
+                            color: #4c4c4c;
+                          "
                         >
-                          <h6>{{ circularToday }}</h6>
-                        </v-progress-circular>
-                        <div class="ml-3 donut-txt">當日</div>
-                      </div>
-                      <!-- 圖表1 昨日 -->
-                      <div class="donut-flex mt-5">
-                        <v-progress-circular
-                          class="donut1"
-                          :rotate="-90"
-                          :size="40"
-                          :width="5"
-                          :value="circularYesterday"
-                          color="#828c8f"
-                          backgroud
+                          {{ item.duration[1] }}<br />
+                          ({{ item.duration[0] }})
+                        </td>
+                        <td
+                          class="text-center subtitle-right"
+                          style="
+                            padding: 0px 24.7px;
+                            background-color: rgb(232 149 159 / 33%);
+                            color: #4c4c4c;
+                          "
                         >
-                          <h6>{{ circularYesterday }}</h6>
-                        </v-progress-circular>
-                        <div class="ml-3 donut-txt">昨日</div>
-                      </div>
-                      <!-- 圖表1 當周 -->
-                      <div class="donut-flex mt-5">
-                        <v-progress-circular
-                          class="donut1"
-                          :rotate="-90"
-                          :size="40"
-                          :width="5"
-                          :value="circularWeek"
-                          color="#de8788"
-                          backgroud
+                          {{ item.temperature }}°C
+                        </td>
+                        <td
+                          class="text-center subtitle-right"
+                          style="
+                            padding: 0px 24.7px;
+                            background-color: rgb(232 149 159 / 33%);
+                            color: #4c4c4c;
+                          "
                         >
-                          <h6>{{ circularWeek }}</h6>
-                        </v-progress-circular>
-                        <div class="ml-3 donut-txt">當周</div>
-                      </div>
-                      <!-- 圖表1 當月 -->
-                      <div class="donut-flex mt-5">
-                        <v-progress-circular
-                          class="donut1"
-                          :rotate="-90"
-                          :size="40"
-                          :width="5"
-                          :value="circularMonth"
-                          color="#828c8f"
-                          backgroud
+                          {{ item.alertTemperature }}°C
+                        </td>
+                        <td
+                          class="text-center subtitle-right"
+                          style="
+                            padding: 0px 5px;
+                            font-size: 12px;
+                            background-color: rgb(232 149 159 / 33%);
+                            color: #4c4c4c;
+                          "
                         >
-                          <h6>{{ circularMonth }}</h6>
-                        </v-progress-circular>
-                        <div class="ml-3 donut-txt">當月</div>
-                      </div>
-                    </div>
-                    <!-- 警報歷史 -->
-                    <div class="diago-border1 ml-2">
-                      <strong class="diago-title">警報歷史</strong>
-                      <div class="reset1">
-                        <v-icon color="#d8d8d8">mdi-circle-medium</v-icon
-                        ><span class="subtitle-right">正常</span>
-                        <v-icon color="#828c8f">mdi-circle-medium</v-icon
-                        ><span class="subtitle-right">超溫</span>
-                      </div>
-                      <v-date-picker
-                        v-model="date2"
-                        class="date-picker"
-                        :event-color="
-                          (date) => (date[9] % 2 ? 'red' : 'yellow')
-                        "
-                        readonly
-                        no-title
-                        color="#828c8f"
-                        width="267"
-                        height="200"
-                      ></v-date-picker>
-                    </div>
-                  </div>
-                  <div class="diago-btn-cover mt-1 mb-3 mr-4 ml-3">
-                    <v-btn
-                      color="#de8788"
-                      class="diago-btn"
-                      max-height="24px"
-                      max-width="95px"
-                      rounded
-                    >
-                      <span class="diago-btn-font" @click="VideoActive('tab-2')"
-                        >查看更多</span
-                      >
-                    </v-btn>
-                  </div>
-                </div>
-                <div class="diago-tootip-img dialog-close">
-                  <div class="diago-tootip-head">
-                    <div class="diago-tootip-close">
-                      <v-btn
-                        class="diago-close-icon"
-                        rounded
-                        outlined
-                        @click="offDialogImage()"
-                      >
-                        <img
-                          class=""
-                          alt="line"
-                          src="/images/close.png"
-                          width="60%"
-                      /></v-btn>
-                    </div>
-                    <div class="diago-tootip-title pl-3">
-                      Cam-s1-59 A棟CS-02配電盤
-                    </div>
-                  </div>
-                  <div class="diago-tootip-photo">
-                    <div class="diago-tootip-photo-zoom">
-                      <div class="zoom-cover">
-                        <template>
-                          <v-btn
-                            class="zoom-cover-btu"
-                            fab
-                            @click="zoom(1)"
-                            :class="zoomin"
+                          {{ item.time }}
+                        </td>
+                      </template>
+                      <template v-else>
+                        <td class="text-center" style="padding: 0px 13px">
+                          <v-badge
+                            :content="item.objcet.number"
+                            overlap
+                            color="#828C8F"
+                            class="badge my-4"
+                            bordered
                           >
-                            <img
-                              class=""
-                              alt="line"
-                              src="/images/zoom-in.png"
-                              width="30%"
-                            />
-                          </v-btn>
-                        </template>
-                        <template>
-                          <v-btn
-                            class="zoom-cover-btu"
-                            fab
-                            @click="zoom(0)"
-                            :class="zoomout"
-                          >
-                            <img
-                              class=""
-                              alt="line"
-                              src="/images/zoom-out.png"
-                              width="30%"
-                            />
-                          </v-btn>
-                        </template>
-                      </div>
-                    </div>
-                    <img
-                      class=""
-                      src="/images/1657246562560.png"
-                      width="100%"
-                    />
-                  </div>
-                </div>
+                            <v-btn icon class="right-btn">
+                              <img
+                                v-if="item.objcet.name === 'spot'"
+                                class=""
+                                alt="alert"
+                                src="/right-icons/spot2.png"
+                                width="18em"
+                              />
+                              <img
+                                v-if="item.objcet.name === 'scope'"
+                                class=""
+                                alt="alert"
+                                src="/right-icons/rectangle2.png"
+                                width="18em"
+                              />
+                              <img
+                                v-if="item.objcet.name === 'line'"
+                                class=""
+                                alt="alert"
+                                src="/right-icons/line2.png"
+                                width="18em"
+                              />
+                            </v-btn>
+                          </v-badge>
+                        </td>
+                        <td
+                          class="text-center subtitle-right"
+                          style="padding: 0px 13px"
+                        >
+                          {{ item.duration }}
+                        </td>
+                        <td
+                          class="text-center subtitle-right"
+                          style="padding: 0px 24.7px"
+                        >
+                          {{ item.temperature }}°C
+                        </td>
+                        <td
+                          class="text-center subtitle-right"
+                          style="padding: 0px 24.7px"
+                        >
+                          {{ item.alertTemperature }}°C
+                        </td>
+                        <td
+                          class="text-center subtitle-right"
+                          style="padding: 0px 5px; font-size: 12px"
+                        >
+                          {{ item.time }}
+                        </td>
+                      </template>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
+            </v-card>
+          </v-col>
+
+          <!--右3, 4畫面顯示----------------------------------------------------------------------------------------------- -->
+          <v-col cols="12" lg="12">
+            <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
+            <v-card class="fill-height mr-6" rounded="md" elevation="6">
+              <div class="reset">
+                <v-icon color="#d8d8d8">mdi-circle-medium</v-icon
+                ><span class="subtitle-right">正常&nbsp;&nbsp;</span>
+                <v-icon color="#828c8f">mdi-circle-medium</v-icon
+                ><span class="subtitle-right"
+                  >超溫&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
+                >
               </div>
-              <v-row>
-                <!-- 分隔畫面 -->
-                <v-col cols="9" class="p-1">
-                  <v-card class="camera-bg align-items-c mt-3" style="">
-                    <ul id="sortable" :class="sortable">
-                      <li
-                        v-for="(item01, index01) in cam"
-                        :key="index01"
-                        :class="ui_state"
-                        id="diagoHover"
-                        @click="testdata()"
-                      >
-                        <div
-                          class="ui-state-cover"
-                          v-bind:class="[
-                            index01 % 2 !== 0 ? 'ui-state-cover-outline' : '',
-                          ]"
-                        >
-                          <img
-                            src="loadingBG.png"
-                            class="test-cramre"
-                            :id="`test-cramre${index01}`"
-                            width="100%"
-                          />
-                          <div class="ui-state-default-footer">
-                            <div class="ui-state-default-point"></div>
-                            <span>Cam-s1-55 A棟CS-01配電盤({{ index01 }})</span>
-                          </div>
-                          <div
-                            v-if="index01 % 2 !== 0"
-                            class="ui-state-default-alarm"
-                          >
-                            <div>
-                              <img src="/images/alarm-200.png" />超溫警報<img
-                                src="/images/alarm-200.png"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </v-card>
-                </v-col>
-                <!-- 右方控制面板 -->
-                <v-col cols="3">
-                  <v-card class="camera-bg mt-3" style="height: 830px">
-                    <div class="menu-top mt-1">
-                      <span class="menu-title">主分類</span>
-                      <!-- 區域 -->
-                      <div class="pl-0">
-                        <v-select
-                          class="custom-select"
-                          v-model="e1"
-                          :items="areas"
-                          dense
-                          solo
-                        ></v-select>
-                      </div>
-                      <span class="menu-title">次分類</span>
-                      <!-- 組別 -->
-                      <div class="pl-0">
-                        <v-select
-                          class="custom-select"
-                          v-model="e2"
-                          :items="groups"
-                          dense
-                          solo
-                        ></v-select>
-                      </div>
-                      <!-- 
-                       -->
-                    </div>
-                    <!-- 選單組 -->
-                    <div class="custom-g-select">
-                      <!-- arrow -->
-                      <div style="display: flex">
-                        <v-btn class="arrow-custom mr-1" tile>
-                          <img
-                            class=""
-                            alt="line"
-                            src="/images/Previous.png"
-                            width="60%"
-                          />
-                        </v-btn>
-                        <v-btn class="arrow-custom" tile>
-                          <img
-                            class=""
-                            alt="line"
-                            src="/images/next.png"
-                            width="60%"
-                          />
-                        </v-btn>
-                      </div>
-                      <span class="menu-title">當前分頁</span>
-                      <!-- page -->
-                      <div class="pl-0">
-                        <v-select
-                          class="custom-select"
-                          v-model="e3"
-                          :items="pages"
-                          dense
-                          solo
-                        ></v-select>
-                      </div>
-                      <span class="menu-title">2/5</span>
-                      <div class="menu-top-setting">
-                        <v-checkbox
-                          v-model="carousel_checkbox"
-                          label="輪播"
-                          class="mr-3"
-                        ></v-checkbox>
-                        <v-tooltip top>
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                              class="btu-setting"
-                              fab
-                              x-small
-                              v-bind="attrs"
-                              v-on="on"
-                            >
-                              <img
-                                class=""
-                                alt="line"
-                                src="/images/setting.png"
-                                width="70%"
-                              />
-                            </v-btn>
-                          </template>
-                          <span>畫面設定</span>
-                        </v-tooltip>
-                      </div>
-                    </div>
-                    <!-- 搜尋相機編號 -->
-                    <div class="search-cover">
-                      <!-- 畫面分格 -->
-                      <div class="pl-0 pr-2">
-                        <v-select
-                          v-model="e4"
-                          class="custom-select"
-                          :items="splitScreen"
-                          dense
-                          solo
-                          @change="transition"
-                        >
-                          <template v-slot:prepend>
-                            <v-fade-transition leave-absolute>
-                              <img
-                                width="24"
-                                height="24"
-                                class="transition-img"
-                                src="/images/display.png"
-                                alt=""
-                              />
-                            </v-fade-transition>
-                          </template>
-                        </v-select>
-                      </div>
-                      <div class="search-input">
-                        <v-text-field
-                          rounded
-                          class="pa-0 ma-0"
-                          label="搜尋 相機編號/監測項目"
-                        >
-                          <template v-slot:prepend>
-                            <v-fade-transition leave-absolute>
-                              <img
-                                width="24"
-                                height="24"
-                                class="transition-img"
-                                src="/images/search.png"
-                                alt=""
-                              />
-                            </v-fade-transition>
-                          </template>
-                        </v-text-field>
-                      </div>
-                      <div class="search-explore">
-                        <v-tooltip top>
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                              class="btu-setting"
-                              fab
-                              x-small
-                              v-bind="attrs"
-                              v-on="on"
-                            >
-                              <img
-                                class=""
-                                alt="line"
-                                src="/images/explore.png"
-                                width="70%"
-                              />
-                            </v-btn>
-                          </template>
-                          <span>探索</span>
-                        </v-tooltip>
-                      </div>
-                    </div>
-                    <!-- 標籤 -->
-                    <div>
-                      <v-card class="custom-cards-tags">
-                        <v-tabs
-                          color="#4f5e62"
-                          class="custom-tabs"
-                          left
-                          @change="CustomTabs"
-                        >
-                          <v-tooltip top>
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-tab v-bind="attrs" v-on="on"
-                                ><img
-                                  class="tab-icon"
-                                  src="/images/bell.png"
-                                />{{ tabcontent[0] }}</v-tab
-                              >
-                            </template>
-                            <span>超溫警報</span>
-                          </v-tooltip>
-                          <v-tooltip top>
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-tab v-bind="attrs" v-on="on"
-                                ><img
-                                  class="tab-icon"
-                                  src="/images/exclamation.png"
-                                />{{ tabcontent[1] }}</v-tab
-                              >
-                            </template>
-                            <span>通知</span>
-                          </v-tooltip>
-                          <v-tooltip top>
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-tab v-bind="attrs" v-on="on"
-                                ><img
-                                  class="tab-icon"
-                                  src="/images/wifi.png"
-                                />{{ tabcontent[2] }}</v-tab
-                              >
-                            </template>
-                            <span>連線項目</span>
-                          </v-tooltip>
-                          <v-tooltip top>
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-tab v-bind="attrs" v-on="on"
-                                ><img
-                                  class="tab-icon"
-                                  src="/images/tabs.png"
-                                />{{ tabcontent[3] }}</v-tab
-                              >
-                            </template>
-                            <span>書籤</span>
-                          </v-tooltip>
-                          <!-- 超溫警報 -->
-                          <v-tab-item>
-                            <div class="Overtemperature-Alert">
-                              <div class="py-2">
-                                <strong class="Alert-title"
-                                  >超溫項目警報</strong
-                                >
-                                <div class="Alert-txt py-3">
-                                  <div v-for="ie in 100" :key="ie" class="px-3">
-                                    <span
-                                      v-if="ie < 3"
-                                      class="Alert-txt-alarm px-3"
-                                      >2022/07/27 03:11 Cam-s1-58 區域{{
-                                        ie
-                                      }}</span
-                                    >
-                                    <span v-else class="Alert-font px-3"
-                                      >2022/07/27 03:11 Cam-s1-58 區域{{
-                                        ie
-                                      }}</span
-                                    >
-                                  </div>
-                                </div>
-                              </div>
-                              <div>
-                                <strong class="Alert-title"
-                                  >超溫警報通知</strong
-                                >
-                                <div class="Alert-txt2 py-3">
-                                  <div
-                                    v-for="ieq in 100"
-                                    :key="ieq"
-                                    class="my-1"
-                                  >
-                                    <div
-                                      v-if="ieq < 3"
-                                      class="Alert-background1"
-                                    >
-                                      <span class="Alert-font px-5"
-                                        >2022/07/27 03:11 Cam-s1-58 區域{{
-                                          ieq
-                                        }}</span
-                                      >
-                                    </div>
-                                    <div v-else class="Alert-background">
-                                      <span class="Alert-font px-5"
-                                        >2022/07/27 03:11 Cam-s1-58 區域{{
-                                          ieq
-                                        }}</span
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </v-tab-item>
-                          <!-- 通知 -->
-                          <v-tab-item>
-                            <div class="mags-cover py-3">
-                              <strong class="Alert-title">操作通知</strong>
-                              <div class="Alert-txt2 py-3">
-                                <div v-for="iee in 100" :key="iee" class="my-1">
-                                  <div v-if="iee < 3" class="Alert-background1">
-                                    <span class="Alert-font px-5"
-                                      >2022/07/27 03:11 Cam-s1-58 區域{{
-                                        iee
-                                      }}</span
-                                    >
-                                  </div>
-                                  <div v-else class="Alert-background">
-                                    <span class="Alert-font px-5"
-                                      >2022/07/27 03:11 Cam-s1-58 區域{{
-                                        iee
-                                      }}</span
-                                    >
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </v-tab-item>
-                          <!-- 連線項目 -->
-                          <v-tab-item>
-                            <div class="connect-cover">
-                              <div>
-                                <div class="my-3">
-                                  <strong class="Alert-title">相機</strong>
-                                </div>
-                                <v-data-table
-                                  :headers="connectHeaders"
-                                  :items="connectDesserts"
-                                  disable-pagination
-                                  hide-default-footer
-                                  height="250px"
-                                  class=""
-                                >
-                                  <template v-slot:[`item.status`]="{ item }">
-                                    <div class="connect-icon">
-                                      <img :src="item.status" />
-                                    </div>
-                                  </template>
-                                </v-data-table>
-                              </div>
-                              <div>
-                                <div>
-                                  <div class="my-3">
-                                    <strong class="Alert-title"
-                                      >其他裝置</strong
-                                    >
-                                  </div>
-                                  <v-data-table
-                                    :headers="otherDevicesHeaders"
-                                    :items="otherDevicesDesserts"
-                                    disable-pagination
-                                    hide-default-footer
-                                    height="240px"
-                                    class=""
-                                  >
-                                    <template v-slot:[`item.status`]="{ item }">
-                                      <div class="connect-icon">
-                                        <div
-                                          v-if="item.status === 0"
-                                          class="status-open"
-                                        ></div>
-                                        <div v-else class="status-off"></div>
-                                      </div>
-                                    </template>
-                                  </v-data-table>
-                                </div>
-                              </div>
-                            </div>
-                          </v-tab-item>
-                          <!-- 書籤 -->
-                          <v-tab-item>
-                            <div>
-                              <div class="my-3">
-                                <strong class="Alert-title">書籤項目</strong>
-                              </div>
-                              <v-data-table
-                                :headers="tagsHeaders"
-                                :items="tagsDesserts"
-                                disable-pagination
-                                hide-default-footer
-                                height="540px"
-                                class=""
-                              >
-                                <template v-slot:[`item.delete`]="{ item }">
-                                  <div class="trash-icon">
-                                    <img :src="item.delete" />
-                                  </div>
-                                </template>
-                                <template v-slot:[`item.check`]="{ item }">
-                                  <div class="connect-icon">
-                                    {{ item.check }}
-                                  </div>
-                                </template>
-                              </v-data-table>
-                            </div>
-                          </v-tab-item>
-                        </v-tabs>
-                      </v-card>
-                    </div>
-                    <!-- end -->
-                  </v-card>
-                </v-col>
-              </v-row>
-            </div>
-          </v-container>
-        </v-tab-item>
-        <v-tab-item value="tab-2">
-          <MultiScreenstand id="1015" @VideoActive="VideoActive(data)" />
-          <!-- <v-btn @click="VideoActive('tab-1')">BACK</v-btn> -->
-        </v-tab-item>
-      </v-tabs-items>
-    </v-tabs>
+              <h4 class="cardtitle ml-3">警報次數及歷史</h4>
+
+              <!-- 圖表1 本日 -->
+              <v-progress-circular
+                class="donut1 mx-5 mt-4"
+                :rotate="-90"
+                :size="95"
+                :width="10"
+                :value="valueToday"
+                color="#828c8f"
+                backgroud
+              >
+                <h3>{{ valueToday }}</h3>
+              </v-progress-circular>
+
+              <v-sheet class="gg mt-5"
+                ><h4 class="chartTitle mr-16">本日</h4>
+
+                <p class="subtitle-right text-center mr-2">
+                  {{
+                    Datecorrect('today', this.alarmDate)
+                  }}&nbsp;00:00<br />ǀ<br />{{
+                    Datecorrect('today', this.alarmDate)
+                  }}&nbsp;24:00
+                </p>
+              </v-sheet>
+              <!-- 圖表2 昨日 -->
+              <v-progress-circular
+                class="donut1 mx-5 mt-4"
+                :rotate="-90"
+                :size="95"
+                :width="10"
+                :value="valueLastday"
+                color="#828c8f"
+              >
+                <h3>{{ valueLastday }}</h3>
+              </v-progress-circular>
+
+              <v-sheet class="gg mt-5"
+                ><h4 class="chartTitle mr-16">昨日</h4>
+                <p class="subtitle-right text-center mr-2">
+                  {{
+                    Datecorrect('yesterday', this.alarmDate)
+                  }}&nbsp;00:00<br />ǀ<br />{{
+                    Datecorrect('yesterday', this.alarmDate)
+                  }}&nbsp;24:00
+                </p>
+              </v-sheet>
+
+              <!-- 日期 -->
+              <v-date-picker
+                v-model="date2"
+                class="date-picker"
+                :event-color="(date) => (date[9] % 2 ? 'red' : 'yellow')"
+                :events="functionEvents"
+                readonly
+                no-title
+                color="#828c8f"
+                width="17em"
+              ></v-date-picker>
+
+              <br /><br /><br /><br /><br />
+
+              <!-- 圖表3 本週 -->
+
+              <v-progress-circular
+                class="donut1 mx-5 mt-8"
+                :rotate="-90"
+                :size="95"
+                :width="10"
+                :value="valueThisWeek"
+                color="#e89595"
+              >
+                <h3>{{ valueThisWeek }}</h3>
+              </v-progress-circular>
+
+              <v-sheet class="gg mt-9"
+                ><h4 class="chartTitle mr-16">本週</h4>
+                <p class="subtitle-right text-center mr-2">
+                  {{
+                    Datecorrect('week', this.alarmDate)[0]
+                  }}&nbsp;00:00<br />ǀ<br />{{
+                    Datecorrect('week', this.alarmDate)[1]
+                  }}&nbsp;24:00
+                </p>
+              </v-sheet>
+              <!-- 圖表4 本月 -->
+              <v-progress-circular
+                class="donut1 mx-5 mt-8"
+                :rotate="-90"
+                :size="95"
+                :width="10"
+                :value="valueThisMonth"
+                color="#828C8F"
+              >
+                <h3>{{ valueThisMonth }}</h3>
+              </v-progress-circular>
+
+              <v-sheet class="gg mt-9"
+                ><h4 class="chartTitle mr-16">本月</h4>
+                <p class="subtitle-right text-center mr-2">
+                  {{
+                    Datecorrect('month', this.alarmDate)[0]
+                  }}&nbsp;00:00<br />ǀ<br />{{
+                    Datecorrect('month', this.alarmDate)[1]
+                  }}&nbsp;24:00
+                </p>
+              </v-sheet>
+            </v-card>
+          </v-col>
+
+          <!--右5畫面顯示----------------------------------------------------------------------------------------------- -->
+          <v-col cols="12" lg="12">
+            <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
+            <v-card class="mr-6" height="6.7em" rounded="md" elevation="6">
+              <div>
+                <v-tooltip left class="tips">
+                  <template #activator="{ on, attrs }">
+                    <v-btn
+                      x-small
+                      icon
+                      class="btn reset"
+                      color="#9BA3A5"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      <v-icon x-small class="icon">mdi-restore</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>重置</span>
+                </v-tooltip>
+                <h4 class="cardtitle ml-3">參數調整</h4>
+              </div>
+
+              <v-form class="">
+                <v-text-field
+                  v-model="temperature"
+                  class="subtitle card5content ml-16 mt-1 mr-5 text-color"
+                  label="一般溫度"
+                  color="#828c8f"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="reflected"
+                  class="subtitle card5content mt-1 mr-5 text-color"
+                  label="反射溫度"
+                  color="#828c8f"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="atmospheric"
+                  class="subtitle card5content mt-1 mr-5 text-color"
+                  label="環境溫度"
+                  color="#828c8f"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="humidity"
+                  class="subtitle card5content mt-1 mr-5 text-color"
+                  label="環境濕度"
+                  color="#828c8f"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="distance"
+                  class="subtitle card5content mt-1 mr-5 text-color"
+                  label="量測距離"
+                  color="#828c8f"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="emissivity"
+                  class="subtitle card5content mt-1 mr-5 text-color"
+                  label="放射率"
+                  color="#828c8f"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="transmission"
+                  class="
+                    subtitle
+                    card5content
+                    mt-1
+                    mr-5
+                    text-color
+                    font-weight-large
+                  "
+                  label="穿透率"
+                  color="#828c8f"
+                ></v-text-field>
+              </v-form>
+              <!-- <v-btn icon class="btn reset" color="#9BA3A5"> 
+                  <v-icon  class="icon">mdi-cached</v-icon>
+                </v-btn> -->
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
-import MultiScreenstand from '../components/MultiScreen/MultiScreen-stand.vue'
+import axios from 'axios'
 export default {
-  name: 'MultiScreenPage',
-  components: {
-    MultiScreenstand,
-  },
+  name: 'IndexPage',
   head: {
+    title: '即時監控',
     link: [
       // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       { rel: 'stylesheet', href: '/css/jquery-ui.css' },
+      { rel: 'stylesheet', href: '/css/object.css' },
+      { rel: 'stylesheet', href: '/css/card3.css' },
+      { rel: 'stylesheet', href: 'css/details.css' },
     ],
     script: [
       {
@@ -779,1131 +1597,1212 @@ export default {
         src: '/js/jquery-collision.js',
         type: 'text/javascript',
       },
-      {
-        src: '/js/zoom.js',
-        type: 'text/javascript',
-      },
+      // {
+      //   src: '/js/object.js',
+      //   type: 'text/javascript',
+      // },
     ],
   },
   data: () => ({
-    // tab: null,
-    data: [],
-    tab: 'tab-1',
-    // 放大鏡級數
-    attrs: null,
-    on: null,
-    events: [],
-    zoomL: 0,
-    zoomin: '',
-    zoomout: 'zoom-disabled',
-    sortable: 'sortable4-1',
-    ui_state: 'ui-state-default',
-    c_diago: 'custom-dialog dialog-close',
-    cam: [],
-    depressed: true,
-    carousel_checkbox: false,
-    circularToday: 10,
-    circularYesterday: 5,
-    circularWeek: 50,
-    circularMonth: 100,
-    functionEvents: true,
-    // 日曆
+    // 警報溫度對話框設置
+    dialog: false,
+    showMessages: false,
+    switch1: false,
+    switch2: true,
+    // 防止連續get api
+    timeOutRefresh: null,
+    loader: null,
+    loading: false,
+    Interval: 0,
+    // 右2
+    timer: null,
+    time: 20,
+    // 切換按鈕
+    isActive: false,
+    // 左側隱藏按鈕動作設定
+    direction_imageMode: 'right',
+    fab_imageMode: false,
+    transition_imageMode: 'scale-transition',
+
+    direction_palette: 'right',
+    fab_palette: false,
+    transition_palette: 'scale-transition',
+
+    direction_calibration: 'right',
+    fab_calibration: false,
+    transition_calibration: 'scale-transition',
+
+    direction_light: 'right',
+    fab_light: false,
+    transition_light: 'scale-transition',
+
+    direction_autofocus: 'right',
+    fab_autofocus: false,
+    transition_autofocus: 'scale-transition',
+
+    // 對話框
+    conditionSelect: '以上',
+    conditionItems: ['以下', '以上'],
+    checkbox: false,
+    threshold: ``,
+    hysteresis: ``,
+    thresholdTime: ``,
+    captureSelect: '無',
+    captureItems: ['無', '照片', '影片'],
+    // capture: 15,
+    pulseTime: 0,
+    openid: null, // 紀錄開啟什麼id
+    opentype: null, // 紀錄開啟的原件
+    dialogdata: [],
+    dialogarr: [], // 紀錄原始物件
+    tpmedata: null,
+    // 右1點線面_宣告變數陣列
+    spots: [],
+    scopes: [],
+    lines: [],
+    reference: [],
+    // 右2假數據顯示(待刪)
+    temps: [],
+
+    // 右3顯示
+    interval: {},
+    valueToday: 0,
+    valueLastday: 0,
+    valueThisWeek: 0,
+    valueThisMonth: 0,
+
+    // 右4顯示
     arrayEvents: null,
     date2: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
       .toISOString()
       .substr(0, 10),
-    // 下拉選單
-    e1: '第一區',
-    areas: ['第一區', '第一區', '第一區'],
-    e2: '第一組',
-    groups: ['第一組', '第一組', '第一組'],
-    e3: '第一頁',
-    pages: ['第一頁', '第一頁', '第一頁'],
-    e4: 1,
-    splitScreen: [
-      { text: '均分4分格', value: 0 },
-      { text: '4分格', value: 1 },
-      { text: '12分格', value: 2 },
-      { text: '24分格', value: 3 },
-    ],
-    // 標籤文字
-    tabcontent: [],
-    // 連線項目
-    connectHeaders: [
-      {
-        text: '',
-        align: 'start',
-        sortable: false,
-        value: 'status',
-      },
-      { text: '編號', value: 'id' },
-      { text: '監測項目', value: 'item' },
-      { text: '上次更新時間', value: 'update' },
-    ],
-    connectDesserts: [],
-    // 其他裝置
-    otherDevicesHeaders: [
-      {
-        text: '',
-        align: 'start',
-        sortable: false,
-        value: 'status',
-      },
-      { text: '編號', value: 'id' },
-      { text: '位置', value: 'item' },
-      { text: '上次更新時間', value: 'update' },
-    ],
-    otherDevicesDesserts: [],
-    // 書籤項目
-    tagsHeaders: [
-      {
-        text: '',
-        // align: 'center',
-        sortable: false,
-        value: 'delete',
-      },
-      {
-        text: '編號',
-        align: 'center',
-        value: 'id',
-        width: '50px',
-        class: 'tagsId',
-      },
-      { text: '項目', value: 'item' },
-      { text: '', value: 'check' },
-    ],
-    tagsDesserts: [],
-    // end
-    // dialog table
 
-    // 警報設置
-    diagoalarmHeaders: [
-      { text: '項目', value: 'item', align: 'center' },
-      {
-        text: '溫度',
-        align: 'center',
-        // value: 'id',
-        // width: '50px',
-        value: 'temperature',
-      },
+    // 右5設定
+    emissivity: 0.95,
+    transmission: 1.0,
+    reflected: `${20}°C`,
+    distance: `${1.0}m`,
+    atmospheric: `${20}°C`,
+    humidity: `${50}%`,
+    temperature: `${20}°C`,
 
-      { text: '設定', value: 'setting', align: 'center' },
-    ],
-    diagoalarmDesserts: [],
-    // 警報紀錄
-    diagoalarmlogHeaders: [
-      { text: '項目', value: 'item', align: 'center' },
-      {
-        text: '溫度',
-        align: 'center',
-        // value: 'id',
-        // width: '50px',
-        value: 'temperature',
-      },
-      { text: '狀態', value: 'status', align: 'center' },
-      { text: '時間', value: 'date', align: 'center' },
-      { text: '熱點座標', value: 'location', align: 'center' },
-    ],
-    diagoalarmlogDesserts: [],
+    alarmDate: new Date(),
+    alarmCalendar: [],
   }),
 
   mounted() {
-    // 排序
-    this.$nextTick(() => {
-      setTimeout(() => {
-        $(function () {
-          $('#sortable').sortable({
-            placeholder: 'ui-state-highlight',
-            cursor: 'grabbing',
-            // revert: true
-          })
-          $('#sortable').disableSelection()
-        })
-        // 預覽小視窗放大縮小
-        $('.diago-tootip-img').resizable({
-          // aspectRatio: 3.8 / 3.1,
-          aspectRatio: 4 / 3,
-          minWidth: 380,
-          containment: '.cover-bg',
-        })
-        $('.diago-tootip-img').customZoom({
-          cover: '.diago-tootip-photo-zoom', // 指定放大哪個元素
-        })
-        // 對話視窗
-        // $('.custom-dialog').draggable({
-        //   start: () => {
-        //     $('.custom-dialog').css('opacity', '0.9')
-        //     $('.custom-dialog').css('transition', 'all 0s')
-        //   },
-        //   stop: () => {
-        //     $('.custom-dialog').css('opacity', '1')
-        //     $('.custom-dialog').css('transition', 'all 0.1s')
-        //   },
-        //   handle: '.draggable-bar',
-        //   cursor: 'grabbing',
-        //   containment: 'parent',
-        // })
-        this.transition(1)
-        this.testdata()
-        this.tab = 'tab-2'
-      }, 1000)
+    // jquery-ui
+    var te = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ]
+    console.log(te)
+    const vm = this
+
+    // use "main" socket defined in nuxt.config.js
+    vm.socket = this.$nuxtSocket({
+      name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
     })
-  },
-  updated() {
-    // 判斷視窗該在哪個方位
-    $(
-      '.ui-state-default,.ui-state-default4,.ui-state-default12,.ui-state-default100'
-      // ).on('mouseover', function () {
-    ).on('click', function () {
-      $('.ui-state-cover-outline').each(function () {
-        $(this).removeClass('ui-state-default-alarm-outline')
+    const img = document.getElementById('image')
+    const rtspstatus = document.getElementById('rtsp-status')
+    const rtspstay = document.getElementById('rtsp-stay')
+
+    // connect()
+    // function connect() {
+    //   console.log(200)
+    var stay = 0
+    vm.socket.on('connect', () => {
+      // rtspstatus.innerHTML = '伺服器已回應，連線已恢復正常，正在重啟程式!'
+      clearInterval(this.timeOutRefresh01)
+      vm.socket.on('data', (data) => {
+        stay = 0
+        rtspstatus.classList.add('d-none')
+        img.src = 'data:image/jpeg;base64,' + data
+        img.style.transform = 'rotate(360deg)'
       })
-      $(this)
-        .find('.ui-state-cover-outline')
-        .addClass('ui-state-default-alarm-outline')
-      // 假高度
-      // var flash = ['600px', '500px', '400px', '2000px']
-      // $('.diago-contnet').css('height', flash[Math.floor(Math.random() * 4)])
-      // 假高度
-      var cover = $('.cover-bg') // 宣告渲染畫面
-      $('.custom-dialog').removeClass('dialog-close')
-      var position = $(this).offset() // 取得點擊的元素座標
-      var dialog = $('.custom-dialog') // 宣告互動視窗
-      var div = $(this).find('img') // 選告元素底下的圖片
-      dialog.css('max-height', cover.height() + 'px')
-      $('.diago-contnet-cover').css(
-        'max-height',
-        cover.height() - 74 - 10 + 'px'
-      )
-      //   var document1Width = $(document).width() / 2 // 宣告目前頁面的一半寬度
-      //   var document1Height = $(document).height() / 2 // 宣告目前頁面的一半高度
-      var x = 0
-      if (position.left + div.width() > cover.width() / 2) {
-        x = position.left - dialog.width() - 5 // 宣告元素右下角x軸
-      } else {
-        x = position.left + div.width() + 5 // 宣告元素右下角x軸
-      }
-      if (x < 0) {
-        x = 8
-      }
-      var dialogHeight = dialog.height() / 2
-      var y = position.top + div.height() / 2 - dialogHeight // 宣告元素右下角y軸
-      // var bottomY = dialog.offset().top + dialog.height()
-      // if (bottomY > cover.height()) {
-      //   y = 64
-      // }
-
-      // 如果計算結果，視窗畫面底部座標大於實際畫面的高度，將會實施以下公式: y = y - (y + 視窗高度 - 實際畫面高度)
-      if (y + dialog.height() > cover.height()) {
-        y = y - (y + dialog.height() - cover.height())
-      }
-
-      // 如果計算結果y座標是負的，那會直接把y座標強制設定為0+header(高度)
-      if (y < 64) {
-        y = 70
-      }
-
-      // 指定視窗該在哪個方位
-      dialog.css('top', y + 'px')
-      dialog.css('left', x + 'px')
-      // end
     })
+    this.timeOutRefresh02 = setInterval(() => {
+      if (stay < 10) {
+        rtspstay.classList.add('d-none')
+      } else if (stay >= 10 && stay <= 15) {
+        rtspstay.classList.remove('d-none')
+        // var tmp = 15
+        // tmp = tmp - stay
+        // rtspstay.innerHTML = '已偵測影像無回應，' + tmp + '秒後將重新啟動程式'
+      } else if (stay >= 16) {
+        stay = 0
+        vm.socket.disconnect()
+      }
+      stay++
+    }, 1000)
+
+    vm.socket.on('disconnect', (reason) => {
+      // rtspstatus.innerHTML = '連線出現錯誤!!!'
+      // let count = 0
+      this.timeOutRefresh01 = setInterval(() => {
+        vm.socket.connect()
+        // if (count <= 15) {
+        //   var tpa = 15 - count
+        //   rtspstatus.innerHTML =
+        //     '影像處理伺服器已中斷連線，' + tpa + '秒後嘗試與伺服器連線...'
+        // } else if (count > 15 && count <= 20) {
+        //   rtspstatus.innerHTML = '正在嘗試與伺服器連線中...'
+        // } else if (count > 20 && count < 25) {
+        //   rtspstatus.innerHTML = '嘗試與伺服器連線失敗...'
+        // } else {
+        //   count = 0
+        // }
+      }, 1000)
+      img.src = 'https://dummyimage.com/640x480/969696/000000&text=loading....'
+      rtspstatus.classList.remove('d-none')
+    })
+
+    // let count = 0
+    // this.timeOutRefresh01 = setInterval(() => {
+    //   vm.socket.volatile.emit('ping', ++count)
+    // }, 1000)
+    // console.log(this.timeOutRefresh01)
+
+    // 右3圓餅顯示
+    this.interval = setInterval(() => {
+      if (this.valueToday > 100) {
+        return (this.valueToday = 0)
+      }
+      // this.valueToday += 1
+    }, 1000)
+    // 右3圓餅顯示
+    this.arrayEvents = [...Array(6)].map(() => {
+      const day = Math.floor(Math.random() * 30)
+      const d = new Date()
+      d.setDate(day)
+      return d.toISOString().substr(0, 10)
+    })
+    // 右2假資料
+
+    this.temps.duration = setInterval(this.countdown, 1000)
+
+    // 定時呼叫api
+    // this.Refresh()
+    this.timeOutRefresh = window.setInterval(() => {
+      if (this.Interval === 0) {
+        this.Interval = 1
+        this.Refresh()
+      }
+    }, 1000)
+    // this.alarmDate = '2022-06-04'
+    this.alarmlist(this.alarmDate)
+    setInterval(() => {
+      this.alarmlist(this.alarmDate)
+    }, 5000)
+  },
+  // 對話框
+  computed: {
+    messages() {
+      return this.showMessages ? ['已開啟'] : ['未開啟']
+    },
   },
   methods: {
-    // 放大鏡計算器
-    zoom(level) {
-      var zoom = this.zoomL
-      var zoomer = $('.diago-tootip-photo-zoom')
-
-      if (level === 1) {
-        this.zoomL = zoom + 1
-      } else if (level === 0) {
-        this.zoomL = zoom - 1
-      }
-      zoomer.css('background-size', (this.zoomL + 1) * 100 + '%')
-
-      if (this.zoomL < 1) {
-        this.zoomin = ''
-        this.zoomout = 'zoom-disabled'
-      } else if (this.zoomL > 6) {
-        this.zoomin = 'zoom-disabled'
-        this.zoomout = ''
-      } else {
-        this.zoomin = ''
-        this.zoomout = ''
-      }
-    },
-    // 跳轉到指定監視
-    VideoActive(page) {
-      this.tab = page
-      this.diagoOff()
-    },
-    // 測試假資料
-    testdata() {
-      // 連線裝置 假資料
-      var arr = []
-      var status01 = [true, false]
-      for (var i = 0; i < Math.floor(Math.random() * 1000); i++) {
-        arr.push({
-          status: '/images/eye-on.png',
-          id: `Cam-s1-${i}`,
-          item: 'A棟CS-04配電盤',
-          alarm: status01[Math.floor(Math.random() * 1)],
-          update: '2022/06/06 14:07:08',
-        })
-      }
-      this.connectDesserts = arr
-
-      // 其他裝置 假資料
-      var arr1 = []
-      for (var j = 0; j < Math.floor(Math.random() * 1000); j++) {
-        arr1.push({
-          status: '0',
-          id: `Cam-s1-${j}`,
-          item: 'A棟CS-04配電盤',
-          update: '2022/06/06 14:07:08',
-        })
-      }
-      this.otherDevicesDesserts = arr1
-
-      // 書籤 假資料
-      var arr2 = []
-      for (var z = 0; z < Math.floor(Math.random() * 1000); z++) {
-        arr2.push({
-          delete: '/images/trash.png',
-          id: `${z}`,
-          item: `Cam-s1-${z} A棟CS-04配電盤`,
-          check: '查看',
-        })
-      }
-      this.tagsDesserts = arr2
-      // 警報設置 假資料
-      var arr3 = []
-      for (var zq = 0; zq < Math.floor(Math.random() * 16); zq++) {
-        arr3.push({
-          item: `${zq}`,
-          temperature: `${zq}°C`,
-          setting: `++`,
-        })
-      }
-      this.diagoalarmDesserts = arr3
-      // 警報紀錄 假資料
-      var arr4 = []
-      var mock = [2, 50]
-      var d = mock[Math.floor(Math.random() * 2)]
-      for (var zq1 = 0; zq1 < d; zq1++) {
-        arr4.push({
-          item: `${zq1}`,
-          temperature: `${zq1}°C`,
-          status: `已超溫`,
-          date: '03:03:01',
-          location: { X: '50.12', Y: '33.54' },
-        })
-      }
-      // console.log(d)
-      this.diagoalarmlogDesserts = arr4
-      // end
-    },
-    // 開啟影像預覽
-    openDialogImage() {
-      $('.diago-tootip-img').removeClass('dialog-close')
-    },
-    // 關閉影像預覽
-    offDialogImage() {
-      $('.diago-tootip-img').addClass('dialog-close')
-    },
-    // 關閉對話窗
-    diagoOff() {
-      $('.custom-dialog').addClass('dialog-close')
-      $('.diago-tootip-img').addClass('dialog-close')
-      $('.ui-state-cover-outline').each(function () {
-        $(this).removeClass('ui-state-default-alarm-outline')
+    // 警報列表
+    alarmlist(Date1) {
+      var selectMonth = new Date(Date1)
+      var selectMonth1 = this.Datecorrect('month', selectMonth)
+      axios({
+        method: 'post',
+        url: 'http://127.0.0.1:5000/api/alarm/list',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: JSON.stringify([
+          {
+            table_timeselectStart: selectMonth1[0],
+            table_timeselectStop: selectMonth1[1],
+          },
+        ]),
       })
-    },
-    // 分格畫面判斷
-    transition(data) {
-      $('.custom-dialog').addClass('dialog-close')
-      var output = {
-        totle: null,
-      }
-      if (data === 0) {
-        $('#sortable').sortable({
-          placeholder: 'ui-state-highlight4',
-          // revert: true
-        })
-        this.sortable = 'sortable4'
-        this.ui_state = 'ui-state-default4'
-        // 均分 4格
-        this.cam = ['1', '2', '3', '4']
-        output.totle = 4
-        this.showDisplay(output)
-      } else if (data === 1) {
-        console.log('oh ta')
-        $('#sortable').sortable({
-          placeholder: 'ui-state-highlight',
-          // revert: true
-        })
-        this.sortable = 'sortable4-1'
-        this.ui_state = 'ui-state-default'
-        // 4分格
-        this.cam = ['1', '2', '3', '4']
-        output.totle = 4
-        this.showDisplay(output)
-      } else if (data === 2) {
-        $('#sortable').sortable({
-          placeholder: 'ui-state-highlight12',
-          // revert: true
-        })
-        this.sortable = 'sortable12'
-        this.ui_state = 'ui-state-default12'
-        // 12分格
-        var arr = []
-        for (var i = 1; i <= 12; i++) {
-          arr.push(i)
-        }
-        this.cam = arr
-        output.totle = 12
-        this.showDisplay(output)
-      } else if (data === 3) {
-        $('#sortable').sortable({
-          placeholder: 'ui-state-highlight100',
-          // revert: true
-        })
-
-        this.sortable = 'sortable100'
-        this.ui_state = 'ui-state-default100'
-        // 12分格
-        var arr1 = []
-        for (var z = 1; z <= 24; z++) {
-          arr1.push(i)
-        }
-        this.cam = arr1
-        output.totle = 24
-        this.showDisplay(output)
-      }
-    },
-    // 載入監視影像
-    showDisplay(output) {
-      if (this.socket !== undefined) {
-        this.socket.disconnect()
-      }
-      this.socket = this.$nuxtSocket({
-        name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
-      })
-      this.$nextTick(function () {
-        for (var z = 0; z < output.totle; z++) {
-          const img = document.getElementById(`test-cramre${z}`)
-          img.src = 'loadingBG.png'
-          this.socket.on('data' + z, (data) => {
-            img.src = 'data:image/jpeg;base64,' + data
-            img.style.transform = 'rotate(360deg)'
+        .then((events) => {
+          this.alarmCalendar = events.data
+          var data = events.data
+          var lastday = 0
+          var today = 0
+          var week = 0
+          var month = 0
+          var alarmlist = []
+          data.forEach((index) => {
+            // console.log(index.table_alarm_start)
+            var tmp = new Date(index.table_alarm_start)
+            // 計算昨日警報次數
+            var lastCorr = this.Datecorrect('yesterday', Date1)
+            var lastdaystart = new Date(lastCorr + ' 00:00:00')
+            var lastdaystop = new Date(lastCorr + ' 23:59:59')
+            if (tmp >= lastdaystart && tmp <= lastdaystop) {
+              lastday = lastday + 1
+            }
+            // 計算今日警報次數
+            var todayCorr = this.Datecorrect('today', Date1)
+            var todaystart = new Date(todayCorr + ' 00:00:00')
+            var todaystop = new Date(todayCorr + ' 23:59:59')
+            if (tmp >= todaystart && tmp <= todaystop) {
+              today = today + 1
+            }
+            // 計算本周警報次數
+            var weekCorr = this.Datecorrect('week', Date1)
+            var weekstart = new Date(weekCorr[0] + ' 00:00:00')
+            var weekstop = new Date(weekCorr[1] + ' 23:59:59')
+            if (tmp >= weekstart && tmp <= weekstop) {
+              week = week + 1
+            }
+            // 計算本月警報次數
+            var monthCorr = this.Datecorrect('month', Date1)
+            var monthstart = new Date(monthCorr[0] + ' 00:00:00')
+            var monthstop = new Date(monthCorr[1] + ' 23:59:59')
+            if (tmp >= monthstart && tmp <= monthstop) {
+              month = month + 1
+            }
+            // 警報紀錄
+            var name = index.table_itemName.match(/^[a-z|A-Z]+/gi)
+            var number = index.table_itemName.match(/\d+$/gi)
+            alarmlist.push({
+              objcet: { name: name[0], number: number[0] },
+              duration: durationCrr(
+                index.table_alarm_start,
+                index.table_alarm_stop
+              ),
+              temperature: index.table_max.toFixed(1),
+              alertTemperature: index.table_alarm_threshold,
+              time: index.table_alarm_start,
+            })
+            alarmlist.sort(function (a, b) {
+              if (a.time < b.time) {
+                return 1 // 正數時，後面的數放在前面
+              } else {
+                return -1 // 負數時，前面的數放在前面
+              }
+            })
+            alarmlist.sort(function (a, b) {
+              if (a.duration[0] !== '持續中') {
+                return 1 // 正數時，後面的數放在前面
+              } else {
+                return -1 // 負數時，前面的數放在前面
+              }
+            })
+            // 觸發時間為警報存在的時間(s)，開始時間為警報設定的時間
           })
-          console.log(`test-cramre${z}`)
+          this.valueToday = today
+          this.valueLastday = lastday
+          this.valueThisWeek = week
+          this.valueThisMonth = month
+          this.temps = alarmlist
+        })
+        .catch((error) => console.log('error from axios', error))
+      // 秒 轉 分、時、天，並且隱藏時間未到的單位
+      function durationCrr(start, stop) {
+        if (stop !== null) {
+          const nowtime1 = new Date(start)
+          const startone1 = new Date(stop)
+          const time1 = (startone1.getTime() - nowtime1.getTime()) * 0.001
+          var duration = getDuration(time1)
+          return duration
+        } else {
+          const nowtime = new Date()
+          const startone = new Date(start)
+          const time = (nowtime.getTime() - startone.getTime()) * 0.001
+          return ['持續中', getDuration(time.toFixed(0))]
         }
-        console.log('渲染完成')
-      })
-    },
-    // 標籤標題隱藏
-    CustomTabs(data) {
-      if (data === 0) {
-        this.tabcontent = ['超溫警報', '', '', '']
-      } else if (data === 1) {
-        this.tabcontent = ['', '通知', '', '']
-      } else if (data === 2) {
-        this.tabcontent = ['', '', '連線項目', '']
-      } else if (data === 3) {
-        this.tabcontent = ['', '', '', '書籤']
       }
+      function getDuration(second) {
+        var days = Math.floor(second / 86400)
+        var hours = Math.floor((second % 86400) / 3600)
+        var minutes = Math.floor(((second % 86400) % 3600) / 60)
+        var seconds = Math.floor(((second % 86400) % 3600) % 60)
+        var duration = null
+        if (second < 60) {
+          duration = seconds + '秒'
+        } else if (second >= 60 && second < 3600) {
+          duration = minutes + '分' + seconds + '秒'
+        } else if (second >= 3600 && second < 86400) {
+          duration = hours + '時' + minutes + '分' + seconds + '秒'
+        } else if (second >= 86400) {
+          duration =
+            days + '天' + hours + '時' + minutes + '分' + seconds + '秒'
+        }
+        return duration
+      }
+    },
+    submitForm() {
+      const opendid = this.openid
+      const opentype = this.opentype
+      const status = this.checkbox
+      const threshold = this.threshold
+      const thisSpots = this.spots
+      const thislines = this.tpmedata.line
+      const thisscpoes = this.tpmedata.scope
+      var obj = null
+      if (opentype === 'spot') {
+        obj = thisSpots.find((o) => o.spot_number === opendid)
+        var SpotY =
+          obj.spot_position.Y / document.getElementById('image').offsetHeight
+        var SpotX =
+          obj.spot_position.X / document.getElementById('image').offsetWidth
+        SpotY = SpotY.toFixed(4)
+        SpotX = SpotX.toFixed(4)
+        var data = null
+        data = {
+          spot_number: parseInt(opendid),
+          spot_alarm_status: status,
+          spot_position: {
+            Y: SpotY,
+            X: SpotX,
+          },
+          spot_threshold: threshold,
+          spot_status: '0',
+        }
+        if (status === true) {
+          data.spot_alarm_status = 1
+        } else {
+          data.spot_alarm_status = 0
+        }
+        // console.log(data)
+
+        axios({
+          method: 'post',
+          url: `http://127.0.0.1:5000/api/monitor/object/change/spot`,
+          data,
+        })
+          .then((response) => {
+            this.dialog = false
+          })
+          .catch((error) => console.log('error from axios', error))
+      } else if (opentype === 'line') {
+        obj = thislines.find((o) => o.line_number === opendid)
+        data = {
+          line_number: opendid,
+          line_alarm_status: null,
+          line_threshold: threshold,
+          line_position_point_A: obj.line_position_point_A,
+          line_position_point_B: obj.line_position_point_B,
+          line_status: '0',
+        }
+        if (status === true) {
+          data.line_alarm_status = 1
+        } else {
+          data.line_alarm_status = 0
+        }
+        // console.log(data)
+        axios({
+          method: 'post',
+          url: `http://127.0.0.1:5000/api/monitor/object/change/line`,
+          data,
+        })
+          .then((response) => {
+            this.dialog = false
+          })
+          .catch((error) => console.log('error from axios', error))
+      } else if (opentype === 'scope') {
+        obj = thisscpoes.find((o) => o.scope_number === opendid)
+        // console.log(obj)
+        data = {
+          scope_number: parseInt(opendid),
+          scope_alarm_status: null,
+          scope_threshold: threshold,
+          scope_position_BR: obj.scope_position_point_BR,
+          scope_position_LT: obj.scope_position_point_LT,
+          scope_status: '0',
+        }
+        if (status === true) {
+          data.scope_alarm_status = 1
+        } else {
+          data.scope_alarm_status = 0
+        }
+        // console.log(data)
+        axios({
+          method: 'post',
+          url: `http://127.0.0.1:5000/api/monitor/object/change/scope`,
+          data,
+        })
+          .then((response) => {
+            this.dialog = false
+          })
+          .catch((error) => console.log('error from axios', error))
+      }
+    },
+    // 開啟警報視窗
+    opendialog(id, type) {
+      this.dialog = true
+      this.openid = id
+      this.opentype = type
+      this.$axios
+        .get('http://127.0.0.1:5000/api/monitor/object/data')
+        .then((paramse) => {
+          // console.log(paramse.data)
+          this.tpmedata = paramse.data
+          var array = paramse.data
+          var arr = []
+          var obj = []
+          if (type === 'spot') {
+            arr = array.spot
+            obj = arr.find((o) => o.spot_number === id)
+            this.threshold = obj.spot_threshold
+            if (obj.spot_alarm_status === 0) {
+              this.checkbox = false
+            } else {
+              this.checkbox = true
+            }
+          } else if (type === 'line') {
+            arr = array.line
+            obj = arr.find((o) => o.line_number === id)
+            this.threshold = obj.line_threshold
+            if (obj.line_alarm_status === 0) {
+              this.checkbox = false
+            } else {
+              this.checkbox = true
+            }
+          } else if (type === 'scope') {
+            arr = array.scope
+            obj = arr.find((o) => o.scope_number === id)
+            this.threshold = obj.scope_threshold
+            if (obj.scope_alarm_status === 0) {
+              this.checkbox = false
+            } else {
+              this.checkbox = true
+            }
+          }
+          this.dialogdata = obj
+        })
+        .catch((error) => console.log(error))
+    },
+    // outputDialog() {
+
+    // },
+    // 右2
+    countdown() {
+      this.temps.duration++
+    },
+
+    // 左側燈泡
+    light() {
+      if (document.getElementById('light_on')) {
+        document.getElementById('light_on').src =
+          '/left-icons/light/light-off.png'
+        document.getElementById('light_on').setAttribute('id', 'light_img')
+      } else {
+        document.getElementById('light_img').src =
+          '/left-icons/light/light-on.png'
+        document.getElementById('light_img').setAttribute('id', 'light_on')
+      }
+    },
+    // 左側暫停
+    freeze() {
+      if (document.getElementById('freeze')) {
+        document.getElementById('freeze').src =
+          '/left-icons/freeze/unfreeze.png'
+        document.getElementById('freeze').setAttribute('id', 'unfreeze')
+      } else {
+        document.getElementById('unfreeze').src =
+          '/left-icons/freeze/freeze.png'
+        document.getElementById('unfreeze').setAttribute('id', 'freeze')
+      }
+    },
+    // 總呼叫程序
+    Refresh() {
+      this.$axios
+        .get('http://127.0.0.1:5000/api/monitor/object/data')
+        .then((params) => {
+          // 參考點
+          var reference = params.data.reference[0]
+          var sumtmp = ''
+          if (reference.reference_temperature != null) {
+            sumtmp = reference.reference_temperature.toFixed(1)
+          }
+          var referenceArr = {
+            reference_temperature: sumtmp,
+            X:
+              reference.reference_position.X *
+              document.getElementById('image').offsetWidth,
+            Y:
+              reference.reference_position.y *
+              document.getElementById('image').offsetHeight,
+          }
+          this.reference = referenceArr
+          // 取得"點"資料
+          var array = params.data.spot
+          // console.log(params.data.spot)
+          array.forEach(function (index) {
+            // console.log(index.position.Y)
+            if (index.spot_temperature != null) {
+              index.spot_temperature = index.spot_temperature.toFixed(1)
+            }
+            index.spot_position.X =
+              index.spot_position.X *
+              document.getElementById('image').offsetWidth
+            index.spot_position.Y =
+              index.spot_position.Y *
+              document.getElementById('image').offsetHeight
+          })
+          this.spots = params.data.spot
+          this.getspot()
+          // 取得"點"資料 end
+          // 取得"範圍"資料
+          var scopes = params.data.scope
+          scopes.forEach(function (index) {
+            if (index.scope_temperature_max != null) {
+              index.scope_temperature_max =
+                index.scope_temperature_max.toFixed(1)
+            }
+            index.scope_position_point_BR.X =
+              document.getElementById('image').offsetWidth *
+              (index.scope_position_point_BR.X -
+                index.scope_position_point_LT.X)
+            index.scope_position_point_BR.Y =
+              document.getElementById('image').offsetHeight *
+              (index.scope_position_point_BR.Y -
+                index.scope_position_point_LT.Y)
+
+            index.scope_position_point_LT.X =
+              index.scope_position_point_LT.X *
+              document.getElementById('image').offsetWidth
+            index.scope_position_point_LT.Y =
+              index.scope_position_point_LT.Y *
+              document.getElementById('image').offsetHeight
+          })
+          this.scopes = params.data.scope
+          // console.log(this.scopes)
+
+          this.scope()
+          // 取得"範圍"資料 end
+          // 取得"線"資料
+          var lines = params.data.line
+          lines.forEach(function (index) {
+            if (index.line_temperature_max != null) {
+              index.line_temperature_max = index.line_temperature_max.toFixed(1)
+            }
+            index.line_position_point_A.X =
+              index.line_position_point_A.X *
+              document.getElementById('image').offsetWidth
+            index.line_position_point_A.Y =
+              index.line_position_point_A.Y *
+              document.getElementById('image').offsetHeight
+            index.line_position_point_B.X =
+              index.line_position_point_B.X *
+              document.getElementById('image').offsetWidth
+            index.line_position_point_B.Y =
+              index.line_position_point_B.Y *
+              document.getElementById('image').offsetHeight
+          })
+          this.lines = params.data.line
+          this.line()
+          // 取得"線"資料 end
+        })
+        .catch((error) => console.log('error from axios', error))
+    },
+    // 定義點物件
+    getspot() {
+      const data = this.spots
+      $('.spot').hover(
+        function () {
+          $(this).children('.spot-span').addClass('hover')
+        },
+        function () {
+          $(this).children('.spot-span').removeClass('hover')
+        }
+      )
+      $('.spot').draggable({
+        containment: 'parent',
+        stop(event, ui) {
+          const id = $(this).attr('data-name')
+          const thisdata = data.find((o) => o.spot_number === id)
+          // console.log(data)
+
+          var SpotY =
+            ui.position.top / document.getElementById('image').offsetHeight
+          var SpotX =
+            ui.position.left / document.getElementById('image').offsetWidth
+          SpotY = SpotY.toFixed(4)
+          SpotX = SpotX.toFixed(4)
+          var thisSpotData = {
+            spot_number: parseInt($(this).attr('data-name')),
+            spot_status: '0',
+            spot_position: {
+              Y: SpotY,
+              X: SpotX,
+            },
+            spot_alarm_status: thisdata.spot_alarm_status,
+            spot_threshold: thisdata.spot_threshold,
+          }
+          put(thisSpotData)
+          // console.log(thisSpotData)
+        },
+      })
+      function put(data) {
+        axios({
+          method: 'post',
+          url: `http://127.0.0.1:5000/api/monitor/object/change/spot`,
+          data,
+        }).catch((error) => console.log('error from axios', error))
+      }
+      this.Interval = 0
+    },
+    // POST 新增點物件
+    addspot() {
+      // window.clearInterval(this.timeOutRefresh)
+      const l = this.loader
+      this[l] = !this[l]
+      setTimeout(() => (this[l] = false), 3000)
+      this.loader = null
+      this.$axios
+        .get('http://127.0.0.1:5000/api/monitor/object/add/spot')
+        .then((response) => {
+          this.Interval = 0
+        })
+        .catch((error) => console.log('error from axios', error))
+    },
+    // POST 刪除點物件
+    deletespot(number) {
+      // console.log(number)
+      var thisSpotData = {
+        spot_number: parseInt(number),
+        spot_status: '1',
+        spot_position: {
+          Y: 0.1,
+          X: 0.1,
+        },
+        spot_alarm_status: 0,
+        spot_threshold: 20,
+      }
+      this.$axios
+        .post(
+          'http://127.0.0.1:5000/api/monitor/object/change/spot',
+          thisSpotData
+        )
+        .then((response) => {
+          this.Interval = 0
+        })
+        .catch((error) => console.log('error from axios', error))
+    },
+    // POST 新增範圍
+    addscope() {
+      this.$axios
+        .get('http://127.0.0.1:5000/api/monitor/object/add/scope')
+        .then((response) => {
+          this.Interval = 0
+        })
+        .catch((error) => console.log('error from axios', error))
+    },
+    scope() {
+      const data = this.scopes
+      $('.scope').hover(
+        function () {
+          $(this).children('.scope-span').addClass('hover')
+        },
+        function () {
+          $(this).children('.scope-span').removeClass('hover')
+        }
+      )
+      $('.scope')
+        .draggable({
+          containment: 'parent',
+          stop(event, ui) {
+            // put(thisSpotData)
+            var thisName = $(this).attr('data-name')
+            const thisdata = data.find((o) => o.scope_number === thisName)
+            var thisSize = {
+              width: $(this).width() + 2,
+              height: $(this).height() + 2,
+            }
+            var thisScopeData = calculate(
+              ui,
+              thisName,
+              thisSize,
+              thisdata.scope_alarm_status,
+              thisdata.scope_threshold
+            )
+            put(thisScopeData)
+          },
+        })
+        .resizable({
+          containment: 'parent',
+          handles: 'all',
+          minWidth: 50,
+          minHeight: 50,
+          stop(event, ui) {
+            var thisName = $(this).attr('data-name')
+            const thisdata = data.find((o) => o.scope_number === thisName)
+            var thisSize = {
+              width: $(this).width() + 2,
+              height: $(this).height() + 2,
+            }
+            var thisScopeData = calculate(
+              ui,
+              thisName,
+              thisSize,
+              thisdata.scope_alarm_status,
+              thisdata.scope_threshold
+            )
+            put(thisScopeData)
+          },
+        })
+      function calculate(ui, thisName, thisSize, status, threshold) {
+        var scopeltY =
+          ui.position.top / document.getElementById('image').offsetHeight
+        var scopeltX =
+          ui.position.left / document.getElementById('image').offsetWidth
+        var scopeBRY =
+          (ui.position.top + thisSize.height) /
+          document.getElementById('image').offsetHeight
+        var scopeBRX =
+          (ui.position.left + thisSize.width) /
+          document.getElementById('image').offsetWidth
+        // scopeltY = scopeltY.toFixed(4)
+        // scopeltX = scopeltX.toFixed(4)
+        var thisScopeData = {
+          scope_number: thisName,
+          scope_status: '0',
+          scope_position_LT: {
+            Y: scopeltY,
+            X: scopeltX,
+          },
+          scope_position_BR: {
+            Y: scopeBRY,
+            X: scopeBRX,
+          },
+          scope_alarm_status: status,
+          scope_threshold: threshold,
+        }
+        // console.log(thisScopeData)
+
+        return thisScopeData
+      }
+      function put(data) {
+        axios({
+          method: 'post',
+          url: `http://127.0.0.1:5000/api/monitor/object/change/scope`,
+          data,
+        }).catch((error) => console.log('error from axios', error))
+      }
+      this.Interval = 0
+    },
+    // POST 刪除範圍物件
+    deletescope(index) {
+      var thisScopeData = {
+        scope_number: index,
+        scope_status: '1',
+        scope_position_LT: {
+          Y: 0.01,
+          X: 0.01,
+        },
+        scope_position_BR: {
+          Y: 0.001,
+          X: 0.011,
+        },
+        scope_alarm_status: 0,
+        scope_threshold: 0,
+      }
+      // console.log(thisScopeData)
+      axios({
+        method: 'post',
+        url: `http://127.0.0.1:5000/api/monitor/object/change/scope`,
+        data: thisScopeData,
+      }).catch((error) => console.log('error from axios', error))
+    },
+    // POST 線-主程式
+    line() {
+      var array = this.lines
+      array.forEach(function (line) {
+        var pointname = '.point' + line.line_number
+        var wrapperpointname = 'point' + line.line_number
+        var wrapperlinename = 'line' + line.line_number
+        var pointhoverclass = '.point_hover' + line.line_number
+        $(pointname).hover(
+          function () {
+            $(pointhoverclass).children('div').addClass('hover')
+          },
+          function () {
+            $(pointhoverclass).children('div').removeClass('hover')
+          }
+        )
+        wrapper(wrapperpointname, wrapperlinename)
+        $(pointname).draggable({
+          drag(e, ui) {
+            wrapper(wrapperpointname, wrapperlinename)
+            $(e.target).addClass('point-hover')
+          },
+          containment: 'parent',
+          stop(event, ui) {
+            var thisName = $(this).attr('data-name')
+            const thisdata = array.find((o) => o.line_number === thisName)
+            $(event.target).removeClass('point-hover')
+            var classA = '.point' + $(this).attr('data-name')
+            var pointAtop = 0
+            var pointAleft = 0
+            var pointBtop = 0
+            var pointBleft = 0
+            $(classA).each(function () {
+              if ($(this).attr('id') === 'pointA') {
+                pointAtop = $(this).position().top
+                pointAleft = $(this).position().left
+              }
+              if ($(this).attr('id') === 'pointB') {
+                pointBtop = $(this).position().top
+                pointBleft = $(this).position().left
+              }
+            })
+            pointAtop =
+              pointAtop / document.getElementById('image').offsetHeight
+            pointAleft =
+              pointAleft / document.getElementById('image').offsetWidth
+            pointBtop =
+              pointBtop / document.getElementById('image').offsetHeight
+            pointBleft =
+              pointBleft / document.getElementById('image').offsetWidth
+            var LineData = {
+              line_status: '0',
+              line_number: $(this).attr('data-name'),
+              line_position_point_A: {
+                Y: pointAtop,
+                X: pointAleft,
+              },
+              line_position_point_B: {
+                Y: pointBtop,
+                X: pointBleft,
+              },
+              line_alarm_status: thisdata.line_alarm_status,
+              line_threshold: thisdata.line_threshold,
+            }
+            put(LineData)
+          },
+        })
+      })
+      function put(data) {
+        axios({
+          method: 'post',
+          url: `http://127.0.0.1:5000/api/monitor/object/change/line`,
+          data,
+        }).catch((error) => console.log('error from axios', error))
+      }
+      function wrapper(pointname, linename) {
+        const point1 = document.getElementsByClassName(pointname)[0]
+        const point2 = document.getElementsByClassName(pointname)[1]
+        const line = document.getElementsByClassName(linename)[0]
+        var getline = getCoordinate(point1, point2, line)
+        line.style.width = getline.width + 'px'
+        line.style.left = getline.left + 'px'
+        line.style.top = getline.top + 'px'
+        line.style.transform = 'rotate(' + getline.angleDeg + 'deg)'
+      }
+
+      function getCoordinate(point1, point2) {
+        var p1 = {
+          x: point1.offsetLeft,
+          y: point1.offsetTop,
+        }
+        var p2 = {
+          x: point2.offsetLeft,
+          y: point2.offsetTop,
+        }
+        var a = p1.x - p2.x
+        var b = p1.y - p2.y
+        var length = Math.sqrt(a * a + b * b)
+        var angleDeg = (Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180) / Math.PI
+        var pointWidth = point1.clientWidth / 2
+        var pointHeight = point1.clientWidth / 2
+        var array = []
+        array.width = length
+        array.left = p1.x + pointWidth
+        array.top = p1.y + pointHeight
+        array.angleDeg = angleDeg
+        return array
+      }
+    },
+    // 線-新增程式
+    addline() {
+      this.$axios
+        .get('http://127.0.0.1:5000/api/monitor/object/add/line')
+        .then((response) => {
+          this.Interval = 0
+        })
+        .catch((error) => console.log('error from axios', error))
+    },
+    // 線-刪除程式
+    deleteline(index, id) {
+      var LineData = {
+        line_status: '1',
+        line_number: index,
+        line_position_point_A: {
+          Y: 0.07837,
+          X: 0.04254,
+        },
+        line_position_point_B: {
+          Y: 0.078352,
+          X: 0.07832,
+        },
+        line_alarm_status: 0,
+        line_threshold: 0,
+      }
+      axios({
+        method: 'post',
+        url: `http://127.0.0.1:5000/api/monitor/object/change/line`,
+        data: LineData,
+      }).catch((error) => console.log('error from axios', error))
+    },
+    // 右4日期
+    functionEvents(date) {
+      // console.log(this.alarmCalendar)
+      var cal = this.alarmCalendar
+      var dateStart = new Date(date + ' 00:00:00')
+      var dateStop = new Date(date + ' 23:59:59')
+      var status = false
+      cal.forEach((index) => {
+        var indexTime = new Date(index.table_alarm_start)
+        if (indexTime >= dateStart && indexTime <= dateStop) {
+          // console.log(date.split('-'))
+          status = true
+        }
+      })
+      var today = new Date()
+      if (today > dateStart) {
+        if (status) {
+          return ['#828C8F']
+        } else {
+          return ['#d8d8d8']
+        }
+      } else {
+        return false
+      }
+    },
+    Datecorrect(type, selectDay) {
+      var now = null
+      if (selectDay != null) {
+        now = new Date(selectDay) // 當前日期
+      } else {
+        now = new Date() // 當前日期
+      }
+      var nowDayOfWeek = now.getDay() // 今天本週的第幾天
+      var nowDay = now.getDate() // 當前日
+      var nowMonth = now.getMonth() // 當前月
+      var nowYear = now.getYear() // 當前年
+      nowYear += nowYear < 2000 ? 1900 : 0
+      var lastMonthDate = new Date() // 上月日期
+      lastMonthDate.setDate(1)
+      lastMonthDate.setMonth(lastMonthDate.getMonth() - 1)
+      // 格式化日期：yyyy-MM-dd
+      function formatDate(date) {
+        var myyear = date.getFullYear()
+        var mymonth = date.getMonth() + 1
+        var myweekday = date.getDate()
+        if (mymonth < 10) {
+          mymonth = '0' + mymonth
+        }
+        if (myweekday < 10) {
+          myweekday = '0' + myweekday
+        }
+        return myyear + '-' + mymonth + '-' + myweekday
+      }
+      // 本周開始結束計算器
+      if (type === 'week') {
+        return [getWeekStartDate(), getWeekEndDate()]
+      } else if (type === 'today') {
+        return formatDate(now)
+      } else if (type === 'yesterday') {
+        now.setDate(now.getDate() - 1)
+        return formatDate(now)
+      } else if (type === 'month') {
+        return [getMonthStartDate(), getMonthEndDate()]
+      }
+      function getMonthDays(myMonth) {
+        var monthStartDate = new Date(nowYear, myMonth, 1)
+        var monthEndDate = new Date(nowYear, myMonth + 1, 1)
+        var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24)
+        return days
+      }
+      function getWeekStartDate() {
+        var weekStartDate
+        if (nowDayOfWeek === 0) {
+          weekStartDate = new Date(
+            nowYear,
+            nowMonth,
+            nowDay - nowDayOfWeek + 1 - 7
+          )
+        } else {
+          weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 1)
+        }
+        return formatDate(weekStartDate)
+      }
+      // 本周end
+      function getWeekEndDate() {
+        var weekEndDate
+        if (nowDayOfWeek === 0) {
+          weekEndDate = new Date(
+            nowYear,
+            nowMonth,
+            nowDay + (6 - nowDayOfWeek) + 1 - 7
+          )
+        } else {
+          weekEndDate = new Date(
+            nowYear,
+            nowMonth,
+            nowDay + (6 - nowDayOfWeek) + 1
+          )
+        }
+        return formatDate(weekEndDate)
+      }
+      function getMonthStartDate() {
+        var monthStartDate = new Date(nowYear, nowMonth, 1)
+        return formatDate(monthStartDate)
+      }
+      // 獲得上月停止時候
+      function getMonthEndDate() {
+        var monthEndDate = new Date(nowYear, nowMonth, getMonthDays(nowMonth))
+        return formatDate(monthEndDate)
+      }
+      // 參考:https://www.796t.com/content/1547472435.html
     },
   },
 }
 </script>
-
-<style>
-.bgimg {
-  position: absolute;
-}
-.camera-bg {
-  background: #fff;
-  height: 830px;
-  padding: 16px;
-  border-radius: 0px !important;
-}
-/* 對話視窗 */
-.diago-contnet-cover {
-  height: 100%;
-  overflow-y: auto;
-}
-.custom-dialog {
-  width: 420px;
-  height: auto;
+<style scoped>
+/* 左側浮動按鈕 */
+.drawer {
   position: fixed;
-  top: 64px;
-  left: 39%;
-  background-color: #fff;
+  width: 3.6em;
+  left: -3.599em;
+  height: 51.8em;
+  transition: all 0.5s;
+  border-radius: 0px 10px 10px 0px;
   z-index: 99999;
-  box-shadow: 0px 0px 8px 4px rgb(108 108 108 / 27%);
-  border-radius: 3px;
-  transition: all 0.1s;
-  opacity: 1;
-  /* overflow-y: auto; */
-  /* transform: translate(-50%, -50%); */
+  /* background-color: #031316; */
+  color: rgba(89, 89, 91, 1);
 }
-.draggable-bar {
-  width: 70px;
-  height: 5px;
-  position: absolute;
-  top: 13px;
-  left: 50%;
-  background-color: #80898c;
-  border-radius: 3px;
-  transform: translate(-50%, -50%);
-  transition: all 0.3s;
-  cursor: move;
+.box {
+  background-color: #fff;
 }
-.draggable-bar:hover {
+.box:hover .drawer {
+  left: 0;
+}
+.alarmLogth {
+  padding: 0px 0px 0px 10px !important;
+}
+
+/* 影像串流 */
+.frame {
+  width: 100%;
+  /* margin-left: 2.1em; */
+  /* margin-top: 2em; */
+  padding: 1em;
+}
+.cover {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+  display: inline-block;
+  isolation: isolate;
+}
+#image {
+  width: 100%;
+  /* width: 70.5em; */
+  pointer-events: none;
+  /* margin-left: 2.1em; */
+  /* margin-top: 2em; */
+  isolation: isolate;
+}
+.arrow {
+  height: 23px;
   width: 100px;
-}
-#diagoHover {
-  cursor: grab;
-  margin: 0px 0px 11px 0px;
-}
-.dialog-close {
-  pointer-events: none;
-  opacity: 0 !important;
-}
-.diago-head {
-  display: grid;
-  grid-template-columns: 10% 77% 13%;
-  color: #4f5e62;
-}
-.diago-point-cover {
-  display: flex;
-  justify-content: center;
-  padding: 7px 0 0 0;
-}
-.diago-point {
-  width: 15px;
-  height: 15px;
-  background-color: #8ab284;
-  border-radius: 15px;
-}
-.diago-title img {
-  width: 30px;
-  margin: 0 0 0 9px;
-}
-.diago-title > div {
-  display: flex;
-  align-items: center;
-}
-.arrow-diago {
-  background-color: #fff !important;
-  box-shadow: unset !important;
-  border: 0px #d7dbdb solid;
-  border-radius: 3px;
-  width: 42px;
-  min-width: 42px !important;
-  height: 30px !important;
-}
-.diago-close {
-  margin-top: 10px;
-}
-.diago-close-icon {
-  background-color: #fff !important;
-  box-shadow: unset !important;
-  border: 0px #d7dbdb solid !important;
-  width: 100% !important;
-  min-width: 0 !important;
-}
-.diago-alarm-cover {
-  display: grid;
-  grid-template-columns: 136px 264px;
-  padding: 10px;
-}
-.diago-border1 {
-  border: 1px #d7dbdb solid;
-  border-radius: 3px;
-  padding: 5px;
-}
-.diago-title {
-  color: #4f5e62;
-  font-weight: bold;
-}
-.diago-table-title {
-  color: #4f5e62;
-  font-size: 13px;
-  border-bottom: 1px #000000 solid;
-}
-.diago-alarm-cover1 {
-  display: grid;
-  grid-template-columns: 113px 287px;
-  padding: 10px;
-}
-.diago-tootip-img {
   position: absolute;
-  top: 36px;
-  left: 100%;
-  /* width: 512px;
-  height: 384px; */
-  width: 556px;
-  height: 417px;
-  background-color: #fff;
-  box-shadow: 0px 0px 8px 4px rgb(108 108 108 / 27%);
-  border-radius: 3px;
+  margin-left: 1.16em;
+  margin-top: 25.5em;
+  transform: rotate(270deg);
+  border-radius: 0 0 100px 100px;
 }
-.diago-tootip-close {
-  width: 30px;
+/* 按鈕提示 */
+.tips {
+  z-index: 100000;
 }
-.diago-tootip-head {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  top: -33px;
-  background-color: #fff;
-  width: 100%;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  box-shadow: 1px -8px 6px 0px rgb(108 108 108 / 27%);
-}
-.diago-tootip-title {
-  font-weight: bold;
-  color: #4f5e62;
-}
-.diago-tootip-photo {
-  padding: 10px;
-}
-.diago-tootip-photo > img {
-  opacity: 0;
-}
-.diago-tootip-photo-zoom {
-  width: 97%;
-  height: 97%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  background: url(/images/1657246562560.png) no-repeat center center;
-  background-size: 100%;
-  transition: background-size 0.5s;
-  overflow: hidden;
-  cursor: grab;
-}
-.zoom-cover {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-}
-.zoom-cover-btu {
-  background-color: #fff0 !important;
-  box-shadow: unset !important;
-}
-.zoom-disabled {
-  pointer-events: none;
-  opacity: 0.7;
-}
-.donut-flex {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.donut-txt {
-  color: #4f5e62;
-  font-size: 10px;
-}
-.reset1 {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  float: right;
-}
-.reset1 > span {
-  color: #4f5e62;
-  font-size: 8px;
-}
-.diago-btn-cover {
-  display: flex;
-  justify-content: flex-end;
-}
-.diago-btn {
-  width: 95px;
-  height: 24px;
-}
-.diago-btn-font {
-  letter-spacing: 0px;
-  color: #fff;
-}
-/* 對話視窗 end */
-.align-items-c {
-  /* display: flex; */
-  align-items: center;
-}
-.cam-grid4 {
-  display: grid;
-  width: 100%;
-  grid-template-columns: 38% 38%;
-  justify-content: center;
-}
-.cam-grid4 > div {
-  margin-right: 5px;
-}
-.cam-grid4-olny {
-  display: grid;
-  grid-template-columns: 338px;
-  margin-right: 7px;
-  grid-template-rows: 261px 261px 261px;
-  align-items: center;
-}
-.cam-grid12 {
-  display: grid;
-  width: 100%;
-  grid-template-columns: 25% 25% 25% 25%;
-  justify-content: center;
-}
-.cam-grid12 > div {
-  margin-right: 5px;
-}
-.cam-only {
-  width: 100%;
-}
-.arrow-custom {
-  background-color: #fff !important;
-  box-shadow: unset !important;
-  border: 1px #d7dbdb solid;
-  border-radius: 3px;
-  width: 42px;
-  min-width: 42px !important;
-  height: 43px !important;
-}
-.menu-title {
-  color: #4f5e62;
+/* 區塊標題文字 */
+.subtitle {
+  font-size: 12px;
+  color: #d9dddd;
   text-align: center;
 }
-.menu-top {
-  /* display: flex;
-  justify-content: space-between;
-  align-items: center; */
-  display: grid;
-  align-items: center;
-  grid-template-columns: 57px 150px 64px 150px;
+.subtitle-right {
+  font-size: 12px;
+  color: #9ba3a5;
+  text-align: left;
+  font-family: 'Noto Sans TC', sans-serif;
 }
-.menu-top-setting {
+/* h4 {
+  line-height: 2em;
+  padding-left: 1em;
+  color: #031418;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: bold;
+} */
+.gg {
+  float: left;
+  text-align: center;
+}
+.font-display {
+  font-family: 'Noto Sans TC', sans-serif;
+}
+.chartTitle {
+  color: #545454;
+}
+
+.date-picker {
+  float: right;
+}
+
+.card5 {
   display: flex;
-  align-items: center;
+  /* 水平置中 */
+  justify-content: center;
+  /* 垂直置中 */
+  align-content: center;
+  flex-wrap: wrap;
 }
-.btu-setting {
-  background-color: #fff !important;
-  box-shadow: unset !important;
+.card5content {
+  width: 6em;
+  float: left;
+  margin: auto;
 }
-.custom-g-select {
-  display: grid;
-  grid-template-columns: 21.1% 18% 25% 9% 27%;
-  align-items: center;
-  height: 55px;
+.btn {
+  background-color: #f2f4f4;
 }
-
-.custom-g-select > div:first-child {
-  margin-left: 0px !important;
+.reset {
+  float: right;
+  margin-top: 0.5em;
+  margin-right: 0.5em;
 }
-.custom-g-select > div {
-  margin-left: 5px;
-}
-.custom-select {
-  height: 40px;
-  border: 1px #d7dbdb solid;
-  color: #4f5e62;
-  /* flex-direction: row-reverse; */
-}
-.transition-img {
-  margin: 0px 0px 0px 3px;
-}
-.custom-select div {
-  font-size: 10px;
-}
-.custom-select > div > div {
-  box-shadow: unset !important;
-  padding-right: 3px !important;
-  padding-left: 3px !important;
-}
-.search-cover {
-  display: grid;
-  grid-template-columns: 130px 251px 41px;
-  align-items: center;
-}
-.search-input {
-  border: 1px #d7dbdb solid;
-  height: 40px;
-  padding: 5px 8px;
-  margin: 8px 0px;
-  border-radius: 3px;
-}
-.search-input .v-text-field--rounded > .v-input__control > .v-input__slot {
-  /* padding:0px 10px !important; */
-  border-left: 1px #d7dbdb solid;
-  border-radius: 0px !important;
-  padding: 0 0px 0px 5px;
-}
-
-.search-input .v-label {
-  background-color: #fff;
-}
-.search-explore {
-  display: flex;
-  align-items: center;
-  justify-content: end;
-}
-
-.custom-cards-tags {
-  box-shadow: unset !important;
-}
-.custom-tabs-color {
-  color: rgb(155, 18, 18);
-}
-.custom-tabs > .v-tabs-bar {
-  border-bottom: 1px #d7dbdb solid !important;
-}
-.custom-tabs > .v-tabs-bar div {
+.cardtitle {
+  line-height: 2.5em;
   font-weight: 900;
-  font-size: 17px;
-}
-.tab-icon {
-  margin-right: 5px;
-  width: 25px !important;
-}
-.custom-tabs .v-tab {
-  padding: 5px !important;
-  min-width: 0px !important;
-  max-width: none !important;
+  color: #505f62;
 }
 
-.Overtemperature-Alert {
-  display: grid;
-  grid-template-rows: 182px 407px;
+.text-color >>> .v-text-field__slot input {
+  color: #9ba3a5;
 }
 
-.Alert-title {
-  font-size: 14px;
-  color: #4f5e62;
-  letter-spacing: 1.4px;
-}
-.Alert-txt {
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
-  height: 83%;
-}
-.Alert-txt2 {
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
-  height: 100%;
-}
-.Alert-txt-alarm {
-  color: #de8788;
-}
-.Alert-font {
-  color: #4f5e62;
-}
-.Alert-background {
-  background-color: #f0f2f3;
-}
-.Alert-background1 {
-  background-color: #f7e1e1;
-}
-.mags-cover {
-  height: 585px;
+.left-btn {
+  background-color: #2d2d2d;
+  width: 2.25em;
+  height: 2.25em;
 }
 
-.connect-cover {
-  display: grid;
-  grid-template-rows: 295px 295px;
-}
-.connect-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.connect-cover img {
-  width: 30px;
-  height: 30px;
+.right-btn {
+  background-color: #f2f4f4;
+  width: 2.25em;
+  height: 2.25em;
 }
 
-.status-open {
-  width: 10px;
-  height: 10px;
-  background-color: #8ab284;
-  border-radius: 10px;
+.donut1 {
+  float: left;
 }
-
-.status-off {
-  width: 10px;
-  height: 10px;
-  background-color: #de8788;
-  border-radius: 10px;
+.donut2 {
+  float: right;
 }
-.tagsId {
-  /* width: 50px; */
-  /* min-width: 30px; */
-  padding: 0px 0px 0px 0px !important;
-  margin: 0px 0px 0px 0px !important;
-}
-.trash-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.trash-icon img {
-  width: 30px;
-  height: 30px;
-}
-/* 分隔畫面統整設定 */
-.ui-state-cover {
-  width: 100%;
-  height: 0;
-  position: relative;
-  padding-bottom: 75%;
-}
-.ui-state-default-footer {
-  position: absolute;
-  background-color: #0000008f;
-  /* top: 0; */
-  z-index: 1;
-  left: 0;
-  color: #fff;
-  bottom: 0;
-  width: 100%;
-  padding: 2% 0px;
-  display: flex;
-  align-items: center;
-}
-.ui-state-default-point {
-  background-color: #8ab284;
-  width: 10px;
-  height: 10px;
-  border-radius: 10px;
-  margin: 0px 10px;
-}
-.ui-state-default-alarm {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  bottom: 0;
-  left: 0;
-  background-color: #de8788ad;
-  z-index: 2;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.1s;
-}
-.ui-state-default-alarm > div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 30px;
-  animation: neon 0.6s infinite alternate;
-}
-.ui-state-default-alarm > div img {
-  width: 8%;
-}
-@keyframes neon {
-  0% {
-    opacity: 40%;
-  }
-  100% {
-    opacity: 100%;
-  }
-}
-.ui-state-default-alarm-outline {
-  outline: 5px rgb(222 135 136) solid;
-}
-.ui-state-default-alarm-outline > .ui-state-default-alarm {
-  height: 15%;
-  top: unset;
-  background-color: rgba(222, 135, 136, 0.67843);
-  bottom: 0;
-}
-.ui-state-default-alarm-outline > .ui-state-default-alarm > div {
-  justify-content: flex-end;
-  font-size: 23px;
-  padding: 0 1em 0 0px;
-}
-.ui-state-default-alarm-outline > .ui-state-default-alarm > div > img {
-  width: 7%;
-}
-/* 可移動排序 (分4格) */
-.sortable4-1 {
-  list-style-type: none;
-  margin: 0;
-  padding: 0 !important;
-  width: 100%;
-  height: 100%;
-}
-.ui-state-highlight {
-  width: 334px;
-  height: 250px;
-  background-color: rgb(83, 144, 223);
-  margin: 11px;
-}
-.ui-state-default {
-  position: relative;
-  width: 334px;
-  height: 250px;
-  background-color: rgb(150, 150, 150);
-  margin: 11px;
-}
-.ui-state-highlight:last-child {
-  width: 1032px;
-  height: 764px;
-  z-index: 9;
-  transform: translate(339px, -783px);
-}
-
-.ui-state-default:last-child {
-  width: 1032px;
-  height: 764px;
-  z-index: 9;
-  transform: translate(339px, -783px);
-}
-
-.ui-state-default-footer > span {
-  font-size: 1em;
-}
-.ui-state-default:last-child .ui-state-default-footer > span {
-  font-size: 2.5em;
-}
-.ui-state-default:last-child .ui-state-default-point {
-  width: 24px;
-  height: 24px;
-  border-radius: 24px;
-  margin: 0px 19px;
-}
-.ui-state-default:last-child .ui-state-default-alarm > div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 78px;
-  width: 100%;
-}
-.ui-state-default:last-child .ui-state-default-alarm > div img {
-  width: 8%;
-}
-.ui-state-default:last-child
-  .ui-state-default-alarm-outline
-  > .ui-state-default-alarm
-  > div {
-  justify-content: flex-end;
-  font-size: 40px;
-  padding: 0 2em 0 0px;
-}
-.ui-state-default:last-child
-  .ui-state-default-alarm-outline
-  > .ui-state-default-alarm
-  > div
-  > img {
-  width: 4%;
-}
-/* 可移動排序 (均分4格) */
-.sortable4 {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 534px 534px;
-  align-items: center;
-  justify-content: center;
-}
-
-.ui-state-highlight4 {
-  position: relative;
-  background-color: rgb(83, 144, 223);
-  width: 528px;
-  height: 403px;
-}
-.ui-state-default4 {
-  position: relative;
-  width: 99%;
-}
-
-/* .ui-state-default4 > div {
-  position: absolute;
-  background-color: #fff;
-  top: 0;
-  z-index: 99;
-  left: 0;
+/* .rectangle {
+  z-index: 99999;
 } */
-/* 可移動排序 (均分12格) */
-.sortable12 {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
-  align-items: center;
-  justify-content: center;
-}
-
-.ui-state-highlight12 {
-  position: relative;
-  background-color: rgb(83, 144, 223);
-  width: 335px;
-  height: 258px;
-}
-.ui-state-default12 {
-  position: relative;
-  width: 99%;
-}
-
-/* .ui-state-default12 > div {
+.bgimg {
   position: absolute;
-  background-color: #fff;
-  top: 0;
-  z-index: 99;
-  left: 0;
-} */
-/* 可移動排序 (均分24格) */
-.sortable100 {
-  list-style-type: none;
-  margin-top: 34px;
-  padding: 0 !important;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 17% 17% 17% 17% 17% 17%;
-  align-items: center;
-  justify-content: center;
-}
-
-.ui-state-highlight100 {
-  position: relative;
-  background-color: rgb(83, 144, 223);
-  width: 228px;
-  height: 178px;
-}
-.ui-state-default100 {
-  position: relative;
-  width: 99%;
-}
-
-/* .ui-state-default100 > div {
-  position: absolute;
-  background-color: #fff;
-  top: 0;
-  z-index: 99;
-  left: 0;
-} */
-.busstop {
-  font-size: 40px;
-}
-/* 自訂標籤 */
-.custom-tab-items {
-  background-color: #fff0 !important;
-}
-#custom-tab-items {
-  background-color: #fff0 !important;
 }
 </style>
