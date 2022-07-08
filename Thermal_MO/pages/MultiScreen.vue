@@ -25,7 +25,12 @@
                           src="/images/tabs.png"
                           width="60%"
                       /></v-btn>
-                      <v-btn class="arrow-diago" rounded tile>
+                      <v-btn
+                        class="arrow-diago"
+                        rounded
+                        tile
+                        @click="openDialogImage()"
+                      >
                         <img
                           class=""
                           alt="line"
@@ -65,8 +70,8 @@
                       >
                         <template v-slot:header="{ props }">
                           <th
-                            v-for="head in props.headers"
-                            :key="head"
+                            v-for="(head ,idx) in props.headers"
+                            :key="idx"
                             class="diago-table-title"
                           >
                             {{ head.text.toUpperCase() }}
@@ -132,8 +137,8 @@
                       >
                         <template v-slot:header="{ props }">
                           <th
-                            v-for="head1 in props.headers"
-                            :key="head1"
+                            v-for="(head1 , idz) in props.headers"
+                            :key="idz"
                             class="diago-table-title"
                           >
                             {{ head1.text.toUpperCase() }}
@@ -240,7 +245,6 @@
                         :event-color="
                           (date) => (date[9] % 2 ? 'red' : 'yellow')
                         "
-                        events
                         readonly
                         no-title
                         color="#828c8f"
@@ -263,10 +267,15 @@
                     </v-btn>
                   </div>
                 </div>
-                <div class="diago-tootip-img">
+                <div class="diago-tootip-img dialog-close">
                   <div class="diago-tootip-head">
                     <div class="diago-tootip-close">
-                      <v-btn class="diago-close-icon" rounded outlined>
+                      <v-btn
+                        class="diago-close-icon"
+                        rounded
+                        outlined
+                        @click="offDialogImage()"
+                      >
                         <img
                           class=""
                           alt="line"
@@ -287,8 +296,6 @@
                             fab
                             @click="zoom(1)"
                             :class="zoomin"
-                            v-bind="attrs"
-                            v-on="on"
                           >
                             <img
                               class=""
@@ -743,7 +750,8 @@
           </v-container>
         </v-tab-item>
         <v-tab-item value="tab-2">
-          <v-btn @click="VideoActive('tab-1')">BACK</v-btn>
+          <MultiScreenstand id="1015" @VideoActive="VideoActive(data)" />
+          <!-- <v-btn @click="VideoActive('tab-1')">BACK</v-btn> -->
         </v-tab-item>
       </v-tabs-items>
     </v-tabs>
@@ -751,8 +759,12 @@
 </template>
 
 <script>
+import MultiScreenstand from '../components/MultiScreen/MultiScreen-stand.vue'
 export default {
   name: 'MultiScreenPage',
+  components: {
+    MultiScreenstand,
+  },
   head: {
     link: [
       // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
@@ -770,13 +782,17 @@ export default {
       {
         src: '/js/zoom.js',
         type: 'text/javascript',
-      }
+      },
     ],
   },
   data: () => ({
     // tab: null,
+    data: [],
     tab: 'tab-1',
     // 放大鏡級數
+    attrs: null,
+    on: null,
+    events: [],
     zoomL: 0,
     zoomin: '',
     zoomout: 'zoom-disabled',
@@ -911,7 +927,7 @@ export default {
           containment: '.cover-bg',
         })
         $('.diago-tootip-img').customZoom({
-          cover:'.diago-tootip-photo-zoom' // 指定放大哪個元素
+          cover: '.diago-tootip-photo-zoom', // 指定放大哪個元素
         })
         // 對話視窗
         // $('.custom-dialog').draggable({
@@ -929,6 +945,7 @@ export default {
         // })
         this.transition(1)
         this.testdata()
+        this.tab = 'tab-2'
       }, 1000)
     })
   },
@@ -1087,9 +1104,18 @@ export default {
       this.diagoalarmlogDesserts = arr4
       // end
     },
+    // 開啟影像預覽
+    openDialogImage() {
+      $('.diago-tootip-img').removeClass('dialog-close')
+    },
+    // 關閉影像預覽
+    offDialogImage() {
+      $('.diago-tootip-img').addClass('dialog-close')
+    },
     // 關閉對話窗
     diagoOff() {
       $('.custom-dialog').addClass('dialog-close')
+      $('.diago-tootip-img').addClass('dialog-close')
       $('.ui-state-cover-outline').each(function () {
         $(this).removeClass('ui-state-default-alarm-outline')
       })
@@ -1243,8 +1269,8 @@ export default {
   margin: 0px 0px 11px 0px;
 }
 .dialog-close {
-  /* pointer-events: none;
-  opacity: 0 !important; */
+  pointer-events: none;
+  opacity: 0 !important;
 }
 .diago-head {
   display: grid;

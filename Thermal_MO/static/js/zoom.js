@@ -1,8 +1,8 @@
 (function ($) {
   $.fn.extend({
     customZoom: function (data) {
-      var div = this
-      var start = false
+      var div = this // 宣告作用範圍
+      var start = false 
       var initialPosition = {
         x: 0,
         y: 0
@@ -84,3 +84,4 @@
     }
   });
 })(jQuery);
+// © 2022 YUANSHANG TECHNOLOGY. All Rights Reserved. by Louis 
