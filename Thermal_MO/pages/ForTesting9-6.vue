@@ -13,6 +13,15 @@
       </v-col>
       <v-col cols="3">
         <v-btn @click="add" :disabled="pointShow">ADD</v-btn>
+        <v-btn @click="test" :disabled="pointShow">test</v-btn>
+        <v-tabs vertical v-model="tab" class="mt-5">
+          <v-tab v-show="false">123</v-tab>
+          <v-tab v-show="false">123</v-tab>
+          <v-tab-items v-model="tab">
+            <v-tab-item value="page-1">123</v-tab-item>
+            <v-tab-item value="page-2">123</v-tab-item>
+          </v-tab-items>
+        </v-tabs>
       </v-col>
     </v-row>
   </v-container>
@@ -37,6 +46,7 @@ export default {
     ],
   },
   data: () => ({
+    tab: 'page-1',
     wrapper: 'wrapper',
     pointShow: false,
   }),
@@ -44,6 +54,10 @@ export default {
     // this.wrapper1()
   },
   methods: {
+    test() {
+      console.log('page-2')
+      this.tab = 'page-2'
+    },
     add() {
       this.pointShow = true
       console.log('add')
@@ -83,7 +97,7 @@ export default {
                 }
               }
             },
-            containment: ".crosshair"
+            containment: '.crosshair',
           })
           totle = totle + 1
           // 移動點方法
