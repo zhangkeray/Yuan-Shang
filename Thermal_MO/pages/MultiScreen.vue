@@ -17,15 +17,19 @@
                   </div>
                   <div class="diago-title mt-5">
                     <div>
-                      Cam-s1-59 A棟 CS-02配電盤<v-btn
-                        class="arrow-diago"
-                        rounded
-                        tile
-                      >
+                      Cam-s1-59 A棟 CS-02配電盤
+                      <v-btn class="arrow-diago" rounded tile width="20px">
                         <img
                           class=""
                           alt="line"
                           src="/images/tabs.png"
+                          width="60%"
+                      /></v-btn>
+                      <v-btn class="arrow-diago" rounded tile>
+                        <img
+                          class=""
+                          alt="line"
+                          src="/images/photo.png"
                           width="60%"
                       /></v-btn>
                     </div>
@@ -240,7 +244,7 @@
                         readonly
                         no-title
                         color="#828c8f"
-                        width="220"
+                        width="267"
                         height="200"
                       ></v-date-picker>
                     </div>
@@ -257,6 +261,29 @@
                         >查看更多</span
                       >
                     </v-btn>
+                  </div>
+                </div>
+                <div class="diago-tootip-img">
+                  <div class="diago-tootip-head">
+                    <div class="diago-tootip-close">
+                      <v-btn class="diago-close-icon" rounded outlined>
+                        <img
+                          class=""
+                          alt="line"
+                          src="/images/close.png"
+                          width="60%"
+                      /></v-btn>
+                    </div>
+                    <div class="diago-tootip-title pl-3">
+                      Cam-s1-59 A棟CS-02配電盤
+                    </div>
+                  </div>
+                  <div class="diago-tootip-photo">
+                    <img
+                      class=""
+                      src="/images/1657246562560.png"
+                      width="100%"
+                    />
                   </div>
                 </div>
               </div>
@@ -306,9 +333,37 @@
                 <!-- 右方控制面板 -->
                 <v-col cols="3">
                   <v-card class="camera-bg mt-3" style="height: 830px">
-                    <div class="menu-top">
-                      <div>
-                        <v-btn class="arrow-custom" tile>
+                    <div class="menu-top mt-1">
+                      <span class="menu-title">主分類</span>
+                      <!-- 區域 -->
+                      <div class="pl-0">
+                        <v-select
+                          class="custom-select"
+                          v-model="e1"
+                          :items="areas"
+                          dense
+                          solo
+                        ></v-select>
+                      </div>
+                      <span class="menu-title">次分類</span>
+                      <!-- 組別 -->
+                      <div class="pl-0">
+                        <v-select
+                          class="custom-select"
+                          v-model="e2"
+                          :items="groups"
+                          dense
+                          solo
+                        ></v-select>
+                      </div>
+                      <!-- 
+                       -->
+                    </div>
+                    <!-- 選單組 -->
+                    <div class="custom-g-select">
+                      <!-- arrow -->
+                      <div style="display: flex">
+                        <v-btn class="arrow-custom mr-1" tile>
                           <img
                             class=""
                             alt="line"
@@ -325,6 +380,18 @@
                           />
                         </v-btn>
                       </div>
+                      <span class="menu-title">當前分頁</span>
+                      <!-- page -->
+                      <div class="pl-0">
+                        <v-select
+                          class="custom-select"
+                          v-model="e3"
+                          :items="pages"
+                          dense
+                          solo
+                        ></v-select>
+                      </div>
+                      <span class="menu-title">2/5</span>
                       <div class="menu-top-setting">
                         <v-checkbox
                           v-model="carousel_checkbox"
@@ -352,40 +419,10 @@
                         </v-tooltip>
                       </div>
                     </div>
-                    <!-- 選單組 -->
-                    <div class="custom-g-select">
-                      <!-- 區域 -->
-                      <div class="pl-0">
-                        <v-select
-                          class="custom-select"
-                          v-model="e1"
-                          :items="areas"
-                          dense
-                          solo
-                        ></v-select>
-                      </div>
-                      <!-- 組別 -->
-                      <div class="pl-0">
-                        <v-select
-                          class="custom-select"
-                          v-model="e2"
-                          :items="groups"
-                          dense
-                          solo
-                        ></v-select>
-                      </div>
-                      <!-- page -->
-                      <div class="pl-0">
-                        <v-select
-                          class="custom-select"
-                          v-model="e3"
-                          :items="pages"
-                          dense
-                          solo
-                        ></v-select>
-                      </div>
+                    <!-- 搜尋相機編號 -->
+                    <div class="search-cover">
                       <!-- 畫面分格 -->
-                      <div class="px-0">
+                      <div class="pl-0 pr-2">
                         <v-select
                           v-model="e4"
                           class="custom-select"
@@ -407,9 +444,6 @@
                           </template>
                         </v-select>
                       </div>
-                    </div>
-                    <!-- 搜尋相機編號 -->
-                    <div class="search-cover">
                       <div class="search-input">
                         <v-text-field
                           rounded
@@ -826,6 +860,13 @@ export default {
           })
           $('#sortable').disableSelection()
         })
+        // 預覽小視窗放大縮小
+        $('.diago-tootip-img').resizable({
+          // aspectRatio: 3.8 / 3.1,
+          aspectRatio: 4 / 3,
+          minWidth: 380,
+          containment: '.cover-bg',
+        })
         // 對話視窗
         // $('.custom-dialog').draggable({
         //   start: () => {
@@ -1099,7 +1140,7 @@ export default {
   overflow-y: auto;
 }
 .custom-dialog {
-  width: 370px;
+  width: 420px;
   height: auto;
   position: fixed;
   top: 64px;
@@ -1133,8 +1174,8 @@ export default {
   margin: 0px 0px 11px 0px;
 }
 .dialog-close {
-  pointer-events: none;
-  opacity: 0 !important;
+  /* pointer-events: none;
+  opacity: 0 !important; */
 }
 .diago-head {
   display: grid;
@@ -1181,7 +1222,7 @@ export default {
 }
 .diago-alarm-cover {
   display: grid;
-  grid-template-columns: 122px 230px;
+  grid-template-columns: 136px 264px;
   padding: 10px;
 }
 .diago-border1 {
@@ -1200,7 +1241,40 @@ export default {
 }
 .diago-alarm-cover1 {
   display: grid;
-  grid-template-columns: 100px 247px;
+  grid-template-columns: 113px 287px;
+  padding: 10px;
+}
+.diago-tootip-img {
+  position: absolute;
+  top: 36px;
+  left: 100%;
+  /* width: 512px;
+  height: 384px; */
+  width: 512.387px;
+  height: 418px;
+  background-color: #fff;
+  box-shadow: 0px 0px 8px 4px rgb(108 108 108 / 27%);
+  border-radius: 3px;
+}
+.diago-tootip-close {
+  width: 30px;
+}
+.diago-tootip-head {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: -33px;
+  background-color: #fff;
+  width: 100%;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  box-shadow: 1px -8px 6px 0px rgb(108 108 108 / 27%);
+}
+.diago-tootip-title {
+  font-weight: bold;
+  color: #4f5e62;
+}
+.diago-tootip-photo {
   padding: 10px;
 }
 .donut-flex {
@@ -1276,10 +1350,17 @@ export default {
   min-width: 42px !important;
   height: 43px !important;
 }
+.menu-title {
+  color: #4f5e62;
+  text-align: center;
+}
 .menu-top {
-  display: flex;
+  /* display: flex;
   justify-content: space-between;
+  align-items: center; */
+  display: grid;
   align-items: center;
+  grid-template-columns: 57px 150px 64px 150px;
 }
 .menu-top-setting {
   display: flex;
@@ -1291,7 +1372,9 @@ export default {
 }
 .custom-g-select {
   display: grid;
-  grid-template-columns: 20% 21% 21% 38%;
+  grid-template-columns: 21.1% 18% 25% 9% 27%;
+  align-items: center;
+  height: 55px;
 }
 
 .custom-g-select > div:first-child {
@@ -1319,11 +1402,12 @@ export default {
 }
 .search-cover {
   display: grid;
-  grid-template-columns: 360px 60px;
+  grid-template-columns: 130px 251px 41px;
+  align-items: center;
 }
 .search-input {
   border: 1px #d7dbdb solid;
-  height: 44px;
+  height: 40px;
   padding: 5px 8px;
   margin: 8px 0px;
   border-radius: 3px;
@@ -1332,6 +1416,7 @@ export default {
   /* padding:0px 10px !important; */
   border-left: 1px #d7dbdb solid;
   border-radius: 0px !important;
+  padding: 0 0px 0px 5px;
 }
 
 .search-input .v-label {
@@ -1340,7 +1425,7 @@ export default {
 .search-explore {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: end;
 }
 
 .custom-cards-tags {
