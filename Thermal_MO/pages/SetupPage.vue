@@ -27,13 +27,13 @@
               硬體分配管理
             </v-tab>
 
-            <v-tab href="#tab-1" style="font-size: 15px; justify-content: left">
+            <v-tab href="#tab-3" style="font-size: 15px; justify-content: left">
               <img class="" alt="" src="/data_scraping/data.png" width="14em" />
               <p>&nbsp;&nbsp;</p>
               伺服器主機管理
             </v-tab>
 
-            <v-tab href="#tab-2" style="font-size: 15px; justify-content: left">
+            <v-tab href="#tab-4" style="font-size: 15px; justify-content: left">
               <img class="" alt="" src="/data_scraping/data.png" width="14em" />
               <p>&nbsp;&nbsp;</p>
               相機管理
@@ -47,7 +47,7 @@
 
             <v-tab-item value="tab-2">
               <no-ssr>
-                <TemperatureDistribution2 />
+                <!-- <CamaraManagement /> -->
               </no-ssr>
             </v-tab-item>
 
@@ -59,7 +59,7 @@
 
             <v-tab-item value="tab-4">
               <no-ssr>
-                <TemperatureDistribution2 />
+                <CamaraManagement />
               </no-ssr>
             </v-tab-item>
           </v-tabs>
@@ -72,13 +72,13 @@
 <script>
 // echarts引入
 import SettingAlert from '../components/Setup/SettingAlert.vue'
-import TemperatureDistribution2 from '../components/HistoricalMonitoring/TemperatureDistribution2.vue'
+import CamaraManagement from '../components/Setup/CamaraManagement.vue'
 
 export default {
   // echarts引入
   components: {
     SettingAlert,
-    TemperatureDistribution2,
+    CamaraManagement,
   },
   name: 'IndexPage',
   head: {
