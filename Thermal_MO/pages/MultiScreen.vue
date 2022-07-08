@@ -279,6 +279,42 @@
                     </div>
                   </div>
                   <div class="diago-tootip-photo">
+                    <div class="diago-tootip-photo-zoom">
+                      <div class="zoom-cover">
+                        <template>
+                          <v-btn
+                            class="zoom-cover-btu"
+                            fab
+                            @click="zoom(1)"
+                            :class="zoomin"
+                            v-bind="attrs"
+                            v-on="on"
+                          >
+                            <img
+                              class=""
+                              alt="line"
+                              src="/images/zoom-in.png"
+                              width="30%"
+                            />
+                          </v-btn>
+                        </template>
+                        <template>
+                          <v-btn
+                            class="zoom-cover-btu"
+                            fab
+                            @click="zoom(0)"
+                            :class="zoomout"
+                          >
+                            <img
+                              class=""
+                              alt="line"
+                              src="/images/zoom-out.png"
+                              width="30%"
+                            />
+                          </v-btn>
+                        </template>
+                      </div>
+                    </div>
                     <img
                       class=""
                       src="/images/1657246562560.png"
@@ -731,12 +767,19 @@ export default {
         src: '/js/jquery-collision.js',
         type: 'text/javascript',
       },
+      {
+        src: '/js/zoom.js',
+        type: 'text/javascript',
+      }
     ],
   },
   data: () => ({
     // tab: null,
     tab: 'tab-1',
-
+    // 放大鏡級數
+    zoomL: 0,
+    zoomin: '',
+    zoomout: 'zoom-disabled',
     sortable: 'sortable4-1',
     ui_state: 'ui-state-default',
     c_diago: 'custom-dialog dialog-close',
@@ -867,6 +910,9 @@ export default {
           minWidth: 380,
           containment: '.cover-bg',
         })
+        $('.diago-tootip-img').customZoom({
+          cover:'.diago-tootip-photo-zoom' // 指定放大哪個元素
+        })
         // 對話視窗
         // $('.custom-dialog').draggable({
         //   start: () => {
@@ -947,6 +993,29 @@ export default {
     })
   },
   methods: {
+    // 放大鏡計算器
+    zoom(level) {
+      var zoom = this.zoomL
+      var zoomer = $('.diago-tootip-photo-zoom')
+
+      if (level === 1) {
+        this.zoomL = zoom + 1
+      } else if (level === 0) {
+        this.zoomL = zoom - 1
+      }
+      zoomer.css('background-size', (this.zoomL + 1) * 100 + '%')
+
+      if (this.zoomL < 1) {
+        this.zoomin = ''
+        this.zoomout = 'zoom-disabled'
+      } else if (this.zoomL > 6) {
+        this.zoomin = 'zoom-disabled'
+        this.zoomout = ''
+      } else {
+        this.zoomin = ''
+        this.zoomout = ''
+      }
+    },
     // 跳轉到指定監視
     VideoActive(page) {
       this.tab = page
@@ -1250,8 +1319,8 @@ export default {
   left: 100%;
   /* width: 512px;
   height: 384px; */
-  width: 512.387px;
-  height: 418px;
+  width: 556px;
+  height: 417px;
   background-color: #fff;
   box-shadow: 0px 0px 8px 4px rgb(108 108 108 / 27%);
   border-radius: 3px;
@@ -1276,6 +1345,38 @@ export default {
 }
 .diago-tootip-photo {
   padding: 10px;
+}
+.diago-tootip-photo > img {
+  opacity: 0;
+}
+.diago-tootip-photo-zoom {
+  width: 97%;
+  height: 97%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  background: url(/images/1657246562560.png) no-repeat center center;
+  background-size: 100%;
+  transition: background-size 0.5s;
+  overflow: hidden;
+  cursor: grab;
+}
+.zoom-cover {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+}
+.zoom-cover-btu {
+  background-color: #fff0 !important;
+  box-shadow: unset !important;
+}
+.zoom-disabled {
+  pointer-events: none;
+  opacity: 0.7;
 }
 .donut-flex {
   display: flex;
