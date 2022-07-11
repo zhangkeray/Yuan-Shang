@@ -362,25 +362,7 @@ export default {
   top: 0.5em;
   position: absolute;
 }
-.input .v-input__slot {
-  max-height: 1em !important;
-  width: 15em !important;
-  // color: red;
-  display: flex !important;
-  align-items: left !important;
-  font-size: 12px;
-  // padding: 0px 0px 0px 0px;
-}
 
-.input .v-input__slot .v-icon {
-  // max-height: 1em !important;
-  // width: 20em !important;
-  // color: red;
-  // display: flex !important;
-  // align-items: left !important;
-  font-size: 15px;
-  // padding: 0px 0px 0px 0px;
-}
 
 // on off
 .switch-field {

@@ -36,7 +36,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-text-field
-                    class="input"
+                    class="setup_input"
                     dense
                     outlined
                     ref=""
@@ -85,7 +85,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-text-field
-                    class="input"
+                    class="setup_input"
                     dense
                     outlined
                     ref=""
@@ -103,7 +103,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-select
-                    class="input"
+                    class="setup_input"
                     dense
                     outlined
                     ref=""
@@ -124,7 +124,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-text-field
-                    class="input"
+                    class="setup_input"
                     dense
                     outlined
                     ref=""
@@ -142,7 +142,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-select
-                    class="input"
+                    class="setup_input"
                     dense
                     outlined
                     ref=""
@@ -163,7 +163,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-text-field
-                    class="input"
+                    class="setup_input"
                     dense
                     outlined
                     ref=""
@@ -183,7 +183,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-select
-                    class="input"
+                    class="setup_input"
                     dense
                     outlined
                     ref=""
@@ -197,14 +197,14 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col cols="12" md="6" class="pa-0 ma-0">
+            <v-col cols="12" md="6" class="pa-0 ma-0 ">
               <v-row>
                 <v-col cols="12" md="5">
                   <v-subheader class="py-0 pl-12 pb-1">收件人帳號</v-subheader>
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-text-field
-                    class="input"
+                    class="setup_input"
                     dense
                     outlined
                     ref=""
@@ -224,7 +224,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-text-field
-                    class="input"
+                    class="setup_input"
                     dense
                     outlined
                     ref=""
@@ -244,7 +244,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-select
-                    class="input"
+                    class="setup_input"
                     dense
                     outlined
                     ref=""
@@ -265,7 +265,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-select
-                    class="input"
+                    class="setup_input"
                     dense
                     outlined
                     ref=""
@@ -340,7 +340,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-text-field
-                    class="input"
+                    class="setup_input"
                     dense
                     outlined
                     ref=""
@@ -390,7 +390,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-select
-                    class="input"
+                    class="setup_input"
                     dense
                     outlined
                     ref=""
@@ -412,7 +412,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-select
-                    class="input"
+                    class="setup_input"
                     dense
                     outlined
                     ref=""
@@ -436,7 +436,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-select
-                    class="input"
+                    class="setup_input"
                     dense
                     outlined
                     ref=""
@@ -760,17 +760,6 @@ export default {
   position: absolute;
 }
 
-
-// .input .v-input__slot .v-icon {
-//   // max-height: 1em !important;
-//   // width: 20em !important;
-//   // color: red;
-//   // display: flex !important;
-//   // align-items: left !important;
-//   font-size: 15px;
-//   // padding: 0px 0px 0px 0px;
-// }
-
 // on off
 .switch-field {
   display: flex;
@@ -825,4 +814,24 @@ export default {
   float: bottom;
   left: 44em;
 } 
+
+.setup_input .v-input__slot {
+  max-height: 1em !important;
+  width: 15em !important;
+  // color: red;
+  display: flex !important;
+  align-items: left !important;
+  font-size: 12px;
+  // padding: 0px 0px 0px 0px;
+}
+
+.setup_input .v-input__slot .v-icon {
+  // max-height: 1em !important;
+  // width: 20em !important;
+  // color: red;
+  // display: flex !important;
+  // align-items: left !important;
+  font-size: 15px;
+  // padding: 0px 0px 0px 0px;
+}
 </style>

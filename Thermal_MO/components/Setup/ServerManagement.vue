@@ -685,6 +685,12 @@ export default {
   min-height: 36px !important;
   width: 10em !important;
   font-size: 13px;
+
+  max-height: 1em !important;
+  // color: red;
+  display: flex !important;
+  align-items: left !important;
+  // padding: 0px 0px 0px 0px;
 }
 
 .classification .v-input__slot .v-icon {
@@ -704,20 +710,17 @@ export default {
 .custom .v-pagination__navigation {
   height: 26px !important;
   width: 26px !important;
-  color:#828c8f
+  color: #828c8f;
 }
 
 .custom .v-pagination__navigation .v-icon {
   font-size: 16px !important;
-    box-shadow: none;
-
-
+  box-shadow: none;
 }
 
 .custom .v-pagination__navigation {
-    box-shadow: none;
+  box-shadow: none;
   border: rgba(0, 0, 0, 0.2) solid 1px;
-
 }
 
 .custom .v-pagination__item {
@@ -727,8 +730,6 @@ export default {
   line-height: 0.8rem;
   border: rgba(0, 0, 0, 0.2) solid 1px;
   box-shadow: none;
-    // color:#828c8f !important;
-
+  // color:#828c8f !important;
 }
-
 </style>
