@@ -26,25 +26,24 @@
       var tmpx = 0
       var tmpy = 0
       div.on('mousemove', function (e) {
-        // console.log(e.offsetX)
         if (start) {
           var difference = {
             x: initialPosition.x - e.offsetX,
             y: initialPosition.y - e.offsetY,
           }
           if (tmpx > difference.x) {
-            imagePosition.x = imagePosition.x - 0.2
+            imagePosition.x = imagePosition.x - 0.7
           } else if (tmpx === difference.x) {
             imagePosition.x = imagePosition.x - 0
           } else {
-            imagePosition.x = imagePosition.x + 0.2
+            imagePosition.x = imagePosition.x + 0.7
           }
           if (tmpy > difference.y) {
-            imagePosition.y = imagePosition.y - 0.2
+            imagePosition.y = imagePosition.y - 0.7
           } else if (tmpy === difference.y) {
             imagePosition.y = imagePosition.y - 0
           } else {
-            imagePosition.y = imagePosition.y + 0.2
+            imagePosition.y = imagePosition.y + 0.7
           }
 
           if (imagePosition.x < 0) {

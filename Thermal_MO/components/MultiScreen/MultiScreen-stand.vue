@@ -1,9 +1,9 @@
 <template>
   <div class="fluid mt-3">
-    <div>
+    <!-- <div>
       <v-btn @click="$emit('VideoActive', 'tab-1')">BACK</v-btn>
       output:{{ id }}
-    </div>
+    </div> -->
     <v-img class="bgimg" src="bgimg.png" height="93.2vh" />
 
     <!-- 左側浮動按鈕---------------------------------------------------------------------------------------------------- -->
@@ -734,14 +734,40 @@
     ------------------------------------------------------------------
     ------------------------------------------------------------------ -->
 
-    <v-row>
+    <div class="box-2">
       <!-- 左畫面影像顯示----------------------------------------------------------------------------------------------- -->
-      <v-col cols="12" md="7">
+      <div class="mr-3">
         <!-- <v-col cols="12" md="7" style="border: 1px solid red"> -->
         <v-card class="mt-3 ml-6" rounded="md" elevation="6">
           <!-- <v-responsive :aspect-ratio="4 / 3"> -->
           <v-card-text>
-            <div class="frame">
+            <div class="frame-hard">
+              <v-btn
+                class="arrow-diago"
+                rounded
+                tile
+                width="15px"
+                @click="$emit('VideoActive', 'tab-1')"
+              >
+                <img
+                  class=""
+                  alt="line"
+                  src="/images/arrow-right.png"
+                  width="30%"
+              /></v-btn>
+              <div>相機名稱</div>
+              <v-select
+                v-model="selectList"
+                :items="cameraList"
+                class="camSelect"
+                label="Solo field"
+                solo
+                dense
+                hide-details
+              ></v-select>
+              <div>上次更新時間：2022/05/22 19:30:00</div>
+            </div>
+            <div class="frame mt-1">
               <div id="cover" class="cover">
                 <div class="d-none" id="rtsp-status"></div>
                 <div class="d-none" id="rtsp-stay"></div>
@@ -834,12 +860,71 @@
                 ></div>
               </div>
             </div>
+            <div class="frame-footer">
+              <v-text-field
+                v-model="temperature"
+                class="subtitle card5content mx-3 text-color"
+                label="一般溫度"
+                color="#828c8f"
+              ></v-text-field>
+
+              <v-text-field
+                v-model="reflected"
+                class="subtitle card5content mx-3 text-color"
+                label="反射溫度"
+                color="#828c8f"
+              ></v-text-field>
+
+              <v-text-field
+                v-model="atmospheric"
+                class="subtitle card5content mx-3 text-color"
+                label="環境溫度"
+                color="#828c8f"
+              ></v-text-field>
+
+              <v-text-field
+                v-model="humidity"
+                class="subtitle card5content mx-3 text-color"
+                label="環境濕度"
+                color="#828c8f"
+              ></v-text-field>
+
+              <v-text-field
+                v-model="distance"
+                class="subtitle card5content mx-3 text-color"
+                label="量測距離"
+                color="#828c8f"
+              ></v-text-field>
+
+              <v-text-field
+                v-model="emissivity"
+                class="subtitle card5content mx-3 text-color"
+                label="放射率"
+                color="#828c8f"
+              ></v-text-field>
+
+              <v-text-field
+                v-model="transmission"
+                class="subtitle card5content mx-3 text-color font-weight-large"
+                label="穿透率"
+                color="#828c8f"
+              ></v-text-field>
+              <v-btn
+                color="#e6e6e6"
+                class="diago-btn mt-3"
+                max-height="24px"
+                max-width="95px"
+                rounded
+              >
+                <span class="diago-btn-font">restart</span>
+              </v-btn>
+            </div>
           </v-card-text>
           <!-- </v-responsive> -->
         </v-card>
-      </v-col>
+      </div>
       <!--右1畫面顯示----------------------------------------------------------------------------------------------- -->
-      <v-col cols="12" md="5">
+      <div class="ml-3">
         <v-row :column="$vuetify.breakpoint.mdAndDown">
           <v-col cols="12" lg="5">
             <v-card class="mt-3" rounded="md" elevation="6">
@@ -1350,8 +1435,35 @@
               </v-simple-table>
             </v-card>
           </v-col>
+          <!--右3畫面顯示(及時超溫影像紀錄)----------------------------------------------------------------------------------------------- -->
+          <v-col cols="12" lg="12">
+            <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
+            <v-card class="mr-6" height="6.7em" rounded="md" elevation="6">
+              <div>
+                <v-tooltip left class="tips">
+                  <template #activator="{ on, attrs }">
+                    <v-btn
+                      x-small
+                      icon
+                      class="btn reset"
+                      color="#9BA3A5"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      <v-icon x-small class="icon">mdi-restore</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>重置</span>
+                </v-tooltip>
+                <h4 class="cardtitle ml-3">參數調整</h4>
+              </div>
 
-          <!--右3, 4畫面顯示----------------------------------------------------------------------------------------------- -->
+              <!-- <v-btn icon class="btn reset" color="#9BA3A5"> 
+                  <v-icon  class="icon">mdi-cached</v-icon>
+                </v-btn> -->
+            </v-card>
+          </v-col>
+          <!--右4畫面顯示(警報次數及歷史)----------------------------------------------------------------------------------------------- -->
           <v-col cols="12" lg="12">
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
             <v-card class="fill-height mr-6" rounded="md" elevation="6">
@@ -1473,95 +1585,9 @@
               </v-sheet>
             </v-card>
           </v-col>
-
-          <!--右5畫面顯示----------------------------------------------------------------------------------------------- -->
-          <v-col cols="12" lg="12">
-            <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
-            <v-card class="mr-6" height="6.7em" rounded="md" elevation="6">
-              <div>
-                <v-tooltip left class="tips">
-                  <template #activator="{ on, attrs }">
-                    <v-btn
-                      x-small
-                      icon
-                      class="btn reset"
-                      color="#9BA3A5"
-                      v-bind="attrs"
-                      v-on="on"
-                    >
-                      <v-icon x-small class="icon">mdi-restore</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>重置</span>
-                </v-tooltip>
-                <h4 class="cardtitle ml-3">參數調整</h4>
-              </div>
-
-              <v-form class="">
-                <v-text-field
-                  v-model="temperature"
-                  class="subtitle card5content ml-16 mt-1 mr-5 text-color"
-                  label="一般溫度"
-                  color="#828c8f"
-                ></v-text-field>
-
-                <v-text-field
-                  v-model="reflected"
-                  class="subtitle card5content mt-1 mr-5 text-color"
-                  label="反射溫度"
-                  color="#828c8f"
-                ></v-text-field>
-
-                <v-text-field
-                  v-model="atmospheric"
-                  class="subtitle card5content mt-1 mr-5 text-color"
-                  label="環境溫度"
-                  color="#828c8f"
-                ></v-text-field>
-
-                <v-text-field
-                  v-model="humidity"
-                  class="subtitle card5content mt-1 mr-5 text-color"
-                  label="環境濕度"
-                  color="#828c8f"
-                ></v-text-field>
-
-                <v-text-field
-                  v-model="distance"
-                  class="subtitle card5content mt-1 mr-5 text-color"
-                  label="量測距離"
-                  color="#828c8f"
-                ></v-text-field>
-
-                <v-text-field
-                  v-model="emissivity"
-                  class="subtitle card5content mt-1 mr-5 text-color"
-                  label="放射率"
-                  color="#828c8f"
-                ></v-text-field>
-
-                <v-text-field
-                  v-model="transmission"
-                  class="
-                    subtitle
-                    card5content
-                    mt-1
-                    mr-5
-                    text-color
-                    font-weight-large
-                  "
-                  label="穿透率"
-                  color="#828c8f"
-                ></v-text-field>
-              </v-form>
-              <!-- <v-btn icon class="btn reset" color="#9BA3A5"> 
-                  <v-icon  class="icon">mdi-cached</v-icon>
-                </v-btn> -->
-            </v-card>
-          </v-col>
         </v-row>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1594,9 +1620,7 @@ export default {
     ],
   },
   // 接收父元素資料
-  props: [
-    'id',
-  ],
+  props: ['id'],
   data: () => ({
     // 警報溫度對話框設置
     dialog: false,
@@ -1613,6 +1637,9 @@ export default {
     time: 20,
     // 切換按鈕
     isActive: false,
+    // 相機選單(影像)
+    cameraList: ['Cam-s1-59 A棟 CS-02配電盤', 'Cam-s1-59 A棟 CS-02配電盤1'],
+    selectList: 'Cam-s1-59 A棟 CS-02配電盤1',
     // 左側隱藏按鈕動作設定
     direction_imageMode: 'right',
     fab_imageMode: false,
@@ -2674,13 +2701,34 @@ export default {
 .alarmLogth {
   padding: 0px 0px 0px 10px !important;
 }
-
+/* 左右側畫面grid */
+.box-2 {
+  display: grid;
+  grid-template-columns: 52% 48%;
+}
 /* 影像串流 */
+.diago-btn-font {
+  color: #80898c;
+}
+.frame-hard {
+  /* display: flex; */
+  align-items: center;
+  font-size: 17px;
+  color: #80898c;
+  display: grid;
+  grid-template-columns: 42px 69px 306px 383px;
+}
+
 .frame {
   width: 100%;
   /* margin-left: 2.1em; */
   /* margin-top: 2em; */
-  padding: 1em;
+  /* padding: 1em; */
+}
+.frame-footer {
+  height: 49px;
+  display: flex;
+  justify-content: center;
 }
 .cover {
   position: relative;
@@ -2715,6 +2763,9 @@ export default {
   font-size: 12px;
   color: #d9dddd;
   text-align: center;
+}
+.card5content {
+  width: 3em;
 }
 .subtitle-right {
   font-size: 12px;
@@ -2752,11 +2803,7 @@ export default {
   align-content: center;
   flex-wrap: wrap;
 }
-.card5content {
-  width: 6em;
-  float: left;
-  margin: auto;
-}
+
 .btn {
   background-color: #f2f4f4;
 }
@@ -2798,5 +2845,12 @@ export default {
 } */
 .bgimg {
   position: absolute;
+}
+</style>
+<style>
+.camSelect div {
+  box-shadow: unset !important;
+  font-size: 17px;
+  color: #80898c;
 }
 </style>

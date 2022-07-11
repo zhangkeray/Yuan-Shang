@@ -749,7 +749,7 @@
             </div>
           </v-container>
         </v-tab-item>
-        <v-tab-item value="tab-2">
+        <v-tab-item value="tab-2" style="height:93.2vh;">
           <MultiScreenstand id="1015" @VideoActive="VideoActive(data)" />
           <!-- <v-btn @click="VideoActive('tab-1')">BACK</v-btn> -->
         </v-tab-item>
@@ -945,7 +945,7 @@ export default {
         // })
         this.transition(1)
         this.testdata()
-        // this.tab = 'tab-2'
+        this.tab = 'tab-2'
       }, 1000)
     })
   },
