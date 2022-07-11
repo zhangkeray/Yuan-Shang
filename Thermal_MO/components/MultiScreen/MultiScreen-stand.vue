@@ -926,13 +926,13 @@
       <!--右1畫面顯示----------------------------------------------------------------------------------------------- -->
       <div class="ml-3">
         <v-row :column="$vuetify.breakpoint.mdAndDown">
-          <v-col cols="12" lg="5">
+          <v-col cols="12" lg="5" class="pb-0">
             <v-card class="mt-3" rounded="md" elevation="6">
               <h4 class="cardtitle ml-3">警報設置</h4>
               <v-simple-table
                 id="style-3"
                 fixed-header
-                height="300px"
+                height="260px"
                 class="mx-2"
               >
                 <template #default>
@@ -1268,12 +1268,12 @@
             </form>
           </v-dialog>
           <!--右2畫面顯示----------------------------------------------------------------------------------------------- -->
-          <v-col cols="12" lg="7">
+          <v-col cols="12" lg="7" class="pb-0">
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
 
             <v-card class="mt-3 mr-6" rounded="md" elevation="6">
               <h4 class="cardtitle ml-3">警報紀錄</h4>
-              <v-simple-table fixed-header height="300px" class="mx-2 table2">
+              <v-simple-table fixed-header height="260px" class="mx-2 table2">
                 <template #default>
                   <thead>
                     <tr>
@@ -1436,11 +1436,16 @@
             </v-card>
           </v-col>
           <!--右3畫面顯示(及時超溫影像紀錄)----------------------------------------------------------------------------------------------- -->
-          <v-col cols="12" lg="12">
+          <v-col cols="12" lg="12" class="pb-0">
             <!-- <v-col cols="12" lg="12" style="border: 1px solid red"> -->
-            <v-card class="mr-6" height="6.7em" rounded="md" elevation="6">
-              <div>
-                <v-tooltip left class="tips">
+            <v-card
+              class="mr-6"
+              style="max-height: 202px"
+              rounded="md"
+              elevation="6"
+            >
+              <div class="flash-video-and-log">
+                <!-- <v-tooltip left class="tips">
                   <template #activator="{ on, attrs }">
                     <v-btn
                       x-small
@@ -1454,8 +1459,29 @@
                     </v-btn>
                   </template>
                   <span>重置</span>
-                </v-tooltip>
-                <h4 class="cardtitle ml-3">參數調整</h4>
+                </v-tooltip> -->
+                <div>
+                  <div class="flash-image-title">
+                    <h4 class="cardtitle mx-3">即時超溫影像紀錄</h4>
+                    <span>2022/05/22 15:00:00 - 2022/05/22 15:05:00</span>
+                  </div>
+                  <div class="flash-image-img mx-3">
+                    <div>
+                      <img src="loadingBG.png" />
+                    </div>
+                    <div>
+                      <img src="loadingBG.png" />
+                    </div>
+                  </div>
+                </div>
+                <!-- 折線圖 -->
+                <div>
+                  <div
+                    ref="FlashImageLog"
+                    id="FlashImageLog"
+                    style="height: 240px; width: 415px"
+                  ></div>
+                </div>
               </div>
 
               <!-- <v-btn icon class="btn reset" color="#9BA3A5"> 
@@ -1466,7 +1492,12 @@
           <!--右4畫面顯示(警報次數及歷史)----------------------------------------------------------------------------------------------- -->
           <v-col cols="12" lg="12">
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
-            <v-card class="fill-height mr-6" rounded="md" elevation="6">
+            <v-card
+              class="fill-height mr-6"
+              rounded="md"
+              elevation="6"
+              height="299px"
+            >
               <div class="reset">
                 <v-icon color="#d8d8d8">mdi-circle-medium</v-icon
                 ><span class="subtitle-right">正常&nbsp;&nbsp;</span>
@@ -1478,111 +1509,119 @@
               <h4 class="cardtitle ml-3">警報次數及歷史</h4>
 
               <!-- 圖表1 本日 -->
-              <v-progress-circular
-                class="donut1 mx-5 mt-4"
-                :rotate="-90"
-                :size="95"
-                :width="10"
-                :value="valueToday"
-                color="#828c8f"
-                backgroud
-              >
-                <h3>{{ valueToday }}</h3>
-              </v-progress-circular>
+              <div class="alarm-sum">
+                <div class="alarm-charts">
+                  <div class="cheats-cover">
+                    <v-progress-circular
+                      class="donut1 mx-5"
+                      :rotate="-90"
+                      :size="95"
+                      :width="10"
+                      :value="valueToday"
+                      color="#828c8f"
+                      backgroud
+                    >
+                      <h3>{{ valueToday }}</h3>
+                    </v-progress-circular>
 
-              <v-sheet class="gg mt-5"
-                ><h4 class="chartTitle mr-16">本日</h4>
+                    <v-sheet
+                      ><h4 class="chartTitle mr-16">本日</h4>
 
-                <p class="subtitle-right text-center mr-2">
-                  {{
-                    Datecorrect('today', this.alarmDate)
-                  }}&nbsp;00:00<br />ǀ<br />{{
-                    Datecorrect('today', this.alarmDate)
-                  }}&nbsp;24:00
-                </p>
-              </v-sheet>
-              <!-- 圖表2 昨日 -->
-              <v-progress-circular
-                class="donut1 mx-5 mt-4"
-                :rotate="-90"
-                :size="95"
-                :width="10"
-                :value="valueLastday"
-                color="#828c8f"
-              >
-                <h3>{{ valueLastday }}</h3>
-              </v-progress-circular>
+                      <p class="subtitle-right text-center mr-2">
+                        {{
+                          Datecorrect('today', this.alarmDate)
+                        }}&nbsp;00:00<br />ǀ<br />{{
+                          Datecorrect('today', this.alarmDate)
+                        }}&nbsp;24:00
+                      </p>
+                    </v-sheet>
+                  </div>
+                  <!-- 圖表2 昨日 -->
+                  <div class="cheats-cover">
+                    <v-progress-circular
+                      class="donut1 mx-5"
+                      :rotate="-90"
+                      :size="95"
+                      :width="10"
+                      :value="valueLastday"
+                      color="#828c8f"
+                    >
+                      <h3>{{ valueLastday }}</h3>
+                    </v-progress-circular>
 
-              <v-sheet class="gg mt-5"
-                ><h4 class="chartTitle mr-16">昨日</h4>
-                <p class="subtitle-right text-center mr-2">
-                  {{
-                    Datecorrect('yesterday', this.alarmDate)
-                  }}&nbsp;00:00<br />ǀ<br />{{
-                    Datecorrect('yesterday', this.alarmDate)
-                  }}&nbsp;24:00
-                </p>
-              </v-sheet>
+                    <v-sheet class="gg"
+                      ><h4 class="chartTitle mr-16">昨日</h4>
+                      <p class="subtitle-right text-center mr-2">
+                        {{
+                          Datecorrect('yesterday', this.alarmDate)
+                        }}&nbsp;00:00<br />ǀ<br />{{
+                          Datecorrect('yesterday', this.alarmDate)
+                        }}&nbsp;24:00
+                      </p>
+                    </v-sheet>
+                  </div>
+                  <!-- 圖表3 本週 -->
+                  <div class="cheats-cover">
+                    <v-progress-circular
+                      class="donut1 mx-5"
+                      :rotate="-90"
+                      :size="95"
+                      :width="10"
+                      :value="valueThisWeek"
+                      color="#e89595"
+                    >
+                      <h3>{{ valueThisWeek }}</h3>
+                    </v-progress-circular>
+                    <v-sheet class="gg"
+                      ><h4 class="chartTitle mr-16">本週</h4>
+                      <p class="subtitle-right text-center mr-2">
+                        {{
+                          Datecorrect('week', this.alarmDate)[0]
+                        }}&nbsp;00:00<br />ǀ<br />{{
+                          Datecorrect('week', this.alarmDate)[1]
+                        }}&nbsp;24:00
+                      </p>
+                    </v-sheet>
+                  </div>
+                  <!-- 圖表4 本月 -->
+                  <div class="cheats-cover">
+                    <v-progress-circular
+                      class="donut1 mx-5"
+                      :rotate="-90"
+                      :size="95"
+                      :width="10"
+                      :value="valueThisMonth"
+                      color="#828C8F"
+                    >
+                      <h3>{{ valueThisMonth }}</h3>
+                    </v-progress-circular>
 
-              <!-- 日期 -->
-              <v-date-picker
-                v-model="date2"
-                class="date-picker"
-                :event-color="(date) => (date[9] % 2 ? 'red' : 'yellow')"
-                :events="functionEvents"
-                readonly
-                no-title
-                color="#828c8f"
-                width="17em"
-              ></v-date-picker>
-
-              <br /><br /><br /><br /><br />
-
-              <!-- 圖表3 本週 -->
-
-              <v-progress-circular
-                class="donut1 mx-5 mt-8"
-                :rotate="-90"
-                :size="95"
-                :width="10"
-                :value="valueThisWeek"
-                color="#e89595"
-              >
-                <h3>{{ valueThisWeek }}</h3>
-              </v-progress-circular>
-
-              <v-sheet class="gg mt-9"
-                ><h4 class="chartTitle mr-16">本週</h4>
-                <p class="subtitle-right text-center mr-2">
-                  {{
-                    Datecorrect('week', this.alarmDate)[0]
-                  }}&nbsp;00:00<br />ǀ<br />{{
-                    Datecorrect('week', this.alarmDate)[1]
-                  }}&nbsp;24:00
-                </p>
-              </v-sheet>
-              <!-- 圖表4 本月 -->
-              <v-progress-circular
-                class="donut1 mx-5 mt-8"
-                :rotate="-90"
-                :size="95"
-                :width="10"
-                :value="valueThisMonth"
-                color="#828C8F"
-              >
-                <h3>{{ valueThisMonth }}</h3>
-              </v-progress-circular>
-
-              <v-sheet class="gg mt-9"
-                ><h4 class="chartTitle mr-16">本月</h4>
-                <p class="subtitle-right text-center mr-2">
-                  {{
-                    Datecorrect('month', this.alarmDate)[0]
-                  }}&nbsp;00:00<br />ǀ<br />{{
-                    Datecorrect('month', this.alarmDate)[1]
-                  }}&nbsp;24:00
-                </p>
-              </v-sheet>
+                    <v-sheet
+                      ><h4 class="chartTitle mr-16">本月</h4>
+                      <p class="subtitle-right text-center mr-2">
+                        {{
+                          Datecorrect('month', this.alarmDate)[0]
+                        }}&nbsp;00:00<br />ǀ<br />{{
+                          Datecorrect('month', this.alarmDate)[1]
+                        }}&nbsp;24:00
+                      </p>
+                    </v-sheet>
+                  </div>
+                </div>
+                <div>
+                  <!-- 日期 -->
+                  <v-date-picker
+                    v-model="date2"
+                    class="date-picker"
+                    :event-color="(date) => (date[9] % 2 ? 'red' : 'yellow')"
+                    :events="functionEvents"
+                    readonly
+                    no-title
+                    color="#828c8f"
+                    width="17em"
+                  ></v-date-picker>
+                </div>
+              </div>
             </v-card>
           </v-col>
         </v-row>
@@ -1593,6 +1632,7 @@
 
 <script>
 import axios from 'axios'
+import * as echarts from 'echarts'
 export default {
   name: 'IndexPage',
   head: {
@@ -1815,6 +1855,7 @@ export default {
     setInterval(() => {
       this.alarmlist(this.alarmDate)
     }, 5000)
+    this.flashImageLog()
   },
   // 對話框
   computed: {
@@ -1823,6 +1864,60 @@ export default {
     },
   },
   methods: {
+    // 即時超溫影像紀錄 折線圖
+    flashImageLog() {
+      var chartDom = document.getElementById('FlashImageLog')
+      var myChart = echarts.init(chartDom)
+      const colorPalette = ['#37484C', '#9aa2a4', '#d8dddd', '#E6E8E9']
+      var option
+
+      option = {
+        xAxis: {
+          type: 'category',
+          data: ['0', '1', '2', '3', '4', '5', '6'],
+        },
+        tooltip: {
+          axisPointer: {
+            type: 'cross',
+          },
+          // triggerOn: 'click', // 触发方式
+          // alwaysShowContent:true,   // 鼠标离开区域不消失
+          trigger: 'axis',
+        },
+        yAxis: {
+          type: 'value',
+        },
+        legend: {
+          show: true,
+          selectedMode: 'multiple', // 設定顯示單一圖例的圖形，點選可切換
+          right: 5,
+          top:5,
+          textStyle: {
+            color: '#666',
+            fontSize: 9,
+          },
+          itemGap: 10,
+          inactiveColor: '#ccc',
+        },
+        series: [
+          {
+            name:'spot',
+            data: [500, 732, 801, 134, 1590, 1130, 1020],
+            type: 'line',
+            smooth: true,
+          },
+          {
+            name:'line',
+            data: [820, 932, 901, 934, 1290, 1330, 1320],
+            type: 'line',
+            smooth: true,
+          },
+        ],
+        color: colorPalette,
+      }
+
+      option && myChart.setOption(option)
+    },
     // 警報列表
     alarmlist(Date1) {
       var selectMonth = new Date(Date1)
@@ -2793,6 +2888,8 @@ export default {
 
 .date-picker {
   float: right;
+  margin-top: -31px;
+  background-color: #fff0 !important;
 }
 
 .card5 {
@@ -2809,8 +2906,13 @@ export default {
 }
 .reset {
   float: right;
-  margin-top: 0.5em;
-  margin-right: 0.5em;
+  /* margin-top: 0.5em; */
+  /* margin-right: 0.5em; */
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0 !important;
+  z-index: 9;
 }
 .cardtitle {
   line-height: 2.5em;
@@ -2833,12 +2935,49 @@ export default {
   width: 2.25em;
   height: 2.25em;
 }
-
+.alarm-sum {
+  display: grid;
+  grid-template-columns: 56% 44%;
+  justify-items: center;
+  align-items: center;
+}
+.alarm-charts {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  height: 235px;
+}
+.cheats-cover {
+  display: flex;
+  align-items: center;
+  height: 100px;
+}
 .donut1 {
   float: left;
 }
 .donut2 {
   float: right;
+}
+.flash-video-and-log {
+  display: grid;
+  grid-template-columns: 53% 47%;
+}
+.flash-image-title {
+  display: flex;
+  color: #80898c;
+  align-items: center;
+}
+.flash-image-title > span {
+  font-size: 15px;
+}
+.flash-image-img {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+.flash-image-img > div {
+  margin: 0 15px 10px 0px;
+}
+.flash-image-img img {
+  width: 100%;
 }
 /* .rectangle {
   z-index: 99999;
@@ -2852,5 +2991,8 @@ export default {
   box-shadow: unset !important;
   font-size: 17px;
   color: #80898c;
+}
+.date-picker th {
+  padding: 0px 0px !important;
 }
 </style>
