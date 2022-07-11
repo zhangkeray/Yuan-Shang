@@ -344,10 +344,7 @@
                     dense
                     outlined
                     ref=""
-                    v-model="country"
-                    :rules="[() => !!country || '不可為空']"
-                    :items="countries"
-                    placeholder="Select..."
+                    placeholder="smtp.gmail.com"
                     required
                     append-icon="mdi-pencil"
                   ></v-text-field>
@@ -711,13 +708,6 @@ export default {
   position: absolute;
 }
 
-.scroll {
-  /* width: 20px; */
-  /* height: 200px; */
-  /* overflow: auto; */
-  /* float: right; */
-  /* margin: 0 10px; */
-}
 
 .scroll4::-webkit-scrollbar {
   width: 10px;
@@ -769,25 +759,17 @@ export default {
   top: 0.5em;
   position: absolute;
 }
-.input .v-input__slot {
-  max-height: 1em !important;
-  width: 15em !important;
-  // color: red;
-  display: flex !important;
-  align-items: left !important;
-  font-size: 12px;
-  // padding: 0px 0px 0px 0px;
-}
 
-.input .v-input__slot .v-icon {
-  // max-height: 1em !important;
-  // width: 20em !important;
-  // color: red;
-  // display: flex !important;
-  // align-items: left !important;
-  font-size: 15px;
-  // padding: 0px 0px 0px 0px;
-}
+
+// .input .v-input__slot .v-icon {
+//   // max-height: 1em !important;
+//   // width: 20em !important;
+//   // color: red;
+//   // display: flex !important;
+//   // align-items: left !important;
+//   font-size: 15px;
+//   // padding: 0px 0px 0px 0px;
+// }
 
 // on off
 .switch-field {

@@ -47,13 +47,13 @@
 
             <v-tab-item value="tab-2">
               <no-ssr>
-                <!-- <CamaraManagement /> -->
+                <HardwareDistribution />
               </no-ssr>
             </v-tab-item>
 
             <v-tab-item value="tab-3">
               <no-ssr>
-                <TemperatureDistribution2 />
+                <ServerManagement />
               </no-ssr>
             </v-tab-item>
 
@@ -72,12 +72,16 @@
 <script>
 // echarts引入
 import SettingAlert from '../components/Setup/SettingAlert.vue'
+import HardwareDistribution from '../components/Setup/HardwareDistribution.vue'
+import ServerManagement from '../components/Setup/ServerManagement.vue'
 import CamaraManagement from '../components/Setup/CamaraManagement.vue'
 
 export default {
   // echarts引入
   components: {
     SettingAlert,
+    HardwareDistribution,
+    ServerManagement,
     CamaraManagement,
   },
   name: 'IndexPage',
