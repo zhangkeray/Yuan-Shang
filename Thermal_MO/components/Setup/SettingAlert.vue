@@ -824,5 +824,5 @@ export default {
   bottom: 12px;
   float: bottom;
   left: 44em;
-}
+} 
 </style>
