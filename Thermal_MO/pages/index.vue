@@ -167,7 +167,7 @@
                   </div>
                   <div class="diago-alarm-cover1">
                     <!-- 警報統計 -->
-                    <div class="diago-border1">
+                    <div class="diago-border2">
                       <strong class="diago-title">警報統計</strong>
                       <!-- 圖表1 本日 -->
                       <div class="donut-flex mt-5">
@@ -231,7 +231,7 @@
                       </div>
                     </div>
                     <!-- 警報歷史 -->
-                    <div class="diago-border1 ml-2">
+                    <div class="diago-border2 ml-2">
                       <strong class="diago-title">警報歷史</strong>
                       <div class="reset1">
                         <v-icon color="#d8d8d8">mdi-circle-medium</v-icon
@@ -288,7 +288,10 @@
                     </div>
                   </div>
                   <div class="diago-tootip-photo">
-                    <div class="diago-tootip-photo-zoom">
+                    <div
+                      class="diago-tootip-photo-zoom"
+                      id="diago-tootip-photo-zoom"
+                    >
                       <div class="zoom-cover">
                         <template>
                           <v-btn
@@ -441,25 +444,49 @@
                           label="輪播"
                           class="mr-3"
                         ></v-checkbox>
-                        <v-tooltip top>
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                              class="btu-setting"
-                              fab
-                              x-small
-                              v-bind="attrs"
-                              v-on="on"
-                            >
-                              <img
-                                class=""
-                                alt="line"
-                                src="/images/setting.png"
-                                width="70%"
-                              />
-                            </v-btn>
-                          </template>
-                          <span>畫面設定</span>
-                        </v-tooltip>
+
+                        <div class="text-center">
+                          <v-menu
+                            v-model="menu"
+                            :close-on-content-click="false"
+                            offset-y
+                          >
+                            <!-- <v-tooltip top> -->
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                class="btu-setting"
+                                fab
+                                x-small
+                                v-bind="attrs"
+                                v-on="on"
+                              >
+                                <img
+                                  class=""
+                                  alt="line"
+                                  src="/images/setting.png"
+                                  width="70%"
+                                />
+                              </v-btn>
+                            </template>
+                            <!-- </v-tooltip> -->
+
+                            <v-card>
+                              <div class="pa-3">
+                                <div>輪播時間</div>
+                                <div>
+                                  <v-text-field
+                                    label="Outlined"
+                                    single-line
+                                    outlined
+                                    dense
+                                  ></v-text-field>
+                                </div>
+                                <div>色譜模式</div>
+                                <div>影像模式</div>
+                              </div>
+                            </v-card>
+                          </v-menu>
+                        </div>
                       </div>
                     </div>
                     <!-- 搜尋相機編號 -->
@@ -749,7 +776,7 @@
             </div>
           </v-container>
         </v-tab-item>
-        <v-tab-item value="tab-2" style="height:93.2vh;">
+        <v-tab-item value="tab-2" style="height: 93.2vh">
           <MultiScreenstand id="1015" @VideoActive="VideoActive(data)" />
           <!-- <v-btn @click="VideoActive('tab-1')">BACK</v-btn> -->
         </v-tab-item>
@@ -908,6 +935,32 @@ export default {
   }),
 
   mounted() {
+    // 監聽滑鼠滾輪
+    var divZoom = document.getElementById('diago-tootip-photo-zoom')
+    // console.log(divZoom)
+    divZoom.addEventListener(
+      'mousewheel',
+      (e) => {
+        e = e || window.event
+        // console.log(e)
+        if (e.wheelDelta <= 0 || e.detail > 0) {
+          console.log('down')
+          this.zoom(0)
+        } else {
+          console.log('up')
+          this.zoom(1)
+        }
+      },
+      false
+    )
+    // function MouseWheel(e) {
+    //   e = e || window.event
+    //   if (e.wheelDelta <= 0 || e.detail > 0) {
+    //     this.zoom('0')
+    //   } else {
+    //     this.zoom('1')
+    //   }
+    // }
     // 排序
     this.$nextTick(() => {
       setTimeout(() => {
@@ -920,13 +973,21 @@ export default {
           $('#sortable').disableSelection()
         })
         // 預覽小視窗放大縮小
-        $('.diago-tootip-img').resizable({
-          // aspectRatio: 3.8 / 3.1,
-          aspectRatio: 4 / 3,
-          minWidth: 380,
-          containment: '.cover-bg',
-        })
-        $('.diago-tootip-img').customZoom({
+        $('.diago-tootip-img')
+          .resizable({
+            // aspectRatio: 3.8 / 3.1,
+            handles: 'all',
+            aspectRatio: 4 / 3,
+            minWidth: 380,
+            maxWidth: 1150,
+            // containment: '.cover-bg',
+          })
+          .draggable({
+            handle: '.diago-tootip-head',
+            containment: '.cover-bg',
+            // containment: '.cover-bg',
+          })
+        $('.diago-tootip-photo').customZoom({
           cover: '.diago-tootip-photo-zoom', // 指定放大哪個元素
         })
         // 對話視窗
@@ -945,7 +1006,7 @@ export default {
         // })
         this.transition(1)
         this.testdata()
-        this.tab = 'tab-2'
+        // this.tab = 'tab-2'
       }, 1000)
     })
   },
@@ -1015,9 +1076,9 @@ export default {
       var zoom = this.zoomL
       var zoomer = $('.diago-tootip-photo-zoom')
 
-      if (level === 1) {
+      if (level === 1 && zoom <= 6) {
         this.zoomL = zoom + 1
-      } else if (level === 0) {
+      } else if (level === 0 && zoom > 0) {
         this.zoomL = zoom - 1
       }
       zoomer.css('background-size', (this.zoomL + 1) * 100 + '%')
@@ -1036,7 +1097,7 @@ export default {
     // 跳轉到指定監視
     VideoActive(page) {
       this.tab = page
-      this.diagoOff()
+      // this.diagoOff()
     },
     // 測試假資料
     testdata() {
@@ -1324,6 +1385,13 @@ export default {
   border: 1px #d7dbdb solid;
   border-radius: 3px;
   padding: 5px;
+  max-height: 289px;
+  overflow-y: scroll;
+}
+.diago-border2 {
+  border: 1px #d7dbdb solid;
+  border-radius: 3px;
+  padding: 5px;
 }
 .diago-title {
   color: #4f5e62;
@@ -1340,7 +1408,7 @@ export default {
   padding: 10px;
 }
 .diago-tootip-img {
-  position: absolute;
+  position: absolute !important;
   top: 36px;
   left: 100%;
   /* width: 512px;
@@ -1364,6 +1432,8 @@ export default {
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   box-shadow: 1px -8px 6px 0px rgb(108 108 108 / 27%);
+  z-index: 99;
+  cursor: all-scroll;
 }
 .diago-tootip-title {
   font-weight: bold;
@@ -1737,7 +1807,7 @@ export default {
 /* 可移動排序 (分4格) */
 .sortable4-1 {
   list-style-type: none;
-  margin: 0;
+  margin: 16px 3px;
   padding: 0 !important;
   width: 100%;
   height: 100%;
@@ -1840,7 +1910,7 @@ export default {
 .sortable12 {
   list-style-type: none;
   margin: 0;
-  padding: 0;
+  padding: 0 !important;
   width: 100%;
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;

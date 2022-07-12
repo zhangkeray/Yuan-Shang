@@ -32,18 +32,18 @@
             y: initialPosition.y - e.offsetY,
           }
           if (tmpx > difference.x) {
-            imagePosition.x = imagePosition.x - 0.7
+            imagePosition.x = imagePosition.x - 1
           } else if (tmpx === difference.x) {
             imagePosition.x = imagePosition.x - 0
           } else {
-            imagePosition.x = imagePosition.x + 0.7
+            imagePosition.x = imagePosition.x + 1
           }
           if (tmpy > difference.y) {
-            imagePosition.y = imagePosition.y - 0.7
+            imagePosition.y = imagePosition.y - 1
           } else if (tmpy === difference.y) {
             imagePosition.y = imagePosition.y - 0
           } else {
-            imagePosition.y = imagePosition.y + 0.7
+            imagePosition.y = imagePosition.y + 1
           }
 
           if (imagePosition.x < 0) {
