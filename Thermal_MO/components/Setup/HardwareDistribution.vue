@@ -22,9 +22,7 @@
                 ></v-text-field>
 
                 <!-- <v-spacer></v-spacer> -->
-                <v-btn color="#828c8f" dark v-on="on" outlined>
-                  <h5>查看更多</h5>
-                </v-btn>
+                <v-btn color="primary" outlined text> 查看更多 </v-btn>
               </div>
             </v-col>
           </v-row>
@@ -57,9 +55,7 @@
                 ></v-text-field>
 
                 <!-- <v-spacer></v-spacer> -->
-                <v-btn color="#828c8f" dark v-on="on" outlined>
-                  <h5>查看更多</h5>
-                </v-btn>
+                <v-btn color="primary" outlined text> 查看更多 </v-btn>
               </div>
             </v-col>
           </v-row>
@@ -324,7 +320,6 @@ export default {
   background: #ddd;
   border-radius: 20px;
 }
-
 </style>
 
 <style lang="scss" scrope>
@@ -363,7 +358,6 @@ export default {
   position: absolute;
 }
 
-
 // on off
 .switch-field {
   display: flex;
@@ -390,7 +384,7 @@ export default {
   border: 1px solid #828c8f;
   /* 	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1); */
   transition: all 0.1s ease-in-out;
-  color: rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.1);
   font-size: 9px;
 }
 
@@ -427,7 +421,7 @@ export default {
   min-height: 36px !important;
   // width: 15em !important;
 
-  font-size: 13px;
+  font-size: 16px;
 }
 
 .search .v-input__slot .v-icon {
@@ -435,9 +429,14 @@ export default {
 }
 
 .search .v-input__slot .v-label {
-  font-size: 13px;
+  font-size: 14px;
   // padding: 0px 0px 0px 0px;
 }
 
-
+.theme--light.search.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot
+  fieldset {
+  color: rgba(0, 0, 0, 0.1);
+}
 </style>

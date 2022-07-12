@@ -197,7 +197,7 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col cols="12" md="6" class="pa-0 ma-0 ">
+            <v-col cols="12" md="6" class="pa-0 ma-0">
               <v-row>
                 <v-col cols="12" md="5">
                   <v-subheader class="py-0 pl-12 pb-1">收件人帳號</v-subheader>
@@ -565,6 +565,7 @@ export default {
 }
 </script>
 <style scoped>
+
 /* 左側浮動按鈕 */
 .drawer {
   position: fixed;
@@ -708,7 +709,6 @@ export default {
   position: absolute;
 }
 
-
 .scroll4::-webkit-scrollbar {
   width: 10px;
 }
@@ -783,10 +783,10 @@ export default {
   text-align: center;
   padding: 8px 16px;
   margin-right: -1px;
-  border: 1px solid #828c8f;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   /* 	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1); */
   transition: all 0.1s ease-in-out;
-  color: rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.1);
   font-size: 9px;
 }
 
@@ -798,6 +798,7 @@ export default {
   background-color: white;
   box-shadow: none;
   color: #828c8f;
+  border: 1px solid #828c8f;
 }
 
 .switch-field label:first-of-type {
@@ -813,25 +814,31 @@ export default {
   bottom: 12px;
   float: bottom;
   left: 44em;
-} 
+}
 
 .setup_input .v-input__slot {
   max-height: 1em !important;
   width: 15em !important;
-  // color: red;
   display: flex !important;
   align-items: left !important;
   font-size: 12px;
-  // padding: 0px 0px 0px 0px;
+  color: #828c8f;
 }
 
 .setup_input .v-input__slot .v-icon {
   // max-height: 1em !important;
   // width: 20em !important;
-  // color: red;
+  color: rgba(0, 0, 0, 0.1);
   // display: flex !important;
   // align-items: left !important;
   font-size: 15px;
   // padding: 0px 0px 0px 0px;
+}
+
+.theme--light.setup_input.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot
+  fieldset {
+  color: rgba(0, 0, 0, 0.1);
 }
 </style>

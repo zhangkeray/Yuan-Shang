@@ -16,7 +16,7 @@
                     outlined
                     ref=""
                     :items="repeat_transmission"
-                    placeholder="請選擇"
+                    placeholder="主分類"
                   ></v-select>
                   <v-select
                     class="classification input mr-2"
@@ -24,7 +24,7 @@
                     outlined
                     ref=""
                     :items="repeat_transmission"
-                    placeholder="請選擇"
+                    placeholder="次分類"
                   ></v-select>
                   <v-text-field
                     v-model="search"
@@ -231,7 +231,7 @@
           <template v-slot:[`item.actions`]="{ item }">
             <div class="text-truncate">
               <v-icon @click="showEditDialog(item)" color="#828c8f">
-                mdi-alert-circle-outline
+                mdi-information-outline
               </v-icon>
             </div>
           </template>
@@ -265,7 +265,7 @@ export default {
         },
         {
           text: '系統編號',
-          value: 'system_number',
+          value: 'server_system_number',
           align: 'center',
           class: 'my-header-style',
         },
@@ -379,6 +379,7 @@ export default {
       this.editedItem = item || {}
       this.dialog = !this.dialog
     },
+    // sever's api
     loadItems() {
       this.loading = true
       this.items = []
@@ -466,6 +467,29 @@ export default {
           })
         this.items.splice(idx, 1)
       }
+    },
+    // camera's api
+    loadItems_forCam() {
+      this.loading = true
+      this.items = []
+      axios
+        .get(`https://api.airtable.com/v0/appxyftNJN3Ry2NPa/Table%201`, {
+          headers: { Authorization: 'Bearer ' + apiToken },
+        })
+        .then((response) => {
+          this.items = response.data.records.map((item) => {
+            return {
+              id: item.id,
+              createdTime: item.createdTime,
+              last_modified: item.last_modified,
+              ...item.fields,
+            }
+          })
+          this.loading = false
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
   },
 }
@@ -699,37 +723,43 @@ export default {
 
 .classification .v-input__slot .v-label {
   font-size: 13px;
-  // padding: 0px 0px 0px 0px;
 }
-
+// 分頁
 .custom {
   width: auto;
   margin-left: auto;
 }
-
 .custom .v-pagination__navigation {
-  height: 26px !important;
-  width: 26px !important;
+  height: 35px !important;
+  width: 35px !important;
   color: #828c8f;
 }
-
 .custom .v-pagination__navigation .v-icon {
   font-size: 16px !important;
   box-shadow: none;
+  color: #828c8f !important;
 }
-
 .custom .v-pagination__navigation {
   box-shadow: none;
-  border: rgba(0, 0, 0, 0.2) solid 1px;
+  border: rgba(0, 0, 0, 0.1) solid 1px;
 }
-
 .custom .v-pagination__item {
-  height: 26px !important;
-  min-width: 26px !important;
+  height: 35px !important;
+  min-width: 35px !important;
   font-size: 0.85rem !important;
   line-height: 0.8rem;
-  border: rgba(0, 0, 0, 0.2) solid 1px;
+  border: rgba(0, 0, 0, 0.1) solid 1px;
   box-shadow: none;
-  // color:#828c8f !important;
+  color: #828c8f !important;
+}
+.custom .theme--light.v-pagination .v-pagination__item--active {
+  color: #ffffff !important;
+}
+
+.theme--light.classification.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot
+  fieldset {
+  color: rgba(0, 0, 0, 0.1);
 }
 </style>
