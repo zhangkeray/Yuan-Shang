@@ -5,7 +5,7 @@
         <v-card-title>
           <v-row>
             <v-col cols="12" class="pb-0">
-              <h5>伺服器主機管理</h5>
+              <h5 style="color: #4f5e62">伺服器主機管理</h5>
             </v-col>
             <v-col cols="12" md="12" class="py-0">
               <div class="d-flex">
@@ -17,6 +17,8 @@
                     ref=""
                     :items="repeat_transmission"
                     placeholder="主分類"
+                    hide-details
+                    :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
                   <v-select
                     class="classification input mr-2"
@@ -25,6 +27,8 @@
                     ref=""
                     :items="repeat_transmission"
                     placeholder="次分類"
+                    hide-details
+                    :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
                   <v-text-field
                     v-model="search"
@@ -33,16 +37,16 @@
                     outlined
                     hide-details
                     dense
-                    color="#828c8f"
+                    color="#4f5e62"
                     class="search"
-                    style="color: #828c8f; margin-right: 8px"
+                    style="color: #4f5e62; margin-right: 8px"
                   ></v-text-field>
                 </div>
                 <v-spacer />
 
                 <v-dialog v-model="dialog" max-width="700px">
                   <template v-slot:activator="{ on }">
-                    <v-btn color="primary" v-on="on" outlined text>
+                    <v-btn color="#4f5e62" v-on="on" outlined text>
                       <v-icon small>mdi-plus-circle-outline</v-icon>
                       <h5>新增相機</h5>
                     </v-btn>
@@ -118,63 +122,81 @@
                   </v-card>
                 </v-dialog>
               </div>
-              <v-divider></v-divider>
             </v-col>
-            <v-col cols="12" md="12" class="py-0 my-0">
+            <v-col cols="12" md="12" class="pb-0 pt-1 my-0 pr-0">
               <div class="d-flex">
                 <div class="d-flex">
-                  <v-btn icon small @click="buttonCallback" class="mr-3">
-                    <v-icon>mdi-reload</v-icon>
+                  <v-btn
+                    icon
+                    @click="buttonCallback"
+                    style="color: #4f5e62; margin-right: 8px; margin-top: 5px; border: 1px solid rgba(0, 0, 0, 0.1)"
+                  >
+                    <v-icon style="padding-left: 1.6px">mdi-reload</v-icon>
                   </v-btn>
-                  <v-btn icon small @click="buttonCallback" class="mr-3">
+                  <v-btn
+                    icon
+                    @click="buttonCallback"
+                    outlined
+                    style="color: #4f5e62; margin-right: 8px; margin-top: 5px; border: 1px solid rgba(0, 0, 0, 0.1)"
+                  >
                     <v-icon>mdi-eye</v-icon>
                   </v-btn>
-                  <v-btn icon small @click="buttonCallback" class="mr-3">
+                  <v-btn
+                    icon
+                    @click="buttonCallback"
+                    outlined
+                    style="color: #4f5e62; margin-right: 8px; margin-top: 5px; border: 1px solid rgba(0, 0, 0, 0.1)"
+                  >
                     <v-icon>mdi-bookmark-outline</v-icon>
                   </v-btn>
-                  <v-btn icon small @click="buttonCallback" class="mr-3">
+                  <v-btn
+                    icon
+                    @click="buttonCallback"
+                    outlined
+                    style="color: #4f5e62; margin-right: 8px; margin-top: 5px; border: 1px solid rgba(0, 0, 0, 0.1)"
+                  >
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
-                  <v-btn icon small @click="buttonCallback">
+                  <v-btn
+                    icon
+                    @click="buttonCallback"
+                    outlined
+                    style="color: #4f5e62; margin-right: 8px; margin-top: 5px; border: 1px solid rgba(0, 0, 0, 0.1)"
+                  >
                     <v-icon>mdi-lightning-bolt-circle</v-icon>
                   </v-btn>
                 </div>
                 <v-spacer />
                 <div class="d-flex">
-                  <v-text-field
-                    class="classification input mr-2 py-0 my-0"
-                    :value="itemsPerPage"
-                    label="顯示筆數"
-                    type="number"
-                    min="-1"
-                    max="15"
-                    @input="itemsPerPage = parseInt($event, 10)"
-                    outlined
-                  ></v-text-field>
-                  <!-- <v-select
-                  class="classification input mr-2"
-                    :value="itemsPerPage"
-                    outlined
-                    dense
-                    width="20px"
-                    label="顯示筆數"
-                    type="number"
-                    min="-1"
-                    max="15"
-                    @input="itemsPerPage = parseInt($event, 10)"
-                  ></v-select> -->
+                  <div class="d-flex">
+                    <v-text-field
+                      label="顯示筆數"
+                      :value="itemsPerPage"
+                      outlined
+                      hide-details
+                      type="number"
+                      dense
+                      min="-1"
+                      max="10"
+                      class="item_per_page"
+                      @input="itemsPerPage = parseInt($event, 10)"
+                      style="margin-right: 8px; margin-top: 5px"
+                    ></v-text-field>
+                  </div>
+
                   <v-pagination
                     v-model="page"
                     :length="pageCount"
                     :total-visible="10"
-                    class="custom py-0 my-0"
+                    class="custom"
+                    style="padding-right: 2px"
                   ></v-pagination>
                 </div>
               </div>
             </v-col>
           </v-row>
         </v-card-title>
-        <v-divider></v-divider>
+        <v-divider class="mx-4"></v-divider>
 
         <!-- this dialog is used for both create and update -->
         <!-- 表格 -->
@@ -184,9 +206,9 @@
           :headers="headers"
           :items="items"
           mobile-breakpoint="800"
-          :loading="loading ? '#828c8f' : null"
+          :loading="loading ? '#4f5e62' : null"
           loading-text="資料加載中... 請稍後"
-          style="color: #828c8f"
+          style="color: #4f5e62"
           hide-default-footer
           v-model="selected"
           show-select
@@ -231,7 +253,7 @@
           <!-- 編輯刪除 -->
           <template v-slot:[`item.actions`]="{ item }">
             <div class="text-truncate">
-              <v-icon @click="showEditDialog(item)" color="#828c8f">
+              <v-icon @click="showEditDialog(item)" color="#4f5e62">
                 mdi-information-outline
               </v-icon>
             </div>
@@ -662,24 +684,22 @@ export default {
 </style>
 <style lang="scss">
 .my-header-style {
-  color: #828c8f !important;
+  color: #4f5e62 !important;
   font-size: 9px;
 }
 
 .my-header-style2 {
-  color: #828c8f !important;
+  color: #4f5e62 !important;
   font-size: 16px;
 }
 
 .my-footer-style {
-  color: #828c8f !important;
+  color: #4f5e62 !important;
 }
 
-// .v-data-footer {
-//   color: #828c8f;
-// }
+
 .v-data-footer .v-icon {
-  color: #828c8f;
+  color: #4f5e62;
   // color: #69c585;
 }
 
@@ -706,13 +726,14 @@ export default {
 }
 
 .classification .v-input__slot {
-  // min-height: 0px !important;
-  // width: 10em !important;
-  // font-size: 13px;
-  // max-height: 35px !important;
-  // // color: red;
-  // display: flex !important;
-  // align-items: left !important;
+  min-height: 36px !important;
+  width: 10em !important;
+  font-size: 13px;
+
+  max-height: 36px !important;
+  // color: red;
+  display: flex !important;
+  align-items: left !important;
   // padding: 0px 0px 0px 0px;
 }
 
@@ -726,36 +747,62 @@ export default {
 // 分頁
 .custom {
   width: auto;
-  margin-left: auto;
+  margin-right: auto;
 }
 .custom .v-pagination__navigation {
-  height: 35px !important;
-  width: 35px !important;
-  color: #828c8f;
+  height: 36px !important;
+  width: 36px !important;
+  color: #4f5e62; 
 }
 .custom .v-pagination__navigation .v-icon {
   font-size: 16px !important;
   box-shadow: none;
-  color: #828c8f !important;
+  color: #4f5e62 !important;
 }
 .custom .v-pagination__navigation {
   box-shadow: none;
   border: rgba(0, 0, 0, 0.1) solid 1px;
 }
 .custom .v-pagination__item {
-  height: 35px !important;
-  min-width: 35px !important;
+  height: 36px !important;
+  min-width: 36px !important;
   font-size: 0.85rem !important;
   line-height: 0.8rem;
   border: rgba(0, 0, 0, 0.1) solid 1px;
   box-shadow: none;
-  color: #828c8f !important;
+  color: #4f5e62 !important;
 }
 .custom .theme--light.v-pagination .v-pagination__item--active {
   color: #ffffff !important;
 }
 
 .theme--light.classification.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot
+  fieldset {
+  color: rgba(0, 0, 0, 0.1);
+}
+// 顯示筆數
+.item_per_page .v-input__slot {
+  min-height: 36px !important;
+  // width: 5.3em !important;
+  width: 100px !important;
+  font-size: 13px;
+}
+
+.item_per_page input {
+  color: #4f5e62 !important;
+}
+.item_per_page .v-input__slot .v-icon {
+  font-size: 20px;
+}
+
+.item_per_page .v-input__slot .v-label {
+  font-size: 14px;
+  // padding: 0px 0px 0px 0px;
+}
+
+.item_per_page.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state)
   > .v-input__control
   > .v-input__slot
   fieldset {

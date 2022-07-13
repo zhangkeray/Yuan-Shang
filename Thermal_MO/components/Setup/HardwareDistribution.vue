@@ -5,7 +5,7 @@
         <v-card-title>
           <v-row>
             <v-col cols="12" class="pb-0">
-              <h5>伺服器主機分類管理</h5>
+              <h5 style="color: #4f5e62">伺服器主機分類管理</h5>
             </v-col>
             <v-col cols="12" md="12" class="pt-0">
               <div class="d-flex">
@@ -16,13 +16,13 @@
                   outlined
                   hide-details
                   dense
-                  color="#828c8f"
+                  color="#4f5e62"
                   class="search"
-                  style="color: #828c8f; margin-right: 8px"
+                  style="color: #4f5e62; margin-right: 8px"
                 ></v-text-field>
 
                 <!-- <v-spacer></v-spacer> -->
-                <v-btn color="primary" outlined text> 查看更多 </v-btn>
+                <v-btn color="#4f5e62" outlined text> 查看更多 </v-btn>
               </div>
             </v-col>
           </v-row>
@@ -95,7 +95,7 @@
         <v-card-title>
           <v-row>
             <v-col cols="12" class="pb-0">
-              <h5>相機分類管理</h5>
+              <h5 style="color: #4f5e62">相機分類管理</h5>
             </v-col>
             <v-col cols="12" md="12" class="pt-0">
               <div class="d-flex">
@@ -106,13 +106,13 @@
                   outlined
                   hide-details
                   dense
-                  color="#828c8f"
+                  color="#4f5e62"
                   class="search"
-                  style="color: #828c8f; margin-right: 8px"
+                  style="color: #4f5e62; margin-right: 8px"
                 ></v-text-field>
 
                 <!-- <v-spacer></v-spacer> -->
-                <v-btn color="primary" outlined text> 查看更多 </v-btn>
+                <v-btn color="#4f5e62" outlined text> 查看更多 </v-btn>
               </div>
             </v-col>
           </v-row>
@@ -478,107 +478,15 @@ export default {
 </style>
 
 <style lang="scss" scrope>
-.carousel-wrapper {
-  margin-top: 10px;
-  padding-right: 30px;
-  padding-left: 30px;
-}
-
-.ycoordinates {
-  position: absolute;
-  font-size: 12px;
-  right: 80px;
-  bottom: 49px;
-}
-.xcoordinates {
-  position: absolute;
-  font-size: 12px;
-  bottom: 275px;
-  left: 505px;
-}
-.faketime {
-  font-weight: 500;
-  margin-left: 10px;
-}
-
-.btn {
-  background-color: #f2f4f4;
-}
-.reset {
-  // float: right;
-  // margin-top: 0.5em;
-  // margin-right: 0.5em;
-  right: 0.5em;
-  top: 0.5em;
-  position: absolute;
-}
-
-// on off
-.switch-field {
-  display: flex;
-  margin-bottom: 36px;
-  overflow: hidden;
-}
-
-.switch-field input {
-  position: absolute !important;
-  clip: rect(0, 0, 0, 0);
-  height: 1px;
-  width: 1px;
-  border: 0;
-  overflow: hidden;
-}
-
-.switch-field label {
-  /* 	background-color: #e4e4e4; */
-  font-size: 9px;
-  line-height: 1;
-  text-align: center;
-  padding: 8px 16px;
-  margin-right: -1px;
-  border: 1px solid #828c8f;
-  /* 	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1); */
-  transition: all 0.1s ease-in-out;
-  color: rgba(0, 0, 0, 0.1);
-  font-size: 9px;
-}
-
-.switch-field label:hover {
-  cursor: pointer;
-}
-
-.switch-field input:checked + label {
-  background-color: white;
-  box-shadow: none;
-  color: #828c8f;
-}
-
-.switch-field label:first-of-type {
-  border-radius: 4px 0 0 4px;
-}
-
-.switch-field label:last-of-type {
-  border-radius: 0 4px 4px 0;
-}
-
-.footer {
-  position: absolute;
-  bottom: 12px;
-  float: bottom;
-  left: 44em;
-}
-
-// .search > .v-input__control > .v-input__slot {
-//   /* padding:0px 10px !important; */
-//   font-size: 12px;
-// }
 .search .v-input__slot {
   min-height: 36px !important;
   // width: 15em !important;
-
-  font-size: 16px;
+  font-size: 13px;
 }
 
+.search input {
+  color: #4f5e62 !important;
+}
 .search .v-input__slot .v-icon {
   font-size: 20px;
 }
