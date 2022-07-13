@@ -55,8 +55,8 @@
                 <v-col cols="12" md="7">
                   <!-- on off -->
                   <v-radio-group v-model="radio" row mandatory dense style="padding: 10px 0 0 0">
-                    <v-radio label="ON" value="radio-1"></v-radio>
-                    <v-radio label="OFF" value="radio-2"></v-radio>
+                    <v-radio label="ON" value="radio-1" color="#4f5e62"></v-radio>
+                    <v-radio label="OFF" value="radio-2" color="#4f5e62"></v-radio>
                   </v-radio-group>
                 </v-col>
               </v-row>
@@ -288,7 +288,7 @@
                 <span>Refresh form</span>
               </v-tooltip>
             </v-slide-x-reverse-transition>
-            <v-btn color="color: #4f5e62" outlined text @click="submit">
+            <v-btn color="#4f5e62" outlined text @click="submit">
               確認
             </v-btn>
           </v-card-actions>
@@ -351,8 +351,8 @@
                 <v-col cols="12" md="7">
                   <!-- on off -->
                   <v-radio-group v-model="radio" row mandatory dense style="padding: 10px 0 0 0">
-                    <v-radio label="ON" value="radio-1"></v-radio>
-                    <v-radio label="OFF" value="radio-2"></v-radio>
+                    <v-radio label="ON" value="radio-1" color="#4f5e62"></v-radio>
+                    <v-radio label="OFF" value="radio-2" color="#4f5e62"></v-radio>
                   </v-radio-group>
                 </v-col>
               </v-row>
@@ -449,7 +449,7 @@
                 <span>Refresh form</span>
               </v-tooltip>
             </v-slide-x-reverse-transition>
-            <v-btn color="color: #4f5e62" outlined text @click="submit2">
+            <v-btn color="#4f5e62" outlined text @click="submit2">
               確認
             </v-btn>
           </v-card-actions>
@@ -555,8 +555,6 @@ export default {
   color: #4f5e62;
   font-weight: 500;
 }
-
-
 
 .scroll4::-webkit-scrollbar {
   width: 10px;

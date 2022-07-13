@@ -17,6 +17,7 @@
                     ref=""
                     :items="repeat_transmission"
                     placeholder="主分類"
+                    :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
                   <v-select
                     class="classification input mr-2"
@@ -25,6 +26,7 @@
                     ref=""
                     :items="repeat_transmission"
                     placeholder="次分類"
+                    :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
                   <v-text-field
                     v-model="search"
@@ -118,58 +120,46 @@
                   </v-card>
                 </v-dialog>
               </div>
-              <v-divider></v-divider>
+              <!-- <v-divider></v-divider> -->
             </v-col>
             <v-col cols="12" md="12" class="py-0 my-0">
+              <v-divider></v-divider>
               <div class="d-flex">
-                <div class="d-flex">
-                  <v-btn icon small @click="buttonCallback" class="mr-3">
+                  <v-btn icon  @click="buttonCallback" class="mr-3">
                     <v-icon>mdi-reload</v-icon>
                   </v-btn>
-                  <v-btn icon small @click="buttonCallback" class="mr-3">
+                  <v-btn icon  @click="buttonCallback" class="mr-3">
                     <v-icon>mdi-eye</v-icon>
                   </v-btn>
-                  <v-btn icon small @click="buttonCallback" class="mr-3">
+                  <v-btn icon  @click="buttonCallback" class="mr-3">
                     <v-icon>mdi-bookmark-outline</v-icon>
                   </v-btn>
-                  <v-btn icon small @click="buttonCallback" class="mr-3">
+                  <v-btn icon  @click="buttonCallback" class="mr-3">
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
-                  <v-btn icon small @click="buttonCallback">
+                  <v-btn icon  @click="buttonCallback">
                     <v-icon>mdi-lightning-bolt-circle</v-icon>
                   </v-btn>
-                </div>
-                <v-spacer />
-                <div class="d-flex">
-                  <v-text-field
-                    class="classification input mr-2 py-0 my-0"
+                <!-- <v-spacer /> -->
+
+                  <!-- <v-text-field
+                    class="search  py-0 my-0"
                     :value="itemsPerPage"
                     label="顯示筆數"
                     type="number"
-                    min="-1"
-                    max="15"
-                    @input="itemsPerPage = parseInt($event, 10)"
-                    outlined
-                  ></v-text-field>
-                  <!-- <v-select
-                  class="classification input mr-2"
-                    :value="itemsPerPage"
-                    outlined
                     dense
-                    width="20px"
-                    label="顯示筆數"
-                    type="number"
                     min="-1"
                     max="15"
                     @input="itemsPerPage = parseInt($event, 10)"
-                  ></v-select> -->
+                    outlined
+                  ></v-text-field> -->
+
                   <v-pagination
                     v-model="page"
                     :length="pageCount"
                     :total-visible="10"
                     class="custom py-0 my-0"
                   ></v-pagination>
-                </div>
               </div>
             </v-col>
           </v-row>
@@ -706,13 +696,14 @@ export default {
 }
 
 .classification .v-input__slot {
-  // min-height: 0px !important;
-  // width: 10em !important;
-  // font-size: 13px;
-  // max-height: 35px !important;
-  // // color: red;
-  // display: flex !important;
-  // align-items: left !important;
+  min-height: 36px !important;
+  width: 10em !important;
+  font-size: 13px;
+
+  max-height: 36px !important;
+  // color: red;
+  display: flex !important;
+  align-items: left !important;
   // padding: 0px 0px 0px 0px;
 }
 
