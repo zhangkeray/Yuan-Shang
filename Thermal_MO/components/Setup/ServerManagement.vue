@@ -42,7 +42,7 @@
 
                 <v-dialog v-model="dialog" max-width="700px">
                   <template v-slot:activator="{ on }">
-                    <v-btn color="#828c8f" dark v-on="on" outlined>
+                    <v-btn color="primary" v-on="on" outlined text>
                       <v-icon small>mdi-plus-circle-outline</v-icon>
                       <h5>新增相機</h5>
                     </v-btn>
@@ -118,6 +118,7 @@
                   </v-card>
                 </v-dialog>
               </div>
+              <v-divider></v-divider>
             </v-col>
             <v-col cols="12" md="12" class="py-0 my-0">
               <div class="d-flex">
@@ -285,7 +286,6 @@ export default {
           text: '掛載相機數量',
           value: 'cam_quantity',
           align: 'center',
-
           class: 'my-header-style',
         },
         {
@@ -706,14 +706,13 @@ export default {
 }
 
 .classification .v-input__slot {
-  min-height: 36px !important;
-  width: 10em !important;
-  font-size: 13px;
-
-  max-height: 1em !important;
-  // color: red;
-  display: flex !important;
-  align-items: left !important;
+  // min-height: 0px !important;
+  // width: 10em !important;
+  // font-size: 13px;
+  // max-height: 35px !important;
+  // // color: red;
+  // display: flex !important;
+  // align-items: left !important;
   // padding: 0px 0px 0px 0px;
 }
 

@@ -1,222 +1,245 @@
 <template>
-  <v-card flat>
-    <v-card-title>
-      <h5>相機管理</h5>
-    </v-card-title>
-    <!-- this dialog is used for both create and update -->
-    <!-- <v-divider></v-divider> -->
-    <v-dialog v-model="dialog" max-width="700px">
-      <template v-slot:activator="{ on }">
-        <div class="d-flex">
-          <v-select
-            class="input"
-            dense
-            outlined
-            ref=""
-            :items="main_classification"
-            v-model="search"
-            placeholder="請選擇"
-            required
-          ></v-select>
-          <!-- <v-select
-            class="input"
-            dense
-            outlined
-            ref=""
-            :rules="[() => !!alert_pics2 || '不可為空']"
-            :items="alert_pics2"
-            placeholder="請選擇"
-            required
-          ></v-select> -->
-          <v-text-field
-            v-model="search"
-            prepend-inner-icon="mdi-magnify"
-            label="搜尋"
-            outlined
-            hide-details
-            dense
-            color="#828c8f"
-            style="
-              color: #828c8f;
-              margin-left: 24px;
-              height: 30px;
-              width: 100px;
-            "
-          ></v-text-field>
-          <v-btn
-            color="#828c8f"
-            dark
-            v-on="on"
-            outlined
-            style="margin-right: 24px"
-          >
-            <v-icon small>mdi-plus-circle-outline</v-icon>
-            <h5>新增相機</h5>
-          </v-btn>
-        </div>
-      </template>
-      <v-card>
+  <v-row>
+    <v-col cols="12" lg="12" md="12">
+      <v-card ref="form" class="my-6 mx-6 card" flat outlined height="48.5em">
         <v-card-title>
-          <span v-if="editedItem.id">相機詳細資訊</span>
-          <span v-else>新增</span>
-        </v-card-title>
-        <v-card-text>
           <v-row>
-            <v-col cols="12" md="6" class="pa-0 ma-0">
-              <v-row>
-                <v-col cols="12" md="5">
-                  <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                </v-col>
-                <v-col cols="12" md="7">
-                  <h7>{{ system_number }}</h7>
-                </v-col>
-                <v-col cols="12" md="5">
-                  <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                </v-col>
-                <v-col cols="12" md="7">
-                  <h7>{{ editedItem.system_number }}</h7>
-                </v-col>
-                <v-col cols="12" md="5">
-                  <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                </v-col>
-                <v-col cols="12" md="7">
-                  <h7>{{ editedItem.system_number }}</h7>
-                </v-col>
-                <v-col cols="12" md="5">
-                  <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                </v-col>
-                <v-col cols="12" md="7">
-                  <h7>{{ editedItem.system_number }}</h7>
-                </v-col>
-
-                <v-col cols="12" md="5">
-                  <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                </v-col>
-                <v-col cols="12" md="7">
-                  <h7>{{ editedItem.system_number }}</h7>
-                </v-col>
-                <v-col cols="12" md="5">
-                  <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                </v-col>
-                <v-col cols="12" md="7">
-                  <h7>{{ editedItem.system_number }}</h7>
-                </v-col>
-                <v-col cols="12" md="5">
-                  <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                </v-col>
-                <v-col cols="12" md="7">
-                  <h7>{{ editedItem.system_number }}</h7>
-                </v-col>
-                <v-col cols="12" md="5">
-                  <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                </v-col>
-                <v-col cols="12" md="7">
-                  <h7>{{ editedItem.system_number }}</h7>
-                </v-col>
-              </v-row>
+            <v-col cols="12" class="pb-0">
+              <h5>相機管理</h5>
             </v-col>
+            <v-col cols="12" md="12" class="py-0">
+              <div class="d-flex">
+                <div class="d-flex">
+                  <v-select
+                    class="classification input mr-2"
+                    dense
+                    outlined
+                    ref=""
+                    :items="repeat_transmission"
+                    placeholder="主分類"
+                  ></v-select>
+                  <v-select
+                    class="classification input mr-2"
+                    dense
+                    outlined
+                    ref=""
+                    :items="repeat_transmission"
+                    placeholder="次分類"
+                  ></v-select>
+                  <v-text-field
+                    v-model="search"
+                    prepend-inner-icon="mdi-magnify"
+                    label="搜尋"
+                    outlined
+                    hide-details
+                    dense
+                    color="#828c8f"
+                    class="search"
+                    style="color: #828c8f; margin-right: 8px"
+                  ></v-text-field>
+                </div>
+                <v-spacer />
 
+                <v-dialog v-model="dialog" max-width="700px">
+                  <template v-slot:activator="{ on }">
+                    <v-btn color="primary" v-on="on" outlined text>
+                      <v-icon small>mdi-plus-circle-outline</v-icon>
+                      <h5>新增相機</h5>
+                    </v-btn>
+                  </template>
+
+                  <v-card>
+                    <v-card-title>
+                      <span v-if="editedItem.id">伺服器詳細資訊</span>
+                      <span v-else>新增</span>
+                    </v-card-title>
+                    <v-card-text>
+                      <v-row>
+                        <v-col cols="12" md="6" class="pa-0 ma-0">
+                          <v-row>
+                            <v-col cols="12" md="5">
+                              <h7 class="py-0 pl-12 pa-0">名稱</h7>
+                            </v-col>
+                            <v-col cols="12" md="7">
+                              <h7>{{ editedItem.system_number }}</h7>
+                            </v-col>
+                            <v-col cols="12" md="5">
+                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
+                            </v-col>
+                            <v-col cols="12" md="7">
+                              <h7>{{ editedItem.system_number }}</h7>
+                            </v-col>
+                            <v-col cols="12" md="5">
+                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
+                            </v-col>
+                            <v-col cols="12" md="7">
+                              <h7>{{ editedItem.system_number }}</h7>
+                            </v-col>
+                            <v-col cols="12" md="5">
+                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
+                            </v-col>
+                            <v-col cols="12" md="7">
+                              <h7>{{ editedItem.system_number }}</h7>
+                            </v-col>
+
+                            <v-col cols="12" md="5">
+                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
+                            </v-col>
+                            <v-col cols="12" md="7">
+                              <h7>{{ editedItem.system_number }}</h7>
+                            </v-col>
+                            <v-col cols="12" md="5">
+                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
+                            </v-col>
+                            <v-col cols="12" md="7">
+                              <h7>{{ editedItem.system_number }}</h7>
+                            </v-col>
+                            <v-col cols="12" md="5">
+                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
+                            </v-col>
+                            <v-col cols="12" md="7">
+                              <h7>{{ editedItem.system_number }}</h7>
+                            </v-col>
+                            <v-col cols="12" md="5">
+                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
+                            </v-col>
+                            <v-col cols="12" md="7">
+                              <h7>{{ editedItem.system_number }}</h7>
+                            </v-col>
+                          </v-row>
+                        </v-col>
+                      </v-row>
+                    </v-card-text>
+                    <v-spacer></v-spacer>
+                    <v-btn color="" text @click="showEditDialog()">取消</v-btn>
+                    <v-btn color="" text @click="saveItem(editedItem)"
+                      >儲存</v-btn
+                    >
+                  </v-card>
+                </v-dialog>
+              </div>
+              <v-divider></v-divider>
+            </v-col>
+            <v-col cols="12" md="12" class="py-0 my-0">
+              <div class="d-flex">
+                <div class="d-flex">
+                  <v-btn icon small @click="buttonCallback" class="mr-3">
+                    <v-icon>mdi-reload</v-icon>
+                  </v-btn>
+                  <v-btn icon small @click="buttonCallback" class="mr-3">
+                    <v-icon>mdi-eye</v-icon>
+                  </v-btn>
+                  <v-btn icon small @click="buttonCallback" class="mr-3">
+                    <v-icon>mdi-bookmark-outline</v-icon>
+                  </v-btn>
+                  <v-btn icon small @click="buttonCallback" class="mr-3">
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                  <v-btn icon small @click="buttonCallback">
+                    <v-icon>mdi-lightning-bolt-circle</v-icon>
+                  </v-btn>
+                </div>
+                <v-spacer />
+                <div class="d-flex">
+                  <v-text-field
+                    class="classification input mr-2 py-0 my-0"
+                    :value="itemsPerPage"
+                    label="顯示筆數"
+                    type="number"
+                    min="-1"
+                    max="15"
+                    @input="itemsPerPage = parseInt($event, 10)"
+                    outlined
+                  ></v-text-field>
+                  <!-- <v-select
+                  class="classification input mr-2"
+                    :value="itemsPerPage"
+                    outlined
+                    dense
+                    width="20px"
+                    label="顯示筆數"
+                    type="number"
+                    min="-1"
+                    max="15"
+                    @input="itemsPerPage = parseInt($event, 10)"
+                  ></v-select> -->
+                  <v-pagination
+                    v-model="page"
+                    :length="pageCount"
+                    :total-visible="10"
+                    class="custom py-0 my-0"
+                  ></v-pagination>
+                </div>
+              </div>
+            </v-col>
           </v-row>
-        </v-card-text>
-        <v-spacer></v-spacer>
-        <v-btn color="" text @click="showEditDialog()">取消</v-btn>
-        <v-btn color="" text @click="saveItem(editedItem)">儲存</v-btn>
-      </v-card>
-    </v-dialog>
-    <!-- <v-divider></v-divider> -->
-    <!-- 表格 -->
-    <v-data-table
-      :search="search"
-      :headers="headers"
-      :items="items"
-      v-model="selected"
-      show-select
-      mobile-breakpoint="800"
-      class="elevation-0 mx-6"
-      :loading="loading ? '#828c8f' : null"
-      loading-text="資料加載中... 請稍後"
-      style="color: #828c8f"
-      hide-default-footer
-    >
-      <!-- 刷新 -->
-
-      <!-- 分頁 -->
-      <!-- <template v-slot:top="{ pagination, options, updateOptions }">
-        <div class="d-flex">
-          <v-btn icon small @click="buttonCallback" style="margin-top: 20px">
-            <v-icon style="margin-left: 1.5px">mdi-reload</v-icon>
-          </v-btn>
-          <v-btn icon small @click="buttonCallback" style="margin-top: 20px">
-            <v-icon style="margin-left: 1.5px">mdi-eye</v-icon>
-          </v-btn>
-          <v-btn icon small @click="buttonCallback" style="margin-top: 20px">
-            <v-icon style="margin-left: 1.5px">mdi-bookmark-outline</v-icon>
-          </v-btn>
-          <v-btn icon small @click="buttonCallback" style="margin-top: 20px">
-            <v-icon style="margin-left: 1.5px">mdi-delete</v-icon>
-          </v-btn>
-          <v-btn icon small @click="buttonCallback" style="margin-top: 20px">
-            <v-icon style="margin-left: 1.5px"
-              >mdi-lightning-bolt-circle</v-icon
-            >
-          </v-btn>
-          <v-spacer />
-          <v-data-footer
-            :pagination="pagination"
-            :options="options"
-            @update:options="updateOptions"
-            items-per-page-text="每行筆數"
-          >
-          </v-data-footer>
-        </div>
+        </v-card-title>
         <v-divider></v-divider>
-      </template> -->
-      <template v-slot:[`item.idx`]="idxs">
-        <tr>
-          <td
-            v-for="headerData in headers.filter((val, index, arr) => {
-              return index === 0
-            })"
-            :key="headerData.value"
-          >
-            {{ idxs.index + 1 }}
-          </td>
-        </tr>
-      </template>
 
-      <template v-slot:[`item.sever_status`]="ssts">
-        <v-icon
-          v-if="ssts.item.sever_status === '1'"
-          :color="getGreenColor()"
-          x-small
-          >mdi-circle</v-icon
+        <!-- this dialog is used for both create and update -->
+        <!-- 表格 -->
+
+        <v-data-table
+          :search="search"
+          :headers="headers"
+          :items="items"
+          mobile-breakpoint="800"
+          :loading="loading ? '#828c8f' : null"
+          loading-text="資料加載中... 請稍後"
+          style="color: #828c8f"
+          hide-default-footer
+          v-model="selected"
+          show-select
+          :page.sync="page"
+          @page-count="pageCount = $event"
+          :items-per-page="itemsPerPage"
+          fixed-header
+          class="pa-0 ma-0"
         >
-        <v-icon v-else :color="getRedColor()" x-small>mdi-circle</v-icon>
-      </template>
+          <template v-slot:[`item.idx`]="idxs">
+            <div
+              style="position: relative; right: 44px"
+              v-for="headerData in headers.filter((val, index, arr) => {
+                return index === 0
+              })"
+              :key="headerData.value"
+            >
+              {{ idxs.index + 1 }}
+            </div>
+          </template>
 
-      <template v-slot:[`item.cam_status`]="csts">
-        <v-icon
-          v-if="csts.item.cam_status === '1'"
-          :color="getGreenColor()"
-          x-small
-          >mdi-circle</v-icon
-        >
-        <v-icon v-else :color="getRedColor()" x-small>mdi-circle</v-icon>
-      </template>
+          <template v-slot:[`item.sever_status`]="ssts">
+            <v-icon
+              v-if="ssts.item.sever_status === '1'"
+              :color="getGreenColor()"
+              x-small
+              >mdi-circle</v-icon
+            >
+            <v-icon v-else :color="getRedColor()" x-small>mdi-circle</v-icon>
+          </template>
 
-      <!-- 編輯刪除 -->
-      <template v-slot:[`item.actions`]="{ item }">
-        <div class="text-truncate">
-          <v-icon class="mr-2" @click="showEditDialog(item)" color="#828c8f">
-            mdi-alert-circle-outline
-          </v-icon>
-          <!-- <v-icon small @click="deleteItem(item)" color="#e89595">
-            mdi-delete
-          </v-icon> -->
-        </div>
-      </template>
-    </v-data-table>
-  </v-card>
+          <template v-slot:[`item.cam_status`]="csts">
+            <v-icon
+              v-if="csts.item.cam_status === '1'"
+              :color="getGreenColor()"
+              x-small
+              >mdi-circle</v-icon
+            >
+            <v-icon v-else :color="getRedColor()" x-small>mdi-circle</v-icon>
+          </template>
+
+          <!-- 編輯刪除 -->
+          <template v-slot:[`item.actions`]="{ item }">
+            <div class="text-truncate">
+              <v-icon @click="showEditDialog(item)" color="#828c8f">
+                mdi-information-outline
+              </v-icon>
+            </div>
+          </template>
+        </v-data-table>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 <script>
 import axios from 'axios'
@@ -236,65 +259,90 @@ export default {
       n: 0,
       headers: [
         // { text: 'Id', value: 'id' },
-        { text: '項次', value: 'idx', class: 'my-header-style' },
-        { text: '連線伺服主機', value: 'sever', class: 'my-header-style' },
         {
-          text: '伺服主機狀態',
-          value: 'sever_status',
+          text: '項次',
+          value: 'idx',
+          align: 'right',
           class: 'my-header-style',
         },
-        { text: '系統編號', value: 'system_number', class: 'my-header-style' },
-        { text: '相機名稱', value: 'cam_name', class: 'my-header-style' },
-        { text: '相機狀態', value: 'cam_status', class: 'my-header-style' },
+        {
+          text: '連線伺服主機',
+          value: 'server_system_number2',
+          align: 'center',
+          class: 'my-header-style',
+        },
+        {
+          text: '伺服主機狀態',
+          value: 'server_status',
+          align: 'center',
+          class: 'my-header-style',
+        },
+        {
+          text: '系統編號',
+          value: 'camera_system_number',
+          align: 'center',
+          class: 'my-header-style',
+        },
+        {
+          text: '相機名稱',
+          value: 'cam_name',
+          align: 'center',
+          class: 'my-header-style',
+        },
+        {
+          text: '相機狀態',
+          value: 'cam_status',
+          align: 'center',
+          class: 'my-header-style',
+        },
         {
           text: '主分類',
           value: 'main_classification',
+          align: 'center',
           class: 'my-header-style',
         },
         {
           text: '次分類',
           value: 'second_classification',
+          align: 'center',
           class: 'my-header-style',
         },
-        { text: '畫面位置', value: 'position', class: 'my-header-style' },
-        { text: '相機溫度', value: 'cam_temp', class: 'my-header-style' },
-        { text: 'IP位置', value: 'ip', class: 'my-header-style' },
+        {
+          text: '畫面位置',
+          value: 'position',
+          align: 'center',
+          class: 'my-header-style',
+        },
+        {
+          text: '相機溫度',
+          value: 'cam_temp',
+          align: 'center',
+          class: 'my-header-style',
+        },
+        {
+          text: 'IP位置',
+          value: 'ip',
+          align: 'center',
+          class: 'my-header-style',
+        },
         {
           text: '數據更新時間',
           value: 'last_modified',
+          align: 'center',
           class: 'my-header-style',
         },
         {
           text: '相機建立時間',
           value: 'createdTime',
+          align: 'center',
           class: 'my-header-style',
         },
         {
           text: '詳細資訊',
           value: 'actions',
+          align: 'center',
           sortable: false,
           class: 'my-header-style',
-        },
-      ],
-      // 權限數量管理
-      items1: [
-        {
-          name: 'user',
-          opened: 4,
-          used: 2,
-          left: 2,
-        },
-        {
-          name: 'viewer',
-          opened: 7,
-          used: 4,
-          left: 3,
-        },
-        {
-          name: 'admin',
-          opened: 1,
-          used: 1,
-          left: 0,
         },
       ],
       // 搜尋
@@ -302,7 +350,7 @@ export default {
       // 分頁
       page: 1,
       pageCount: 0,
-      itemsPerPage: 1,
+      itemsPerPage: 10,
       // 密碼
 
       // 信箱
