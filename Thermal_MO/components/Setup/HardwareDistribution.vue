@@ -120,12 +120,12 @@
         <v-divider class="mx-4"></v-divider>
         <v-card-text class="pt-2 px-4">
           <v-row class="pa-1">
-            <v-col cols="4">主頁面</v-col>
-            <v-col cols="8">次頁面</v-col>
+            <v-col cols="3">主頁面</v-col>
+            <v-col cols="9">次頁面</v-col>
           </v-row>
           <v-divider color="#4f5e62"></v-divider>
           <v-row class="pa-1">
-            <v-col cols="4">
+            <v-col cols="3">
               <div class="py-1">
                 <button class="server-add-btn">
                   <img src="/images/HardwareDistribution/add.png" />新增主分類
@@ -149,11 +149,20 @@
                 </div>
               </div>
             </v-col>
-            <v-col cols="8">
-              <div class="py-1">
+            <v-col cols="9">
+              <div class="py-1 camera-pages">
                 <button class="server-add-btn">
                   <img src="/images/HardwareDistribution/add.png" />新增次分類
                 </button>
+                <div class="custom-pagination">
+                  <button class="custom-pagination-btn-disable">第一頁</button>
+                  <button class="custom-pagination-btn-disable">上一頁</button>
+                  <button v-for="z in 5" :key="z" v-bind:class="[
+                            z === 1 ? 'ustom-pagination-btn-foucs' : '',
+                          ]">0{{ z }}</button>
+                  <button>下一頁</button>
+                  <button>最後一頁</button>
+                </div>
               </div>
               <div class="server-primary-flex">
                 <div class="py-1 server-primary mr-3" v-for="j in 30" :key="j">
@@ -212,6 +221,7 @@ export default {
     formHasErrors: false,
     // 分類
     server: ['A 棟', 'B 棟', 'C 棟', 'D 棟', 'E 棟', 'F 棟'],
+    page: 1,
   }),
 
   computed: {
@@ -311,6 +321,45 @@ export default {
   flex-wrap: wrap;
   height: 500px;
   align-content: flex-start;
+}
+/* 相機管理 */
+.camera-pages {
+  display: flex;
+  height: 47px;
+}
+.custom-pagination {
+  display: grid;
+  padding: 0 0 0 4px;
+  grid-template-columns: 60px 60px 40px 40px 40px 40px 40px 60px 69px;
+}
+.custom-pagination > button {
+  color: #4f5e62;
+  outline: 1px rgba(0, 0, 0, 0.12) solid;
+  font-size: 12px;
+  margin: 0px 3px;
+  text-align: center;
+  padding: 8px 0px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  user-select: none;
+}
+.custom-pagination > button:hover {
+  background-color: #dadada;
+}
+.custom-pagination > button:active {
+  background-color: #aaaaaa;
+}
+.custom-pagination > button.custom-pagination-btn-disable {
+  cursor: no-drop;
+  background-color: unset !important;
+  opacity: 0.5;
+}
+.ustom-pagination-btn-foucs{
+  background-color: #f0f2f3 ;
+  color: #4f5e62 ;
+  outline: 1px #4f5e62 solid !important;
+  pointer-events: none;
 }
 /* 左側浮動按鈕 */
 .drawer {
@@ -508,4 +557,19 @@ export default {
 .server-primary input {
   color: #4f5e62 !important;
 }
+/* .custom-pagination ul li button {
+  box-shadow: none !important;
+  outline: 1px rgba(0, 0, 0, 0.12) solid;
+}
+.custom-pagination .v-pagination__item--active{
+  background-color: #f0f2f3 !important;
+  color: #4f5e62 !important;
+  outline: 1px #4f5e62 solid;
+}
+.custom-pagination .v-pagination>li:first-child {
+  background-color: #1680b4 !important;
+  position: absolute;
+  pointer-events: none;
+  visibility: hidden;
+} */
 </style>
