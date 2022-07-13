@@ -278,6 +278,7 @@ export default {
   grid-template-columns: 95px 32px 32px;
   align-items: center;
 }
+
 .server-primary-btn {
   cursor: pointer;
 }
@@ -501,5 +502,10 @@ export default {
   > .v-input__slot
   fieldset {
   color: rgba(0, 0, 0, 0.1);
+}
+</style>
+<style>
+.server-primary input {
+  color: #4f5e62 !important;
 }
 </style>
