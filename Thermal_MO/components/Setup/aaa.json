@@ -9,34 +9,34 @@
             "serial_number": "89900689",
             "server_status": "1",
             "cam_quantity": "12",
-            "area": "A-1",
             "ip": "192.168.0.137",
             "mac_address": "000:40:7F:04:F7:23",
             "usage": "75",
             "created_time": "2022-07-11T09:16:08.000Z",
             "last_modified": "2022-07-11T09:16:08.000Z"
-          },
-
+          }
+        },
+        {
           "A-2": {
             "items": "01",
             "server_system_num": "server-01",
             "serial_number": "89900689",
             "server_status": "1",
             "cam_quantity": "12",
-            "area": "A-1",
             "ip": "192.168.0.137",
             "mac_address": "000:40:7F:04:F7:23",
             "usage": "75",
             "created_time": "2022-07-11T09:16:08.000Z",
             "last_modified": "2022-07-11T09:16:08.000Z"
-          },
+          }
+        },
+        {
           "A-3": {
             "items": "01",
             "server_system_num": "server-01",
             "serial_number": "89900689",
             "server_status": "1",
             "cam_quantity": "12",
-            "area": "A-1",
             "ip": "192.168.0.137",
             "mac_address": "000:40:7F:04:F7:23",
             "usage": "75",
