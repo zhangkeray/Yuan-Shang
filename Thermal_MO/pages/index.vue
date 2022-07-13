@@ -167,7 +167,7 @@
                   </div>
                   <div class="diago-alarm-cover1">
                     <!-- 警報統計 -->
-                    <div class="diago-border1">
+                    <div class="diago-border2">
                       <strong class="diago-title">警報統計</strong>
                       <!-- 圖表1 本日 -->
                       <div class="donut-flex mt-5">
@@ -231,7 +231,7 @@
                       </div>
                     </div>
                     <!-- 警報歷史 -->
-                    <div class="diago-border1 ml-2">
+                    <div class="diago-border2 ml-2">
                       <strong class="diago-title">警報歷史</strong>
                       <div class="reset1">
                         <v-icon color="#d8d8d8">mdi-circle-medium</v-icon
@@ -288,7 +288,10 @@
                     </div>
                   </div>
                   <div class="diago-tootip-photo">
-                    <div class="diago-tootip-photo-zoom">
+                    <div
+                      class="diago-tootip-photo-zoom"
+                      id="diago-tootip-photo-zoom"
+                    >
                       <div class="zoom-cover">
                         <template>
                           <v-btn
@@ -439,27 +442,126 @@
                         <v-checkbox
                           v-model="carousel_checkbox"
                           label="輪播"
-                          class="mr-3"
+                          class="mr-3 mt-5"
                         ></v-checkbox>
-                        <v-tooltip top>
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                              class="btu-setting"
-                              fab
-                              x-small
-                              v-bind="attrs"
-                              v-on="on"
-                            >
-                              <img
-                                class=""
-                                alt="line"
-                                src="/images/setting.png"
-                                width="70%"
-                              />
-                            </v-btn>
-                          </template>
-                          <span>畫面設定</span>
-                        </v-tooltip>
+
+                        <div class="text-center">
+                          <v-menu
+                            v-model="menu"
+                            :close-on-content-click="false"
+                            offset-y
+                          >
+                            <!-- <v-tooltip top> -->
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                class="btu-setting"
+                                fab
+                                x-small
+                                v-bind="attrs"
+                                v-on="on"
+                              >
+                                <img
+                                  class=""
+                                  alt="line"
+                                  src="/images/setting.png"
+                                  width="70%"
+                                />
+                              </v-btn>
+                            </template>
+                            <!-- </v-tooltip> -->
+
+                            <v-card class="pa-3">
+                              <div class="setting-screen-cover mb-1">
+                                <div class="setting-screen-title">輪播時間</div>
+                                <div
+                                  class="setting-screen-arrow-left"
+                                  @click="screenseting(0, 'carouselTime')"
+                                >
+                                  <img
+                                    class=""
+                                    alt=""
+                                    src="/images/mini-arrow.png"
+                                  />
+                                </div>
+                                <div class="setting-screen-input">
+                                  {{ carouselTime }}
+                                </div>
+                                <div
+                                  class="setting-screen-arrow-right"
+                                  @click="screenseting(1, 'carouselTime')"
+                                >
+                                  <img
+                                    class=""
+                                    alt=""
+                                    src="/images/mini-arrow.png"
+                                  />
+                                </div>
+                              </div>
+                              <div class="setting-screen-cover mb-1">
+                                <div class="setting-screen-title">色譜模式</div>
+                                <div
+                                  class="setting-screen-arrow-left"
+                                  @click="screenseting(0, 'palette')"
+                                >
+                                  <img
+                                    class=""
+                                    alt=""
+                                    src="/images/mini-arrow.png"
+                                  />
+                                </div>
+                                <div class="setting-screen-input">
+                                  <div class="setting-screen-icon">
+                                    <img :src="palette[0]" width="100%" />
+                                  </div>
+                                  {{ palette[1] }}
+                                </div>
+                                <div
+                                  class="setting-screen-arrow-right"
+                                  @click="screenseting(1, 'palette')"
+                                >
+                                  <img
+                                    class=""
+                                    alt=""
+                                    src="/images/mini-arrow.png"
+                                  />
+                                </div>
+                              </div>
+                              <div class="setting-screen-cover mb-1">
+                                <div class="setting-screen-title">影像模式</div>
+                                <div
+                                  class="setting-screen-arrow-left"
+                                  @click="screenseting(0, 'imageMode')"
+                                >
+                                  <img
+                                    class=""
+                                    alt=""
+                                    src="/images/mini-arrow.png"
+                                  />
+                                </div>
+                                <div class="setting-screen-input">
+                                  <div class="setting-screen-icon">
+                                    <img :src="imageMode[0]" width="100%" />
+                                  </div>
+                                  {{ imageMode[1] }}
+                                </div>
+                                <div
+                                  class="setting-screen-arrow-right"
+                                  @click="screenseting(1, 'imageMode')"
+                                >
+                                  <img
+                                    class=""
+                                    alt=""
+                                    src="/images/mini-arrow.png"
+                                  />
+                                </div>
+                              </div>
+                              <div class="setting-screen-btn">
+                                <button>返回</button>
+                                <button>確定</button>
+                              </div>
+                            </v-card>
+                          </v-menu>
+                        </div>
                       </div>
                     </div>
                     <!-- 搜尋相機編號 -->
@@ -597,11 +699,6 @@
                                         ie
                                       }}</span
                                     >
-                                    <span v-else class="Alert-font px-3"
-                                      >2022/07/27 03:11 Cam-s1-58 區域{{
-                                        ie
-                                      }}</span
-                                    >
                                   </div>
                                 </div>
                               </div>
@@ -643,14 +740,7 @@
                               <strong class="Alert-title">操作通知</strong>
                               <div class="Alert-txt2 py-3">
                                 <div v-for="iee in 100" :key="iee" class="my-1">
-                                  <div v-if="iee < 3" class="Alert-background1">
-                                    <span class="Alert-font px-5"
-                                      >2022/07/27 03:11 Cam-s1-58 區域{{
-                                        iee
-                                      }}</span
-                                    >
-                                  </div>
-                                  <div v-else class="Alert-background">
+                                  <div class="Alert-background">
                                     <span class="Alert-font px-5"
                                       >2022/07/27 03:11 Cam-s1-58 區域{{
                                         iee
@@ -749,7 +839,7 @@
             </div>
           </v-container>
         </v-tab-item>
-        <v-tab-item value="tab-2" style="height:93.2vh;">
+        <v-tab-item value="tab-2" style="height: 93.2vh">
           <MultiScreenstand id="1015" @VideoActive="VideoActive(data)" />
           <!-- <v-btn @click="VideoActive('tab-1')">BACK</v-btn> -->
         </v-tab-item>
@@ -807,6 +897,14 @@ export default {
     circularWeek: 50,
     circularMonth: 100,
     functionEvents: true,
+    // 畫面設定
+
+    carouselTime: '5分鐘',
+    carouselAt: 0,
+    palette: ['/left-icons/palette/palette-iron.png', 'Iron'],
+    paletteAT: 0,
+    imageMode: ['/left-icons/image-mode/image-mode-thermal.png', 'Thermal'],
+    imageModeAT: 0,
     // 日曆
     arrayEvents: null,
     date2: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
@@ -908,6 +1006,32 @@ export default {
   }),
 
   mounted() {
+    // 監聽滑鼠滾輪
+    var divZoom = document.getElementById('diago-tootip-photo-zoom')
+    // console.log(divZoom)
+    divZoom.addEventListener(
+      'mousewheel',
+      (e) => {
+        e = e || window.event
+        // console.log(e)
+        if (e.wheelDelta <= 0 || e.detail > 0) {
+          console.log('down')
+          this.zoom(0)
+        } else {
+          console.log('up')
+          this.zoom(1)
+        }
+      },
+      false
+    )
+    // function MouseWheel(e) {
+    //   e = e || window.event
+    //   if (e.wheelDelta <= 0 || e.detail > 0) {
+    //     this.zoom('0')
+    //   } else {
+    //     this.zoom('1')
+    //   }
+    // }
     // 排序
     this.$nextTick(() => {
       setTimeout(() => {
@@ -920,13 +1044,21 @@ export default {
           $('#sortable').disableSelection()
         })
         // 預覽小視窗放大縮小
-        $('.diago-tootip-img').resizable({
-          // aspectRatio: 3.8 / 3.1,
-          aspectRatio: 4 / 3,
-          minWidth: 380,
-          containment: '.cover-bg',
-        })
-        $('.diago-tootip-img').customZoom({
+        $('.diago-tootip-img')
+          .resizable({
+            // aspectRatio: 3.8 / 3.1,
+            handles: 'all',
+            aspectRatio: 4 / 3,
+            minWidth: 380,
+            maxWidth: 1150,
+            // containment: '.cover-bg',
+          })
+          .draggable({
+            handle: '.diago-tootip-head',
+            containment: '.cover-bg',
+            // containment: '.cover-bg',
+          })
+        $('.diago-tootip-photo').customZoom({
           cover: '.diago-tootip-photo-zoom', // 指定放大哪個元素
         })
         // 對話視窗
@@ -945,7 +1077,7 @@ export default {
         // })
         this.transition(1)
         this.testdata()
-        this.tab = 'tab-2'
+        // this.tab = 'tab-2'
       }, 1000)
     })
   },
@@ -1010,14 +1142,86 @@ export default {
     })
   },
   methods: {
+    // 畫面設定
+    screenseting(data, mode) {
+      // 輪播
+      var tmp = this.carouselAt
+      var arr1 = ['5分鐘', '10分鐘', '15分鐘']
+      if (mode === 'carouselTime' && data === 1) {
+        tmp = tmp + 1
+        if (tmp >= arr1.length) {
+          tmp = 0
+        }
+        this.carouselTime = arr1[tmp]
+      } else if (mode === 'carouselTime' && data === 0) {
+        tmp = tmp - 1
+        if (tmp < 0) {
+          tmp = arr1.length - 1
+        }
+        this.carouselTime = arr1[tmp]
+      }
+      this.carouselAt = tmp
+      // 色譜
+      var tmp2 = this.paletteAT
+      var arr2 = [
+        ['/left-icons/palette/palette-iron.png', 'Iron'],
+        ['/left-icons/palette/palette-lava.png', 'Lava'],
+        ['/left-icons/palette/palette-gray.png', 'Gray'],
+        ['/left-icons/palette/palette.png', 'Rainbow'],
+        ['/left-icons/palette/palette-rainbow-hc.png', 'Rainbow HC'],
+        ['/left-icons/palette/palette-arctic.png', 'Arctiv'],
+      ]
+      if (mode === 'palette' && data === 1) {
+        tmp2 = tmp2 + 1
+        if (tmp2 >= arr2.length) {
+          tmp2 = 0
+        }
+        this.palette = arr2[tmp2]
+      } else if (mode === 'palette' && data === 0) {
+        tmp2 = tmp2 - 1
+        if (tmp2 < 0) {
+          tmp2 = arr2.length - 1
+        }
+        this.palette = arr2[tmp2]
+      }
+      this.paletteAT = tmp2
+      console.log(tmp2)
+      console.log(arr2)
+      // 影像
+      var tmp3 = this.imageModeAT
+      var arr3 = [
+        ['/left-icons/image-mode/image-mode-thermal.png', 'Thermal'],
+        ['/left-icons/image-mode/image-mode-thermal-msx.png', 'Theraml MSX'],
+        ['/left-icons/image-mode/image-mode-digital-camera.png', 'Digital Camera'],
+        ['/left-icons/image-mode/image-mode-marco.png', 'Marco'],
+        ['/left-icons/image-mode/image-mode-thermal-fsx.png', 'Thermal FSX']
+      ]
+      if (mode === 'imageMode' && data === 1) {
+        tmp3 = tmp3 + 1
+        if (tmp3 >= arr3.length) {
+          tmp3 = 0
+        }
+        this.imageMode = arr3[tmp3]
+      } else if (mode === 'imageMode' && data === 0) {
+        tmp3 = tmp3 - 1
+        if (tmp3 < 0) {
+          tmp3 = arr3.length - 1
+        }
+        this.imageMode = arr3[tmp3]
+      }
+      this.imageModeAT = tmp3
+      // this.carouselTime = ''
+      // this.palette = ''
+      // this.imageMode = ''
+    },
     // 放大鏡計算器
     zoom(level) {
       var zoom = this.zoomL
       var zoomer = $('.diago-tootip-photo-zoom')
 
-      if (level === 1) {
+      if (level === 1 && zoom <= 6) {
         this.zoomL = zoom + 1
-      } else if (level === 0) {
+      } else if (level === 0 && zoom > 0) {
         this.zoomL = zoom - 1
       }
       zoomer.css('background-size', (this.zoomL + 1) * 100 + '%')
@@ -1036,7 +1240,7 @@ export default {
     // 跳轉到指定監視
     VideoActive(page) {
       this.tab = page
-      this.diagoOff()
+      // this.diagoOff()
     },
     // 測試假資料
     testdata() {
@@ -1324,6 +1528,13 @@ export default {
   border: 1px #d7dbdb solid;
   border-radius: 3px;
   padding: 5px;
+  max-height: 289px;
+  overflow-y: scroll;
+}
+.diago-border2 {
+  border: 1px #d7dbdb solid;
+  border-radius: 3px;
+  padding: 5px;
 }
 .diago-title {
   color: #4f5e62;
@@ -1340,7 +1551,7 @@ export default {
   padding: 10px;
 }
 .diago-tootip-img {
-  position: absolute;
+  position: absolute !important;
   top: 36px;
   left: 100%;
   /* width: 512px;
@@ -1364,6 +1575,8 @@ export default {
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   box-shadow: 1px -8px 6px 0px rgb(108 108 108 / 27%);
+  z-index: 99;
+  cursor: all-scroll;
 }
 .diago-tootip-title {
   font-weight: bold;
@@ -1658,6 +1871,62 @@ export default {
   width: 30px;
   height: 30px;
 }
+/* 畫面設定 */
+.setting-screen-cover {
+  display: grid;
+  grid-template-columns: 72px 10px 174px 10px;
+  align-items: center;
+  font-size: 15px;
+}
+.setting-screen-title {
+  color: #4f5e62;
+}
+.setting-screen-arrow-left,
+.setting-screen-arrow-right {
+  cursor: pointer;
+}
+
+.setting-screen-arrow-left img,
+.setting-screen-arrow-right img {
+  width: 0.9em;
+}
+.setting-screen-arrow-right {
+  transform: rotateY(180deg);
+}
+.setting-screen-input {
+  border: 1px solid #00000029;
+  border-radius: 3px;
+  margin: 2px 5px;
+  color: #4f5e62;
+  text-align: center;
+  position: relative;
+}
+.setting-screen-icon {
+  position: absolute;
+  width: 12%;
+  top: 2px;
+  left: 8px;
+}
+.setting-screen-btn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 15px;
+}
+.setting-screen-btn button {
+  margin: 2px;
+  background-color: #99a1a3;
+  padding: 1px 11px;
+  color: #fff;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+.setting-screen-btn button:hover {
+  background-color: #7e8385;
+}
+.setting-screen-btn button:active {
+  background-color: #727677;
+}
 /* 分隔畫面統整設定 */
 .ui-state-cover {
   width: 100%;
@@ -1726,6 +1995,9 @@ export default {
   background-color: rgba(222, 135, 136, 0.67843);
   bottom: 0;
 }
+.ui-state-default-alarm-outline > .ui-state-default-alarm div{
+  display: none !important;
+}
 .ui-state-default-alarm-outline > .ui-state-default-alarm > div {
   justify-content: flex-end;
   font-size: 23px;
@@ -1737,7 +2009,7 @@ export default {
 /* 可移動排序 (分4格) */
 .sortable4-1 {
   list-style-type: none;
-  margin: 0;
+  margin: 16px 3px;
   padding: 0 !important;
   width: 100%;
   height: 100%;
@@ -1840,7 +2112,7 @@ export default {
 .sortable12 {
   list-style-type: none;
   margin: 0;
-  padding: 0;
+  padding: 0 !important;
   width: 100%;
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
