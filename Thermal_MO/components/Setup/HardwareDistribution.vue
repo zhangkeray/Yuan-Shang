@@ -28,7 +28,64 @@
           </v-row>
         </v-card-title>
         <v-divider class="mx-4"></v-divider>
-        <v-card-text class="pt-10 px-6"> </v-card-text>
+        <v-card-text class="pt-2 px-4">
+          <v-row class="pa-1">
+            <v-col cols="4">主頁面</v-col>
+            <v-col cols="8">次頁面</v-col>
+          </v-row>
+          <v-divider color="#4f5e62"></v-divider>
+          <v-row class="pa-1">
+            <v-col cols="4">
+              <div class="py-1">
+                <button class="server-add-btn">
+                  <img src="/images/HardwareDistribution/add.png" />新增主分類
+                </button>
+                <!-- <v-btn color="#9ba3a5" outlined>新增主分類</v-btn> -->
+              </div>
+              <div class="py-1 server-primary" v-for="i in 10" :key="i">
+                <v-text-field
+                  class="mr-4"
+                  value="A 棟"
+                  readonly
+                  dense
+                  hide-details
+                  outlined
+                ></v-text-field>
+                <div class="server-primary-btn">
+                  <img src="/images/HardwareDistribution/pen.png" />
+                </div>
+                <div class="server-primary-btn">
+                  <img src="/images/HardwareDistribution/trash-1.png" />
+                </div>
+              </div>
+            </v-col>
+            <v-col cols="8">
+              <div class="py-1">
+                <button class="server-add-btn">
+                  <img src="/images/HardwareDistribution/add.png" />新增次分類
+                </button>
+              </div>
+              <div class="server-primary-flex">
+                <div class="py-1 server-primary mr-3" v-for="j in 30" :key="j">
+                  <v-text-field
+                    class="mr-4"
+                    :value="'A-' + j + '棟'"
+                    readonly
+                    dense
+                    hide-details
+                    outlined
+                  ></v-text-field>
+                  <div class="server-primary-btn">
+                    <img src="/images/HardwareDistribution/pen.png" />
+                  </div>
+                  <div class="server-primary-btn">
+                    <img src="/images/HardwareDistribution/trash-1.png" />
+                  </div>
+                </div>
+              </div>
+            </v-col>
+          </v-row>
+        </v-card-text>
 
         <!-- </v-card> -->
       </v-card>
@@ -61,7 +118,64 @@
           </v-row>
         </v-card-title>
         <v-divider class="mx-4"></v-divider>
-        <v-card-text class="pt-10 px-6"> </v-card-text>
+        <v-card-text class="pt-2 px-4">
+          <v-row class="pa-1">
+            <v-col cols="4">主頁面</v-col>
+            <v-col cols="8">次頁面</v-col>
+          </v-row>
+          <v-divider color="#4f5e62"></v-divider>
+          <v-row class="pa-1">
+            <v-col cols="4">
+              <div class="py-1">
+                <button class="server-add-btn">
+                  <img src="/images/HardwareDistribution/add.png" />新增主分類
+                </button>
+                <!-- <v-btn color="#9ba3a5" outlined>新增主分類</v-btn> -->
+              </div>
+              <div class="py-1 server-primary" v-for="i in 10" :key="i">
+                <v-text-field
+                  class="mr-4"
+                  value="A 棟"
+                  readonly
+                  dense
+                  hide-details
+                  outlined
+                ></v-text-field>
+                <div class="server-primary-btn">
+                  <img src="/images/HardwareDistribution/pen.png" />
+                </div>
+                <div class="server-primary-btn">
+                  <img src="/images/HardwareDistribution/trash-1.png" />
+                </div>
+              </div>
+            </v-col>
+            <v-col cols="8">
+              <div class="py-1">
+                <button class="server-add-btn">
+                  <img src="/images/HardwareDistribution/add.png" />新增次分類
+                </button>
+              </div>
+              <div class="server-primary-flex">
+                <div class="py-1 server-primary mr-3" v-for="j in 30" :key="j">
+                  <v-text-field
+                    class="mr-4"
+                    :value="'A-' + j + '棟'"
+                    readonly
+                    dense
+                    hide-details
+                    outlined
+                  ></v-text-field>
+                  <div class="server-primary-btn">
+                    <img src="/images/HardwareDistribution/pen.png" />
+                  </div>
+                  <div class="server-primary-btn">
+                    <img src="/images/HardwareDistribution/trash-1.png" />
+                  </div>
+                </div>
+              </div>
+            </v-col>
+          </v-row>
+        </v-card-text>
 
         <!-- </v-card> -->
       </v-card>
@@ -96,6 +210,8 @@ export default {
     zip: null,
     country: null,
     formHasErrors: false,
+    // 分類
+    server: ['A 棟', 'B 棟', 'C 棟', 'D 棟', 'E 棟', 'F 棟'],
   }),
 
   computed: {
@@ -156,6 +272,45 @@ export default {
 }
 </script>
 <style scoped>
+/* 伺服器管理 */
+.server-primary {
+  display: grid;
+  grid-template-columns: 95px 32px 32px;
+  align-items: center;
+}
+.server-primary-btn {
+  cursor: pointer;
+}
+.server-primary img {
+  width: 100%;
+  padding: 2px;
+}
+.server-add-btn {
+  padding: 8px 10px;
+  color: #4f5e62;
+  outline: 1px #9ba3a5 solid;
+  border-radius: 3px;
+  display: flex;
+  transition: background-color 0.3s;
+  justify-content: center;
+}
+.server-add-btn > img {
+  width: 19px;
+  margin: 0 8px 0px 0px;
+}
+.server-add-btn:hover {
+  background-color: rgb(216, 216, 216);
+}
+.server-add-btn:active {
+  background-color: rgb(179, 179, 179);
+}
+.server-primary-flex {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 500px;
+  align-content: flex-start;
+}
 /* 左側浮動按鈕 */
 .drawer {
   position: fixed;

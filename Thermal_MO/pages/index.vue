@@ -348,7 +348,7 @@
                         <div
                           class="ui-state-cover"
                           v-bind:class="[
-                            index01 % 2 !== 0 ? 'ui-state-cover-outline' : '',
+                            index01 % 2 !== 0 ? 'ui-state-cover-outline' : 'ui-state-normal',
                           ]"
                         >
                           <img
@@ -471,6 +471,32 @@
                             <!-- </v-tooltip> -->
 
                             <v-card class="pa-3">
+                              <div class="setting-screen-cover mb-1">
+                                <div class="setting-screen-title">輪播範圍</div>
+                                <div
+                                  class="setting-screen-arrow-left"
+                                  @click="screenseting(0, 'carouselTime')"
+                                >
+                                  <img
+                                    class=""
+                                    alt=""
+                                    src="/images/mini-arrow.png"
+                                  />
+                                </div>
+                                <div class="setting-screen-input">
+                                  當前選擇區
+                                </div>
+                                <div
+                                  class="setting-screen-arrow-right"
+                                  @click="screenseting(1, 'carouselTime')"
+                                >
+                                  <img
+                                    class=""
+                                    alt=""
+                                    src="/images/mini-arrow.png"
+                                  />
+                                </div>
+                              </div>
                               <div class="setting-screen-cover mb-1">
                                 <div class="setting-screen-title">輪播時間</div>
                                 <div
@@ -1090,9 +1116,14 @@ export default {
       $('.ui-state-cover-outline').each(function () {
         $(this).removeClass('ui-state-default-alarm-outline')
       })
+      $('.ui-state-normal').each(function () {
+        $(this).removeClass('ui-state-default-normal-outline')
+      })
       $(this)
         .find('.ui-state-cover-outline')
         .addClass('ui-state-default-alarm-outline')
+      $(this).find('.ui-state-normal')
+      .addClass('ui-state-default-normal-outline')
       // 假高度
       // var flash = ['600px', '500px', '400px', '2000px']
       // $('.diago-contnet').css('height', flash[Math.floor(Math.random() * 4)])
@@ -1323,6 +1354,9 @@ export default {
       $('.ui-state-cover-outline').each(function () {
         $(this).removeClass('ui-state-default-alarm-outline')
       })
+      $('.ui-state-normal').each(function () {
+        $(this).removeClass('ui-state-default-normal-outline')
+      })
     },
     // 分格畫面判斷
     transition(data) {
@@ -1471,6 +1505,10 @@ export default {
 #diagoHover {
   cursor: grab;
   margin: 0px 0px 11px 0px;
+  /* transition: outline .3s; */
+}
+#diagoHover:hover{
+  outline: 3px #cccccc solid;
 }
 .dialog-close {
   pointer-events: none;
@@ -1988,6 +2026,12 @@ export default {
 }
 .ui-state-default-alarm-outline {
   outline: 5px rgb(222 135 136) solid;
+}
+.ui-state-default-normal-outline{
+  outline: 5px #99a1a3 solid;
+}
+.ui-state-default-normal-outline>.ui-state-default-footer{
+  background-color: #99a1a3;
 }
 .ui-state-default-alarm-outline > .ui-state-default-alarm {
   height: 15%;
