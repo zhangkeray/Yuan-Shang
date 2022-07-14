@@ -1104,7 +1104,7 @@ export default {
         this.transition(1)
         this.testdata()
         // this.tab = 'tab-2'
-      }, 1000)
+      }, 0)
     })
   },
   updated() {
