@@ -117,7 +117,11 @@ export default {
     tab: 'tab-1',
     // tab: 'null',
   }),
-  methods: {},
+  methods: {
+    test(){
+      console.log('test')
+    }
+  },
 }
 </script>
 <style scoped>
