@@ -188,6 +188,7 @@
                   :totle="pagaTotle"
                   width="477px"
                   @toggle="setPage"
+                  pagClass="asdas"
                 />
                 <!-- 
                   1.totle=總分頁數 
@@ -259,7 +260,7 @@ export default {
     server: ['A 棟', 'B 棟', 'C 棟', 'D 棟', 'E 棟', 'F 棟'],
     search: null,
     // 分頁
-    pagaTotle: 10,
+    pagaTotle: 20,
   }),
 
   computed: {

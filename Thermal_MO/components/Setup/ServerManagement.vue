@@ -209,13 +209,19 @@
                     ></v-text-field>
                   </div>
 
-                  <v-pagination
+                  <!-- <v-pagination
                     v-model="page"
                     :length="pageCount"
                     :total-visible="10"
                     class="custom"
                     style="padding-right: 2px"
-                  ></v-pagination>
+                  ></v-pagination> -->
+                  <Pagination
+                    :totle="pageCount"
+                    width="477px"
+                    @toggle="setPage"
+                    pagClass="asdas"
+                  />
                 </div>
               </div>
             </v-col>
@@ -241,19 +247,17 @@
           @page-count="pageCount = $event"
           :items-per-page="itemsPerPage"
           fixed-header
-          class=" mx-4"
+          class="mx-4"
           color="#4f5e62"
         >
-        
-        <template v-slot:[`item.data-table-select`]="{ isSelected, select }">
-          <v-simple-checkbox
-            :value="isSelected"
-            @input="select($event)"
-            color="#4f5e62"
-            class="pl-4"
-          ></v-simple-checkbox>
-        </template>
-
+          <template v-slot:[`item.data-table-select`]="{ isSelected, select }">
+            <v-simple-checkbox
+              :value="isSelected"
+              @input="select($event)"
+              color="#4f5e62"
+              class="pl-4"
+            ></v-simple-checkbox>
+          </template>
 
           <template v-slot:[`item.sever_status`]="ssts">
             <v-icon
@@ -291,6 +295,7 @@
 <script>
 import axios from 'axios'
 // import TheTab2 from '../components/Permission/TheTab2.vue'
+import Pagination from '../Pagination/CustomPagination.vue'
 
 const apiToken = 'keywVOqtjDGyPhH76'
 const airTableApp = 'appcP7dbIjYmTEvhg'
@@ -298,8 +303,9 @@ const airTableName = 'Table%201'
 
 export default {
   components: {
-    // TheTab2,
+    Pagination,
   },
+
   data() {
     return {
       selected: [],
@@ -422,6 +428,9 @@ export default {
     this.loadItems()
   },
   methods: {
+    setPage(data) {
+      this.page = data
+    },
     // 允許使用之變色
     getGreenColor() {
       return '#69c585'
@@ -841,15 +850,13 @@ export default {
   color: rgba(0, 0, 0, 0.1);
 }
 
-
 // table
 // .v-data-table > .v-data-table__wrapper > table > tbody > tr > td, .v-data-table > .v-data-table__wrapper > table > tbody > tr > th, .v-data-table > .v-data-table__wrapper > table > thead > tr > td, .v-data-table > .v-data-table__wrapper > table > thead > tr > th, .v-data-table > .v-data-table__wrapper > table > tfoot > tr > td, .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
-//      padding: 0 16px; 
+//      padding: 0 16px;
 //     transition: height 0.2s cubic-bezier(0.4, 0, 0.6, 1);
 // }
 
-
 .item.data-table-select {
-       padding: 0 16px; 
+  padding: 0 16px;
 }
 </style>

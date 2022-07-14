@@ -15,10 +15,7 @@
       :key="index"
       class="custom-pagination-btn-number"
       v-bind:class="[z[1] === 1 ? 'ustom-pagination-btn-foucs' : '']"
-      @click="
-        pagination('setPage', z)
-        pageSet(z)
-      "
+      @click="pagination('setPage', z)"
     >
       <span>{{ z[0] }}</span>
     </button>
@@ -37,21 +34,38 @@ export default {
     // 分頁
     // pagaTotle: 20,
     page: [],
-    npage : 1,
+    npage: 1,
+    thistotle: 0,
     prev: '', // 上一頁的class
     next: '', // 下一頁的class
+    serinv:null,
   }),
   props: ['totle', 'width', 'pagClass'],
   mounted() {
+    if(this.serinv !== null){
+      clearInterval(this.serinv)
+    }
+    this.serinv = setInterval(() => {
+      this.thistotle = this.totle
+      this.pagination('setPage', [this.npage])
+    }, 1000)
     this.pagination('setPage', [this.npage]) // 初始化選擇第一頁
   },
+  watch: {
+    npage(data) {
+      this.pageSet(data)
+    },
+  },
   methods: {
+    refreshComponent() {
+      console.log('asdasd')
+    },
     pageSet(data) {
-      this.$emit('toggle', data[0])
+      this.$emit('toggle', data)
     },
     // 分頁控制
     pagination(type, data) {
-      var totle = this.totle // 總數量 這邊由母頁面傳入
+      var totle = this.thistotle // 總數量 這邊由母頁面傳入
       var setpage = 1
       var tmp = this.npage
       if (type === 'setPage') {
