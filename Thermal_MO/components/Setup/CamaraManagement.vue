@@ -129,7 +129,12 @@
                   <v-btn
                     icon
                     @click="buttonCallback"
-                    style="color: #4f5e62; margin-right: 8px; margin-top: 5px; border: 1px solid rgba(0, 0, 0, 0.1)"
+                    style="
+                      color: #4f5e62;
+                      margin-right: 8px;
+                      margin-top: 5px;
+                      border: 1px solid rgba(0, 0, 0, 0.1);
+                    "
                   >
                     <v-icon style="padding-left: 1.6px">mdi-reload</v-icon>
                   </v-btn>
@@ -137,7 +142,12 @@
                     icon
                     @click="buttonCallback"
                     outlined
-                    style="color: #4f5e62; margin-right: 8px; margin-top: 5px; border: 1px solid rgba(0, 0, 0, 0.1)"
+                    style="
+                      color: #4f5e62;
+                      margin-right: 8px;
+                      margin-top: 5px;
+                      border: 1px solid rgba(0, 0, 0, 0.1);
+                    "
                   >
                     <v-icon>mdi-eye</v-icon>
                   </v-btn>
@@ -145,7 +155,12 @@
                     icon
                     @click="buttonCallback"
                     outlined
-                    style="color: #4f5e62; margin-right: 8px; margin-top: 5px; border: 1px solid rgba(0, 0, 0, 0.1)"
+                    style="
+                      color: #4f5e62;
+                      margin-right: 8px;
+                      margin-top: 5px;
+                      border: 1px solid rgba(0, 0, 0, 0.1);
+                    "
                   >
                     <v-icon>mdi-bookmark-outline</v-icon>
                   </v-btn>
@@ -153,7 +168,12 @@
                     icon
                     @click="buttonCallback"
                     outlined
-                    style="color: #4f5e62; margin-right: 8px; margin-top: 5px; border: 1px solid rgba(0, 0, 0, 0.1)"
+                    style="
+                      color: #4f5e62;
+                      margin-right: 8px;
+                      margin-top: 5px;
+                      border: 1px solid rgba(0, 0, 0, 0.1);
+                    "
                   >
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
@@ -161,7 +181,12 @@
                     icon
                     @click="buttonCallback"
                     outlined
-                    style="color: #4f5e62; margin-right: 8px; margin-top: 5px; border: 1px solid rgba(0, 0, 0, 0.1)"
+                    style="
+                      color: #4f5e62;
+                      margin-right: 8px;
+                      margin-top: 5px;
+                      border: 1px solid rgba(0, 0, 0, 0.1);
+                    "
                   >
                     <v-icon>mdi-lightning-bolt-circle</v-icon>
                   </v-btn>
@@ -204,7 +229,7 @@
         <v-data-table
           :search="search"
           :headers="headers"
-          :items="items"
+          :items="itemsWithIndex"
           mobile-breakpoint="800"
           :loading="loading ? '#828c8f' : null"
           loading-text="資料加載中... 請稍後"
@@ -218,18 +243,6 @@
           fixed-header
           class="pa-0 ma-0"
         >
-          <template v-slot:[`item.idx`]="idxs">
-            <div
-              style="position: relative; right: 44px"
-              v-for="headerData in headers.filter((val, index, arr) => {
-                return index === 0
-              })"
-              :key="headerData.value"
-            >
-              {{ idxs.index + 1 }}
-            </div>
-          </template>
-
           <template v-slot:[`item.sever_status`]="ssts">
             <v-icon
               v-if="ssts.item.sever_status === '1'"
@@ -283,8 +296,8 @@ export default {
         // { text: 'Id', value: 'id' },
         {
           text: '項次',
-          value: 'idx',
-          align: 'right',
+          value: 'index',
+          align: 'center',
           class: 'my-header-style',
         },
         {
@@ -389,6 +402,14 @@ export default {
       dialog: false,
       editedItem: {},
     }
+  },
+  computed: {
+    itemsWithIndex() {
+      return this.items.map((items, index) => ({
+        ...items,
+        index: index + 1,
+      }))
+    },
   },
   mounted() {
     this.loadItems()

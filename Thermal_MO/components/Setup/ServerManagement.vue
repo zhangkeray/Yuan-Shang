@@ -129,7 +129,12 @@
                   <v-btn
                     icon
                     @click="buttonCallback"
-                    style="color: #4f5e62; margin-right: 8px; margin-top: 5px; border: 1px solid rgba(0, 0, 0, 0.1)"
+                    style="
+                      color: #4f5e62;
+                      margin-right: 8px;
+                      margin-top: 5px;
+                      border: 1px solid rgba(0, 0, 0, 0.1);
+                    "
                   >
                     <v-icon style="padding-left: 1.6px">mdi-reload</v-icon>
                   </v-btn>
@@ -137,7 +142,12 @@
                     icon
                     @click="buttonCallback"
                     outlined
-                    style="color: #4f5e62; margin-right: 8px; margin-top: 5px; border: 1px solid rgba(0, 0, 0, 0.1)"
+                    style="
+                      color: #4f5e62;
+                      margin-right: 8px;
+                      margin-top: 5px;
+                      border: 1px solid rgba(0, 0, 0, 0.1);
+                    "
                   >
                     <v-icon>mdi-eye</v-icon>
                   </v-btn>
@@ -145,7 +155,12 @@
                     icon
                     @click="buttonCallback"
                     outlined
-                    style="color: #4f5e62; margin-right: 8px; margin-top: 5px; border: 1px solid rgba(0, 0, 0, 0.1)"
+                    style="
+                      color: #4f5e62;
+                      margin-right: 8px;
+                      margin-top: 5px;
+                      border: 1px solid rgba(0, 0, 0, 0.1);
+                    "
                   >
                     <v-icon>mdi-bookmark-outline</v-icon>
                   </v-btn>
@@ -153,7 +168,12 @@
                     icon
                     @click="buttonCallback"
                     outlined
-                    style="color: #4f5e62; margin-right: 8px; margin-top: 5px; border: 1px solid rgba(0, 0, 0, 0.1)"
+                    style="
+                      color: #4f5e62;
+                      margin-right: 8px;
+                      margin-top: 5px;
+                      border: 1px solid rgba(0, 0, 0, 0.1);
+                    "
                   >
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
@@ -161,7 +181,12 @@
                     icon
                     @click="buttonCallback"
                     outlined
-                    style="color: #4f5e62; margin-right: 8px; margin-top: 5px; border: 1px solid rgba(0, 0, 0, 0.1)"
+                    style="
+                      color: #4f5e62;
+                      margin-right: 8px;
+                      margin-top: 5px;
+                      border: 1px solid rgba(0, 0, 0, 0.1);
+                    "
                   >
                     <v-icon>mdi-lightning-bolt-circle</v-icon>
                   </v-btn>
@@ -204,7 +229,7 @@
         <v-data-table
           :search="search"
           :headers="headers"
-          :items="items"
+          :items="itemsWithIndex"
           mobile-breakpoint="800"
           :loading="loading ? '#4f5e62' : null"
           loading-text="資料加載中... 請稍後"
@@ -216,19 +241,19 @@
           @page-count="pageCount = $event"
           :items-per-page="itemsPerPage"
           fixed-header
-          class="pa-0 ma-0"
+          class=" mx-4"
+          color="#4f5e62"
         >
-          <template v-slot:[`item.idx`]="idxs">
-            <div
-              style="position: relative; right: 44px"
-              v-for="headerData in headers.filter((val, index, arr) => {
-                return index === 0
-              })"
-              :key="headerData.value"
-            >
-              {{ idxs.index + 1 }}
-            </div>
-          </template>
+        
+        <template v-slot:[`item.data-table-select`]="{ isSelected, select }">
+          <v-simple-checkbox
+            :value="isSelected"
+            @input="select($event)"
+            color="#4f5e62"
+            class="pl-4"
+          ></v-simple-checkbox>
+        </template>
+
 
           <template v-slot:[`item.sever_status`]="ssts">
             <v-icon
@@ -282,8 +307,8 @@ export default {
       headers: [
         {
           text: '項次',
-          value: 'idx',
-          align: 'right',
+          value: 'index',
+          align: 'center',
           class: 'my-header-style',
         },
         {
@@ -384,6 +409,14 @@ export default {
       dialog: false,
       editedItem: {},
     }
+  },
+  computed: {
+    itemsWithIndex() {
+      return this.items.map((items, index) => ({
+        ...items,
+        index: index + 1,
+      }))
+    },
   },
   mounted() {
     this.loadItems()
@@ -697,7 +730,6 @@ export default {
   color: #4f5e62 !important;
 }
 
-
 .v-data-footer .v-icon {
   color: #4f5e62;
   // color: #69c585;
@@ -752,7 +784,7 @@ export default {
 .custom .v-pagination__navigation {
   height: 36px !important;
   width: 36px !important;
-  color: #4f5e62; 
+  color: #4f5e62;
 }
 .custom .v-pagination__navigation .v-icon {
   font-size: 16px !important;
@@ -807,5 +839,17 @@ export default {
   > .v-input__slot
   fieldset {
   color: rgba(0, 0, 0, 0.1);
+}
+
+
+// table
+// .v-data-table > .v-data-table__wrapper > table > tbody > tr > td, .v-data-table > .v-data-table__wrapper > table > tbody > tr > th, .v-data-table > .v-data-table__wrapper > table > thead > tr > td, .v-data-table > .v-data-table__wrapper > table > thead > tr > th, .v-data-table > .v-data-table__wrapper > table > tfoot > tr > td, .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
+//      padding: 0 16px; 
+//     transition: height 0.2s cubic-bezier(0.4, 0, 0.6, 1);
+// }
+
+
+.item.data-table-select {
+       padding: 0 16px; 
 }
 </style>
