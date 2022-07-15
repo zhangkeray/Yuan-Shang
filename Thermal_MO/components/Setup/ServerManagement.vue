@@ -557,13 +557,19 @@
                     ></v-text-field>
                   </div>
 
-                  <v-pagination
+                  <!-- <v-pagination
                     v-model="page"
                     :length="pageCount"
                     :total-visible="10"
                     class="custom"
                     style="padding-right: 2px"
-                  ></v-pagination>
+                  ></v-pagination> -->
+                  <Pagination
+                    :totle="pageCount"
+                    width="477px"
+                    @toggle="setPage"
+                    pagClass="asdas"
+                  />
                 </div>
               </div>
             </v-col>
@@ -612,14 +618,14 @@
           </template>
 
           <!-- 書籤 -->
-          <template v-slot:[`item.book_mark`]="{ item }">
+          <!-- <template v-slot:[`item.book_mark`]="{ item }">
             <v-btn icon v-if="item.book_mark === '0'">
               <v-icon>mdi-bookmark-outline</v-icon></v-btn
             >
             <v-btn icon v-if="item.book_mark === '1'">
               <v-icon>mdi-bookmark</v-icon></v-btn
             >
-          </template>
+          </template> -->
           <!-- 伺服器狀態 -->
           <template v-slot:[`item.server_status`]="ssts">
             <v-icon
@@ -664,6 +670,7 @@
 <script>
 import axios from 'axios'
 // import TheTab2 from '../components/Permission/TheTab2.vue'
+import Pagination from '../Pagination/CustomPagination.vue'
 
 const apiToken = 'keywVOqtjDGyPhH76'
 const airTableApp = 'appcP7dbIjYmTEvhg'
@@ -671,8 +678,9 @@ const airTableName = 'Table%201'
 
 export default {
   components: {
-    // TheTab2,
+    Pagination,
   },
+
   data() {
     return {
       expanded: [],
@@ -853,6 +861,9 @@ export default {
     this.loadItemsCam()
   },
   methods: {
+    setPage(data) {
+      this.page = data
+    },
     // 允許使用之變色
     getGreenColor() {
       return '#69c585'

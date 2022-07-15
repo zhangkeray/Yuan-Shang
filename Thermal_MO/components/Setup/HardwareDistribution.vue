@@ -31,7 +31,37 @@
         <v-card-text class="pt-2 px-4">
           <v-row class="pa-1">
             <v-col cols="4">主頁面</v-col>
-            <v-col cols="8">次頁面</v-col>
+            <v-col cols="8"
+              >次頁面
+              <div>
+                <!-- <v-btn
+                  icon
+                  @click="buttonCallback"
+                  style="
+                    color: #4f5e62;
+                    margin-right: 8px;
+                    margin-top: 5px;
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                  "
+                >
+                  <v-icon style="padding-left: 1.6px">mdi-reload</v-icon>
+                </v-btn>
+                <v-btn
+                  icon
+                  @click="buttonCallback"
+                  outlined
+                  style="
+                    color: #4f5e62;
+                    margin-right: 8px;
+                    margin-top: 5px;
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                  "
+                >
+                  <v-icon>mdi-lightning-bolt-circle</v-icon>
+                </v-btn> -->
+              </div>
+              <div></div>
+            </v-col>
           </v-row>
           <v-divider color="#4f5e62"></v-divider>
           <v-row class="pa-1">
@@ -149,20 +179,23 @@
                 </div>
               </div>
             </v-col>
-            <v-col cols="9">
+            <v-col cols="9" class="px-0">
               <div class="py-1 camera-pages">
                 <button class="server-add-btn">
                   <img src="/images/HardwareDistribution/add.png" />新增次分類
                 </button>
-                <div class="custom-pagination">
-                  <button class="custom-pagination-btn-disable">第一頁</button>
-                  <button class="custom-pagination-btn-disable">上一頁</button>
-                  <button v-for="z in 5" :key="z" v-bind:class="[
-                            z === 1 ? 'ustom-pagination-btn-foucs' : '',
-                          ]">0{{ z }}</button>
-                  <button>下一頁</button>
-                  <button>最後一頁</button>
-                </div>
+                <Pagination
+                  :totle="pagaTotle"
+                  width="477px"
+                  @toggle="setPage"
+                  pagClass="asdas"
+                />
+                <!-- 
+                  1.totle=總分頁數 
+                  2.@toggle=回傳目前選擇的分頁 
+                  3.width=總寬度 
+                  4.pagClass = 如果要覆蓋分頁按鈕style，請自行使用此參數，加上自訂class
+                -->
               </div>
               <div class="server-primary-flex">
                 <div class="py-1 server-primary mr-3" v-for="j in 30" :key="j">
@@ -192,7 +225,11 @@
   </v-row>
 </template>
 <script>
+import Pagination from '../Pagination/CustomPagination.vue'
 export default {
+  components: {
+    Pagination,
+  },
   data: () => ({
     // 重複發報
     repeat_transmission: ['YES', 'NO'],
@@ -221,7 +258,9 @@ export default {
     formHasErrors: false,
     // 分類
     server: ['A 棟', 'B 棟', 'C 棟', 'D 棟', 'E 棟', 'F 棟'],
-    page: 1,
+    search: null,
+    // 分頁
+    pagaTotle: 20,
   }),
 
   computed: {
@@ -244,6 +283,10 @@ export default {
   },
 
   methods: {
+    // 分頁控制
+    setPage(data) {
+      console.log('選取:' + data)
+    },
     resetForm() {
       this.errorMessages = []
       this.formHasErrors = false
@@ -327,40 +370,7 @@ export default {
   display: flex;
   height: 47px;
 }
-.custom-pagination {
-  display: grid;
-  padding: 0 0 0 4px;
-  grid-template-columns: 60px 60px 40px 40px 40px 40px 40px 60px 69px;
-}
-.custom-pagination > button {
-  color: #4f5e62;
-  outline: 1px rgba(0, 0, 0, 0.12) solid;
-  font-size: 12px;
-  margin: 0px 3px;
-  text-align: center;
-  padding: 8px 0px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  user-select: none;
-}
-.custom-pagination > button:hover {
-  background-color: #dadada;
-}
-.custom-pagination > button:active {
-  background-color: #aaaaaa;
-}
-.custom-pagination > button.custom-pagination-btn-disable {
-  cursor: no-drop;
-  background-color: unset !important;
-  opacity: 0.5;
-}
-.ustom-pagination-btn-foucs{
-  background-color: #f0f2f3 ;
-  color: #4f5e62 ;
-  outline: 1px #4f5e62 solid !important;
-  pointer-events: none;
-}
+
 /* 左側浮動按鈕 */
 .drawer {
   position: fixed;
