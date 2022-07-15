@@ -16,7 +16,7 @@
                     outlined
                     ref=""
                     :items="repeat_transmission"
-                    placeholder="主分類"
+                    placeholder="主位置"
                     hide-details
                     :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
@@ -26,7 +26,7 @@
                     outlined
                     ref=""
                     :items="repeat_transmission"
-                    placeholder="次分類"
+                    placeholder="次位置"
                     hide-details
                     :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
@@ -44,81 +44,429 @@
                 </div>
                 <v-spacer />
 
-                <v-dialog v-model="dialog" max-width="700px">
+                <v-dialog v-model="dialog" max-width="1000px">
                   <template v-slot:activator="{ on }">
-                    <v-btn color="#4f5e62" v-on="on" outlined text>
+                    <v-btn color="#4f5e62" v-on="on" outlined>
                       <v-icon small>mdi-plus-circle-outline</v-icon>
                       <h5>新增相機</h5>
                     </v-btn>
                   </template>
 
                   <v-card>
-                    <v-card-title>
-                      <span v-if="editedItem.id">伺服器詳細資訊</span>
-                      <span v-else>新增</span>
+                    <v-btn
+                      x-small
+                      color=""
+                      icon
+                      @click="showEditDialog()"
+                      style="
+                        color: #4f5e62;
+                        margin-top: 5px;
+                        margin-left: 5px;
+                        border: 1px solid rgba(0, 0, 0, 0.1);
+                      "
+                      ><v-icon small>mdi-close</v-icon></v-btn
+                    >
+                    <v-card-title class="pt-0">
+                      <h5 v-if="editedItem.id">伺服器詳細資訊</h5>
+                      <h5 v-else>新增</h5>
+                      <v-spacer />
+                      <v-btn color="success">
+                        <v-icon left> mdi-lightning-bolt-circle </v-icon>
+                        移動伺服器主機位置
+                      </v-btn>
+
+                      <v-btn color="success">
+                        <v-icon left> mdi-compass-outline </v-icon>
+                        連線
+                      </v-btn>
                     </v-card-title>
                     <v-card-text>
                       <v-row>
-                        <v-col cols="12" md="6" class="pa-0 ma-0">
-                          <v-row>
-                            <v-col cols="12" md="5">
-                              <h7 class="py-0 pl-12 pa-0">名稱</h7>
-                            </v-col>
-                            <v-col cols="12" md="7">
-                              <h7>{{ editedItem.system_number }}</h7>
-                            </v-col>
-                            <v-col cols="12" md="5">
-                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                            </v-col>
-                            <v-col cols="12" md="7">
-                              <h7>{{ editedItem.system_number }}</h7>
-                            </v-col>
-                            <v-col cols="12" md="5">
-                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                            </v-col>
-                            <v-col cols="12" md="7">
-                              <h7>{{ editedItem.system_number }}</h7>
-                            </v-col>
-                            <v-col cols="12" md="5">
-                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                            </v-col>
-                            <v-col cols="12" md="7">
-                              <h7>{{ editedItem.system_number }}</h7>
-                            </v-col>
+                        <v-col cols="12" md="4" class="pa-0 ma-0">
+                          <v-card
+                            ref="form"
+                            class="my-0 ma-0 pa-5"
+                            flat
+                            outlined
+                          >
+                            <v-row>
+                              <v-col cols="12" class="d-flex pb-0">
+                                <h7 class="mb-1 pl-8 pb-0 font_bg_color"
+                                  >伺服器系統編號</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-8 pb-0 font_bg_color">{{
+                                  editedItem.server_system_number
+                                }}</h7>
+                              </v-col>
 
-                            <v-col cols="12" md="5">
-                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                            </v-col>
-                            <v-col cols="12" md="7">
-                              <h7>{{ editedItem.system_number }}</h7>
-                            </v-col>
-                            <v-col cols="12" md="5">
-                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                            </v-col>
-                            <v-col cols="12" md="7">
-                              <h7>{{ editedItem.system_number }}</h7>
-                            </v-col>
-                            <v-col cols="12" md="5">
-                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                            </v-col>
-                            <v-col cols="12" md="7">
-                              <h7>{{ editedItem.system_number }}</h7>
-                            </v-col>
-                            <v-col cols="12" md="5">
-                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                            </v-col>
-                            <v-col cols="12" md="7">
-                              <h7>{{ editedItem.system_number }}</h7>
-                            </v-col>
-                          </v-row>
+                              <v-col cols="12" class="d-flex py-0">
+                                <h7 class="mb-1 pl-8 pb-0 font_bg_color"
+                                  >伺服器名稱</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-8 pb-0 font_bg_color">{{
+                                  editedItem.server_name
+                                }}</h7>
+                              </v-col>
+
+                              <v-col cols="12" class="d-flex py-0">
+                                <h7 class="mb-1 pl-8 pb-0 font_bg_color"
+                                  >伺服器型號</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-8 pb-0 font_bg_color">{{
+                                  editedItem.server_type
+                                }}</h7>
+                              </v-col>
+
+                              <v-col cols="12" class="d-flex py-0">
+                                <h7 class="mb-1 pl-8 pb-0 font_bg_color"
+                                  >伺服器位置</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-8 pb-0 font_bg_color"
+                                  >{{ editedItem.server_main_position }}棟/{{
+                                    editedItem.server_secondary_position
+                                  }}區</h7
+                                >
+                              </v-col>
+
+                              <v-col cols="12" class="d-flex py-0">
+                                <h7 class="mb-1 pl-8 pb-0 font_bg_color"
+                                  >伺服器IP位址</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-8 pb-0 font_bg_color">{{
+                                  editedItem.server_ip
+                                }}</h7>
+                              </v-col>
+
+                              <v-col cols="12" class="d-flex py-0">
+                                <h7 class="mb-1 pl-8 pb-0 font_bg_color"
+                                  >伺服器Mac位址</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-8 pb-0 font_bg_color">{{
+                                  editedItem.server_mac_address
+                                }}</h7>
+                              </v-col>
+
+                              <!-- ---- -->
+                              <v-col cols="12">
+                                <!-- 伺服器使用量 -->
+                                <v-expansion-panels
+                                  v-model="panel"
+                                  :readonly="readonly"
+                                  multiple
+                                  class="d-flex py-0"
+                                >
+                                  <v-expansion-panel class="pa-0 ma-0">
+                                    <v-expansion-panel-header class="pa-0 ma-0">
+                                      <v-col cols="12" class="d-flex py-0">
+                                        <h7 class="my-0 py-0 font_bg_color"
+                                          >伺服器硬碟使用量</h7
+                                        >
+                                        <v-spacer />
+                                        <h7 class="my-0 py-0 font_bg_color"
+                                          >{{
+                                            editedItem.server_usage_percent
+                                          }}%</h7
+                                        >
+                                      </v-col>
+                                    </v-expansion-panel-header>
+                                    <!-- <v-expansion-panel-content>
+                                      <v-col cols="12" md="6" class="pa-0 ma-0">
+                                        <h7 class="">伺服器硬碟使用量</h7>
+                                      </v-col>
+                                      <v-col cols="12" md="6">
+                                        <h7>{{
+                                          editedItem.server_usage_percent
+                                        }}</h7>
+                                      </v-col>
+                                    </v-expansion-panel-content> -->
+                                    <v-expansion-panel-content
+                                      class="font_bg_color"
+                                    >
+                                      <v-row>
+                                        <v-col cols="6">
+                                          <v-progress-circular
+                                            class=""
+                                            :rotate="-90"
+                                            :size="95"
+                                            :width="10"
+                                            :value="
+                                              editedItem.server_usage_percent
+                                            "
+                                            color="#828c8f"
+                                            backgroud
+                                          >
+                                            <h3>
+                                              {{
+                                                editedItem.server_usage_percent
+                                              }}
+                                            </h3>
+                                          </v-progress-circular>
+                                        </v-col>
+                                        <v-col cols="6" class="mt-6">
+                                          <v-row>
+                                            <v-col
+                                              cols="12"
+                                              class="d-flex py-0"
+                                            >
+                                              <h7
+                                                class="my-0 py-0 font_bg_color"
+                                                >剩餘空間</h7
+                                              >
+                                              <v-spacer />
+                                              <h7
+                                                class="my-0 py-0 font_bg_color"
+                                                >{{
+                                                  editedItem.server_usage_spare_capacity
+                                                }}GB</h7
+                                              >
+                                            </v-col>
+
+                                            <v-col
+                                              cols="12"
+                                              class="d-flex py-0"
+                                            >
+                                              <h7
+                                                class="my-0 py-0 font_bg_color"
+                                                >已使用</h7
+                                              >
+                                              <v-spacer />
+                                              <h7
+                                                class="my-0 py-0 font_bg_color"
+                                                >{{
+                                                  editedItem.server_usage_capacity
+                                                }}GB</h7
+                                              >
+                                            </v-col>
+
+                                            <v-col
+                                              cols="12"
+                                              class="d-flex py-0"
+                                            >
+                                              <h7
+                                                class="my-0 py-0 font_bg_color"
+                                                >總容量</h7
+                                              >
+                                              <v-spacer />
+                                              <h7
+                                                class="my-0 py-0 font_bg_color"
+                                                >{{
+                                                  editedItem.server_usage_total_capacity
+                                                }}GB</h7
+                                              >
+                                            </v-col>
+                                          </v-row>
+                                        </v-col>
+                                      </v-row>
+                                    </v-expansion-panel-content>
+                                  </v-expansion-panel>
+
+                                  <v-expansion-panel class="pa-0 ma-0">
+                                    <v-expansion-panel-header class="pa-0 ma-0">
+                                      <v-col cols="12" class="d-flex py-0">
+                                        <h7 class="my-0 py-0 font_bg_color"
+                                          >伺服器狀態</h7
+                                        >
+                                        <v-spacer />
+                                        <h7 class="my-0 py-0 font_bg_color"
+                                          >{{ editedItem.server_status }}%</h7
+                                        >
+                                      </v-col>
+                                    </v-expansion-panel-header>
+
+                                    <v-expansion-panel-content
+                                      class="font_bg_color"
+                                    >
+                                      <v-row>
+                                        <v-col cols="12" class="d-flex py-0">
+                                          <h7 class="my-0 py-0 font_bg_color"
+                                            >傳輸速率</h7
+                                          >
+                                          <v-spacer />
+                                          <h7 class="my-0 py-0 font_bg_color"
+                                            >{{
+                                              editedItem.server_usage_spare_capacity
+                                            }}GB</h7
+                                          >
+                                        </v-col>
+
+                                        <v-col cols="12" class="d-flex py-0">
+                                          <h7 class="my-0 py-0 font_bg_color"
+                                            >已接收</h7
+                                          >
+                                          <v-spacer />
+                                          <h7 class="my-0 py-0 font_bg_color"
+                                            >{{
+                                              editedItem.server_status_received
+                                            }}MB</h7
+                                          >
+                                        </v-col>
+
+                                        <v-col cols="12" class="d-flex py-0">
+                                          <h7 class="my-0 py-0 font_bg_color"
+                                            >已傳輸</h7
+                                          >
+                                          <v-spacer />
+                                          <h7 class="my-0 py-0 font_bg_color"
+                                            >{{
+                                              editedItem.server_status_transferred
+                                            }}MB</h7
+                                          >
+                                        </v-col>
+
+                                        <v-col cols="12" class="d-flex py-0">
+                                          <h7 class="my-0 py-0 font_bg_color"
+                                            >錯誤/中斷</h7
+                                          >
+                                          <v-spacer />
+                                          <h7 class="my-0 py-0 font_bg_color"
+                                            >{{
+                                              editedItem.server_status_error
+                                            }}/{{
+                                              editedItem.server_status_error
+                                            }}</h7
+                                          >
+                                        </v-col>
+                                      </v-row>
+                                    </v-expansion-panel-content>
+                                  </v-expansion-panel>
+                                </v-expansion-panels>
+                              </v-col>
+
+                              <v-col cols="12" class="d-flex py-0">
+                                <h7 class="mb-1 pl-7 pb-0 font_bg_color"
+                                  >上次更新時間</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-7 pb-0 font_bg_color">{{
+                                  editedItem.server_created_time
+                                }}</h7>
+                              </v-col>
+
+                              <v-col cols="12" class="d-flex py-0">
+                                <h7 class="mb-1 pl-7 pb-0 font_bg_color"
+                                  >主機建立時間</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-7 pb-0 font_bg_color">{{
+                                  editedItem.server_last_modified
+                                }}</h7>
+                              </v-col>
+                            </v-row>
+                          </v-card>
+                        </v-col>
+                        <v-col cols="12" md="8" class="pa-0 ma-0">
+                          <v-card ref="form" class="my-0 mx-0" flat outlined>
+                            <!-- 相機表格 -->
+                            <div class="d-flex">
+                              <v-spacer />
+                              <v-card-subtitle>掛載相機</v-card-subtitle>
+                              <v-select
+                                class="classification input mr-2"
+                                dense
+                                outlined
+                                ref=""
+                                :items="repeat_transmission"
+                                placeholder="主位置"
+                                hide-details
+                                :menu-props="{ bottom: true, offsetY: true }"
+                              ></v-select>
+                              <v-select
+                                class="classification input mr-2"
+                                dense
+                                outlined
+                                ref=""
+                                :items="repeat_transmission"
+                                placeholder="次位置"
+                                hide-details
+                                :menu-props="{ bottom: true, offsetY: true }"
+                              ></v-select>
+                            </div>
+
+                            <v-data-table
+                              :headers="headersForDialogCamTable"
+                              :items="itemsWithIndexForCamTsble"
+                              mobile-breakpoint="800"
+                              :loading="loading ? '#4f5e62' : null"
+                              loading-text="資料加載中... 請稍後"
+                              style="color: #4f5e62"
+                              hide-default-footer
+                              fixed-header
+                              class="mx-4"
+                              color="#4f5e62"
+                            >
+                              <!-- 複選框 -->
+                              <template v-slot:[``]="{ isSaved, save }">
+                                <v-simple-checkbox
+                                  :value="isSaved"
+                                  @input="save($event)"
+                                  color="#4f5e62"
+                                  class="pl-4"
+                                ></v-simple-checkbox>
+                              </template>
+                              <!-- 複選框 -->
+                              <template
+                                v-slot:[`item.data-table-select`]="{
+                                  isSelected,
+                                  select,
+                                }"
+                              >
+                                <v-simple-checkbox
+                                  :value="isSelected"
+                                  @input="select($event)"
+                                  color="#4f5e62"
+                                  class="pl-4"
+                                ></v-simple-checkbox>
+                              </template>
+
+                              <!-- 相機狀態 -->
+                              <template v-slot:[`item.cam_status`]="ssts">
+                                <v-icon
+                                  v-if="ssts.item.cam_status === '1'"
+                                  :color="getGreenColor()"
+                                  x-small
+                                  >mdi-circle</v-icon
+                                >
+                                <v-icon v-else :color="getRedColor()" x-small
+                                  >mdi-circle</v-icon
+                                >
+                              </template>
+
+                              <!-- 相機主位置 -->
+                              <template
+                                v-slot:[`item.cam_main_position`]="{ item }"
+                              >
+                                <td style="text-align: center">
+                                  {{ item.cam_main_position }}棟
+                                </td>
+                              </template>
+
+                              <!-- 相機次位置 -->
+                              <template
+                                v-slot:[`item.cam_secondary_position`]="{
+                                  item,
+                                }"
+                              >
+                                <td style="text-align: center">
+                                  {{ item.cam_secondary_position }}區
+                                </td>
+                              </template>
+
+                              <!-- 查看更多 -->
+                              <template v-slot:[`item.learn_more`]="{ item }">
+                                <v-btn @click="item">查看更多 </v-btn>
+                              </template>
+                            </v-data-table>
+                            <!-- ----- -->
+                          </v-card>
                         </v-col>
                       </v-row>
                     </v-card-text>
-                    <v-spacer></v-spacer>
-                    <v-btn color="" text @click="showEditDialog()">取消</v-btn>
-                    <v-btn color="" text @click="saveItem(editedItem)"
-                      >儲存</v-btn
-                    >
                   </v-card>
                 </v-dialog>
               </div>
@@ -241,23 +589,41 @@
           @page-count="pageCount = $event"
           :items-per-page="itemsPerPage"
           fixed-header
-          class=" mx-4"
+          class="mx-4"
           color="#4f5e62"
         >
-        
-        <template v-slot:[`item.data-table-select`]="{ isSelected, select }">
-          <v-simple-checkbox
-            :value="isSelected"
-            @input="select($event)"
-            color="#4f5e62"
-            class="pl-4"
-          ></v-simple-checkbox>
-        </template>
+          <!-- 複選框 -->
+          <template v-slot:[``]="{ isSaved, save }">
+            <v-simple-checkbox
+              :value="isSaved"
+              @input="save($event)"
+              color="#4f5e62"
+              class="pl-4"
+            ></v-simple-checkbox>
+          </template>
+          <!-- 複選框 -->
+          <template v-slot:[`item.data-table-select`]="{ isSelected, select }">
+            <v-simple-checkbox
+              :value="isSelected"
+              @input="select($event)"
+              color="#4f5e62"
+              class="pl-4"
+            ></v-simple-checkbox>
+          </template>
 
-
-          <template v-slot:[`item.sever_status`]="ssts">
+          <!-- 書籤 -->
+          <template v-slot:[`item.book_mark`]="{ item }">
+            <v-btn icon v-if="item.book_mark === '0'">
+              <v-icon>mdi-bookmark-outline</v-icon></v-btn
+            >
+            <v-btn icon v-if="item.book_mark === '1'">
+              <v-icon>mdi-bookmark</v-icon></v-btn
+            >
+          </template>
+          <!-- 伺服器狀態 -->
+          <template v-slot:[`item.server_status`]="ssts">
             <v-icon
-              v-if="ssts.item.sever_status === '1'"
+              v-if="ssts.item.server_status === '1'"
               :color="getGreenColor()"
               x-small
               >mdi-circle</v-icon
@@ -265,23 +631,30 @@
             <v-icon v-else :color="getRedColor()" x-small>mdi-circle</v-icon>
           </template>
 
-          <template v-slot:[`item.cam_status`]="csts">
-            <v-icon
-              v-if="csts.item.cam_status === '1'"
-              :color="getGreenColor()"
-              x-small
-              >mdi-circle</v-icon
-            >
-            <v-icon v-else :color="getRedColor()" x-small>mdi-circle</v-icon>
+          <!-- 伺服器主位置 -->
+          <template v-slot:[`item.server_main_position`]="{ item }">
+            <td style="text-align: center">
+              {{ item.server_main_position }}棟
+            </td>
           </template>
 
-          <!-- 編輯刪除 -->
+          <!-- 伺服器次位置 -->
+          <template v-slot:[`item.server_secondary_position`]="{ item }">
+            <td style="text-align: center">
+              {{ item.server_secondary_position }}區
+            </td>
+          </template>
+
+          <!-- 伺服器使用量 -->
+          <template v-slot:[`item.server_usage_percent`]="{ item }">
+            <td style="text-align: center">{{ item.server_usage_percent }}%</td>
+          </template>
+
+          <!-- 詳細資訊 -->
           <template v-slot:[`item.actions`]="{ item }">
-            <div class="text-truncate">
-              <v-icon @click="showEditDialog(item)" color="#4f5e62">
-                mdi-information-outline
-              </v-icon>
-            </div>
+            <v-icon @click="showEditDialog(item)" color="#4f5e62">
+              mdi-information-outline
+            </v-icon>
           </template>
         </v-data-table>
       </v-card>
@@ -302,6 +675,8 @@ export default {
   },
   data() {
     return {
+      expanded: [],
+      singleExpand: false,
       selected: [],
       n: 0,
       headers: [
@@ -312,20 +687,26 @@ export default {
           class: 'my-header-style',
         },
         {
-          text: '系統編號',
+          text: '書籤',
+          value: 'book_mark',
+          align: 'center',
+          class: 'my-header-style',
+        },
+        {
+          text: '伺服器系統編號',
           value: 'server_system_number',
           align: 'center',
           class: 'my-header-style',
         },
         {
-          text: '序號',
-          value: 'serial_number',
+          text: '伺服器名稱',
+          value: 'server_name',
           align: 'center',
           class: 'my-header-style',
         },
         {
-          text: '伺服主機狀態',
-          value: 'sever_status',
+          text: '伺服器狀態',
+          value: 'server_status',
           align: 'center',
           class: 'my-header-style',
         },
@@ -336,51 +717,91 @@ export default {
           class: 'my-header-style',
         },
         {
-          text: '主分類',
-          value: 'main_classification',
+          text: '伺服器主位置',
+          value: 'server_main_position',
           align: 'center',
           class: 'my-header-style',
         },
         {
-          text: '次分類',
-          value: 'second_classification',
-          align: 'center',
-
-          class: 'my-header-style',
-        },
-        {
-          text: 'IP 位置',
-          value: 'ip',
+          text: '伺服器次位置',
+          value: 'server_secondary_position',
           align: 'center',
           class: 'my-header-style',
         },
         {
-          text: 'Mac 位址',
-          value: 'mac_address',
+          text: '伺服器IP位置',
+          value: 'server_ip',
           align: 'center',
           class: 'my-header-style',
         },
         {
-          text: '硬碟使用量',
-          value: 'usage',
+          text: '伺服器Mac位址',
+          value: 'server_mac_address',
+          align: 'center',
+          class: 'my-header-style',
+        },
+        {
+          text: '伺服器使用量',
+          value: 'server_usage_percent',
           align: 'center',
           class: 'my-header-style',
         },
         {
           text: '上次更新時間',
-          value: 'last_modified',
+          value: 'server_last_modified',
           align: 'center',
           class: 'my-header-style',
         },
-        {
-          text: '伺服器主機建立時間',
-          value: 'createdTime',
-          align: 'center',
-          class: 'my-header-style',
-        },
+        // {
+        //   text: '主機建立時間',
+        //   value: 'server_created_time',
+        //   align: 'center',
+        //   class: 'my-header-style',
+        // },
         {
           text: '詳細資訊',
           value: 'actions',
+          sortable: false,
+          align: 'center',
+          class: 'my-header-style',
+        },
+      ],
+
+      headersForDialogCamTable: [
+        {
+          text: '項次',
+          value: 'index',
+          align: 'center',
+          class: 'my-header-style',
+        },
+
+        {
+          text: '相機名稱',
+          value: 'cam_name',
+          align: 'center',
+          class: 'my-header-style',
+        },
+        {
+          text: '相機狀態',
+          value: 'cam_status',
+          align: 'center',
+          class: 'my-header-style',
+        },
+        {
+          text: '相機主位置',
+          value: 'cam_main_position',
+          align: 'center',
+          class: 'my-header-style',
+        },
+        {
+          text: '相機次位置',
+          value: 'cam_secondary_position',
+          align: 'center',
+          class: 'my-header-style',
+        },
+        {
+          text: '',
+          value: 'learn_more',
           sortable: false,
           align: 'center',
           class: 'my-header-style',
@@ -404,6 +825,8 @@ export default {
       //   (v) => /.+@.+/.test(v) || '無效的信箱格式',
       // ],
       items: [],
+      itemsForCamTable: [],
+
       status: ['enable', 'disable'],
       itemsSelect: ['user', 'viewer', 'admin'],
       dialog: false,
@@ -417,9 +840,17 @@ export default {
         index: index + 1,
       }))
     },
+
+    itemsWithIndexForCamTsble() {
+      return this.itemsForCamTable.map((itemsForCamTable, index) => ({
+        ...itemsForCamTable,
+        index: index + 1,
+      }))
+    },
   },
   mounted() {
     this.loadItems()
+    this.loadItemsCam()
   },
   methods: {
     // 允許使用之變色
@@ -447,7 +878,8 @@ export default {
             return {
               id: item.id,
               createdTime: item.createdTime,
-              last_modified: item.last_modified,
+              server_created_time: item.created_time,
+              server_last_modified: item.server_last_modified,
               ...item.fields,
             }
           })
@@ -457,6 +889,7 @@ export default {
           console.log(error)
         })
     },
+
     saveItem(item) {
       // this is used for both creating and updating API records
       // the default method is POST for creating a new item
@@ -478,7 +911,8 @@ export default {
         // must remove id from the data for airtable patch to work
         delete data.fields.id
         delete data.fields.createdTime
-        delete data.fields.last_modified
+        delete data.fields.server_created_time
+        delete data.fields.server_last_modified
       }
 
       // save the record
@@ -523,20 +957,21 @@ export default {
         this.items.splice(idx, 1)
       }
     },
-    // camera's api
-    loadItems_forCam() {
+    // cam's api
+    loadItemsCam() {
       this.loading = true
-      this.items = []
+      this.itemsForCamTable = []
       axios
-        .get(`https://api.airtable.com/v0/appxyftNJN3Ry2NPa/Table%201`, {
+        .get(`https://api.airtable.com/v0/appxyftNJN3Ry2NPa/${airTableName}`, {
           headers: { Authorization: 'Bearer ' + apiToken },
         })
         .then((response) => {
-          this.items = response.data.records.map((item) => {
+          this.itemsForCamTable = response.data.records.map((item) => {
             return {
               id: item.id,
               createdTime: item.createdTime,
-              last_modified: item.last_modified,
+              server_created_time: item.created_time,
+              server_last_modified: item.server_last_modified,
               ...item.fields,
             }
           })
@@ -550,155 +985,8 @@ export default {
 }
 </script>
 <style scoped>
-/* 左側浮動按鈕 */
-.drawer {
-  position: fixed;
-  width: 3.6em;
-  left: -3.599em;
-  height: 51.8em;
-  transition: all 0.5s;
-  border-radius: 0px 10px 10px 0px;
-  z-index: 99999;
-  /* background-color: #031316; */
-  color: rgba(89, 89, 91, 1);
-}
-.box {
-  background-color: #fff;
-}
-.box:hover .drawer {
-  left: 0;
-}
-
-/* 影像串流 */
-.frame {
-  width: 74em;
-  margin-left: 0.3em;
-  margin-top: 0.7em;
-}
-.cover {
-  position: relative;
-  max-width: 100%;
-  width: 100%;
-  display: inline-block;
-  isolation: isolate;
-}
-#image {
-  width: 100%;
-  /* width: 70.5em; */
-  pointer-events: none;
-  /* margin-left: 2.1em; */
-  /* margin-top: 2em; */
-  isolation: isolate;
-}
-.arrow {
-  height: 23px;
-  width: 100px;
-  position: absolute;
-  margin-left: 1.16em;
-  margin-top: 25.5em;
-  transform: rotate(270deg);
-  border-radius: 0 0 100px 100px;
-}
-/* 按鈕提示 */
-.tips {
-  z-index: 100000;
-}
-/* 區塊標題文字 */
-.subtitle {
-  font-size: 12px;
-  color: #d9dddd;
-  text-align: center;
-}
-.subtitle-right {
-  font-size: 12px;
-  color: #9ba3a5;
-  text-align: left;
-  font-family: 'Noto Sans TC', sans-serif;
-}
-/* h4 {
-  line-height: 2em;
-  padding-left: 1em;
-  color: #031418;
-  font-family: 'Noto Sans TC', sans-serif;
-  font-weight: bold;
-} */
-.gg {
-  float: left;
-  text-align: center;
-}
-.font-display {
-  font-family: 'Noto Sans TC', sans-serif;
-}
-.chartTitle {
-  color: #545454;
-}
-
-.date-picker {
-  float: right;
-}
-
-.card5 {
-  display: flex;
-  /* 水平置中 */
-  justify-content: center;
-  /* 垂直置中 */
-  align-content: center;
-  flex-wrap: wrap;
-}
-.card5content {
-  width: 6em;
-  float: left;
-  margin: auto;
-}
-.btn {
-  background-color: #f2f4f4;
-}
-.reset {
-  float: right;
-  margin-top: 0.5em;
-  margin-right: 0.5em;
-}
-.cardtitle {
-  line-height: 2.5em;
-  font-weight: 900;
-  color: #505f62;
-}
-
-.text-color >>> .v-text-field__slot input {
-  color: #9ba3a5;
-}
-
-.left-btn {
-  background-color: #2d2d2d;
-  width: 2.25em;
-  height: 2.25em;
-}
-
-.right-btn {
-  background-color: #f2f4f4;
-  width: 2.25em;
-  height: 2.25em;
-}
-
-.donut1 {
-  float: left;
-}
-.donut2 {
-  float: right;
-}
-/* .rectangle {
-  z-index: 99999;
-} */
 .bgimg {
   position: absolute;
-}
-
-.scroll {
-  /* width: 20px; */
-  /* height: 200px; */
-  /* overflow: auto; */
-  /* float: right; */
-  /* margin: 0 10px; */
 }
 
 .scroll4::-webkit-scrollbar {
@@ -841,15 +1129,18 @@ export default {
   color: rgba(0, 0, 0, 0.1);
 }
 
-
 // table
 // .v-data-table > .v-data-table__wrapper > table > tbody > tr > td, .v-data-table > .v-data-table__wrapper > table > tbody > tr > th, .v-data-table > .v-data-table__wrapper > table > thead > tr > td, .v-data-table > .v-data-table__wrapper > table > thead > tr > th, .v-data-table > .v-data-table__wrapper > table > tfoot > tr > td, .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
-//      padding: 0 16px; 
+//      padding: 0 16px;
 //     transition: height 0.2s cubic-bezier(0.4, 0, 0.6, 1);
 // }
 
-
 .item.data-table-select {
-       padding: 0 16px; 
+  padding: 0 16px;
+}
+
+.font_bg_color {
+  background-color: #f0f2f3;
+  font-size: 9px;
 }
 </style>
