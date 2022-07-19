@@ -30,9 +30,9 @@
         <v-divider class="mx-4"></v-divider>
         <v-card-text class="pt-2 px-4">
           <v-row class="pa-1">
-            <v-col cols="4">主頁面</v-col>
+            <v-col cols="4">主位置</v-col>
             <v-col cols="8"
-              >次頁面
+              >次位置
               <div>
                 <!-- <v-btn
                   icon
@@ -67,15 +67,15 @@
           <v-row class="pa-1">
             <v-col cols="4">
               <div class="py-1">
-                <button class="server-add-btn">
-                  <img src="/images/HardwareDistribution/add.png" />新增主分類
+                <button class="server-add-btn" test>
+                  <img src="/images/HardwareDistribution/add.png" />新增棟
                 </button>
                 <!-- <v-btn color="#9ba3a5" outlined>新增主分類</v-btn> -->
               </div>
-              <div class="py-1 server-primary" v-for="i in 10" :key="i">
+              <div class="py-1 server-primary" >
                 <v-text-field
                   class="mr-4"
-                  value="A 棟"
+                  value="S-A 棟"
                   readonly
                   dense
                   hide-details
@@ -92,14 +92,14 @@
             <v-col cols="8">
               <div class="py-1">
                 <button class="server-add-btn">
-                  <img src="/images/HardwareDistribution/add.png" />新增次分類
+                  <img src="/images/HardwareDistribution/add.png" />新增區
                 </button>
               </div>
               <div class="server-primary-flex">
                 <div class="py-1 server-primary mr-3" v-for="j in 30" :key="j">
                   <v-text-field
                     class="mr-4"
-                    :value="'A-' + j + '棟'"
+                    :value="'S-A-' + j + '區'"
                     readonly
                     dense
                     hide-details
@@ -150,22 +150,24 @@
         <v-divider class="mx-4"></v-divider>
         <v-card-text class="pt-2 px-4">
           <v-row class="pa-1">
-            <v-col cols="3">主頁面</v-col>
-            <v-col cols="9">次頁面</v-col>
+            <v-col cols="3">主位置</v-col>
+            <v-col cols="9">次位置</v-col>
           </v-row>
           <v-divider color="#4f5e62"></v-divider>
           <v-row class="pa-1">
             <v-col cols="3">
               <div class="py-1">
                 <button class="server-add-btn">
-                  <img src="/images/HardwareDistribution/add.png" />新增主分類
+                  <img src="/images/HardwareDistribution/add.png" />新增棟
                 </button>
                 <!-- <v-btn color="#9ba3a5" outlined>新增主分類</v-btn> -->
               </div>
-              <div class="py-1 server-primary" v-for="i in 10" :key="i">
+              <!-- <div class="py-1 server-primary" v-for="i in 10" :key="i"> -->
+                              <div class="py-1 server-primary">
+
                 <v-text-field
-                  class="mr-4"
-                  value="A 棟"
+                  class="mr-4 "
+                  value="C-A 棟"
                   readonly
                   dense
                   hide-details
@@ -182,7 +184,7 @@
             <v-col cols="9" class="px-0">
               <div class="py-1 camera-pages">
                 <button class="server-add-btn">
-                  <img src="/images/HardwareDistribution/add.png" />新增次分類
+                  <img src="/images/HardwareDistribution/add.png" />新增區
                 </button>
                 <Pagination
                   :totle="pagaTotle"
@@ -198,10 +200,10 @@
                 -->
               </div>
               <div class="server-primary-flex">
-                <div class="py-1 server-primary mr-3" v-for="j in 30" :key="j">
+                <div class="py-1 server-primary mr-11" v-for="j in 30" :key="j">
                   <v-text-field
                     class="mr-4"
-                    :value="'A-' + j + '棟'"
+                    :value="'C-A-' + j + '棟'"
                     readonly
                     dense
                     hide-details
