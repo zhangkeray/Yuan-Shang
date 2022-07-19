@@ -1821,7 +1821,7 @@ export default {
   pointer-events: none;
 }
 .edit_pagination.custom-pagination > button {
-  color: #4f5e62;
+  color: #4f5e62; 
   outline: 1px rgba(0, 0, 0, 0.12) solid;
   font-size: 12px;
   margin: 0px 3px;
