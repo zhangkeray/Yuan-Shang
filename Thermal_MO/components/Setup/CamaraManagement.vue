@@ -2088,7 +2088,7 @@ export default {
       // 分頁
       page: 1,
       pageCount: 0,
-      itemsPerPage: 10,
+      itemsPerPage: 12,
       // 密碼
 
       // 信箱

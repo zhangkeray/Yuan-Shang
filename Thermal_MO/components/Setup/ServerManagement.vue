@@ -1219,7 +1219,7 @@ export default {
           class: 'my-header-style',
         },
         {
-          text: '伺服器Mac位址',
+          text: '伺服器MAC位址',
           value: 'server_mac_address',
           align: 'center',
           class: 'my-header-style',
@@ -1298,7 +1298,7 @@ export default {
       // 分頁
       page: 1,
       pageCount: 0,
-      itemsPerPage: 10,
+      itemsPerPage: 12,
       // 密碼
 
       // 信箱
@@ -1853,8 +1853,9 @@ export default {
   outline: 1px #4f5e62 solid !important;
   pointer-events: none;
 }
-.edit_pagination.custom-pagination-btn-number {
+.edit_pagination.custom-pagination > .custom-pagination-btn-number {
   padding: 8px 0px !important;
-  width: 38px;
+  width: 34.4px;
+  height: 34.4px;
 }
 </style>
