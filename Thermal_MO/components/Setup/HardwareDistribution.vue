@@ -553,6 +553,8 @@ export default {
 
 .search .v-input__slot .v-label {
   font-size: 14px;
+  color: rgba(0, 0, 0, 0.1);
+
   // padding: 0px 0px 0px 0px;
 }
 

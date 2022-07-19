@@ -871,11 +871,7 @@
                     <v-card-text>
                       <v-row>
                         <v-col cols="12" md="4" class="ma-0">
-                          <v-card
-                            ref="form"
-                            class="my-0 ma-0 pa-0"
-                            flat
-                          >
+                          <v-card ref="form" class="my-0 ma-0 pa-0" flat>
                             <v-row>
                               <v-col cols="12" class="d-flex pb-0">
                                 <v-img
@@ -2060,7 +2056,7 @@ export default {
           class: 'my-header-style',
         },
         {
-          text: '相機Mac位址',
+          text: '相機MAC位址',
           value: 'cam_mac_address',
           align: 'center',
           class: 'my-header-style',

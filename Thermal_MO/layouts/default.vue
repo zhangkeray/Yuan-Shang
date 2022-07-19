@@ -81,15 +81,15 @@ export default {
         {
           icon: 'mdi-floor-plan',
           title: '深度分析',
-          // to: '5',
-          to: 'DeepLearningPage',
+          to: '建置中，恕無法訪問',
+          // to: 'DeepLearningPage',
           permission: this.$auth.hasScope('user'),
         },
         {
           icon: 'mdi-table-arrow-down',
           title: '智慧報表',
-          // to: '5',
-          to: 'SmartReportsPage',
+          to: '建置中，恕無法訪問 ',
+          // to: 'SmartReportsPage',
           permission: this.$auth.hasScope('admin'),
         },
         {
@@ -113,13 +113,6 @@ export default {
           to: 'ForTesting9-6',
           permission: this.$auth.hasScope('louis'),
         },
-        {
-          icon: 'mdi-account-group-outline',
-          title: '多機畫面',
-          // to: '5',
-          to: 'MultiScreen',
-          permission: this.$auth.hasScope('admin'),
-        },
         // {
         //   icon: 'mdi-account-group-outline',
         //   title: 'API動態測試(南部)',
@@ -131,14 +124,14 @@ export default {
           title: 'API動態測試(後端)',
           // to: '5',
           to: 'ForTesting12',
-          permission: this.$auth.hasScope('admin'),
+          permission: this.$auth.hasScope('ray'),
         },
         {
           icon: 'mdi-account-group-outline',
           title: 'API靜態測試(後端)',
           // to: '5',
           to: 'ForTesting13',
-          permission: this.$auth.hasScope('admin'),
+          permission: this.$auth.hasScope('ray'),
         },
         // {
         //   icon: 'mdi-chart-bubble',

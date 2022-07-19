@@ -39,11 +39,11 @@
               相機管理
             </v-tab>
 
-            <v-tab href="#tab-5" style="font-size: 15px; justify-content: left">
+            <!-- <v-tab href="#tab-5" style="font-size: 15px; justify-content: left">
               <img class="" alt="" src="/data_scraping/data.png" width="14em" />
               <p>&nbsp;&nbsp;</p>
               伺服(測試)
-            </v-tab>
+            </v-tab> -->
 
             <v-tab-item value="tab-1">
               <no-ssr>
@@ -69,11 +69,11 @@
               </no-ssr>
             </v-tab-item>
 
-            <v-tab-item value="tab-5">
+            <!-- <v-tab-item value="tab-5">
               <no-ssr>
                 <ServerManagement2 />
               </no-ssr>
-            </v-tab-item>
+            </v-tab-item> -->
           </v-tabs>
         </v-card>
       </v-col>
@@ -86,7 +86,7 @@
 import SettingAlert from '../components/Setup/SettingAlert.vue'
 import HardwareDistribution from '../components/Setup/HardwareDistribution.vue'
 import ServerManagement from '../components/Setup/ServerManagement.vue'
-import ServerManagement2 from '../components/Setup/ServerManagement2.vue'
+// import ServerManagement2 from '../components/Setup/ServerManagement2.vue'
 
 import CamaraManagement from '../components/Setup/CamaraManagement.vue'
 
@@ -96,7 +96,7 @@ export default {
     SettingAlert,
     HardwareDistribution,
     ServerManagement,
-    ServerManagement2,
+    // ServerManagement2,
 
     CamaraManagement,
   },
