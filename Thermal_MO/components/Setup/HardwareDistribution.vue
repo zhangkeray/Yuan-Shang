@@ -198,7 +198,7 @@
                 -->
               </div>
               <div class="server-primary-flex">
-                <div class="py-1 server-primary mr-3" v-for="j in 30" :key="j">
+                <div class="py-1 server-primary mr-11" v-for="j in 30" :key="j">
                   <v-text-field
                     class="mr-4"
                     :value="'A-' + j + '棟'"
