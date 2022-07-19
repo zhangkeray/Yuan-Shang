@@ -447,7 +447,13 @@
                   </v-card>
                 </v-dialog>
                 <!-- 詳細資訊對話框 -->
-                <v-dialog v-model="dialog" max-width="1000px">
+                <!-- <v-dialog v-model="dialog" max-width="1000px"> -->
+                                        <v-menu
+                        v-model="dialog"
+                        :close-on-content-click="false"
+                        :nudge-width="1000"
+                        offset-x
+                      >
                   <!-- <template v-slot:activator="{ on }">
                     <v-btn v-on="on" outlined text color="#4f5e62">
                       <v-icon left>mdi-plus-circle-outline</v-icon>
@@ -565,7 +571,7 @@
                             <v-row>
                               <v-col cols="12" class="d-flex pb-0">
                                 <h7 class="mb-1 pl-3 pb-0 font_bg_color"
-                                  >系統編號</h7
+                                  >伺服器系統編號</h7
                                 >
                                 <v-spacer class="font_bg_color mb-1" />
                                 <h7 class="mb-1 pr-7 pb-0 font_bg_color">{{
@@ -575,7 +581,7 @@
 
                               <v-col cols="12" class="d-flex py-0">
                                 <h7 class="mb-1 pl-3 pb-0 font_bg_color"
-                                  >名稱</h7
+                                  >伺服器名稱</h7
                                 >
                                 <v-spacer class="font_bg_color mb-1" />
                                 <h7 class="mb-1 pr-7 pb-0 font_bg_color">{{
@@ -585,7 +591,7 @@
 
                               <v-col cols="12" class="d-flex py-0">
                                 <h7 class="mb-1 pl-3 pb-0 font_bg_color"
-                                  >型號</h7
+                                  >伺服器型號</h7
                                 >
                                 <v-spacer class="font_bg_color mb-1" />
                                 <h7 class="mb-1 pr-7 pb-0 font_bg_color">{{
@@ -595,7 +601,7 @@
 
                               <v-col cols="12" class="d-flex py-0">
                                 <h7 class="mb-1 pl-3 pb-0 font_bg_color"
-                                  >位置</h7
+                                  >伺服器位置</h7
                                 >
                                 <v-spacer class="font_bg_color mb-1" />
                                 <h7 class="mb-1 pr-7 pb-0 font_bg_color"
@@ -607,7 +613,7 @@
 
                               <v-col cols="12" class="d-flex py-0">
                                 <h7 class="mb-1 pl-3 pb-0 font_bg_color"
-                                  >IP位址</h7
+                                  >伺服器IP位址</h7
                                 >
                                 <v-spacer class="font_bg_color mb-1" />
                                 <h7 class="mb-1 pr-7 pb-0 font_bg_color">{{
@@ -617,7 +623,7 @@
 
                               <v-col cols="12" class="d-flex py-0">
                                 <h7 class="mb-1 pl-3 pb-0 font_bg_color"
-                                  >MAC位址</h7
+                                  >伺服器Mac位址</h7
                                 >
                                 <v-spacer class="font_bg_color mb-1" />
                                 <h7 class="mb-1 pr-7 pb-0 font_bg_color">{{
@@ -641,7 +647,7 @@
                                     >
                                       <v-col cols="12" class="d-flex py-0 pt-1">
                                         <h7 class="pl-0 font_bg_color"
-                                          >硬碟使用量</h7
+                                          >伺服器硬碟使用量</h7
                                         >
                                         <v-spacer class="font_bg_color mb-1" />
                                         <h7
@@ -745,7 +751,7 @@
                                     >
                                       <v-col cols="12" class="d-flex py-0 pt-1">
                                         <h7 class="mb-1 pl-0 pb-0 font_bg_color"
-                                          >狀態</h7
+                                          >伺服器狀態</h7
                                         >
                                         <v-spacer class="font_bg_color mb-1" />
                                         <h7
@@ -953,7 +959,8 @@
                       </v-row>
                     </v-card-text>
                   </v-card>
-                </v-dialog>
+                <!-- </v-dialog> -->
+                                        </v-menu>
               </div>
             </v-col>
             <v-col cols="12" md="12" class="pb-0 pt-1 my-0 pr-0">
