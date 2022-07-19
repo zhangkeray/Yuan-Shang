@@ -916,7 +916,7 @@
                 max-width="95px"
                 rounded
               >
-                <span class="diago-btn-font">restart</span>
+                <span class="diago-btn-font">reset</span>
               </v-btn>
             </div>
           </v-card-text>

@@ -115,10 +115,10 @@ export default {
         },
         {
           icon: 'mdi-account-group-outline',
-          title: '多機畫面',
+          title: '雲台',
           // to: '5',
-          to: 'MultiScreen',
-          permission: this.$auth.hasScope('admin'),
+          to: 'ForTesting9-7',
+          permission: this.$auth.hasScope('louis'),
         },
         // {
         //   icon: 'mdi-account-group-outline',

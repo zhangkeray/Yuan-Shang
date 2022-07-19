@@ -345,33 +345,52 @@
                         id="diagoHover"
                         @click="testdata()"
                       >
-                        <div
+                        <template v-if="index01 === 3">
+                          <!-- <div
                           class="ui-state-cover"
                           v-bind:class="[
                             index01 % 2 !== 0 ? 'ui-state-cover-outline' : 'ui-state-normal',
                           ]"
-                        >
-                          <img
-                            src="loadingBG.png"
-                            class="test-cramre"
-                            :id="`test-cramre${index01}`"
-                            width="100%"
-                          />
-                          <div class="ui-state-default-footer">
-                            <div class="ui-state-default-point"></div>
-                            <span>Cam-s1-55 A棟CS-01配電盤({{ index01 }})</span>
-                          </div>
-                          <div
+                        > -->
+                          <div class="ui-state-cover ui-state-normal">
+                            <img
+                              src="loadingBG.png"
+                              class="test-cramre"
+                              :id="`test-cramre${index01}`"
+                              width="100%"
+                            />
+                            <div class="ui-state-default-footer">
+                              <div class="ui-state-default-point"></div>
+                              <span
+                                >Cam-s1-55 A棟CS-01配電盤({{ index01 }})</span
+                              >
+                            </div>
+                            <!-- <div
                             v-if="index01 % 2 !== 0"
                             class="ui-state-default-alarm"
-                          >
-                            <div>
-                              <img src="/images/alarm-200.png" />超溫警報<img
-                                src="/images/alarm-200.png"
-                              />
+                          > -->
+                            <div
+                              v-if="index01 === 10000"
+                              class="ui-state-default-alarm"
+                            >
+                              <div>
+                                <img src="/images/alarm-200.png" />超溫警報<img
+                                  src="/images/alarm-200.png"
+                                />
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        </template>
+                        <template v-else>
+                          <div class="ui-state-cover ui-empty">
+                            <img
+                              src="empty.png"
+                              class="test-cramre"
+                              :id="`test-cramre${index01}`"
+                              width="100%"
+                            />
+                          </div>
+                        </template>
                       </li>
                     </ul>
                   </v-card>
@@ -948,7 +967,7 @@ export default {
       { text: '均分4分格', value: 0 },
       { text: '4分格', value: 1 },
       { text: '12分格', value: 2 },
-      { text: '24分格', value: 3 },
+      // { text: '24分格', value: 3 },
     ],
     // 標籤文字
     tabcontent: [],
@@ -1104,7 +1123,7 @@ export default {
         this.transition(1)
         this.testdata()
         // this.tab = 'tab-2'
-      }, 0)
+      }, 100)
     })
   },
   updated() {
@@ -1122,8 +1141,9 @@ export default {
       $(this)
         .find('.ui-state-cover-outline')
         .addClass('ui-state-default-alarm-outline')
-      $(this).find('.ui-state-normal')
-      .addClass('ui-state-default-normal-outline')
+      $(this)
+        .find('.ui-state-normal')
+        .addClass('ui-state-default-normal-outline')
       // 假高度
       // var flash = ['600px', '500px', '400px', '2000px']
       // $('.diago-contnet').css('height', flash[Math.floor(Math.random() * 4)])
@@ -1223,9 +1243,12 @@ export default {
       var arr3 = [
         ['/left-icons/image-mode/image-mode-thermal.png', 'Thermal'],
         ['/left-icons/image-mode/image-mode-thermal-msx.png', 'Theraml MSX'],
-        ['/left-icons/image-mode/image-mode-digital-camera.png', 'Digital Camera'],
+        [
+          '/left-icons/image-mode/image-mode-digital-camera.png',
+          'Digital Camera',
+        ],
         ['/left-icons/image-mode/image-mode-marco.png', 'Marco'],
-        ['/left-icons/image-mode/image-mode-thermal-fsx.png', 'Thermal FSX']
+        ['/left-icons/image-mode/image-mode-thermal-fsx.png', 'Thermal FSX'],
       ]
       if (mode === 'imageMode' && data === 1) {
         tmp3 = tmp3 + 1
@@ -1429,15 +1452,15 @@ export default {
         name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
       })
       this.$nextTick(function () {
-        for (var z = 0; z < output.totle; z++) {
-          const img = document.getElementById(`test-cramre${z}`)
-          img.src = 'loadingBG.png'
-          this.socket.on('data' + z, (data) => {
-            img.src = 'data:image/jpeg;base64,' + data
-            img.style.transform = 'rotate(360deg)'
-          })
-          console.log(`test-cramre${z}`)
-        }
+        // for (var z = 0; z < output.totle; z++) {
+        //   const img = document.getElementById(`test-cramre${z}`)
+        //   img.src = 'loadingBG.png'
+        //   this.socket.on('data' + z, (data) => {
+        //     img.src = 'data:image/jpeg;base64,' + data
+        //     img.style.transform = 'rotate(360deg)'
+        //   })
+        //   console.log(`test-cramre${z}`)
+        // }
         console.log('渲染完成')
       })
     },
@@ -1507,7 +1530,7 @@ export default {
   margin: 0px 0px 11px 0px;
   /* transition: outline .3s; */
 }
-#diagoHover:hover{
+#diagoHover:hover {
   outline: 3px #cccccc solid;
 }
 .dialog-close {
@@ -2027,10 +2050,10 @@ export default {
 .ui-state-default-alarm-outline {
   outline: 5px rgb(222 135 136) solid;
 }
-.ui-state-default-normal-outline{
+.ui-state-default-normal-outline {
   outline: 5px #99a1a3 solid;
 }
-.ui-state-default-normal-outline>.ui-state-default-footer{
+.ui-state-default-normal-outline > .ui-state-default-footer {
   background-color: #99a1a3;
 }
 .ui-state-default-alarm-outline > .ui-state-default-alarm {
@@ -2039,7 +2062,7 @@ export default {
   background-color: rgba(222, 135, 136, 0.67843);
   bottom: 0;
 }
-.ui-state-default-alarm-outline > .ui-state-default-alarm div{
+.ui-state-default-alarm-outline > .ui-state-default-alarm div {
   display: none !important;
 }
 .ui-state-default-alarm-outline > .ui-state-default-alarm > div {
@@ -2050,6 +2073,7 @@ export default {
 .ui-state-default-alarm-outline > .ui-state-default-alarm > div > img {
   width: 7%;
 }
+.ui-empty{}
 /* 可移動排序 (分4格) */
 .sortable4-1 {
   list-style-type: none;
