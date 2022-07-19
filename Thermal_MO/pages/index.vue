@@ -1709,7 +1709,7 @@ export default {
 }
 .diago-btn-font {
   letter-spacing: 0px;
-  color: #fff;
+  color: rgb(107, 107, 107);
 }
 /* 對話視窗 end */
 .align-items-c {
@@ -2116,7 +2116,7 @@ export default {
   font-size: 1em;
 }
 .ui-state-default:last-child .ui-state-default-footer > span {
-  font-size: 2.5em;
+  font-size: 1.2em;
 }
 .ui-state-default:last-child .ui-state-default-point {
   width: 24px;
