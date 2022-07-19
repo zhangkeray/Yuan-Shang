@@ -1452,15 +1452,17 @@ export default {
         name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
       })
       this.$nextTick(function () {
-        // for (var z = 0; z < output.totle; z++) {
-        //   const img = document.getElementById(`test-cramre${z}`)
-        //   img.src = 'loadingBG.png'
-        //   this.socket.on('data' + z, (data) => {
-        //     img.src = 'data:image/jpeg;base64,' + data
-        //     img.style.transform = 'rotate(360deg)'
-        //   })
-        //   console.log(`test-cramre${z}`)
-        // }
+        for (var z = 0; z < output.totle; z++) {
+          if (z === 3) {
+            const img = document.getElementById(`test-cramre${z}`)
+            img.src = 'loadingBG.png'
+            this.socket.on('data', (data) => {
+              img.src = 'data:image/jpeg;base64,' + data
+              img.style.transform = 'rotate(360deg)'
+            })
+            console.log(`test-cramre${z}`)
+          }
+        }
         console.log('渲染完成')
       })
     },
@@ -2073,7 +2075,8 @@ export default {
 .ui-state-default-alarm-outline > .ui-state-default-alarm > div > img {
   width: 7%;
 }
-.ui-empty{}
+.ui-empty {
+}
 /* 可移動排序 (分4格) */
 .sortable4-1 {
   list-style-type: none;
