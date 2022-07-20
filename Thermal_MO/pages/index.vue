@@ -465,10 +465,7 @@
                         ></v-checkbox>
 
                         <div class="text-center">
-                          <v-menu
-                            :close-on-content-click="false"
-                            offset-y
-                          >
+                          <v-menu :close-on-content-click="false" offset-y>
                             <!-- <v-tooltip top> -->
                             <template v-slot:activator="{ on, attrs }">
                               <v-btn
@@ -904,16 +901,19 @@ export default {
     link: [
       // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       { rel: 'stylesheet', href: '/css/jquery-ui.css' },
+      { rel: 'stylesheet', href: '/css/object.css' },
+      { rel: 'stylesheet', href: '/css/card3.css' },
+      { rel: 'stylesheet', href: 'css/details.css' },
     ],
     // script: [
-      // {
-      //   hid:'script',
-      //   src: '/js/jquery-ui.js',
-      //   type: 'text/javascript',
-      //   callback: (data)=>{
-      //     console.log(this)
-      //   }
-      // },
+    // {
+    //   hid:'script',
+    //   src: '/js/jquery-ui.js',
+    //   type: 'text/javascript',
+    //   callback: (data)=>{
+    //     console.log(this)
+    //   }
+    // },
     // ],
   },
   metaInfo() {

@@ -1639,20 +1639,20 @@ export default {
     title: '即時監控',
     link: [
       // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-      { rel: 'stylesheet', href: '/css/jquery-ui.css' },
-      { rel: 'stylesheet', href: '/css/object.css' },
-      { rel: 'stylesheet', href: '/css/card3.css' },
-      { rel: 'stylesheet', href: 'css/details.css' },
+      // { rel: 'stylesheet', href: '/css/jquery-ui.css' },
+      // { rel: 'stylesheet', href: '/css/object.css' },
+      // { rel: 'stylesheet', href: '/css/card3.css' },
+      // { rel: 'stylesheet', href: 'css/details.css' },
     ],
     script: [
-      {
-        src: '/js/jquery-ui.js',
-        type: 'text/javascript',
-      },
-      {
-        src: '/js/jquery-collision.js',
-        type: 'text/javascript',
-      },
+      // {
+      //   src: '/js/jquery-ui.js',
+      //   type: 'text/javascript',
+      // },
+      // {
+      //   src: '/js/jquery-collision.js',
+      //   type: 'text/javascript',
+      // },
       // {
       //   src: '/js/object.js',
       //   type: 'text/javascript',
