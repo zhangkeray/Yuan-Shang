@@ -906,7 +906,7 @@ export default {
       // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       { rel: 'stylesheet', href: '/css/jquery-ui.css' },
     ],
-    script: [
+    // script: [
       // {
       //   hid:'script',
       //   src: '/js/jquery-ui.js',
@@ -915,36 +915,36 @@ export default {
       //     console.log(this)
       //   }
       // },
-    ],
+    // ],
   },
-  metaInfo() {
-    return {
-      script: [
-        {
-          hid: 'extscript',
-          src: '/js/jquery-collision.js',
-        },
-        {
-          hid: 'extscript',
-          src: '/js/zoom.js',
-        },
-        {
-          hid: 'extscript',
-          src: '/js/jquery-ui.js',
-          callback: () => {
-            this.initScript()
-          },
-        },
-        // {
-        //   skip: !this.externalLoaded,
-        //   innerHTML: `
-        //     /* this is only added once external script has been loaded */
-        //     /* and e.g. window.$externalVar exists */
-        //   `,
-        // },
-      ],
-    }
-  },
+  // metaInfo() {
+  //   return {
+  //     script: [
+  //       {
+  //         hid: 'extscript',
+  //         src: '/js/jquery-collision.js',
+  //       },
+  //       {
+  //         hid: 'extscript',
+  //         src: '/js/zoom.js',
+  //       },
+  //       {
+  //         hid: 'extscript',
+  //         src: '/js/jquery-ui.js',
+  //         callback: () => {
+  //           this.initScript()
+  //         },
+  //       },
+  //       // {
+  //       //   skip: !this.externalLoaded,
+  //       //   innerHTML: `
+  //       //     /* this is only added once external script has been loaded */
+  //       //     /* and e.g. window.$externalVar exists */
+  //       //   `,
+  //       // },
+  //     ],
+  //   }
+  // },
   data: () => ({
     // tab: null,
     data: [],

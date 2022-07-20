@@ -56,9 +56,9 @@ export default {
     },
     {
       src: './plugins/vue-slick-carousel.js'
-    },
-    {
-      src: '~/plugins/jqureyui.js'
+    }, {
+      src: './plugins/jqureyui.js',
+      mode: 'client'
     },
     {
      src:  '~/plugins/vue2-datepicker.js',
