@@ -113,13 +113,13 @@ export default {
         //   to: 'ForTesting9-6',
         //   permission: this.$auth.hasScope('louis'),
         // },
-        // {
-        //   icon: 'mdi-account-group-outline',
-        //   title: '雲台',
-        //   // to: '5',
-        //   to: 'ForTesting9-7',
-        //   permission: this.$auth.hasScope('louis'),
-        // },
+        {
+          icon: 'mdi-account-group-outline',
+          title: '雲台',
+          // to: '5',
+          to: 'ForTesting9-7',
+          permission: this.$auth.hasScope('louis'),
+        },
         // {
         //   icon: 'mdi-account-group-outline',
         //   title: 'API動態測試(南部)',

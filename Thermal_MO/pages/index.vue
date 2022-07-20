@@ -466,7 +466,6 @@
 
                         <div class="text-center">
                           <v-menu
-                            v-model="menu"
                             :close-on-content-click="false"
                             offset-y
                           >
@@ -917,34 +916,34 @@ export default {
       // },
     // ],
   },
-  // metaInfo() {
-  //   return {
-  //     script: [
-  //       {
-  //         hid: 'extscript',
-  //         src: '/js/jquery-collision.js',
-  //       },
-  //       {
-  //         hid: 'extscript',
-  //         src: '/js/zoom.js',
-  //       },
-  //       {
-  //         hid: 'extscript',
-  //         src: '/js/jquery-ui.js',
-  //         callback: () => {
-  //           this.initScript()
-  //         },
-  //       },
-  //       // {
-  //       //   skip: !this.externalLoaded,
-  //       //   innerHTML: `
-  //       //     /* this is only added once external script has been loaded */
-  //       //     /* and e.g. window.$externalVar exists */
-  //       //   `,
-  //       // },
-  //     ],
-  //   }
-  // },
+  metaInfo() {
+    return {
+      script: [
+        {
+          hid: 'extscript',
+          src: '/js/jquery-collision.js',
+        },
+        {
+          hid: 'extscript',
+          src: '/js/zoom.js',
+        },
+        {
+          hid: 'extscript',
+          src: '/js/jquery-ui.js',
+          callback: () => {
+            this.initScript()
+          },
+        },
+        // {
+        //   skip: !this.externalLoaded,
+        //   innerHTML: `
+        //     /* this is only added once external script has been loaded */
+        //     /* and e.g. window.$externalVar exists */
+        //   `,
+        // },
+      ],
+    }
+  },
   data: () => ({
     // tab: null,
     data: [],
@@ -1778,6 +1777,7 @@ export default {
   color: #4f5e62;
   text-align: center;
 }
+
 .menu-top {
   /* display: flex;
   justify-content: space-between;
