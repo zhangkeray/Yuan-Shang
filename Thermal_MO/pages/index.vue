@@ -916,6 +916,7 @@ export default {
     // },
     // ],
   },
+  // 載入完成外部(第三方)插件，使用callback呼叫local 方法
   metaInfo() {
     return {
       script: [
@@ -931,6 +932,7 @@ export default {
           hid: 'extscript',
           src: '/js/jquery-ui.js',
           callback: () => {
+            this.externalLoaded = true
             this.initScript()
           },
         },
@@ -945,6 +947,7 @@ export default {
     }
   },
   data: () => ({
+    externalLoaded : false,
     // tab: null,
     data: [],
     tab: 'tab-1',
@@ -1073,7 +1076,15 @@ export default {
     ],
     diagoalarmlogDesserts: [],
   }),
-  mounted() {},
+  mounted() {
+    
+    // this.$nextTick(()=> {
+    //   console.log(this.externalLoaded)
+    // })
+    // if(this.externalLoaded){
+      // this.initScript()
+    // }
+  },
   updated() {
     // 判斷視窗該在哪個方位
     $(
@@ -1141,6 +1152,7 @@ export default {
     })
   },
   methods: {
+    // 第三方程式方法載入
     initScript() {
       // 監聽滑鼠滾輪
       var divZoom = document.getElementById('diago-tootip-photo-zoom')
@@ -1549,7 +1561,7 @@ export default {
 }
 #diagoHover {
   cursor: grab;
-  margin: 0px 0px 11px 0px;
+  /* margin: 0px 0px 11px 0px; */
   /* transition: outline .3s; */
 }
 #diagoHover:hover {
@@ -1729,7 +1741,7 @@ export default {
 }
 .diago-btn-font {
   letter-spacing: 0px;
-  color: rgb(107, 107, 107);
+  color: #fff;
 }
 /* 對話視窗 end */
 .align-items-c {
@@ -2117,7 +2129,8 @@ export default {
   width: 334px;
   height: 250px;
   background-color: rgb(150, 150, 150);
-  margin: 11px;
+  margin: 0px 0px 11px 0px;
+  /* margin: 11px; */
 }
 .ui-state-highlight:last-child {
   width: 1032px;
@@ -2130,6 +2143,7 @@ export default {
   width: 1032px;
   height: 764px;
   z-index: 9;
+  margin: 0px 0px 11px 4px !important;
   transform: translate(339px, -783px);
 }
 
@@ -2189,6 +2203,7 @@ export default {
   height: 403px;
 }
 .ui-state-default4 {
+  margin: 0px 0px 7px 0px !important;
   position: relative;
   width: 99%;
 }
@@ -2204,7 +2219,7 @@ export default {
 .sortable12 {
   list-style-type: none;
   margin: 0;
-  padding: 0 !important;
+  padding: 12px 0px 0px 0 !important;
   width: 100%;
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
@@ -2219,6 +2234,7 @@ export default {
   height: 258px;
 }
 .ui-state-default12 {
+  margin: 0px 0px 4px 0px;
   position: relative;
   width: 99%;
 }
