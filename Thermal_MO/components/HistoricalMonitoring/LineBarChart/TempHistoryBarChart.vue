@@ -879,7 +879,7 @@ export default {
             type: 'value',
             name: '(°C)',
             min: 0,
-            max: 60,
+            // max: 60,
             show: true,
             interval: 10,
             //             axisLabel: {
