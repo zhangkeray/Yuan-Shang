@@ -58,6 +58,9 @@ export default {
       src: './plugins/vue-slick-carousel.js'
     },
     {
+      src: '~/plugins/jqureyui.js'
+    },
+    {
      src:  '~/plugins/vue2-datepicker.js',
      ssr: false
     }
@@ -162,7 +165,7 @@ export default {
   },
   // 切換ip
   server: {
-    host: '192.168.0.182', // Ray
+    // host: '192.168.0.182', // Ray
     // host: '192.168.0.173', // Louis
     port: 3000,
   },

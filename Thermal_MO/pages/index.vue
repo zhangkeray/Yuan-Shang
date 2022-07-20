@@ -900,25 +900,50 @@ export default {
   components: {
     MultiScreenstand,
   },
+
   head: {
     link: [
       // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       { rel: 'stylesheet', href: '/css/jquery-ui.css' },
     ],
     script: [
-      {
-        src: '/js/jquery-ui.js',
-        type: 'text/javascript',
-      },
-      {
-        src: '/js/jquery-collision.js',
-        type: 'text/javascript',
-      },
-      {
-        src: '/js/zoom.js',
-        type: 'text/javascript',
-      },
+      // {
+      //   hid:'script',
+      //   src: '/js/jquery-ui.js',
+      //   type: 'text/javascript',
+      //   callback: (data)=>{
+      //     console.log(this)
+      //   }
+      // },
     ],
+  },
+  metaInfo() {
+    return {
+      script: [
+        {
+          hid: 'extscript',
+          src: '/js/jquery-collision.js',
+        },
+        {
+          hid: 'extscript',
+          src: '/js/zoom.js',
+        },
+        {
+          hid: 'extscript',
+          src: '/js/jquery-ui.js',
+          callback: () => {
+            this.initScript()
+          },
+        },
+        // {
+        //   skip: !this.externalLoaded,
+        //   innerHTML: `
+        //     /* this is only added once external script has been loaded */
+        //     /* and e.g. window.$externalVar exists */
+        //   `,
+        // },
+      ],
+    }
   },
   data: () => ({
     // tab: null,
@@ -1049,83 +1074,7 @@ export default {
     ],
     diagoalarmlogDesserts: [],
   }),
-
-  mounted() {
-    // 監聽滑鼠滾輪
-    var divZoom = document.getElementById('diago-tootip-photo-zoom')
-    // console.log(divZoom)
-    divZoom.addEventListener(
-      'mousewheel',
-      (e) => {
-        e = e || window.event
-        // console.log(e)
-        if (e.wheelDelta <= 0 || e.detail > 0) {
-          console.log('down')
-          this.zoom(0)
-        } else {
-          console.log('up')
-          this.zoom(1)
-        }
-      },
-      false
-    )
-    // function MouseWheel(e) {
-    //   e = e || window.event
-    //   if (e.wheelDelta <= 0 || e.detail > 0) {
-    //     this.zoom('0')
-    //   } else {
-    //     this.zoom('1')
-    //   }
-    // }
-    // 排序
-    this.$nextTick(() => {
-      setTimeout(() => {
-        $(function () {
-          $('#sortable').sortable({
-            placeholder: 'ui-state-highlight',
-            cursor: 'grabbing',
-            // revert: true
-          })
-          $('#sortable').disableSelection()
-        })
-        // 預覽小視窗放大縮小
-        $('.diago-tootip-img')
-          .resizable({
-            // aspectRatio: 3.8 / 3.1,
-            handles: 'all',
-            aspectRatio: 4 / 3,
-            minWidth: 380,
-            maxWidth: 1150,
-            // containment: '.cover-bg',
-          })
-          .draggable({
-            handle: '.diago-tootip-head',
-            containment: '.cover-bg',
-            // containment: '.cover-bg',
-          })
-        $('.diago-tootip-photo').customZoom({
-          cover: '.diago-tootip-photo-zoom', // 指定放大哪個元素
-        })
-        // 對話視窗
-        // $('.custom-dialog').draggable({
-        //   start: () => {
-        //     $('.custom-dialog').css('opacity', '0.9')
-        //     $('.custom-dialog').css('transition', 'all 0s')
-        //   },
-        //   stop: () => {
-        //     $('.custom-dialog').css('opacity', '1')
-        //     $('.custom-dialog').css('transition', 'all 0.1s')
-        //   },
-        //   handle: '.draggable-bar',
-        //   cursor: 'grabbing',
-        //   containment: 'parent',
-        // })
-        this.transition(1)
-        this.testdata()
-        // this.tab = 'tab-2'
-      }, 100)
-    })
-  },
+  mounted() {},
   updated() {
     // 判斷視窗該在哪個方位
     $(
@@ -1193,6 +1142,78 @@ export default {
     })
   },
   methods: {
+    initScript() {
+      // 監聽滑鼠滾輪
+      var divZoom = document.getElementById('diago-tootip-photo-zoom')
+      // console.log(divZoom)
+      divZoom.addEventListener(
+        'mousewheel',
+        (e) => {
+          e = e || window.event
+          // console.log(e)
+          if (e.wheelDelta <= 0 || e.detail > 0) {
+            console.log('down')
+            this.zoom(0)
+          } else {
+            console.log('up')
+            this.zoom(1)
+          }
+        },
+        false
+      )
+      // function MouseWheel(e) {
+      //   e = e || window.event
+      //   if (e.wheelDelta <= 0 || e.detail > 0) {
+      //     this.zoom('0')
+      //   } else {
+      //     this.zoom('1')
+      //   }
+      // }
+      // 排序
+      $(function () {
+        $('#sortable').sortable({
+          placeholder: 'ui-state-highlight',
+          cursor: 'grabbing',
+          // revert: true
+        })
+        $('#sortable').disableSelection()
+      })
+      // 預覽小視窗放大縮小
+      $('.diago-tootip-img')
+        .resizable({
+          // aspectRatio: 3.8 / 3.1,
+          handles: 'all',
+          aspectRatio: 4 / 3,
+          minWidth: 380,
+          maxWidth: 1150,
+          // containment: '.cover-bg',
+        })
+        .draggable({
+          handle: '.diago-tootip-head',
+          containment: '.cover-bg',
+          // containment: '.cover-bg',
+        })
+      $('.diago-tootip-photo').customZoom({
+        cover: '.diago-tootip-photo-zoom', // 指定放大哪個元素
+      })
+      // 對話視窗
+      // $('.custom-dialog').draggable({
+      //   start: () => {
+      //     $('.custom-dialog').css('opacity', '0.9')
+      //     $('.custom-dialog').css('transition', 'all 0s')
+      //   },
+      //   stop: () => {
+      //     $('.custom-dialog').css('opacity', '1')
+      //     $('.custom-dialog').css('transition', 'all 0.1s')
+      //   },
+      //   handle: '.draggable-bar',
+      //   cursor: 'grabbing',
+      //   containment: 'parent',
+      // })
+      this.transition(1)
+      this.testdata()
+      // this.tab = 'tab-2'
+    },
     // 畫面設定
     screenseting(data, mode) {
       // 輪播
