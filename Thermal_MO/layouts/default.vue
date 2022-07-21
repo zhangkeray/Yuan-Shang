@@ -117,7 +117,7 @@ export default {
           icon: 'mdi-account-group-outline',
           title: '雲台',
           // to: '5',
-          to: 'ForTesting9-7',
+          to: 'ForTesting9-5',
           permission: this.$auth.hasScope('louis'),
         },
         // {

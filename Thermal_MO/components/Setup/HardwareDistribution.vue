@@ -188,7 +188,7 @@
                 </button>
                 <Pagination
                   :totle="pagaTotle"
-                  width="477px"
+                  width="506px"
                   @toggle="setPage"
                   pagClass="asdas"
                 />
@@ -227,7 +227,7 @@
   </v-row>
 </template>
 <script>
-import Pagination from '../Pagination/CustomPagination.vue'
+import Pagination from '../Pagination/OmitPagination.vue'
 export default {
   components: {
     Pagination,
