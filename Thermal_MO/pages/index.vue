@@ -82,9 +82,9 @@
                             :content="item.item"
                             overlap
                             color="#828C8F"
-                            class="my-3"
+                            class="my-2"
                             bordered
-                            ><v-btn icon class="right-btn" width="28px"
+                            ><v-btn icon class="right-btn alarm-btn-icon"
                               ><img
                                 class=""
                                 alt=""
@@ -93,12 +93,12 @@
                           ></v-badge>
                         </template>
                         <template v-slot:[`item.setting`]="{ item }">
-                          <v-btn color="" icon class="right-btn" width="28px"
+                          <v-btn color="" icon class="right-btn alert-off-cu"
                             ><img
                               :class="item"
                               alt=""
-                              src="/right-icons/alert-on.png"
-                              width="18px"
+                              src="/right-icons/alert-fff.png"
+                              width="15px"
                               depressed
                             />
                             <!-- <img
@@ -149,9 +149,9 @@
                             :content="item.item"
                             overlap
                             color="#828C8F"
-                            class="my-3"
+                            class="my-2"
                             bordered
-                            ><v-btn icon class="right-btn" width="28px"
+                            ><v-btn icon class="right-btn alarm-btn-icon"
                               ><img
                                 class=""
                                 alt=""
@@ -955,7 +955,7 @@ export default {
     }
   },
   data: () => ({
-    socket:[],
+    socket: [],
     externalLoaded: false,
     // tab: null,
     data: [],
@@ -1532,7 +1532,7 @@ export default {
           })
           tmpsocket.push(socket)
         }
-        this.socket = tmpsocket 
+        this.socket = tmpsocket
         console.log('渲染完成')
       })
     },
@@ -1668,7 +1668,7 @@ export default {
   border: 1px #d7dbdb solid;
   border-radius: 3px;
   padding: 5px;
-  max-height: 289px;
+  max-height: 276px;
   overflow-y: scroll;
 }
 .diago-border2 {
@@ -1702,6 +1702,11 @@ export default {
   box-shadow: 0px 0px 8px 4px rgb(108 108 108 / 27%);
   border-radius: 3px;
 }
+.alert-off-cu {
+  width: 28px !important;
+  height: 28px !important;
+  background-color: #D7DBDB;
+}
 .diago-tootip-close {
   width: 30px;
 }
@@ -1717,6 +1722,11 @@ export default {
   box-shadow: 1px -8px 6px 0px rgb(108 108 108 / 27%);
   z-index: 99;
   cursor: all-scroll;
+}
+.alarm-btn-icon {
+  width: 28px !important;
+  height: 28px !important;
+  background-color: #f2f4f4;
 }
 .diago-tootip-title {
   font-weight: bold;

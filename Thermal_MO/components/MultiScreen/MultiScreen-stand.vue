@@ -762,6 +762,7 @@
               <v-select
                 v-model="selectList"
                 :items="cameraList"
+                :menu-props="{ bottom: true, offsetY: true }"
                 class="camSelect"
                 label="Solo field"
                 solo
@@ -936,11 +937,11 @@
         <v-row :column="$vuetify.breakpoint.mdAndDown">
           <v-col cols="12" lg="5" class="pb-0">
             <v-card class="mt-3" rounded="md" elevation="6">
-              <h4 class="cardtitle ml-3">警報設置</h4>
+              <div class="cardtitle1 ml-3">警報設置</div>
               <v-simple-table
                 id="style-3"
                 fixed-header
-                height="260px"
+                height="265px"
                 class="mx-2"
                 small
               >
@@ -1281,8 +1282,8 @@
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
 
             <v-card class="mt-3 mr-6" rounded="md" elevation="6">
-              <h4 class="cardtitle ml-3">警報紀錄</h4>
-              <v-simple-table fixed-header height="260px" class="mx-2 table2">
+              <h4 class="cardtitle1 ml-3">警報紀錄</h4>
+              <v-simple-table fixed-header height="265px" class="mx-2 table2">
                 <template #default>
                   <thead>
                     <tr>
@@ -2969,7 +2970,16 @@ export default {
   font-weight: 900;
   color: #505f62;
 }
-
+.cardtitle1 {
+  font-weight: 900;
+  color: #505f62;
+  padding-top: 8px;
+}
+.alarm-btn-icon{
+  width: 28px;
+    height: 28px;
+    background-color: #f2f4f4;
+}
 .text-color >>> .v-text-field__slot input {
   color: #9ba3a5;
 }
