@@ -353,12 +353,16 @@
                           ]"
                         > -->
                           <div class="ui-state-cover ui-state-normal">
-                            <img
+                            <!-- <img
                               src="loadingBG.png"
                               class="test-cramre"
                               :id="`test-cramre${index01}`"
                               width="100%"
-                            />
+                            /> -->
+                            <canvas
+                              class="test-cramre cam-canvas"
+                              :id="`test-cramre${index01}`"
+                            ></canvas>
                             <div class="ui-state-default-footer">
                               <div class="ui-state-default-point"></div>
                               <span
@@ -383,12 +387,16 @@
                         </template>
                         <template v-else>
                           <div class="ui-state-cover ui-empty">
-                            <img
+                            <!-- <img
                               src="empty.png"
                               class="test-cramre"
                               :id="`test-cramre${index01}`"
                               width="100%"
-                            />
+                            /> -->
+                            <canvas
+                              class="test-cramre cam-canvas"
+                              :id="`test-cramre${index01}`"
+                            ></canvas>
                           </div>
                         </template>
                       </li>
@@ -947,7 +955,8 @@ export default {
     }
   },
   data: () => ({
-    externalLoaded : false,
+    socket:[],
+    externalLoaded: false,
     // tab: null,
     data: [],
     tab: 'tab-1',
@@ -1077,13 +1086,13 @@ export default {
     diagoalarmlogDesserts: [],
   }),
   mounted() {
-    
     // this.$nextTick(()=> {
     //   console.log(this.externalLoaded)
     // })
     // if(this.externalLoaded){
-      // this.initScript()
+    // this.initScript()
     // }
+    // this.tab = 'tab-2'
   },
   updated() {
     // 判斷視窗該在哪個方位
@@ -1111,7 +1120,7 @@ export default {
       $('.custom-dialog').removeClass('dialog-close')
       var position = $(this).offset() // 取得點擊的元素座標
       var dialog = $('.custom-dialog') // 宣告互動視窗
-      var div = $(this).find('img') // 選告元素底下的圖片
+      var div = $(this).find('canvas') // 選告元素底下的圖片
       dialog.css('max-height', cover.height() + 'px')
       $('.diago-contnet-cover').css(
         'max-height',
@@ -1149,6 +1158,24 @@ export default {
       dialog.css('top', y + 'px')
       dialog.css('left', x + 'px')
       // end
+    })
+    var el = document.querySelectorAll('.cam-canvas')
+    var sum = 0
+    el.forEach(function (el) {
+      var img = new Image()
+      var ctx = el.getContext('2d')
+      img.onload = function () {
+        el.width = this.naturalWidth
+        el.height = this.naturalHeight
+        console.log(el.width)
+        ctx.drawImage(img, 0, 0, this.width, this.height)
+      }
+      if (sum === 3) {
+        img.src = '/loadingBG.png'
+      } else {
+        img.src = '/empty.png'
+      }
+      sum++
     })
   },
   methods: {
@@ -1477,24 +1504,35 @@ export default {
     },
     // 載入監視影像
     showDisplay(output) {
-      if (this.socket !== undefined) {
-        this.socket.disconnect()
+      if (this.socket.length > 0) {
+        console.log('asdasdas')
+        this.socket.forEach(function (s) {
+          s.disconnect()
+        })
       }
-      this.socket = this.$nuxtSocket({
-        name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
-      })
+      var tmpsocket = []
       this.$nextTick(function () {
         for (var z = 0; z < output.totle; z++) {
-          if (z === 3) {
-            const img = document.getElementById(`test-cramre${z}`)
-            img.src = 'loadingBG.png'
-            this.socket.on('data', (data) => {
-              img.src = 'data:image/jpeg;base64,' + data
-              img.style.transform = 'rotate(360deg)'
-            })
-            console.log(`test-cramre${z}`)
-          }
+          var socket = this.$nuxtSocket({
+            name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
+            channel: '//43ea5351-2412-45ac-ad35-f5686a594c15',
+          })
+          // if (z === 3) {
+          const canvas = document.getElementById(`test-cramre${z}`)
+          socket.on('data', (data) => {
+            var img = new Image()
+            var ctx = canvas.getContext('2d')
+            img.onload = function () {
+              canvas.width = this.naturalWidth
+              canvas.height = this.naturalHeight
+              // URL.revokeObjectURL(url)
+              ctx.drawImage(img, 0, 0, this.width, this.height)
+            }
+            img.src = 'data:image/jpeg;base64,' + data
+          })
+          tmpsocket.push(socket)
         }
+        this.socket = tmpsocket 
         console.log('渲染完成')
       })
     },
@@ -1522,7 +1560,14 @@ export default {
   background: #fff;
   height: 830px;
   padding: 16px;
-  border-radius: 0px !important;
+  border-radius: 3px !important;
+}
+.cam-canvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
 }
 /* 對話視窗 */
 .diago-contnet-cover {

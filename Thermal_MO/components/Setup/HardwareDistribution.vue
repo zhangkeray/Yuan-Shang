@@ -262,7 +262,7 @@ export default {
     server: ['A 棟', 'B 棟', 'C 棟', 'D 棟', 'E 棟', 'F 棟'],
     search: null,
     // 分頁
-    pagaTotle: 6,
+    pagaTotle: 9999,
   }),
 
   computed: {

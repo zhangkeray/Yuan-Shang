@@ -755,7 +755,10 @@
                   src="/images/arrow-right.png"
                   width="30%"
               /></v-btn>
-              <div>相機名稱</div>
+              <div class="frame-hard-cam">
+                <div class="frame-hard-cam-status"></div>
+                相機名稱
+              </div>
               <v-select
                 v-model="selectList"
                 :items="cameraList"
@@ -769,95 +772,100 @@
             </div>
             <div class="frame mt-1">
               <div id="cover" class="cover">
-                <div class="d-none" id="rtsp-status"></div>
-                <div class="d-none" id="rtsp-stay"></div>
-                <img
+                <div class="cover1">
+                  <div class="d-none" id="rtsp-status"></div>
+                  <div class="d-none" id="rtsp-stay"></div>
+                  <!-- <img
                   id="image"
-                  src="https://dummyimage.com/640x480/969696/000000&text=loading...."
-                />
-                <div
-                  :style="{
-                    top: this.reference.Y + 'px',
-                    left: this.reference.X + 'px',
-                  }"
-                  id="spot"
-                  class="spot"
-                >
-                  <img src="/images/spot_1.png" />
-                  <div class="spot-span">
-                    <div>R</div>
+                  src="/loadingBG.png"
+                /> -->
+                  <canvas id="image"></canvas>
+                  <div
+                    :style="{
+                      top: this.reference.Y + 'px',
+                      left: this.reference.X + 'px',
+                    }"
+                    id="spot"
+                    class="spot"
+                  >
+                    <img src="/images/spot_1.png" />
+                    <div class="spot-span">
+                      <div>R</div>
+                    </div>
                   </div>
-                </div>
-                <!-- 點物件 -->
-                <div
-                  v-for="(item01, index) in spots"
-                  :key="'B' + index"
-                  :style="{
-                    top: item01.spot_position.Y + 'px',
-                    left: item01.spot_position.X + 'px',
-                  }"
-                  id="spot"
-                  class="spot"
-                  v-bind:data-name="item01.spot_number"
-                >
-                  <img src="/images/spot_1.png" />
-                  <div class="spot-span">
-                    <div>{{ item01.spot_number }}</div>
+                  <!-- 點物件 -->
+                  <div
+                    v-for="(item01, index) in spots"
+                    :key="'B' + index"
+                    :style="{
+                      top: item01.spot_position.Y + 'px',
+                      left: item01.spot_position.X + 'px',
+                    }"
+                    id="spot"
+                    class="spot"
+                    v-bind:data-name="item01.spot_number"
+                  >
+                    <img src="/images/spot_1.png" />
+                    <div class="spot-span">
+                      <div>{{ item01.spot_number }}</div>
+                    </div>
                   </div>
-                </div>
-                <!-- 範圍物件 -->
-                <div
-                  v-for="(item02, index) in scopes"
-                  :key="'A' + index"
-                  :style="{
-                    top: item02.scope_position_point_LT.Y + 'px',
-                    left: item02.scope_position_point_LT.X + 'px',
-                    width: item02.scope_position_point_BR.X + 'px',
-                    height: item02.scope_position_point_BR.Y + 'px',
-                  }"
-                  id="scope"
-                  class="scope"
-                  v-bind:data-name="item02.scope_number"
-                >
-                  <div class="scope-span">
-                    <div>{{ item02.scope_number }}</div>
-                  </div>
-                  <!-- <span class="scope-test-xy-TL">X:Y:</span
+                  <!-- 範圍物件 -->
+                  <div
+                    v-for="(item02, index) in scopes"
+                    :key="'A' + index"
+                    :style="{
+                      top: item02.scope_position_point_LT.Y + 'px',
+                      left: item02.scope_position_point_LT.X + 'px',
+                      width: item02.scope_position_point_BR.X + 'px',
+                      height: item02.scope_position_point_BR.Y + 'px',
+                    }"
+                    id="scope"
+                    class="scope"
+                    v-bind:data-name="item02.scope_number"
+                  >
+                    <div class="scope-span">
+                      <div>{{ item02.scope_number }}</div>
+                    </div>
+                    <!-- <span class="scope-test-xy-TL">X:Y:</span
                   ><span class="scope-test-xy-BR">X:Y:</span> -->
-                </div>
-                <!-- 線物件 -->
-                <div
-                  v-for="(item, index) in lines"
-                  :key="'point1' + index"
-                  :style="{
-                    top: item.line_position_point_A.Y + 'px',
-                    left: item.line_position_point_A.X + 'px',
-                  }"
-                  id="pointA"
-                  :class="'point-totle ' + 'point' + (index + 1)"
-                  v-bind:data-name="item.line_number"
-                >
-                  <div class="line-span">
-                    <div>{{ item.line_number }}</div>
                   </div>
+                  <!-- 線物件 -->
+                  <div
+                    v-for="(item, index) in lines"
+                    :key="'point1' + index"
+                    :style="{
+                      top: item.line_position_point_A.Y + 'px',
+                      left: item.line_position_point_A.X + 'px',
+                    }"
+                    id="pointA"
+                    :class="'point-totle ' + 'point' + (index + 1)"
+                    v-bind:data-name="item.line_number"
+                  >
+                    <div class="line-span">
+                      <div>{{ item.line_number }}</div>
+                    </div>
+                  </div>
+                  <div
+                    v-for="(item, index) in lines"
+                    :key="'point2' + index"
+                    :style="{
+                      top: item.line_position_point_B.Y + 'px',
+                      left: item.line_position_point_B.X + 'px',
+                    }"
+                    id="pointB"
+                    :class="
+                      'point' + (index + 1) + ' point_hover' + (index + 1)
+                    "
+                    v-bind:data-name="item.line_number"
+                  ></div>
+                  <div
+                    v-for="(item, index) in lines"
+                    :key="'line' + index"
+                    :class="'line' + (index + 1)"
+                    id="line"
+                  ></div>
                 </div>
-                <div
-                  v-for="(item, index) in lines"
-                  :key="'point2' + index"
-                  :style="{
-                    top: item.line_position_point_B.Y + 'px',
-                    left: item.line_position_point_B.X + 'px',
-                  }"
-                  id="pointB"
-                  :class="'point' + (index + 1) + ' point_hover' + (index + 1)"
-                  v-bind:data-name="item.line_number"
-                ></div>
-                <div
-                  v-for="(item, index) in lines"
-                  :key="'line' + index"
-                  :class="'line' + (index + 1)"
-                  id="line"
-                ></div>
               </div>
             </div>
             <div class="frame-footer">
@@ -934,14 +942,15 @@
                 fixed-header
                 height="260px"
                 class="mx-2"
+                small
               >
                 <template #default>
                   <thead>
                     <tr>
-                      <th class="text-center">項目</th>
-                      <th class="text-center">監測溫度</th>
-                      <th class="text-center">設定警報</th>
-                      <th class="text-center">刪除</th>
+                      <th class="text-center" style="height:25px;">項目</th>
+                      <th class="text-center" style="height:25px;">監測溫度</th>
+                      <th class="text-center" style="height:25px;">設定警報</th>
+                      <th class="text-center" style="height:25px;">刪除</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -951,7 +960,7 @@
                           content="R"
                           overlap
                           color="#828C8F"
-                          class="my-4"
+                          class="my-0"
                           bordered
                           ><v-btn icon class="right-btn"
                             ><img
@@ -977,7 +986,7 @@
                           :content="item.spot_number"
                           overlap
                           color="#828C8F"
-                          class="my-4"
+                          class="my-0"
                           bordered
                           ><v-btn icon class="right-btn"
                             ><img
@@ -1050,7 +1059,7 @@
                           :content="item.scope_number"
                           overlap
                           color="#828C8F"
-                          class="my-4"
+                          class="my-0"
                           bordered
                           ><v-btn icon class="right-btn"
                             ><img
@@ -1123,7 +1132,7 @@
                           :content="item.line_number"
                           overlap
                           color="#828C8F"
-                          class="my-4"
+                          class="my-0"
                           bordered
                           ><v-btn icon class="right-btn"
                             ><img
@@ -1277,11 +1286,11 @@
                 <template #default>
                   <thead>
                     <tr>
-                      <th class="text-center alarmLogth">項目</th>
-                      <th class="text-center alarmLogth" style="">觸發時間</th>
-                      <th class="text-center alarmLogth" style="">監測溫度</th>
-                      <th class="text-center alarmLogth" style="">警報溫度</th>
-                      <th class="text-center alarmLogth" style="">開始時間</th>
+                      <th class="text-center alarmLogth" style="height:25px;">項目</th>
+                      <th class="text-center alarmLogth" style="height:25px;">觸發時間</th>
+                      <th class="text-center alarmLogth" style="height:25px;">監測溫度</th>
+                      <th class="text-center alarmLogth" style="height:25px;">警報溫度</th>
+                      <th class="text-center alarmLogth" style="height:25px;">開始時間</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1299,7 +1308,7 @@
                             :content="item.objcet.number"
                             overlap
                             color="#828C8F"
-                            class="badge my-4"
+                            class="badge my-0"
                             bordered
                           >
                             <v-btn icon class="right-btn">
@@ -1376,7 +1385,7 @@
                             :content="item.objcet.number"
                             overlap
                             color="#828C8F"
-                            class="badge my-4"
+                            class="badge my-0"
                             bordered
                           >
                             <v-btn icon class="right-btn">
@@ -1763,14 +1772,22 @@ export default {
     // use "main" socket defined in nuxt.config.js
     vm.socket = this.$nuxtSocket({
       name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
+      channel: '//43ea5351-2412-45ac-ad35-f5686a594c15',
     })
     const img = document.getElementById('image')
     const rtspstatus = document.getElementById('rtsp-status')
     const rtspstay = document.getElementById('rtsp-stay')
 
-    // connect()
-    // function connect() {
-    //   console.log(200)
+    var img1 = new Image()
+    var ctx = img.getContext('2d')
+    img1.onload = function () {
+      img.width = this.naturalWidth
+      img.height = this.naturalHeight
+      // URL.revokeObjectURL(url)
+      ctx.drawImage(img1, 0, 0, this.width, this.height)
+    }
+    img1.src = '/loadingBG.png'
+
     var stay = 0
     vm.socket.on('connect', () => {
       // rtspstatus.innerHTML = '伺服器已回應，連線已恢復正常，正在重啟程式!'
@@ -1778,8 +1795,13 @@ export default {
       vm.socket.on('data', (data) => {
         stay = 0
         rtspstatus.classList.add('d-none')
-        img.src = 'data:image/jpeg;base64,' + data
-        img.style.transform = 'rotate(360deg)'
+        img1.onload = function () {
+          img.width = this.naturalWidth
+          img.height = this.naturalHeight
+          // URL.revokeObjectURL(url)
+          ctx.drawImage(img1, 0, 0, this.width, this.height)
+        }
+        img1.src = 'data:image/jpeg;base64,' + data
       })
     })
     this.timeOutRefresh02 = setInterval(() => {
@@ -1814,7 +1836,7 @@ export default {
         //   count = 0
         // }
       }, 1000)
-      img.src = 'https://dummyimage.com/640x480/969696/000000&text=loading....'
+      img.src = '/loadingBG.png'
       rtspstatus.classList.remove('d-none')
     })
 
@@ -1891,7 +1913,7 @@ export default {
           show: true,
           selectedMode: 'multiple', // 設定顯示單一圖例的圖形，點選可切換
           right: 5,
-          top:5,
+          top: 5,
           textStyle: {
             color: '#666',
             fontSize: 9,
@@ -1901,13 +1923,13 @@ export default {
         },
         series: [
           {
-            name:'spot',
+            name: 'spot',
             data: [500, 732, 801, 134, 1590, 1130, 1020],
             type: 'line',
             smooth: true,
           },
           {
-            name:'line',
+            name: 'line',
             data: [820, 932, 901, 934, 1290, 1330, 1320],
             type: 'line',
             smooth: true,
@@ -2811,7 +2833,7 @@ export default {
   font-size: 17px;
   color: #80898c;
   display: grid;
-  grid-template-columns: 42px 69px 306px 383px;
+  grid-template-columns: 46px 93px 306px 383px;
 }
 
 .frame {
@@ -2826,19 +2848,47 @@ export default {
   justify-content: center;
 }
 .cover {
+  /* position: relative;
+  max-width: 100%;
+  width: 100%;
+  display: inline-block;
+  isolation: isolate; */
   position: relative;
   max-width: 100%;
   width: 100%;
   display: inline-block;
   isolation: isolate;
+  height: 0;
+  padding-bottom: 74.8%;
+}
+.cover1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 #image {
   width: 100%;
+  height: 100%;
   /* width: 70.5em; */
   pointer-events: none;
   /* margin-left: 2.1em; */
   /* margin-top: 2em; */
   isolation: isolate;
+}
+.frame-hard-cam {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  /* width: 106px; */
+  justify-content: space-between;
+}
+.frame-hard-cam-status {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: #8ab284;
 }
 .arrow {
   height: 23px;
@@ -3036,20 +3086,19 @@ export default {
   padding: 0px 4px;
   box-shadow: 1px 1px 5px #4c4c4c;
   pointer-events: none;
-  transition: .3s;
+  transition: 0.3s;
   width: 17px;
   height: 17px;
   text-align: center;
   border-radius: 20px;
 }
 
-.scope-span>div {
+.scope-span > div {
   position: absolute;
   top: 53%;
   left: 46%;
   transform: translate(-50%, -50%);
 }
-
 
 .scope-span.hover {
   font-size: 18px;
@@ -3090,7 +3139,7 @@ export default {
   width: 15px;
   height: 15px;
   position: absolute;
-  background-color: #051A1F;
+  background-color: #051a1f;
   border: 0.5px solid rgb(255, 255, 255);
   /* box-shadow: 1px 1px 5px #4c4c4c; */
   cursor: pointer;
@@ -3102,7 +3151,7 @@ export default {
   width: 15px;
   height: 15px;
   position: absolute;
-  background-color: #051A1F;
+  background-color: #051a1f;
   border: 0.5px solid rgb(255, 255, 255);
   /* box-shadow: 1px 1px 5px #4c4c4c; */
   cursor: pointer;
@@ -3126,11 +3175,11 @@ export default {
   font-size: 6px;
   border-radius: 20px;
   border: 1px solid #000;
-  transition: .3s;
+  transition: 0.3s;
   line-height: 1.5;
 }
 
-.line-span>div {
+.line-span > div {
   position: absolute;
   top: 53%;
   left: 46%;
@@ -3165,7 +3214,7 @@ export default {
   z-index: 2;
 }
 
-.spot>img {
+.spot > img {
   max-width: 100%;
 }
 
@@ -3185,11 +3234,11 @@ export default {
   font-size: 6px;
   border-radius: 20px;
   border: 1px solid #000;
-  transition: .3s;
+  transition: 0.3s;
   line-height: 1.5;
 }
 
-.spot-span>div {
+.spot-span > div {
   position: absolute;
   top: 53%;
   left: 46%;
@@ -3211,7 +3260,6 @@ export default {
 }
 
 .point-hover {
-  background-color: #37484C !important;
+  background-color: #37484c !important;
 }
-
 </style>
