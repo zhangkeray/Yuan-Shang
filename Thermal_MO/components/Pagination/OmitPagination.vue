@@ -113,9 +113,11 @@ export default {
           tmp2 = Math.abs(totle - setpage - 2)
         }
         // if (i > setpage - (3 + tmp2) && i < setpage + (3 + tmp1)) {
-        if (setpage > 3 && te === true) {
+        if (setpage > 3 && te === true && totle > 5) {
           arr.push([1, 0])
-          arr.push(['...', 2])
+          if (totle > 6) {
+            arr.push(['...', 2])
+          }
           te = false
         }
         if (i > setpage - (3 + tmp2) && i < setpage + (3 + tmp1)) {
@@ -129,8 +131,10 @@ export default {
           }
         }
       }
-      if (setpage < totle - 2 && te1 === true) {
-        arr.push(['...', 2])
+      if (setpage < totle - 2 && te1 === true && totle > 5) {
+        if (totle > 6) {
+          arr.push(['...', 2])
+        }
         arr.push([totle, 0])
         te1 = false
       }
