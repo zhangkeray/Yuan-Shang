@@ -67,15 +67,19 @@
                         disable-pagination
                         hide-default-header
                         hide-default-footer
+                        height="240px"
+                        class="diago-cus"
                       >
                         <template v-slot:header="{ props }">
-                          <th
-                            v-for="(head, idx) in props.headers"
-                            :key="idx"
-                            class="diago-table-title"
-                          >
-                            {{ head.text.toUpperCase() }}
-                          </th>
+                          <thead class="custom-thead">
+                            <th
+                              v-for="(head, idx) in props.headers"
+                              :key="idx"
+                              class="diago-table-title"
+                            >
+                              {{ head.text.toUpperCase() }}
+                            </th>
+                          </thead>
                         </template>
                         <template v-slot:[`item.item`]="{ item }">
                           <v-badge
@@ -134,15 +138,19 @@
                         disable-pagination
                         hide-default-header
                         hide-default-footer
+                        height="240px"
+                        class="diago-cus"
                       >
                         <template v-slot:header="{ props }">
-                          <th
-                            v-for="(head1, idz) in props.headers"
-                            :key="idz"
-                            class="diago-table-title"
-                          >
-                            {{ head1.text.toUpperCase() }}
-                          </th>
+                          <thead class="custom-thead">
+                            <th
+                              v-for="(head1, idz) in props.headers"
+                              :key="idz"
+                              class="diago-table-title"
+                            >
+                              {{ head1.text.toUpperCase() }}
+                            </th>
+                          </thead>
                         </template>
                         <template v-slot:[`item.item`]="{ item }">
                           <v-badge
@@ -761,17 +769,7 @@
                                     :key="ieq"
                                     class="my-1"
                                   >
-                                    <div
-                                      v-if="ieq < 3"
-                                      class="Alert-background1"
-                                    >
-                                      <span class="Alert-font px-5"
-                                        >2022/07/27 03:11 Cam-s1-58 區域{{
-                                          ieq
-                                        }}</span
-                                      >
-                                    </div>
-                                    <div v-else class="Alert-background">
+                                    <div class="Alert-background">
                                       <span class="Alert-font px-5"
                                         >2022/07/27 03:11 Cam-s1-58 區域{{
                                           ieq
@@ -1669,7 +1667,6 @@ export default {
   border-radius: 3px;
   padding: 5px;
   max-height: 276px;
-  overflow-y: scroll;
 }
 .diago-border2 {
   border: 1px #d7dbdb solid;
@@ -1679,6 +1676,12 @@ export default {
 .diago-title {
   color: #4f5e62;
   font-weight: bold;
+}
+.custom-thead {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 999;
 }
 .diago-table-title {
   color: #4f5e62;
@@ -1705,7 +1708,7 @@ export default {
 .alert-off-cu {
   width: 28px !important;
   height: 28px !important;
-  background-color: #D7DBDB;
+  background-color: #d7dbdb;
 }
 .diago-tootip-close {
   width: 30px;
@@ -1734,6 +1737,9 @@ export default {
 }
 .diago-tootip-photo {
   padding: 10px;
+}
+.diago-cus>div{
+  overflow-y:scroll !important;
 }
 .diago-tootip-photo > img {
   opacity: 0;
