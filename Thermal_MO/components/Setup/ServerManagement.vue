@@ -1035,7 +1035,7 @@
                       type="number"
                       dense
                       min="-1"
-                      max="10"
+                      max="12"
                       class="item_per_page"
                       @input="itemsPerPage = parseInt($event, 10)"
                       style="margin-top: 5px; position: relative"
@@ -1344,7 +1344,7 @@ export default {
     },
     // 允許使用之變色
     getGreenColor() {
-      return '#69c585'
+      return '#8AB284'
     },
     getRedColor() {
       return '#e89595'

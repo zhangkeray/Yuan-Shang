@@ -65,7 +65,7 @@
           </v-row>
           <v-divider color="#4f5e62"></v-divider>
           <v-row class="pa-1">
-            <v-col cols="4">
+            <v-col cols="3">
               <div class="py-1">
                 <button class="server-add-btn" test>
                   <img src="/images/HardwareDistribution/add.png" />新增棟
@@ -89,17 +89,29 @@
                 </div>
               </div>
             </v-col>
-            <v-col cols="8">
-              <div class="py-1">
+            <v-col cols="9" class="px-0">
+              <div class="py-1 camera-pages">
                 <button class="server-add-btn">
                   <img src="/images/HardwareDistribution/add.png" />新增區
                 </button>
+                <Pagination
+                  :totle="pagaTotle"
+                  width="477px"
+                  @toggle="setPage"
+                  pagClass="asdas"
+                />
+                <!-- 
+                  1.totle=總分頁數 
+                  2.@toggle=回傳目前選擇的分頁 
+                  3.width=總寬度 
+                  4.pagClass = 如果要覆蓋分頁按鈕style，請自行使用此參數，加上自訂class
+                -->
               </div>
               <div class="server-primary-flex">
-                <div class="py-1 server-primary mr-3" v-for="j in 30" :key="j">
+                <div class="py-1 server-primary mr-11" v-for="j in 30" :key="j">
                   <v-text-field
                     class="mr-4"
-                    :value="'S-A-' + j + '區'"
+                    :value="'S-A-' + j + '棟'"
                     readonly
                     dense
                     hide-details

@@ -16,7 +16,7 @@
                     outlined
                     ref=""
                     :items="repeat_transmission"
-                    placeholder="主分類"
+                    placeholder="主位置"
                     hide-details
                     :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
@@ -26,7 +26,7 @@
                     outlined
                     ref=""
                     :items="repeat_transmission"
-                    placeholder="次分類"
+                    placeholder="次位置"
                     hide-details
                     :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
@@ -44,81 +44,1725 @@
                 </div>
                 <v-spacer />
 
-                <v-dialog v-model="dialog" max-width="700px">
+                <!-- 新增相機對話框 -->
+                <v-dialog v-model="dialogForAddCam" max-width="720px">
                   <template v-slot:activator="{ on }">
-                    <v-btn color="#4f5e62" v-on="on" outlined text>
-                      <v-icon small>mdi-plus-circle-outline</v-icon>
+                    <v-btn v-on="on" outlined text color="#4f5e62">
+                      <v-icon left>mdi-plus-circle-outline</v-icon>
                       <h5>新增相機</h5>
                     </v-btn>
                   </template>
 
+                  <!-- <template v-slot:activator="{ item }">
+                    <v-btn @click="showEditDialogForAddCam(item)"  outlined text color="#4f5e62">
+                      <v-icon left >mdi-plus-circle-outline</v-icon>
+                      <h5>新增相機</h5>
+                    </v-btn>
+                  </template> -->
+
                   <v-card>
-                    <v-card-title>
-                      <span v-if="editedItem.id">伺服器詳細資訊</span>
-                      <span v-else>新增</span>
+                    <v-btn
+                      x-small
+                      color=""
+                      icon
+                      @click="dialogForAddCam = false"
+                      style="
+                        color: #4f5e62;
+                        margin-top: 5px;
+                        margin-left: 5px;
+                        border: 1px solid rgba(0, 0, 0, 0.1);
+                      "
+                      ><v-icon small>mdi-close</v-icon></v-btn
+                    >
+                    <v-card-title class="py-0">
+                      <h5>相機資訊</h5>
                     </v-card-title>
                     <v-card-text>
                       <v-row>
-                        <v-col cols="12" md="6" class="pa-0 ma-0">
-                          <v-row>
-                            <v-col cols="12" md="5">
-                              <h7 class="py-0 pl-12 pa-0">名稱</h7>
-                            </v-col>
-                            <v-col cols="12" md="7">
-                              <h7>{{ editedItem.system_number }}</h7>
-                            </v-col>
-                            <v-col cols="12" md="5">
-                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                            </v-col>
-                            <v-col cols="12" md="7">
-                              <h7>{{ editedItem.system_number }}</h7>
-                            </v-col>
-                            <v-col cols="12" md="5">
-                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                            </v-col>
-                            <v-col cols="12" md="7">
-                              <h7>{{ editedItem.system_number }}</h7>
-                            </v-col>
-                            <v-col cols="12" md="5">
-                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                            </v-col>
-                            <v-col cols="12" md="7">
-                              <h7>{{ editedItem.system_number }}</h7>
-                            </v-col>
+                        <v-col cols="12" md="12" class="ma-0 pb-0">
+                          <v-card
+                            ref="form"
+                            class="my-0 ma-0 py-4 pl-3 pr-1"
+                            flat
+                            outlined
+                          >
+                            <v-row>
+                              <v-col cols="6" class="d-flex pb-0">
+                                <h7 class="mb-1 pb-0 font">系統編號</h7>
+                                <v-spacer class="font mb-1 pb-0" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-text-field
+                                    outlined
+                                    hide-details
+                                    v-model="editedItem.cam_system_number"
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input pr-3"
+                                    disabled
+                                  ></v-text-field>
+                                </div>
+                              </v-col>
 
-                            <v-col cols="12" md="5">
-                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                            </v-col>
-                            <v-col cols="12" md="7">
-                              <h7>{{ editedItem.system_number }}</h7>
-                            </v-col>
-                            <v-col cols="12" md="5">
-                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                            </v-col>
-                            <v-col cols="12" md="7">
-                              <h7>{{ editedItem.system_number }}</h7>
-                            </v-col>
-                            <v-col cols="12" md="5">
-                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                            </v-col>
-                            <v-col cols="12" md="7">
-                              <h7>{{ editedItem.system_number }}</h7>
-                            </v-col>
-                            <v-col cols="12" md="5">
-                              <h7 class="py-0 pl-12 pa-0">系統編號</h7>
-                            </v-col>
-                            <v-col cols="12" md="7">
-                              <h7>{{ editedItem.system_number }}</h7>
-                            </v-col>
-                          </v-row>
+                              <v-col cols="6" class="d-flex pb-0">
+                                <h7 class="mb-1 pb-0 font">名稱</h7>
+                                <v-spacer class="font mb-1" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-text-field
+                                    outlined
+                                    hide-details
+                                    v-model="editedItem.cam_name"
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input pr-3"
+                                    disabled
+                                  ></v-text-field>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="mb-1 pb-0 font">版本</h7>
+                                <v-spacer class="font mb-1 pb-0" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-text-field
+                                    outlined
+                                    hide-details
+                                    v-model="editedItem.cam_version"
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input pr-3"
+                                    disabled
+                                  ></v-text-field>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="mb-1 pb-0 font">品牌</h7>
+                                <v-spacer class="font mb-1" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-text-field
+                                    outlined
+                                    hide-details
+                                    v-model="editedItem.cam_brand"
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input pr-3"
+                                    disabled
+                                  ></v-text-field>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="mb-1 pb-0 font">型號</h7>
+                                <v-spacer class="font mb-1" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-select
+                                    class="tiny_input_select pr-3"
+                                    dense
+                                    outlined
+                                    ref=""
+                                    hide-details
+                                    :menu-props="{
+                                      bottom: true,
+                                      offsetY: true,
+                                    }"
+                                  ></v-select>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="mb-1 pb-0 font"></h7>
+                                <v-spacer class="font mb-1" />
+                                <div cols="12" class="d-flex pb-0"></div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="mb-1 pb-0 font">位置</h7>
+                                <v-spacer class="font mb-1" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <!-- <v-text-field
+                                    outlined
+                                    hide-details
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input"
+                                  ></v-text-field> -->
+
+                                  <v-radio-group
+                                    v-model="radio"
+                                    mandatory
+                                    dense
+                                    class="small-radio px-0 pr-3"
+                                  >
+                                    <div class="d-flex">
+                                      <v-radio
+                                        label="當前位置 "
+                                        value="radio-1"
+                                        color="#4f5e62"
+                                        class="small-radio pa-0"
+                                      ></v-radio>
+                                      <!-- <h7 class="mb-1 pb-0 font"
+                                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{
+                                          editedItem.server_main_position
+                                        }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;棟/&nbsp;&nbsp;&nbsp;{{
+                                          editedItem.server_secondary_position
+                                        }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;區</h7
+                                      > -->
+                                      <v-text-field
+                                        outlined
+                                        hide-details
+                                        v-model="editedItem.cam_main_position"
+                                        dense
+                                        color="#4f5e62"
+                                        style="color: #4f5e62"
+                                        class="most_tiny_input_select ml-3"
+                                        disabled
+                                      ></v-text-field>
+                                      <h7 class="mb-1 pb-0 font"></h7>
+                                      <v-text-field
+                                        outlined
+                                        hide-details
+                                        v-model="
+                                          editedItem.cam_secondary_position
+                                        "
+                                        dense
+                                        color="#4f5e62"
+                                        style="color: #4f5e62"
+                                        class="most_tiny_input_select"
+                                        disabled
+                                      ></v-text-field>
+                                      <h7
+                                        class="mb-1 pb-0 font"
+                                        style="color: #4f5e62"
+                                      ></h7>
+                                    </div>
+                                    <div class="d-flex">
+                                      <v-radio
+                                        label="其他位置"
+                                        value="radio-2"
+                                        color="#4f5e62"
+                                        class="small-radio pa-0"
+                                      ></v-radio>
+                                      <v-select
+                                        class="most_tiny_input_select ml-3"
+                                        dense
+                                        outlined
+                                        ref=""
+                                        hide-details
+                                        :menu-props="{
+                                          bottom: true,
+                                          offsetY: true,
+                                        }"
+                                      ></v-select>
+                                      <h7 class="mb-1 pb-0 font"></h7>
+                                      <v-select
+                                        class="most_tiny_input_select"
+                                        dense
+                                        outlined
+                                        ref=""
+                                        hide-details
+                                        :menu-props="{
+                                          bottom: true,
+                                          offsetY: true,
+                                        }"
+                                      ></v-select>
+                                      <h7
+                                        class="mb-1 pb-0 font"
+                                        style="color: #4f5e62"
+                                      ></h7>
+                                    </div>
+                                  </v-radio-group>
+                                </div>
+                              </v-col>
+                              <!-- 連接伺服主機 -->
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="mb-1 pb-0 font">連接伺服主機</h7>
+                                <v-spacer class="font mb-1" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <!-- <v-text-field
+                                    outlined
+                                    hide-details
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input"
+                                  ></v-text-field> -->
+
+                                  <v-radio-group
+                                    v-model="radio"
+                                    mandatory
+                                    dense
+                                    class="small-radio px-0 pr-3"
+                                  >
+                                    <div class="d-flex">
+                                      <v-radio
+                                        label="預設伺服主機"
+                                        value="radio-1"
+                                        color="#4f5e62"
+                                        class="small-radio pa-0"
+                                      ></v-radio>
+                                      <v-text-field
+                                        outlined
+                                        hide-details
+                                        v-model="editedItem.server_name"
+                                        dense
+                                        color="#4f5e62"
+                                        style="color: #4f5e62"
+                                        class="most_tiny_input_select ml-3"
+                                        disabled
+                                      ></v-text-field>
+                                    </div>
+                                    <div class="d-flex">
+                                      <v-radio
+                                        label="其他伺服主機"
+                                        value="radio-2"
+                                        color="#4f5e62"
+                                        class="small-radio pa-0"
+                                      ></v-radio>
+                                      <v-select
+                                        class="most_tiny_input_select ml-3"
+                                        dense
+                                        outlined
+                                        ref=""
+                                        hide-details
+                                        :menu-props="{
+                                          bottom: true,
+                                          offsetY: true,
+                                        }"
+                                      ></v-select>
+                                    </div>
+                                  </v-radio-group>
+                                </div>
+                              </v-col>
+                              <!-- 畫面位置 -->
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="mb-1 pb-0 font">畫面位置</h7>
+                                <v-spacer class="font mb-1" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <!-- <v-text-field
+                                    outlined
+                                    hide-details
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input"
+                                  ></v-text-field> -->
+
+                                  <v-radio-group
+                                    v-model="radio"
+                                    mandatory
+                                    dense
+                                    class="small-radio px-0 pr-3"
+                                  >
+                                    <div class="d-flex">
+                                      <v-radio
+                                        label="當前位置 "
+                                        value="radio-1"
+                                        color="#4f5e62"
+                                        class="small-radio pa-0"
+                                      ></v-radio>
+
+                                      <v-text-field
+                                        outlined
+                                        hide-details
+                                        v-model="editedItem.cam_screen_position"
+                                        dense
+                                        color="#4f5e62"
+                                        style="color: #4f5e62"
+                                        class="most_tiny_input_select ml-3"
+                                        disabled
+                                      ></v-text-field>
+                                    </div>
+                                    <div class="d-flex">
+                                      <v-radio
+                                        label="其他位置"
+                                        value="radio-2"
+                                        color="#4f5e62"
+                                        class="small-radio pa-0"
+                                      ></v-radio>
+                                      <v-select
+                                        class="most_tiny_input_select ml-3"
+                                        dense
+                                        outlined
+                                        ref=""
+                                        hide-details
+                                        :menu-props="{
+                                          bottom: true,
+                                          offsetY: true,
+                                        }"
+                                      ></v-select>
+                                    </div>
+                                  </v-radio-group>
+                                </div>
+                              </v-col>
+                              <!-- ---- -->
+
+                              <v-col cols="6" class="d-flex py-0 my-0">
+                                <h7 class="mb-0 pb-0 font">連線</h7>
+                                <v-spacer class="font my-0" />
+                                <div cols="12" class="d-flex pb-0 pt-0">
+                                  <v-radio-group
+                                    v-model="radio"
+                                    mandatory
+                                    dense
+                                    class="small-radio pa-0 my-0 pr-3"
+                                  >
+                                    <v-radio
+                                      label="ON"
+                                      value="radio-1"
+                                      color="#4f5e62"
+                                      class="small-radio pa-0 my-0"
+                                    ></v-radio>
+                                    <v-radio
+                                      label="OFF"
+                                      value="radio-2"
+                                      color="#4f5e62"
+                                      class="small-radio pa-0 my-0"
+                                    ></v-radio>
+                                  </v-radio-group>
+                                </div>
+                              </v-col>
+                            </v-row>
+                          </v-card>
                         </v-col>
                       </v-row>
                     </v-card-text>
-                    <v-spacer></v-spacer>
-                    <v-btn color="" text @click="showEditDialog()">取消</v-btn>
-                    <v-btn color="" text @click="saveItem(editedItem)"
-                      >儲存</v-btn
+                    <v-card-title class="py-0">
+                      <h5>登入位置</h5>
+                    </v-card-title>
+                    <v-card-text>
+                      <v-row>
+                        <v-col cols="12" md="12" class="pb-0">
+                          <v-card
+                            ref="form"
+                            class="ma-0 py-4 pl-3 pr-1"
+                            flat
+                            outlined
+                          >
+                            <v-row>
+                              <v-col cols="6" class="d-flex pb-0">
+                                <h7 class="mb-1 pb-0 font">帳號</h7>
+                                <v-spacer class="font mb-1 pb-0" />
+
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-text-field
+                                    outlined
+                                    hide-details
+                                    value="admin"
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input pr-3"
+                                    disabled
+                                  ></v-text-field>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex pb-0">
+                                <h7 class="mb-1 pb-0 font">密碼</h7>
+                                <v-spacer class="font mb-1" />
+
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-text-field
+                                    outlined
+                                    hide-details
+                                    value="a*****"
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input pr-3"
+                                    disabled
+                                  ></v-text-field>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="mb-1 pb-0 font">位址遮罩</h7>
+                                <v-spacer class="font mb-1" />
+
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-text-field
+                                    outlined
+                                    hide-details
+                                    value="255.255.0.0"
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input pr-3"
+                                    disabled
+                                  ></v-text-field>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="mb-1 pb-0 font">IP位置</h7>
+                                <v-spacer class="font mb-1 pb-0" />
+
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-text-field
+                                    outlined
+                                    hide-details
+                                    v-model="editedItem.cam_ip"
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input pb-0 pr-3"
+                                  ></v-text-field>
+                                  <!-- <v-btn x-small icon class="ml-1 pb-0"
+                                    ><v-icon small style="padding-left: 1px"
+                                      >mdi-reload</v-icon
+                                    ></v-btn
+                                  > -->
+                                </div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="mb-0 pb-0 font">閘道器</h7>
+                                <v-spacer class="font mb-0" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-text-field
+                                    outlined
+                                    hide-details
+                                    value="192.168.0.1"
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input pr-3"
+                                    disabled
+                                  ></v-text-field>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="mb-0 pb-0 font">MAC位置</h7>
+                                <v-spacer class="font mb-0" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-text-field
+                                    outlined
+                                    hide-details
+                                    value="00:40:7F:04:F7:23"
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input pr-3"
+                                    disabled
+                                  ></v-text-field>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="my-0 py-0 font">連線</h7>
+                                <v-spacer class="font my-0" />
+                                <v-radio-group
+                                  v-model="radio"
+                                  mandatory
+                                  dense
+                                  class="small-radio"
+                                >
+                                  <div class="d-flex" style="padding-top: 2px">
+                                    <v-radio
+                                      label="DHCP"
+                                      value="radio-1"
+                                      color="#4f5e62"
+                                      class="small-radio pa-0 my-0 pr-2"
+                                    ></v-radio>
+                                    <v-radio
+                                      label="Manual"
+                                      value="radio-2"
+                                      color="#4f5e62"
+                                      class="small-radio pa-0 my-0 pr-3"
+                                    ></v-radio>
+                                  </div>
+                                </v-radio-group>
+                              </v-col>
+                            </v-row>
+                          </v-card>
+                        </v-col>
+                      </v-row>
+                    </v-card-text>
+                    <v-card-title class="py-0">
+                      <h5>相機功能</h5>
+                    </v-card-title>
+                    <v-card-text>
+                      <v-row>
+                        <v-col cols="12" md="12" class="pb-0">
+                          <v-card
+                            ref="form"
+                            class="my-0 ma-0 pt-6 pb-1 pl-3 pr-1"
+                            flat
+                            outlined
+                          >
+                            <v-row>
+                              <v-col cols="3" class="d-flex py-0 my-0">
+                                <h7 class="mb-0 pb-0 font">RTSP</h7>
+                                <v-spacer class="font mb-0" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-checkbox
+                                    label=""
+                                    value=""
+                                    dense
+                                    class="tiny_checkbox py-0 my-0"
+                                  ></v-checkbox>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="3" class="d-flex py-0">
+                                <h7 class="mb-0 pb-0 font">MODBUS</h7>
+                                <v-spacer class="font mb-0" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-checkbox
+                                    label=""
+                                    value=""
+                                    dense
+                                    class="tiny_checkbox py-0 my-0"
+                                  ></v-checkbox>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="3" class="d-flex py-0">
+                                <h7 class="mb-0 pb-0 font">ONVIF</h7>
+                                <v-spacer class="font mb-0" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-checkbox
+                                    label=""
+                                    value=""
+                                    dense
+                                    class="tiny_checkbox py-0 my-0"
+                                  ></v-checkbox>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="3" class="d-flex py-0">
+                                <h7 class="mb-0 pb-0 font">DO輸出</h7>
+                                <v-spacer class="font mb-0" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-checkbox
+                                    label=""
+                                    value=""
+                                    dense
+                                    class="tiny_checkbox py-0 my-0"
+                                  ></v-checkbox>
+                                </div>
+                              </v-col>
+                            </v-row>
+                          </v-card>
+                        </v-col>
+                      </v-row>
+                    </v-card-text>
+                    <v-card-title class="py-0">
+                      <h5>相機參數</h5>
+                    </v-card-title>
+                    <v-card-text>
+                      <v-row>
+                        <v-col cols="12" md="12" class="ma-0">
+                          <v-card
+                            ref="form"
+                            class="my-0 ma-0 pt-4 pb-1 pl-3 pr-1"
+                            flat
+                            outlined
+                          >
+                            <v-row>
+                              <v-col cols="6" class="d-flex pb-0">
+                                <h7 class="mb-1 pb-0 font">放射率</h7>
+                                <v-spacer class="font mb-1 py-0" />
+
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-text-field
+                                    outlined
+                                    hide-details
+                                    value="0.95"
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input pr-3"
+                                    disabled
+                                  ></v-text-field>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex pb-0">
+                                <h7 class="mb-1 pb-0 font">外窗穿透率</h7>
+                                <v-spacer class="font mb-1" />
+
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-text-field
+                                    outlined
+                                    hide-details
+                                    value="50%"
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input pr-3"
+                                    disabled
+                                  ></v-text-field>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="mb-1 pb-0 font">反射溫度</h7>
+                                <v-spacer class="font mb-1" />
+
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-text-field
+                                    outlined
+                                    hide-details
+                                    value="30.0°C"
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input pr-3"
+                                    disabled
+                                  ></v-text-field>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="mb-1 pb-0 font">外窗溫度</h7>
+                                <v-spacer class="font mb-1 pb-0" />
+
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-text-field
+                                    outlined
+                                    hide-details
+                                    value="30.0°C"
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input pb-0 pr-3"
+                                  ></v-text-field>
+                                  <!-- <v-btn x-small icon class="ml-1 pb-0"
+                                    ><v-icon small style="padding-left: 1px"
+                                      >mdi-reload</v-icon
+                                    ></v-btn
+                                  > -->
+                                </div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="mb-0 pb-0 font">量測距離</h7>
+                                <v-spacer class="font mb-0" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-text-field
+                                    outlined
+                                    hide-details
+                                    value="5m"
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input pr-3"
+                                    disabled
+                                  ></v-text-field>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="my-0 py-0 font">濕度</h7>
+                                <v-spacer class="font my-0" />
+                                <v-radio-group
+                                  v-model="radio"
+                                  mandatory
+                                  dense
+                                  class="small-radio"
+                                >
+                                  <div class="d-flex" style="padding-top: 2px">
+                                    <v-text-field
+                                      outlined
+                                      hide-details
+                                      value="50%"
+                                      dense
+                                      color="#4f5e62"
+                                      style="color: #4f5e62"
+                                      class="tiny_input pr-3"
+                                      disabled
+                                    ></v-text-field>
+                                  </div>
+                                </v-radio-group>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex py-0 my-0">
+                                <h7 class="mb-0 pb-0 font">自動偵測溫度</h7>
+                                <v-spacer class="font mb-0" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-checkbox
+                                    label=""
+                                    value=""
+                                    dense
+                                    class="tiny_checkbox py-0 my-0"
+                                  ></v-checkbox>
+                                </div>
+                              </v-col>
+
+                              <v-col cols="6" class="d-flex py-0">
+                                <h7 class="mb-0 pb-0 font">使用外部視窗</h7>
+                                <v-spacer class="font mb-0" />
+                                <div cols="12" class="d-flex pb-0">
+                                  <v-checkbox
+                                    label=""
+                                    value=""
+                                    dense
+                                    class="tiny_checkbox py-0 my-0"
+                                  ></v-checkbox>
+                                </div>
+                              </v-col>
+                            </v-row>
+                          </v-card>
+                        </v-col>
+                      </v-row>
+                    </v-card-text>
+                    <v-card-actions class="pt-0">
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        dark
+                        color="#4f5e62"
+                        @click="dialogForAddCam = false"
+                        small
+                        class="mb-4"
+                      >
+                        返回
+                      </v-btn>
+                      <v-btn
+                        dark
+                        color="#4f5e62"
+                        @click="dialogForAddCam = false"
+                        small
+                        class="mr-2 mb-4"
+                      >
+                        確定
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+                <!-- 詳細資訊對話框 -->
+                <v-dialog v-model="dialog" max-width="1200px">
+                  <!-- <template v-slot:activator="{ on }">
+                    <v-btn v-on="on" outlined text color="#4f5e62">
+                      <v-icon left>mdi-plus-circle-outline</v-icon>
+                      <h5>新增相機</h5>
+                    </v-btn>
+                  </template> -->
+
+                  <v-card>
+                    <v-btn
+                      x-small
+                      color=""
+                      icon
+                      @click="showEditDialog()"
+                      style="
+                        color: #4f5e62;
+                        margin-top: 5px;
+                        margin-left: 5px;
+                        border: 1px solid rgba(0, 0, 0, 0.1);
+                      "
+                      ><v-icon small>mdi-close</v-icon></v-btn
                     >
+                    <v-card-title class="pt-0">
+                      <h5>相機詳細資訊</h5>
+                      <v-spacer />
+
+                      <v-btn outlined small text color="#4f5e62">
+                        <v-icon left> mdi-lightning-bolt-circle </v-icon>
+                        連線
+                      </v-btn>
+                    </v-card-title>
+                    <v-card-text>
+                      <v-row>
+                        <v-col cols="12" md="4" class="ma-0">
+                          <v-card ref="form" class="my-0 ma-0 pa-0" flat>
+                            <v-row>
+                              <v-col cols="12" class="d-flex pb-0">
+                                <v-img
+                                  src="./HistoricalMonitoring/mockImg/tml.png"
+                                  width="300px"
+                                />
+                              </v-col>
+                              <v-col cols="12" class="d-flex pb-0">
+                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
+                                  >系統編號</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-7 pb-0 font_bg_color">{{
+                                  editedItem.cam_system_number
+                                }}</h7>
+                              </v-col>
+
+                              <v-col cols="12" class="d-flex py-0">
+                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
+                                  >名稱</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-7 pb-0 font_bg_color">{{
+                                  editedItem.cam_name
+                                }}</h7>
+                              </v-col>
+
+                              <v-col cols="12" class="d-flex py-0">
+                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
+                                  >品牌</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-7 pb-0 font_bg_color">{{
+                                  editedItem.cam_type
+                                }}</h7>
+                              </v-col>
+
+                              <v-col cols="12" class="d-flex py-0">
+                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
+                                  >型號</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-7 pb-0 font_bg_color">{{
+                                  editedItem.cam_type
+                                }}</h7>
+                              </v-col>
+
+                              <v-col cols="12" class="d-flex py-0">
+                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
+                                  >版本</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-7 pb-0 font_bg_color">{{
+                                  editedItem.cam_version
+                                }}</h7>
+                              </v-col>
+
+                              <v-col cols="12" class="d-flex py-0">
+                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
+                                  >溫度</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-7 pb-0 font_bg_color">{{
+                                  editedItem.cam_temp
+                                }}</h7>
+                              </v-col>
+
+                              <v-col cols="12" class="d-flex py-0">
+                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
+                                  >伺服器位置</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-7 pb-0 font_bg_color"
+                                  >{{ editedItem.cam_main_position }}棟/{{
+                                    editedItem.cam_secondary_position
+                                  }}區</h7
+                                >
+                              </v-col>
+
+                              <v-col cols="12" class="d-flex py-0">
+                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
+                                  >MAC位址</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-7 pb-0 font_bg_color">{{
+                                  editedItem.cam_mac_address
+                                }}</h7>
+                              </v-col>
+
+                              <v-col cols="12" class="d-flex py-0">
+                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
+                                  >上次更新時間</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-7 pb-0 font_bg_color">{{
+                                  editedItem.cam_created_time
+                                }}</h7>
+                              </v-col>
+
+                              <v-col cols="12" class="d-flex py-0 mb-2">
+                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
+                                  >主機建立時間</h7
+                                >
+                                <v-spacer class="font_bg_color mb-1" />
+                                <h7 class="mb-1 pr-7 pb-0 font_bg_color">{{
+                                  editedItem.cam_last_modified
+                                }}</h7>
+                              </v-col>
+                            </v-row>
+                          </v-card>
+                        </v-col>
+                        <v-col cols="12" md="8" class="ma-0">
+                          <v-card ref="form" class="my-0 mx-0" flat>
+                            <v-card-title class="py-0">
+                              <h5>相機資訊</h5>
+                              <v-btn icon small class="ml-1">
+                                <v-icon small>mdi-pencil</v-icon>
+                              </v-btn>
+                            </v-card-title>
+                            <v-card-text>
+                              <v-row>
+                                <v-col cols="12" md="12" class="ma-0 pb-0">
+                                  <v-card
+                                    ref="form"
+                                    class="my-0 ma-0 py-4 pl-3 pr-1"
+                                    flat
+                                    outlined
+                                  >
+                                    <v-row>
+                                      <v-col cols="6" class="d-flex pb-0">
+                                        <h7 class="mb-1 pb-0 font">系統編號</h7>
+                                        <v-spacer class="font mb-1 pb-0" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-text-field
+                                            outlined
+                                            hide-details
+                                            v-model="
+                                              editedItem.cam_system_number
+                                            "
+                                            dense
+                                            color="#4f5e62"
+                                            style="color: #4f5e62"
+                                            class="tiny_input pr-3"
+                                            disabled
+                                          ></v-text-field>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex pb-0">
+                                        <h7 class="mb-1 pb-0 font">名稱</h7>
+                                        <v-spacer class="font mb-1" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-text-field
+                                            outlined
+                                            hide-details
+                                            v-model="editedItem.cam_name"
+                                            dense
+                                            color="#4f5e62"
+                                            style="color: #4f5e62"
+                                            class="tiny_input pr-3"
+                                            disabled
+                                          ></v-text-field>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="mb-1 pb-0 font">版本</h7>
+                                        <v-spacer class="font mb-1 pb-0" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-text-field
+                                            outlined
+                                            hide-details
+                                            v-model="editedItem.cam_version"
+                                            dense
+                                            color="#4f5e62"
+                                            style="color: #4f5e62"
+                                            class="tiny_input pr-3"
+                                            disabled
+                                          ></v-text-field>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="mb-1 pb-0 font">品牌</h7>
+                                        <v-spacer class="font mb-1" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-text-field
+                                            outlined
+                                            hide-details
+                                            v-model="editedItem.cam_brand"
+                                            dense
+                                            color="#4f5e62"
+                                            style="color: #4f5e62"
+                                            class="tiny_input pr-3"
+                                            disabled
+                                          ></v-text-field>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="mb-1 pb-0 font">型號</h7>
+                                        <v-spacer class="font mb-1" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-select
+                                            class="tiny_input_select pr-3"
+                                            dense
+                                            outlined
+                                            ref=""
+                                            hide-details
+                                            :menu-props="{
+                                              bottom: true,
+                                              offsetY: true,
+                                            }"
+                                          ></v-select>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="mb-1 pb-0 font"></h7>
+                                        <v-spacer class="font mb-1" />
+                                        <div
+                                          cols="12"
+                                          class="d-flex pb-0"
+                                        ></div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="mb-1 pb-0 font">位置</h7>
+                                        <v-spacer class="font mb-1" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <!-- <v-text-field
+                                    outlined
+                                    hide-details
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input"
+                                  ></v-text-field> -->
+
+                                          <v-radio-group
+                                            v-model="radio"
+                                            mandatory
+                                            dense
+                                            class="small-radio px-0 pr-3"
+                                          >
+                                            <div class="d-flex">
+                                              <v-radio
+                                                label="當前位置 "
+                                                value="radio-1"
+                                                color="#4f5e62"
+                                                class="small-radio pa-0"
+                                              ></v-radio>
+                                              <!-- <h7 class="mb-1 pb-0 font"
+                                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{
+                                          editedItem.server_main_position
+                                        }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;棟/&nbsp;&nbsp;&nbsp;{{
+                                          editedItem.server_secondary_position
+                                        }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;區</h7
+                                      > -->
+                                              <v-text-field
+                                                outlined
+                                                hide-details
+                                                v-model="
+                                                  editedItem.cam_main_position
+                                                "
+                                                dense
+                                                color="#4f5e62"
+                                                style="color: #4f5e62"
+                                                class="most_tiny_input_select ml-3"
+                                                disabled
+                                              ></v-text-field>
+                                              <h7 class="mb-1 pb-0 font"></h7>
+                                              <v-text-field
+                                                outlined
+                                                hide-details
+                                                v-model="
+                                                  editedItem.cam_secondary_position
+                                                "
+                                                dense
+                                                color="#4f5e62"
+                                                style="color: #4f5e62"
+                                                class="most_tiny_input_select"
+                                                disabled
+                                              ></v-text-field>
+                                              <h7
+                                                class="mb-1 pb-0 font"
+                                                style="color: #4f5e62"
+                                              ></h7>
+                                            </div>
+                                            <div class="d-flex">
+                                              <v-radio
+                                                label="其他位置"
+                                                value="radio-2"
+                                                color="#4f5e62"
+                                                class="small-radio pa-0"
+                                              ></v-radio>
+                                              <v-select
+                                                class="most_tiny_input_select ml-3"
+                                                dense
+                                                outlined
+                                                ref=""
+                                                hide-details
+                                                :menu-props="{
+                                                  bottom: true,
+                                                  offsetY: true,
+                                                }"
+                                              ></v-select>
+                                              <h7 class="mb-1 pb-0 font"></h7>
+                                              <v-select
+                                                class="most_tiny_input_select"
+                                                dense
+                                                outlined
+                                                ref=""
+                                                hide-details
+                                                :menu-props="{
+                                                  bottom: true,
+                                                  offsetY: true,
+                                                }"
+                                              ></v-select>
+                                              <h7
+                                                class="mb-1 pb-0 font"
+                                                style="color: #4f5e62"
+                                              ></h7>
+                                            </div>
+                                          </v-radio-group>
+                                        </div>
+                                      </v-col>
+                                      <!-- 連接伺服主機 -->
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="mb-1 pb-0 font"
+                                          >連接伺服主機</h7
+                                        >
+                                        <v-spacer class="font mb-1" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <!-- <v-text-field
+                                    outlined
+                                    hide-details
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input"
+                                  ></v-text-field> -->
+
+                                          <v-radio-group
+                                            v-model="radio"
+                                            mandatory
+                                            dense
+                                            class="small-radio px-0 pr-3"
+                                          >
+                                            <div class="d-flex">
+                                              <v-radio
+                                                label="預設伺服主機"
+                                                value="radio-1"
+                                                color="#4f5e62"
+                                                class="small-radio pa-0"
+                                              ></v-radio>
+                                              <v-text-field
+                                                outlined
+                                                hide-details
+                                                v-model="editedItem.server_name"
+                                                dense
+                                                color="#4f5e62"
+                                                style="color: #4f5e62"
+                                                class="most_tiny_input_select ml-3"
+                                                disabled
+                                              ></v-text-field>
+                                            </div>
+                                            <div class="d-flex">
+                                              <v-radio
+                                                label="其他伺服主機"
+                                                value="radio-2"
+                                                color="#4f5e62"
+                                                class="small-radio pa-0"
+                                              ></v-radio>
+                                              <v-select
+                                                class="most_tiny_input_select ml-3"
+                                                dense
+                                                outlined
+                                                ref=""
+                                                hide-details
+                                                :menu-props="{
+                                                  bottom: true,
+                                                  offsetY: true,
+                                                }"
+                                              ></v-select>
+                                            </div>
+                                          </v-radio-group>
+                                        </div>
+                                      </v-col>
+                                      <!-- 畫面位置 -->
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="mb-1 pb-0 font">畫面位置</h7>
+                                        <v-spacer class="font mb-1" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <!-- <v-text-field
+                                    outlined
+                                    hide-details
+                                    dense
+                                    color="#4f5e62"
+                                    style="color: #4f5e62"
+                                    class="tiny_input"
+                                  ></v-text-field> -->
+
+                                          <v-radio-group
+                                            v-model="radio"
+                                            mandatory
+                                            dense
+                                            class="small-radio px-0 pr-3"
+                                          >
+                                            <div class="d-flex">
+                                              <v-radio
+                                                label="當前位置 "
+                                                value="radio-1"
+                                                color="#4f5e62"
+                                                class="small-radio pa-0"
+                                              ></v-radio>
+
+                                              <v-text-field
+                                                outlined
+                                                hide-details
+                                                v-model="
+                                                  editedItem.cam_screen_position
+                                                "
+                                                dense
+                                                color="#4f5e62"
+                                                style="color: #4f5e62"
+                                                class="most_tiny_input_select ml-3"
+                                                disabled
+                                              ></v-text-field>
+                                            </div>
+                                            <div class="d-flex">
+                                              <v-radio
+                                                label="其他位置"
+                                                value="radio-2"
+                                                color="#4f5e62"
+                                                class="small-radio pa-0"
+                                              ></v-radio>
+                                              <v-select
+                                                class="most_tiny_input_select ml-3"
+                                                dense
+                                                outlined
+                                                ref=""
+                                                hide-details
+                                                :menu-props="{
+                                                  bottom: true,
+                                                  offsetY: true,
+                                                }"
+                                              ></v-select>
+                                            </div>
+                                          </v-radio-group>
+                                        </div>
+                                      </v-col>
+                                      <!-- ---- -->
+
+                                      <v-col cols="6" class="d-flex py-0 my-0">
+                                        <h7 class="mb-0 pb-0 font">連線</h7>
+                                        <v-spacer class="font my-0" />
+                                        <div cols="12" class="d-flex pb-0 pt-0">
+                                          <v-radio-group
+                                            v-model="radio"
+                                            mandatory
+                                            dense
+                                            class="small-radio pa-0 my-0 pr-3"
+                                          >
+                                            <v-radio
+                                              label="ON"
+                                              value="radio-1"
+                                              color="#4f5e62"
+                                              class="small-radio pa-0 my-0"
+                                            ></v-radio>
+                                            <v-radio
+                                              label="OFF"
+                                              value="radio-2"
+                                              color="#4f5e62"
+                                              class="small-radio pa-0 my-0"
+                                            ></v-radio>
+                                          </v-radio-group>
+                                        </div>
+                                      </v-col>
+                                    </v-row>
+                                  </v-card>
+                                </v-col>
+                              </v-row>
+                            </v-card-text>
+                            <v-card-title class="py-0">
+                              <h5>登入位置</h5>
+                              <v-btn icon small class="ml-1">
+                                <v-icon small>mdi-pencil</v-icon>
+                              </v-btn>
+                            </v-card-title>
+                            <v-card-text>
+                              <v-row>
+                                <v-col cols="12" md="12" class="pb-0">
+                                  <v-card
+                                    ref="form"
+                                    class="ma-0 py-4 pl-3 pr-1"
+                                    flat
+                                    outlined
+                                  >
+                                    <v-row>
+                                      <v-col cols="6" class="d-flex pb-0">
+                                        <h7 class="mb-1 pb-0 font">帳號</h7>
+                                        <v-spacer class="font mb-1 pb-0" />
+
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-text-field
+                                            outlined
+                                            hide-details
+                                            value="admin"
+                                            dense
+                                            color="#4f5e62"
+                                            style="color: #4f5e62"
+                                            class="tiny_input pr-3"
+                                            disabled
+                                          ></v-text-field>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex pb-0">
+                                        <h7 class="mb-1 pb-0 font">密碼</h7>
+                                        <v-spacer class="font mb-1" />
+
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-text-field
+                                            outlined
+                                            hide-details
+                                            value="a*****"
+                                            dense
+                                            color="#4f5e62"
+                                            style="color: #4f5e62"
+                                            class="tiny_input pr-3"
+                                            disabled
+                                          ></v-text-field>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="mb-1 pb-0 font">位址遮罩</h7>
+                                        <v-spacer class="font mb-1" />
+
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-text-field
+                                            outlined
+                                            hide-details
+                                            value="255.255.0.0"
+                                            dense
+                                            color="#4f5e62"
+                                            style="color: #4f5e62"
+                                            class="tiny_input pr-3"
+                                            disabled
+                                          ></v-text-field>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="mb-1 pb-0 font">IP位置</h7>
+                                        <v-spacer class="font mb-1 pb-0" />
+
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-text-field
+                                            outlined
+                                            hide-details
+                                            v-model="editedItem.cam_ip"
+                                            dense
+                                            color="#4f5e62"
+                                            style="color: #4f5e62"
+                                            class="tiny_input pb-0 pr-3"
+                                          ></v-text-field>
+                                          <!-- <v-btn x-small icon class="ml-1 pb-0"
+                                    ><v-icon small style="padding-left: 1px"
+                                      >mdi-reload</v-icon
+                                    ></v-btn
+                                  > -->
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="mb-0 pb-0 font">閘道器</h7>
+                                        <v-spacer class="font mb-0" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-text-field
+                                            outlined
+                                            hide-details
+                                            value="192.168.0.1"
+                                            dense
+                                            color="#4f5e62"
+                                            style="color: #4f5e62"
+                                            class="tiny_input pr-3"
+                                            disabled
+                                          ></v-text-field>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="mb-0 pb-0 font">MAC位置</h7>
+                                        <v-spacer class="font mb-0" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-text-field
+                                            outlined
+                                            hide-details
+                                            value="00:40:7F:04:F7:23"
+                                            dense
+                                            color="#4f5e62"
+                                            style="color: #4f5e62"
+                                            class="tiny_input pr-3"
+                                            disabled
+                                          ></v-text-field>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="my-0 py-0 font">連線</h7>
+                                        <v-spacer class="font my-0" />
+                                        <v-radio-group
+                                          v-model="radio"
+                                          mandatory
+                                          dense
+                                          class="small-radio"
+                                        >
+                                          <div
+                                            class="d-flex"
+                                            style="padding-top: 2px"
+                                          >
+                                            <v-radio
+                                              label="DHCP"
+                                              value="radio-1"
+                                              color="#4f5e62"
+                                              class="small-radio pa-0 my-0 pr-2"
+                                            ></v-radio>
+                                            <v-radio
+                                              label="Manual"
+                                              value="radio-2"
+                                              color="#4f5e62"
+                                              class="small-radio pa-0 my-0 pr-3"
+                                            ></v-radio>
+                                          </div>
+                                        </v-radio-group>
+                                      </v-col>
+                                    </v-row>
+                                  </v-card>
+                                </v-col>
+                              </v-row>
+                            </v-card-text>
+                            <v-card-title class="py-0">
+                              <h5>相機功能</h5>
+                              <v-btn icon small class="ml-1">
+                                <v-icon small>mdi-pencil</v-icon>
+                              </v-btn>
+                            </v-card-title>
+                            <v-card-text>
+                              <v-row>
+                                <v-col cols="12" md="12" class="pb-0">
+                                  <v-card
+                                    ref="form"
+                                    class="my-0 ma-0 pt-6 pb-1 pl-3 pr-1"
+                                    flat
+                                    outlined
+                                  >
+                                    <v-row>
+                                      <v-col cols="3" class="d-flex py-0 my-0">
+                                        <h7 class="mb-0 pb-0 font">RTSP</h7>
+                                        <v-spacer class="font mb-0" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-checkbox
+                                            label=""
+                                            value=""
+                                            dense
+                                            class="tiny_checkbox py-0 my-0"
+                                          ></v-checkbox>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="3" class="d-flex py-0">
+                                        <h7 class="mb-0 pb-0 font">MODBUS</h7>
+                                        <v-spacer class="font mb-0" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-checkbox
+                                            label=""
+                                            value=""
+                                            dense
+                                            class="tiny_checkbox py-0 my-0"
+                                          ></v-checkbox>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="3" class="d-flex py-0">
+                                        <h7 class="mb-0 pb-0 font">ONVIF</h7>
+                                        <v-spacer class="font mb-0" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-checkbox
+                                            label=""
+                                            value=""
+                                            dense
+                                            class="tiny_checkbox py-0 my-0"
+                                          ></v-checkbox>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="3" class="d-flex py-0">
+                                        <h7 class="mb-0 pb-0 font">DO輸出</h7>
+                                        <v-spacer class="font mb-0" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-checkbox
+                                            label=""
+                                            value=""
+                                            dense
+                                            class="tiny_checkbox py-0 my-0"
+                                          ></v-checkbox>
+                                        </div>
+                                      </v-col>
+                                    </v-row>
+                                  </v-card>
+                                </v-col>
+                              </v-row>
+                            </v-card-text>
+                            <v-card-title class="py-0">
+                              <h5>相機參數</h5>
+                              <v-btn icon small class="ml-1">
+                                <v-icon small>mdi-pencil</v-icon>
+                              </v-btn>
+                            </v-card-title>
+                            <v-card-text>
+                              <v-row>
+                                <v-col cols="12" md="12" class="ma-0">
+                                  <v-card
+                                    ref="form"
+                                    class="my-0 ma-0 pt-4 pb-1 pl-3 pr-1"
+                                    flat
+                                    outlined
+                                  >
+                                    <v-row>
+                                      <v-col cols="6" class="d-flex pb-0">
+                                        <h7 class="mb-1 pb-0 font">放射率</h7>
+                                        <v-spacer class="font mb-1 py-0" />
+
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-text-field
+                                            outlined
+                                            hide-details
+                                            value="0.95"
+                                            dense
+                                            color="#4f5e62"
+                                            style="color: #4f5e62"
+                                            class="tiny_input pr-3"
+                                            disabled
+                                          ></v-text-field>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex pb-0">
+                                        <h7 class="mb-1 pb-0 font"
+                                          >外窗穿透率</h7
+                                        >
+                                        <v-spacer class="font mb-1" />
+
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-text-field
+                                            outlined
+                                            hide-details
+                                            value="50%"
+                                            dense
+                                            color="#4f5e62"
+                                            style="color: #4f5e62"
+                                            class="tiny_input pr-3"
+                                            disabled
+                                          ></v-text-field>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="mb-1 pb-0 font">反射溫度</h7>
+                                        <v-spacer class="font mb-1" />
+
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-text-field
+                                            outlined
+                                            hide-details
+                                            value="30.0°C"
+                                            dense
+                                            color="#4f5e62"
+                                            style="color: #4f5e62"
+                                            class="tiny_input pr-3"
+                                            disabled
+                                          ></v-text-field>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="mb-1 pb-0 font">外窗溫度</h7>
+                                        <v-spacer class="font mb-1 pb-0" />
+
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-text-field
+                                            outlined
+                                            hide-details
+                                            value="30.0°C"
+                                            dense
+                                            color="#4f5e62"
+                                            style="color: #4f5e62"
+                                            class="tiny_input pb-0 pr-3"
+                                          ></v-text-field>
+                                          <!-- <v-btn x-small icon class="ml-1 pb-0"
+                                    ><v-icon small style="padding-left: 1px"
+                                      >mdi-reload</v-icon
+                                    ></v-btn
+                                  > -->
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="mb-0 pb-0 font">量測距離</h7>
+                                        <v-spacer class="font mb-0" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-text-field
+                                            outlined
+                                            hide-details
+                                            value="5m"
+                                            dense
+                                            color="#4f5e62"
+                                            style="color: #4f5e62"
+                                            class="tiny_input pr-3"
+                                            disabled
+                                          ></v-text-field>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="my-0 py-0 font">濕度</h7>
+                                        <v-spacer class="font my-0" />
+                                        <v-radio-group
+                                          v-model="radio"
+                                          mandatory
+                                          dense
+                                          class="small-radio"
+                                        >
+                                          <div
+                                            class="d-flex"
+                                            style="padding-top: 2px"
+                                          >
+                                            <v-text-field
+                                              outlined
+                                              hide-details
+                                              value="50%"
+                                              dense
+                                              color="#4f5e62"
+                                              style="color: #4f5e62"
+                                              class="tiny_input pr-3"
+                                              disabled
+                                            ></v-text-field>
+                                          </div>
+                                        </v-radio-group>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex py-0 my-0">
+                                        <h7 class="mb-0 pb-0 font"
+                                          >自動偵測溫度</h7
+                                        >
+                                        <v-spacer class="font mb-0" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-checkbox
+                                            label=""
+                                            value=""
+                                            dense
+                                            class="tiny_checkbox py-0 my-0"
+                                          ></v-checkbox>
+                                        </div>
+                                      </v-col>
+
+                                      <v-col cols="6" class="d-flex py-0">
+                                        <h7 class="mb-0 pb-0 font"
+                                          >使用外部視窗</h7
+                                        >
+                                        <v-spacer class="font mb-0" />
+                                        <div cols="12" class="d-flex pb-0">
+                                          <v-checkbox
+                                            label=""
+                                            value=""
+                                            dense
+                                            class="tiny_checkbox py-0 my-0"
+                                          ></v-checkbox>
+                                        </div>
+                                      </v-col>
+                                    </v-row>
+                                  </v-card>
+                                </v-col>
+                              </v-row>
+                            </v-card-text>
+                          </v-card>
+                        </v-col>
+                      </v-row>
+                    </v-card-text>
                   </v-card>
                 </v-dialog>
               </div>
@@ -202,20 +1846,27 @@
                       type="number"
                       dense
                       min="-1"
-                      max="10"
+                      max="12"
                       class="item_per_page"
                       @input="itemsPerPage = parseInt($event, 10)"
-                      style="margin-right: 8px; margin-top: 5px"
+                      style="margin-top: 5px; position: relative"
                     ></v-text-field>
                   </div>
 
-                  <v-pagination
+                  <!-- <v-pagination
                     v-model="page"
                     :length="pageCount"
                     :total-visible="10"
                     class="custom"
                     style="padding-right: 2px"
-                  ></v-pagination>
+                  ></v-pagination> -->
+                  <Pagination
+                    :totle="pageCount"
+                    width="477px"
+                    @toggle="setPage"
+                    pagClass="asdas"
+                    class="edit_pagination"
+                  />
                 </div>
               </div>
             </v-col>
@@ -228,12 +1879,12 @@
 
         <v-data-table
           :search="search"
-          :headers="headers"
-          :items="itemsWithIndex"
+          :headers="headersForDialogCamTable"
+          :items="itemsWithIndexForCamTsble"
           mobile-breakpoint="800"
-          :loading="loading ? '#828c8f' : null"
+          :loading="loading ? '#4f5e62' : null"
           loading-text="資料加載中... 請稍後"
-          style="color: #828c8f"
+          style="color: #4f5e62"
           hide-default-footer
           v-model="selected"
           show-select
@@ -241,18 +1892,43 @@
           @page-count="pageCount = $event"
           :items-per-page="itemsPerPage"
           fixed-header
-          class="pa-0 ma-0"
+          class="mx-4"
+          color="#4f5e62"
+          checkbox-color="#4f5e62"
         >
-          <template v-slot:[`item.sever_status`]="ssts">
+          <!-- 複選框 -->
+          <template v-slot:[`item.data-table-select`]="{ isSelected, select }">
+            <v-simple-checkbox
+              :value="isSelected"
+              @input="select($event)"
+              color="#4f5e62"
+              class="pl-4"
+            ></v-simple-checkbox>
+          </template>
+
+          <!-- 書籤 -->
+          <template v-slot:[`item.book_mark`]="{ item }">
+            <v-btn icon v-if="item.book_mark === '0'">
+              <v-icon>mdi-bookmark-outline</v-icon></v-btn
+            >
+          </template>
+          <!-- 伺服器名稱 -->
+          <template v-slot:[`item.server_name`]="{ item }">
+            <td style="text-align: center">
+              {{ item.server_name }}
+            </td>
+          </template>
+          <!-- 伺服器狀態 -->
+          <template v-slot:[`item.server_status`]="ssts">
             <v-icon
-              v-if="ssts.item.sever_status === '1'"
+              v-if="ssts.item.server_status === '1'"
               :color="getGreenColor()"
               x-small
               >mdi-circle</v-icon
             >
             <v-icon v-else :color="getRedColor()" x-small>mdi-circle</v-icon>
           </template>
-
+          <!-- 相機狀態 -->
           <template v-slot:[`item.cam_status`]="csts">
             <v-icon
               v-if="csts.item.cam_status === '1'"
@@ -262,14 +1938,23 @@
             >
             <v-icon v-else :color="getRedColor()" x-small>mdi-circle</v-icon>
           </template>
+          <!-- 伺服器主位置 -->
+          <template v-slot:[`item.cam_main_position`]="{ item }">
+            <td style="text-align: center">{{ item.cam_main_position }}棟</td>
+          </template>
 
-          <!-- 編輯刪除 -->
+          <!-- 伺服器次位置 -->
+          <template v-slot:[`item.cam_secondary_position`]="{ item }">
+            <td style="text-align: center">
+              {{ item.cam_secondary_position }}區
+            </td>
+          </template>
+
+          <!-- 詳細資訊 -->
           <template v-slot:[`item.actions`]="{ item }">
-            <div class="text-truncate">
-              <v-icon @click="showEditDialog(item)" color="#828c8f">
-                mdi-information-outline
-              </v-icon>
-            </div>
+            <v-icon @click="showEditDialog(item)" color="#4f5e62">
+              mdi-information-outline
+            </v-icon>
           </template>
         </v-data-table>
       </v-card>
@@ -279,21 +1964,24 @@
 <script>
 import axios from 'axios'
 // import TheTab2 from '../components/Permission/TheTab2.vue'
+import Pagination from '../Pagination/CustomPagination.vue'
 
 const apiToken = 'keywVOqtjDGyPhH76'
-const airTableApp = 'appxyftNJN3Ry2NPa'
+const airTableApp = 'appcP7dbIjYmTEvhg'
 const airTableName = 'Table%201'
 
 export default {
   components: {
-    // TheTab2,
+    Pagination,
   },
+
   data() {
     return {
+      expanded: [],
+      singleExpand: false,
       selected: [],
       n: 0,
-      headers: [
-        // { text: 'Id', value: 'id' },
+      headersForDialogCamTable: [
         {
           text: '項次',
           value: 'index',
@@ -301,8 +1989,14 @@ export default {
           class: 'my-header-style',
         },
         {
-          text: '連線伺服主機',
-          value: 'server_system_number2',
+          text: '書籤',
+          value: 'book_mark',
+          align: 'center',
+          class: 'my-header-style',
+        },
+        {
+          text: '伺服主機名稱',
+          value: 'server_name',
           align: 'center',
           class: 'my-header-style',
         },
@@ -312,9 +2006,10 @@ export default {
           align: 'center',
           class: 'my-header-style',
         },
+
         {
-          text: '系統編號',
-          value: 'camera_system_number',
+          text: '相機系統編號',
+          value: 'cam_system_number',
           align: 'center',
           class: 'my-header-style',
         },
@@ -331,20 +2026,20 @@ export default {
           class: 'my-header-style',
         },
         {
-          text: '主分類',
-          value: 'main_classification',
+          text: '相機主位置',
+          value: 'cam_main_position',
           align: 'center',
           class: 'my-header-style',
         },
         {
-          text: '次分類',
-          value: 'second_classification',
+          text: '相機次位置',
+          value: 'cam_secondary_position',
           align: 'center',
           class: 'my-header-style',
         },
         {
-          text: '畫面位置',
-          value: 'position',
+          text: '相機畫面位置',
+          value: 'cam_screen_position',
           align: 'center',
           class: 'my-header-style',
         },
@@ -355,37 +2050,45 @@ export default {
           class: 'my-header-style',
         },
         {
-          text: 'IP位置',
-          value: 'ip',
+          text: '相機IP位置',
+          value: 'cam_ip',
           align: 'center',
           class: 'my-header-style',
         },
         {
-          text: '數據更新時間',
-          value: 'last_modified',
+          text: '相機MAC位址',
+          value: 'cam_mac_address',
           align: 'center',
           class: 'my-header-style',
         },
         {
-          text: '相機建立時間',
-          value: 'createdTime',
+          text: '上次更新時間',
+          value: 'cam_last_modified',
           align: 'center',
           class: 'my-header-style',
         },
+        // {
+        //   text: '主機建立時間',
+        //   value: 'server_created_time',
+        //   align: 'center',
+        //   class: 'my-header-style',
+        // },
         {
           text: '詳細資訊',
           value: 'actions',
-          align: 'center',
           sortable: false,
+          align: 'center',
           class: 'my-header-style',
         },
       ],
+      message: false,
+
       // 搜尋
       search: '',
       // 分頁
       page: 1,
       pageCount: 0,
-      itemsPerPage: 10,
+      itemsPerPage: 12,
       // 密碼
 
       // 信箱
@@ -397,9 +2100,12 @@ export default {
       //   (v) => /.+@.+/.test(v) || '無效的信箱格式',
       // ],
       items: [],
+      itemsForCamTable: [],
+
       status: ['enable', 'disable'],
       itemsSelect: ['user', 'viewer', 'admin'],
       dialog: false,
+      dialogForAddCam: false,
       editedItem: {},
     }
   },
@@ -410,11 +2116,22 @@ export default {
         index: index + 1,
       }))
     },
+
+    itemsWithIndexForCamTsble() {
+      return this.itemsForCamTable.map((itemsForCamTable, index) => ({
+        ...itemsForCamTable,
+        index: index + 1,
+      }))
+    },
   },
   mounted() {
     this.loadItems()
+    this.loadItemsCam()
   },
   methods: {
+    setPage(data) {
+      this.page = data
+    },
     // 允許使用之變色
     getGreenColor() {
       return '#69c585'
@@ -427,6 +2144,12 @@ export default {
       this.editedItem = item || {}
       this.dialog = !this.dialog
     },
+
+    showEditDialogForAddCam(item) {
+      this.editedItem = item || {}
+      this.dialogForAddCam = !this.dialogForAddCam
+    },
+    // sever's api
     loadItems() {
       this.loading = true
       this.items = []
@@ -439,7 +2162,8 @@ export default {
             return {
               id: item.id,
               createdTime: item.createdTime,
-              last_modified: item.last_modified,
+              server_created_time: item.created_time,
+              server_last_modified: item.server_last_modified,
               ...item.fields,
             }
           })
@@ -449,6 +2173,7 @@ export default {
           console.log(error)
         })
     },
+
     saveItem(item) {
       // this is used for both creating and updating API records
       // the default method is POST for creating a new item
@@ -470,7 +2195,8 @@ export default {
         // must remove id from the data for airtable patch to work
         delete data.fields.id
         delete data.fields.createdTime
-        delete data.fields.last_modified
+        delete data.fields.server_created_time
+        delete data.fields.server_last_modified
       }
 
       // save the record
@@ -515,10 +2241,38 @@ export default {
         this.items.splice(idx, 1)
       }
     },
+    // cam's api
+    loadItemsCam() {
+      this.loading = true
+      this.itemsForCamTable = []
+      axios
+        .get(`https://api.airtable.com/v0/appxyftNJN3Ry2NPa/${airTableName}`, {
+          headers: { Authorization: 'Bearer ' + apiToken },
+        })
+        .then((response) => {
+          this.itemsForCamTable = response.data.records.map((item) => {
+            return {
+              id: item.id,
+              createdTime: item.createdTime,
+              server_created_time: item.created_time,
+              server_last_modified: item.server_last_modified,
+              ...item.fields,
+            }
+          })
+          this.loading = false
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
   },
 }
 </script>
 <style scoped>
+.bgimg {
+  position: absolute;
+}
+
 .scroll4::-webkit-scrollbar {
   width: 10px;
 }
@@ -535,24 +2289,21 @@ export default {
 </style>
 <style lang="scss">
 .my-header-style {
-  color: #828c8f !important;
+  color: #4f5e62 !important;
   font-size: 9px;
 }
 
 .my-header-style2 {
-  color: #828c8f !important;
+  color: #4f5e62 !important;
   font-size: 16px;
 }
 
 .my-footer-style {
-  color: #828c8f !important;
+  color: #4f5e62 !important;
 }
 
-// .v-data-footer {
-//   color: #828c8f;
-// }
 .v-data-footer .v-icon {
-  color: #828c8f;
+  color: #4f5e62;
   // color: #69c585;
 }
 
@@ -568,16 +2319,6 @@ export default {
 //   color: black;
 // }
 
-.input_edit_left .v-input__slot {
-  max-height: 1em !important;
-  width: 10em !important;
-  // color: red;
-  //   display: flex !important;
-  //   align-items: left !important;
-  font-size: 9px;
-  // padding: 0px 0px 0px 0px;
-}
-
 .input_edit_left .v-input__slot .v-icon {
   // max-height: 1em !important;
   // width: 20em !important;
@@ -589,20 +2330,359 @@ export default {
 }
 
 .classification .v-input__slot {
-  max-height: 5px !important;
-  // width: 15em !important;
+  min-height: 36px !important;
+  width: 10em !important;
   font-size: 13px;
+
+  max-height: 36px !important;
+  // color: red;
+  display: flex !important;
+  align-items: left !important;
+  // padding: 0px 0px 0px 0px;
 }
 
-.classification input {
-  color: #4f5e62 !important;
-}
 .classification .v-input__slot .v-icon {
   font-size: 20px;
 }
 
 .classification .v-input__slot .v-label {
+  font-size: 13px;
+}
+
+.tiny_input .v-input__slot {
+  min-height: 22px !important;
+  width: 10em !important;
+  font-size: 13px;
+
+  max-height: 22px !important;
+  // color: red;
+  display: flex !important;
+  align-items: left !important;
+  // padding: 0px 0px 0px 0px;
+}
+
+.tiny_input .v-input__slot .v-icon {
+  font-size: 20px;
+}
+
+.tiny_input .v-input__slot .v-label {
+  font-size: 13px;
+}
+
+.tiny_input input {
+  color: #4f5e62 !important;
+}
+
+.tiny_input_select .v-input__slot {
+  min-height: 22px !important;
+  width: 10em !important;
+  font-size: 13px;
+  max-height: 22px !important;
+  // color: red;
+  // display: flex !important;
+  // align-items: left !important;
+  // padding: 0px 0px 0px 0px;
+}
+
+.tiny_input_select .v-input__slot .v-icon {
+  font-size: 20px;
+  margin-bottom: 17px;
+  margin-left: 20px;
+}
+
+.tiny_input_select .v-input__slot .v-label {
+  font-size: 13px;
+}
+
+.tiny_input_select input {
+  color: #4f5e62 !important;
+}
+
+.theme--light.tiny_input_select.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot
+  fieldset {
+  color: rgba(0, 0, 0, 0.1);
+}
+// 小select
+.most_tiny_input_select .v-input__slot {
+  min-height: 22px !important;
+  width: 6em !important;
+  font-size: 13px;
+  max-height: 22px !important;
+  // color: red;
+  // display: flex !important;
+  // align-items: left !important;
+  // padding: 0px 0px 0px 0px;
+}
+
+.most_tiny_input_select .v-input__slot .v-icon {
+  font-size: 20px;
+  margin-bottom: 13px;
+  margin-left: 20px;
+}
+
+.most_tiny_input_select .v-input__slot .v-label {
+  font-size: 13px;
+}
+
+.most_tiny_input_select input {
+  color: #4f5e62 !important;
+}
+
+.theme--light.most_tiny_input_select.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot
+  fieldset {
+  color: rgba(0, 0, 0, 0.1);
+}
+
+// 移動位置按鈕設定
+.most_tiny_input_select2 .v-input__slot {
+  min-height: 22px !important;
+  width: 6em !important;
+  font-size: 13px;
+  max-height: 22px !important;
+  // color: red;
+  // display: flex !important;
+  // align-items: left !important;
+  // padding: 0px 0px 0px 0px;
+}
+
+.most_tiny_input_select2 .v-input__slot .v-icon {
+  font-size: 20px;
+  margin-bottom: 17px;
+  margin-left: 20px;
+}
+
+.most_tiny_input_select .v-input__slot .v-label {
+  font-size: 13px;
+}
+
+.most_tiny_input_select2 input {
+  color: #4f5e62 !important;
+}
+
+.theme--light.most_tiny_input_select2.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot
+  fieldset {
+  color: rgba(0, 0, 0, 0.1);
+}
+// -----
+
+.theme--light.tiny_input.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot
+  fieldset {
+  color: rgba(0, 0, 0, 0.1);
+}
+
+.theme--light.classification.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot
+  fieldset {
+  color: rgba(0, 0, 0, 0.1);
+}
+// 顯示筆數
+.item_per_page .v-input__slot {
+  min-height: 36px !important;
+  // width: 5.3em !important;
+  width: 100px !important;
+  font-size: 13px;
+}
+
+.item_per_page input {
+  color: #4f5e62 !important;
+}
+.item_per_page .v-input__slot .v-icon {
+  font-size: 20px;
+}
+
+.item_per_page .v-input__slot .v-label {
   font-size: 14px;
   // padding: 0px 0px 0px 0px;
+}
+
+.item_per_page.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot
+  fieldset {
+  color: rgba(0, 0, 0, 0.1);
+}
+
+// table
+// .v-data-table > .v-data-table__wrapper > table > tbody > tr > td, .v-data-table > .v-data-table__wrapper > table > tbody > tr > th, .v-data-table > .v-data-table__wrapper > table > thead > tr > td, .v-data-table > .v-data-table__wrapper > table > thead > tr > th, .v-data-table > .v-data-table__wrapper > table > tfoot > tr > td, .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
+//      padding: 0 16px;
+//     transition: height 0.2s cubic-bezier(0.4, 0, 0.6, 1);
+// }
+
+.item.data-table-select {
+  padding: 0 16px;
+}
+
+.font {
+  font-size: 9px;
+  color: #4f5e62;
+}
+
+.font_bg_color {
+  background-color: #f0f2f3;
+  font-size: 9px;
+  color: #4f5e62;
+}
+
+.font_bg_color2 {
+  box-shadow: inset 0px 15px 10px -15px rgba(0, 0, 0, 0.49);
+  background-color: #f0f2f3;
+  color: #4f5e62;
+
+  font-size: 9px;
+}
+
+.expan_header.v-expansion-panel-header {
+  align-items: center;
+  border-radius: 0px;
+  display: flex;
+  font-size: 0.9375rem;
+  line-height: 1.2;
+  min-height: 0px;
+  outline: none;
+  padding: 16px 24px;
+  position: relative;
+  transition: 0.3s min-height cubic-bezier(0.25, 0.8, 0.5, 1);
+  width: 100%;
+  background-color: #f0f2f3;
+}
+
+.small-radio i {
+  font-size: 12px;
+  padding: 0px;
+  margin-top: -5px;
+}
+.small-radio label {
+  font-size: 9px;
+  padding-left: 0px;
+  margin-left: -4px;
+  margin-top: -5px;
+}
+.small-radio .v-radio {
+  padding-right: 50px;
+}
+
+.small-radio.v-input--selection-controls.v-input--dense
+  .v-input--selection-controls__ripple {
+  width: 0px;
+  height: 0px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.small-radio.v-input--radio-group--column
+  .v-radio:not(:last-child):not(:only-child) {
+  margin-bottom: 0px;
+  padding: 0px;
+}
+.small-radio .v-messages {
+  /* flex: 1 1 auto; */
+  font-size: 12px;
+  min-height: 0px;
+  min-width: 1px;
+  position: relative;
+}
+
+.usage_cir .v-progress-circular__underlay {
+  stroke: #fff;
+}
+
+.tiny_checkbox.v-input--selection-controls__input .v-icon {
+  width: 50%;
+  padding: 0px;
+  margin: 0px;
+}
+.tiny_checkbox.v-icon.v-icon--dense {
+  font-size: 20px;
+  padding: 0px;
+  margin: 0px;
+}
+.tiny_checkbox .v-icon.v-icon {
+  align-items: center;
+  display: inline-flex;
+  font-feature-settings: 'liga';
+  font-size: 21px;
+  justify-content: center;
+  letter-spacing: none;
+  line-height: 0;
+  position: relative;
+  text-indent: 0;
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1), visibility 0s;
+  vertical-align: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.tiny_checkbox.v-input--selection-controls.v-input--dense
+  .v-input--selection-controls__ripple {
+  width: 20px;
+  height: 20px;
+  left: -5px;
+  top: -5px;
+}
+</style>
+
+<style>
+.edit_pagination.custom-pagination {
+  /* display: grid;
+  padding: 0 0 0 4px;
+  grid-template-columns: 60px 60px 40px 40px 40px 40px 40px 60px 69px; */
+  display: flex;
+  justify-content: end !important;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+.edit_pagination.custom-pagination span {
+  user-select: none;
+  pointer-events: none;
+}
+.edit_pagination.custom-pagination > button {
+  color: #4f5e62;
+  outline: 1px rgba(0, 0, 0, 0.12) solid;
+  font-size: 12px;
+  margin: 0px 3px;
+  margin-top: 5.8px;
+  text-align: center;
+  padding: 0px 8.5px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  line-height: 2px;
+  /* width: 35px; */
+  height: 34.4px;
+}
+.edit_pagination.custom-pagination > button:hover {
+  background-color: #dadada;
+}
+.edit_pagination.custom-pagination > button:active {
+  background-color: #aaaaaa;
+}
+.edit_pagination.custom-pagination > button.custom-pagination-btn-disable {
+  cursor: no-drop;
+  background-color: unset !important;
+  pointer-events: none;
+  opacity: 0.5;
+}
+.edit_pagination.ustom-pagination-btn-foucs {
+  background-color: #f0f2f3;
+  color: #4f5e62;
+  outline: 1px #4f5e62 solid !important;
+  pointer-events: none;
+}
+.edit_pagination.custom-pagination-btn-number {
+  padding: 8px 0px !important;
+  width: 38px;
 }
 </style>

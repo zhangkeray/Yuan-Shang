@@ -1,11 +1,11 @@
 <template>
   <v-row>
     <v-col cols="12" lg="6" md="6">
-      <v-card ref="form" class="my-6 ml-6" flat outlined height="48.5em">
+      <v-card class="my-6 ml-6" flat outlined height="48.5em">
         <v-card-title>
           <h5 style="color: #4f5e62">電子郵件警報通知</h5>
           <v-spacer></v-spacer>
-          <!-- on off -->
+          <!-- 電子郵件警報通知 右上方on/off -->
           <form>
             <div class="switch-field py-0 my-0 px-1">
               <input
@@ -29,6 +29,7 @@
         <v-divider class="mx-4"></v-divider>
         <v-card-text class="pt-10 px-6">
           <v-row>
+            <!-- Smtp Host -->
             <v-col cols="12" md="6" class="pa-0 ma-0">
               <v-row>
                 <v-col cols="12" md="5">
@@ -39,10 +40,11 @@
                     class="setup_input"
                     dense
                     outlined
-                    ref=""
                     placeholder="smpt.gmail.com"
                     required
                     append-icon="mdi-pencil"
+                    :rules="smtpHostRules"
+                    v-model="smtpHost"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -54,9 +56,23 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <!-- on off -->
-                  <v-radio-group v-model="radio" row mandatory dense style="padding: 10px 0 0 0">
-                    <v-radio label="ON" value="radio-1" color="#4f5e62"></v-radio>
-                    <v-radio label="OFF" value="radio-2" color="#4f5e62"></v-radio>
+                  <v-radio-group
+                    v-model="radio"
+                    row
+                    mandatory
+                    dense
+                    style="padding: 10px 0 0 0"
+                  >
+                    <v-radio
+                      label="ON"
+                      value="radio-1"
+                      color="#4f5e62"
+                    ></v-radio>
+                    <v-radio
+                      label="OFF"
+                      value="radio-2"
+                      color="#4f5e62"
+                    ></v-radio>
                   </v-radio-group>
                 </v-col>
               </v-row>
@@ -73,10 +89,11 @@
                     class="setup_input"
                     dense
                     outlined
-                    ref=""
                     placeholder="smpt.gmail.com"
                     required
                     append-icon="mdi-pencil"
+                    :rules="smtpPostRules"
+                    v-model="smtpPost"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -91,12 +108,12 @@
                     class="setup_input"
                     dense
                     outlined
-                    ref=""
-                    :rules="[() => !!repeat_transmission || '不可為空']"
-                    :items="repeat_transmission"
+                    :rules="[(v) => !!v || '表格尚未選擇']"
+                    :items="repeatTransmissionItems"
                     placeholder="請選擇"
                     required
                     :menu-props="{ bottom: true, offsetY: true }"
+                    v-model="repeatTransmission"
                   ></v-select>
                 </v-col>
               </v-row>
@@ -117,6 +134,8 @@
                     placeholder="smpt.gmail.com"
                     required
                     append-icon="mdi-pencil"
+                    :rules="senderAccountRules"
+                    v-model="senderAccount"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -132,10 +151,11 @@
                     dense
                     outlined
                     ref=""
-                    :rules="[() => !!frequency || '不可為空']"
-                    :items="frequency"
+                    :rules="[() => !!frequency || '表格尚未選擇']"
+                    :items="frequencyItems"
                     placeholder="請選擇"
                     required
+                    v-model="frequency"
                     :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
                 </v-col>
@@ -157,6 +177,8 @@
                     placeholder="smpt.gmail.com"
                     required
                     append-icon="mdi-pencil"
+                    :rules="senderPasswordRules"
+                    v-model="senderPassword"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -174,10 +196,11 @@
                     dense
                     outlined
                     ref=""
-                    :rules="[() => !!alert_pics || '不可為空']"
-                    :items="alert_pics"
+                    :rules="[() => !!alertPics || '表格尚未選擇']"
+                    :items="alertPicsItems"
                     placeholder="請選擇"
                     required
+                    v-model="alertPics"
                     :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
                 </v-col>
@@ -199,6 +222,8 @@
                     placeholder="smpt.gmail.com"
                     required
                     append-icon="mdi-pencil"
+                    :rules="receiverAccountRules"
+                    v-model="receiverAccount"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -219,6 +244,8 @@
                     placeholder="警報發送000"
                     required
                     append-icon="mdi-pencil"
+                    :rules="emailThemeRules"
+                    v-model="emailTheme"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -236,9 +263,10 @@
                     dense
                     outlined
                     ref=""
-                    :rules="[() => !!user_type || '不可為空']"
-                    :items="user_type"
+                    :rules="[() => !!userType || '表格尚未選擇']"
+                    :items="userTypeItems"
                     placeholder="請選擇"
+                    v-model="userType"
                     required
                     :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
@@ -258,9 +286,10 @@
                     dense
                     outlined
                     ref=""
-                    :rules="[() => !!verify || '不可為空']"
-                    :items="verify"
+                    :rules="[() => !!verify || '表格尚未選擇']"
+                    :items="verifyItems"
                     placeholder="請選擇"
+                    v-model="verify"
                     required
                     :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
@@ -269,39 +298,76 @@
             </v-col>
           </v-row>
         </v-card-text>
-        <footer class="footer">
-          <v-card-actions class="px-6">
-            <v-spacer></v-spacer>
-            <v-slide-x-reverse-transition>
-              <v-tooltip v-if="formHasErrors" left>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    icon
-                    class="my-0"
-                    v-bind="attrs"
-                    @click="resetForm1"
-                    v-on="on"
-                  >
-                    <v-icon>mdi-refresh</v-icon>
-                  </v-btn>
-                </template>
-                <span>Refresh form</span>
-              </v-tooltip>
-            </v-slide-x-reverse-transition>
-            <v-btn color="#4f5e62" outlined text @click="submit">
-              確認
-            </v-btn>
-          </v-card-actions>
-        </footer>
-        <!-- </v-card> -->
+        <!-- 儲存 含對話框  -->
+        <v-card-actions class="footer pl-8 pb-1">
+          <v-spacer></v-spacer>
+          <v-dialog large persistent v-model="dialog" max-width="290">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn color="#4f5e62" outlined text v-bind="attrs" v-on="on">
+                儲存
+              </v-btn>
+            </template>
+            <v-card flat>
+              <v-card-title><h5>確定儲存?</h5></v-card-title>
+              <v-card-text></v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  small
+                  color="#4f5e62"
+                  dark
+                  @click="
+                    dialog = false
+                    cancel()
+                  "
+                  @cancel="cancel"
+                  >取消</v-btn
+                >
+                <!-- dialogForConfirm為判斷是否成功 -->
+                <v-btn
+                  v-if="!valid"
+                  color="#4f5e62"
+                  outlined
+                  text
+                  small
+                  :disabled="!valid"
+                  :loading="dialogForConfirm"
+                  @click="
+                    dialogForConfirm = true
+                    dialog = false
+                  "
+                  >確定</v-btn
+                >
+                <v-dialog
+                  v-model="dialogForConfirm"
+                  hide-overlay
+                  persistent
+                  width="300"
+                >
+                  <v-card color="primary" dark>
+                    <v-card-text>
+                      資料儲存中...請稍後
+                      <v-progress-linear
+                        indeterminate
+                        color="white"
+                        class="mb-0"
+                      ></v-progress-linear>
+                    </v-card-text>
+                  </v-card>
+                </v-dialog>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-card-actions>
       </v-card>
     </v-col>
+    <!-- LINE發報通知 -->
     <v-col cols="12" lg="6" md="6">
-      <v-card ref="form" class="my-6 mr-6" flat outlined height="48.5em">
+      <v-card class="my-6 mr-6" flat outlined height="48.5em">
         <v-card-title>
           <h5 style="color: #4f5e62">LINE發報通知</h5>
           <v-spacer></v-spacer>
-          <!-- on off -->
+          <!-- LINE發報通知 右上方on/off -->
           <form>
             <div class="switch-field py-0 my-0 px-1">
               <input
@@ -331,15 +397,19 @@
                   <v-subheader class="py-0 pl-12 pb-1">LINE Token</v-subheader>
                 </v-col>
                 <v-col cols="12" md="7">
-                  <v-text-field
-                    class="setup_input"
-                    dense
-                    outlined
-                    ref=""
-                    placeholder="smtp.gmail.com"
-                    required
-                    append-icon="mdi-pencil"
-                  ></v-text-field>
+                  <v-form ref="form" v-model="valid" lazy-validation>
+                    <v-text-field
+                      class="setup_input"
+                      dense
+                      outlined
+                      ref=""
+                      placeholder="smtp.gmail.com"
+                      required
+                      append-icon="mdi-pencil"
+                      v-model="lineToken"
+                      :rules="lineTokenRules"
+                    ></v-text-field>
+                  </v-form>
                 </v-col>
               </v-row>
             </v-col>
@@ -349,10 +419,23 @@
                   <v-subheader class="py-0 pl-12 pb-1">發報設定</v-subheader>
                 </v-col>
                 <v-col cols="12" md="7">
-                  <!-- on off -->
-                  <v-radio-group v-model="radio" row mandatory dense style="padding: 10px 0 0 0">
-                    <v-radio label="ON" value="radio-1" color="#4f5e62"></v-radio>
-                    <v-radio label="OFF" value="radio-2" color="#4f5e62"></v-radio>
+                  <v-radio-group
+                    v-model="radio"
+                    row
+                    mandatory
+                    dense
+                    style="padding: 10px 0 0 0"
+                  >
+                    <v-radio
+                      label="ON"
+                      value="radio-1"
+                      color="#4f5e62"
+                    ></v-radio>
+                    <v-radio
+                      label="OFF"
+                      value="radio-2"
+                      color="#4f5e62"
+                    ></v-radio>
                   </v-radio-group>
                 </v-col>
               </v-row>
@@ -371,8 +454,9 @@
                     dense
                     outlined
                     ref=""
-                    :rules="[() => !!repeat_transmission2 || '不可為空']"
-                    :items="repeat_transmission2"
+                    :rules="[() => !!repeatTransmission2 || '表格尚未選擇']"
+                    :items="repeatTransmissionItems2"
+                    v-model="repeatTransmission2"
                     placeholder="請選擇"
                     required
                     :menu-props="{ bottom: true, offsetY: true }"
@@ -394,8 +478,9 @@
                     dense
                     outlined
                     ref=""
-                    :rules="[() => !!frequency2 || '不可為空']"
-                    :items="frequency2"
+                    :rules="[() => !!frequency2 || '表格尚未選擇']"
+                    v-model="frequency2"
+                    :items="frequencyItems2"
                     placeholder="請選擇"
                     required
                     :menu-props="{ bottom: true, offsetY: true }"
@@ -419,8 +504,9 @@
                     dense
                     outlined
                     ref=""
-                    :rules="[() => !!alert_pics2 || '不可為空']"
-                    :items="alert_pics2"
+                    :rules="[() => !!alertPics2 || '表格尚未選擇']"
+                    v-model="alertPics2"
+                    :items="alertPicsItems2"
                     placeholder="請選擇"
                     required
                     :menu-props="{ bottom: true, offsetY: true }"
@@ -430,122 +516,209 @@
             </v-col>
           </v-row>
         </v-card-text>
-        <footer class="footer">
-          <v-card-actions class="px-6">
-            <v-spacer></v-spacer>
-            <v-slide-x-reverse-transition>
-              <v-tooltip v-if="formHasErrors" left>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    icon
-                    class="my-0"
-                    v-bind="attrs"
-                    @click="resetForm2"
-                    v-on="on"
-                  >
-                    <v-icon>mdi-refresh</v-icon>
-                  </v-btn>
-                </template>
-                <span>Refresh form</span>
-              </v-tooltip>
-            </v-slide-x-reverse-transition>
-            <v-btn color="#4f5e62" outlined text @click="submit2">
-              確認
-            </v-btn>
-          </v-card-actions>
-        </footer>
-        <!-- </v-card> -->
+        <!-- 儲存 含對話框  -->
+        <v-card-actions class="footer pl-8 pb-1">
+          <v-spacer></v-spacer>
+          <v-dialog large persistent v-model="dialog" max-width="290">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                color="#4f5e62"
+                outlined
+                text
+                v-bind="attrs"
+                v-on="on"
+                @click="validate()"
+              >
+                儲存
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title><h5>確定儲存?</h5></v-card-title>
+              <v-card-text></v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  small
+                  color="#4f5e62"
+                  dark
+                  @click="
+                    dialog = false
+                    cancel()
+                  "
+                  @cancel="cancel"
+                  >取消</v-btn
+                >
+                <v-btn
+                  color="#4f5e62"
+                  outlined
+                  text
+                  small
+                  :disabled="dialogForConfirm"
+                  :loading="dialogForConfirm"
+                  @click="
+                    dialogForConfirm = true
+                    dialog = false
+                  "
+                  >確定</v-btn
+                >
+                <v-dialog
+                  :disabled="!valid"
+                  v-model="dialogForConfirm"
+                  hide-overlay
+                  persistent
+                  width="300"
+                >
+                  <v-card color="primary" dark>
+                    <v-card-text>
+                      資料儲存中...請稍後
+                      <v-progress-linear
+                        indeterminate
+                        color="white"
+                        class="mb-0"
+                      ></v-progress-linear>
+                    </v-card-text>
+                  </v-card>
+                </v-dialog>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-card-actions>
       </v-card>
+      <!-- 消息通知(通知儲存成功or失敗) -->
+      <v-snackbar
+        v-model="snack"
+        :color="snackColor"
+        min-height="20px"
+        class="snack"
+        right
+      >
+        <div class="d-flex">
+          <v-icon small>{{ snackIcon }}</v-icon>
+          <div style="margin-left: 4px; padding-top: 3px">{{ snackText }}</div>
+        </div>
+
+        <template v-slot:action="{ attrs }">
+          <v-btn v-bind="attrs" small icon @click="snack = false">
+            <v-icon small dark>mdi-close</v-icon>
+          </v-btn>
+        </template>
+      </v-snackbar>
     </v-col>
   </v-row>
 </template>
 <script>
 export default {
   data: () => ({
+    // 表單驗證
+    radioGroup: 1,
+    valid: true,
+    smtpHost: '',
+    smtpHostRules: [
+      (v) => !!v || '表格不可為空',
+      // v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+    ],
+    smtpPost: '',
+    smtpPostRules: [
+      (v) => !!v || '表格不可為空',
+      // v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+    ],
+    senderAccount: '',
+    senderAccountRules: [
+      (v) => !!v || '表格不可為空',
+      // v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+    ],
+    senderPassword: '',
+    senderPasswordRules: [
+      (v) => !!v || '表格不可為空',
+      // v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+    ],
+    receiverAccount: '',
+    receiverAccountRules: [
+      (v) => !!v || '表格不可為空',
+      // v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+    ],
+    emailTheme: '',
+    emailThemeRules: [
+      (v) => !!v || '表格不可為空',
+      // v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+    ],
+    lineToken: '',
+    lineTokenRules: [
+      (v) => !!v || '表格不可為空',
+      // v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+    ],
     // 電子郵件警報通知:
     // 重複發報
-    repeat_transmission: ['YES', 'NO'],
+    repeatTransmission: null,
+    repeatTransmissionItems: ['YES', 'NO'],
     // 寄件者類型
-    user_type: ['user', 'mail server'],
+    userType: null,
+    userTypeItems: ['user', 'mail server'],
     // 驗證
-    verify: ['YES', 'NO'],
+    verify: null,
+    verifyItems: ['YES', 'NO'],
     // 發報頻率
-    frequency: ['30秒', '1分鐘', '5分鐘', '10分鐘'],
+    frequency: null,
+    frequencyItems: ['30秒', '1分鐘', '5分鐘', '10分鐘'],
     // 是否含警報圖
-    alert_pics: ['YES', 'NO'],
+    alertPics: null,
+    alertPicsItems: ['YES', 'NO'],
 
-    radioGroup: 1,
     // LINE發報通知:
     // 重複發報
-    repeat_transmission2: ['YES', 'NO'],
+    repeatTransmission2: null,
+    repeatTransmissionItems2: ['YES', 'NO'], // 發報頻率
     // 發報頻率
-    frequency2: ['30秒', '1分鐘', '5分鐘', '10分鐘'],
+    frequency2: null,
+    frequencyItems2: ['30秒', '1分鐘', '5分鐘', '10分鐘'],
     // 是否含警報圖
-    alert_pics2: ['YES', 'NO'],
+    alertPics2: null,
+    alertPicsItems2: ['YES', 'NO'],
 
-    errorMessages: '',
-    name: null,
-    address: null,
-    city: null,
-    state: null,
-    zip: null,
-    country: null,
-    formHasErrors: false,
+    snack: false,
+    snackColor: '',
+    snackText: '',
+    dialog: false,
+    dialogForConfirm: false,
   }),
 
-  computed: {
-    form() {
-      return {
-        name: this.name,
-        address: this.address,
-        city: this.city,
-        state: this.state,
-        zip: this.zip,
-        country: this.country,
-      }
-    },
-  },
-
   watch: {
-    name() {
-      this.errorMessages = ''
+    // 按下確定後之進度條
+    dialogForConfirm(val) {
+      if (!val) return
+      setTimeout(() => (this.dialogForConfirm = false), 4000)
+
+      // setTimeout(() => this.save(), 4000)
+      setTimeout(() => this.error(), 4000)
     },
   },
 
   methods: {
-    resetForm() {
-      this.errorMessages = []
-      this.formHasErrors = false
-
-      Object.keys(this.form).forEach((f) => {
-        this.$refs[f].reset()
-      })
+    // 消息顯示
+    save() {
+      this.snack = true
+      this.snackColor = '#8AB284'
+      this.snackText = '資料儲存成功!'
+      this.snackIcon = 'mdi-check-circle'
     },
-    submit() {
-      this.formHasErrors = false
-
-      Object.keys(this.form).forEach((f) => {
-        if (!this.form[f]) this.formHasErrors = true
-
-        this.$refs[f].validate(true)
-      })
+    cancel() {
+      this.snack = true
+      this.snackColor = '#4f5e62'
+      this.snackText = '已取消'
+      this.snackIcon = 'mdi-close-circle'
     },
-    resetForm2() {
-      this.errorMessages = []
-      this.formHasErrors = false
-
-      Object.keys(this.form).forEach((f) => {
-        this.$refs[f].reset()
-      })
+    error() {
+      this.snack = true
+      this.snackColor = '#e89595'
+      this.snackText = '資料儲存失敗!'
+      this.snackIcon = 'mdi-alert-circle'
     },
-    submit2() {
-      this.formHasErrors = false
-
-      Object.keys(this.form).forEach((f) => {
-        if (!this.form[f]) this.formHasErrors = true
-
-        this.$refs[f].validate(true)
-      })
+    // 表單驗證
+    validate() {
+      this.$refs.form.validate()
+    },
+    reset() {
+      this.$refs.form.reset()
     },
   },
 }
@@ -681,9 +854,13 @@ export default {
   color: #4f5e62;
 }
 
-
 .theme--light.v-label {
   color: #4f5e62;
-  font-size: 12px
+  font-size: 12px;
+}
+
+.snack {
+  // opacity: 0.7;
+  margin-bottom: 150px;
 }
 </style>

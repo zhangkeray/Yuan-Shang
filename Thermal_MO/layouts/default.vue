@@ -126,6 +126,15 @@ export default {
         //   // to: '5',
         //   to: 'ForTesting11',
         // },
+
+        {
+          icon: 'mdi-account-group-outline',
+          title: '設定測試',
+          // to: '5',
+          to: 'ForTestingR1',
+          permission: this.$auth.hasScope('ray'),
+        },
+
         {
           icon: 'mdi-account-group-outline',
           title: 'API動態測試(後端)',

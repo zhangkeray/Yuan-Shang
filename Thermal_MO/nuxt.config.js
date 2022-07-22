@@ -162,7 +162,7 @@ export default {
   },
   // 切換ip
   server: {
-    host: '192.168.0.182', // Ray
+    // host: '192.168.0.182', // Ray
     // host: '192.168.0.173', // Louis
     port: 3000,
   },
