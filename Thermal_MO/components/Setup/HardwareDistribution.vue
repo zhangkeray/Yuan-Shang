@@ -200,7 +200,7 @@
                 </button>
                 <Pagination
                   :totle="pagaTotle"
-                  width="477px"
+                  width="506px"
                   @toggle="setPage"
                   pagClass="asdas"
                 />
@@ -239,7 +239,7 @@
   </v-row>
 </template>
 <script>
-import Pagination from '../Pagination/CustomPagination.vue'
+import Pagination from '../Pagination/OmitPagination.vue'
 export default {
   components: {
     Pagination,
@@ -274,7 +274,7 @@ export default {
     server: ['A 棟', 'B 棟', 'C 棟', 'D 棟', 'E 棟', 'F 棟'],
     search: null,
     // 分頁
-    pagaTotle: 20,
+    pagaTotle: 9999,
   }),
 
   computed: {

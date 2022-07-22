@@ -67,24 +67,28 @@
                         disable-pagination
                         hide-default-header
                         hide-default-footer
+                        height="240px"
+                        class="diago-cus"
                       >
                         <template v-slot:header="{ props }">
-                          <th
-                            v-for="(head, idx) in props.headers"
-                            :key="idx"
-                            class="diago-table-title"
-                          >
-                            {{ head.text.toUpperCase() }}
-                          </th>
+                          <thead class="custom-thead">
+                            <th
+                              v-for="(head, idx) in props.headers"
+                              :key="idx"
+                              class="diago-table-title"
+                            >
+                              {{ head.text.toUpperCase() }}
+                            </th>
+                          </thead>
                         </template>
                         <template v-slot:[`item.item`]="{ item }">
                           <v-badge
                             :content="item.item"
                             overlap
                             color="#828C8F"
-                            class="my-3"
+                            class="my-2"
                             bordered
-                            ><v-btn icon class="right-btn" width="28px"
+                            ><v-btn icon class="right-btn alarm-btn-icon"
                               ><img
                                 class=""
                                 alt=""
@@ -93,12 +97,12 @@
                           ></v-badge>
                         </template>
                         <template v-slot:[`item.setting`]="{ item }">
-                          <v-btn color="" icon class="right-btn" width="28px"
+                          <v-btn color="" icon class="right-btn alert-off-cu"
                             ><img
                               :class="item"
                               alt=""
-                              src="/right-icons/alert-on.png"
-                              width="18px"
+                              src="/right-icons/alert-fff.png"
+                              width="15px"
                               depressed
                             />
                             <!-- <img
@@ -134,24 +138,28 @@
                         disable-pagination
                         hide-default-header
                         hide-default-footer
+                        height="240px"
+                        class="diago-cus"
                       >
                         <template v-slot:header="{ props }">
-                          <th
-                            v-for="(head1, idz) in props.headers"
-                            :key="idz"
-                            class="diago-table-title"
-                          >
-                            {{ head1.text.toUpperCase() }}
-                          </th>
+                          <thead class="custom-thead">
+                            <th
+                              v-for="(head1, idz) in props.headers"
+                              :key="idz"
+                              class="diago-table-title"
+                            >
+                              {{ head1.text.toUpperCase() }}
+                            </th>
+                          </thead>
                         </template>
                         <template v-slot:[`item.item`]="{ item }">
                           <v-badge
                             :content="item.item"
                             overlap
                             color="#828C8F"
-                            class="my-3"
+                            class="my-2"
                             bordered
-                            ><v-btn icon class="right-btn" width="28px"
+                            ><v-btn icon class="right-btn alarm-btn-icon"
                               ><img
                                 class=""
                                 alt=""
@@ -353,12 +361,16 @@
                           ]"
                         > -->
                           <div class="ui-state-cover ui-state-normal">
-                            <img
+                            <!-- <img
                               src="loadingBG.png"
                               class="test-cramre"
                               :id="`test-cramre${index01}`"
                               width="100%"
-                            />
+                            /> -->
+                            <canvas
+                              class="test-cramre cam-canvas"
+                              :id="`test-cramre${index01}`"
+                            ></canvas>
                             <div class="ui-state-default-footer">
                               <div class="ui-state-default-point"></div>
                               <span
@@ -383,12 +395,16 @@
                         </template>
                         <template v-else>
                           <div class="ui-state-cover ui-empty">
-                            <img
+                            <!-- <img
                               src="empty.png"
                               class="test-cramre"
                               :id="`test-cramre${index01}`"
                               width="100%"
-                            />
+                            /> -->
+                            <canvas
+                              class="test-cramre cam-canvas"
+                              :id="`test-cramre${index01}`"
+                            ></canvas>
                           </div>
                         </template>
                       </li>
@@ -465,11 +481,7 @@
                         ></v-checkbox>
 
                         <div class="text-center">
-                          <v-menu
-                            v-model="menu"
-                            :close-on-content-click="false"
-                            offset-y
-                          >
+                          <v-menu :close-on-content-click="false" offset-y>
                             <!-- <v-tooltip top> -->
                             <template v-slot:activator="{ on, attrs }">
                               <v-btn
@@ -757,17 +769,7 @@
                                     :key="ieq"
                                     class="my-1"
                                   >
-                                    <div
-                                      v-if="ieq < 3"
-                                      class="Alert-background1"
-                                    >
-                                      <span class="Alert-font px-5"
-                                        >2022/07/27 03:11 Cam-s1-58 區域{{
-                                          ieq
-                                        }}</span
-                                      >
-                                    </div>
-                                    <div v-else class="Alert-background">
+                                    <div class="Alert-background">
                                       <span class="Alert-font px-5"
                                         >2022/07/27 03:11 Cam-s1-58 區域{{
                                           ieq
@@ -900,27 +902,59 @@ export default {
   components: {
     MultiScreenstand,
   },
+
   head: {
     link: [
       // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       { rel: 'stylesheet', href: '/css/jquery-ui.css' },
+      { rel: 'stylesheet', href: '/css/object.css' },
+      { rel: 'stylesheet', href: '/css/card3.css' },
+      { rel: 'stylesheet', href: 'css/details.css' },
     ],
-    script: [
-      {
-        src: '/js/jquery-ui.js',
-        type: 'text/javascript',
-      },
-      {
-        src: '/js/jquery-collision.js',
-        type: 'text/javascript',
-      },
-      {
-        src: '/js/zoom.js',
-        type: 'text/javascript',
-      },
-    ],
+    // script: [
+    // {
+    //   hid:'script',
+    //   src: '/js/jquery-ui.js',
+    //   type: 'text/javascript',
+    //   callback: (data)=>{
+    //     console.log(this)
+    //   }
+    // },
+    // ],
+  },
+  // 載入完成外部(第三方)插件，使用callback呼叫local 方法
+  metaInfo() {
+    return {
+      script: [
+        {
+          hid: 'extscript',
+          src: '/js/jquery-collision.js',
+        },
+        {
+          hid: 'extscript',
+          src: '/js/zoom.js',
+        },
+        {
+          hid: 'extscript',
+          src: '/js/jquery-ui.js',
+          callback: () => {
+            this.externalLoaded = true
+            this.initScript()
+          },
+        },
+        // {
+        //   skip: !this.externalLoaded,
+        //   innerHTML: `
+        //     /* this is only added once external script has been loaded */
+        //     /* and e.g. window.$externalVar exists */
+        //   `,
+        // },
+      ],
+    }
   },
   data: () => ({
+    socket: [],
+    externalLoaded: false,
     // tab: null,
     data: [],
     tab: 'tab-1',
@@ -1049,82 +1083,14 @@ export default {
     ],
     diagoalarmlogDesserts: [],
   }),
-
   mounted() {
-    // 監聽滑鼠滾輪
-    var divZoom = document.getElementById('diago-tootip-photo-zoom')
-    // console.log(divZoom)
-    divZoom.addEventListener(
-      'mousewheel',
-      (e) => {
-        e = e || window.event
-        // console.log(e)
-        if (e.wheelDelta <= 0 || e.detail > 0) {
-          console.log('down')
-          this.zoom(0)
-        } else {
-          console.log('up')
-          this.zoom(1)
-        }
-      },
-      false
-    )
-    // function MouseWheel(e) {
-    //   e = e || window.event
-    //   if (e.wheelDelta <= 0 || e.detail > 0) {
-    //     this.zoom('0')
-    //   } else {
-    //     this.zoom('1')
-    //   }
+    // this.$nextTick(()=> {
+    //   console.log(this.externalLoaded)
+    // })
+    // if(this.externalLoaded){
+    // this.initScript()
     // }
-    // 排序
-    this.$nextTick(() => {
-      setTimeout(() => {
-        $(function () {
-          $('#sortable').sortable({
-            placeholder: 'ui-state-highlight',
-            cursor: 'grabbing',
-            // revert: true
-          })
-          $('#sortable').disableSelection()
-        })
-        // 預覽小視窗放大縮小
-        $('.diago-tootip-img')
-          .resizable({
-            // aspectRatio: 3.8 / 3.1,
-            handles: 'all',
-            aspectRatio: 4 / 3,
-            minWidth: 380,
-            maxWidth: 1150,
-            // containment: '.cover-bg',
-          })
-          .draggable({
-            handle: '.diago-tootip-head',
-            containment: '.cover-bg',
-            // containment: '.cover-bg',
-          })
-        $('.diago-tootip-photo').customZoom({
-          cover: '.diago-tootip-photo-zoom', // 指定放大哪個元素
-        })
-        // 對話視窗
-        // $('.custom-dialog').draggable({
-        //   start: () => {
-        //     $('.custom-dialog').css('opacity', '0.9')
-        //     $('.custom-dialog').css('transition', 'all 0s')
-        //   },
-        //   stop: () => {
-        //     $('.custom-dialog').css('opacity', '1')
-        //     $('.custom-dialog').css('transition', 'all 0.1s')
-        //   },
-        //   handle: '.draggable-bar',
-        //   cursor: 'grabbing',
-        //   containment: 'parent',
-        // })
-        this.transition(1)
-        this.testdata()
-        // this.tab = 'tab-2'
-      }, 100)
-    })
+    // this.tab = 'tab-2'
   },
   updated() {
     // 判斷視窗該在哪個方位
@@ -1152,7 +1118,7 @@ export default {
       $('.custom-dialog').removeClass('dialog-close')
       var position = $(this).offset() // 取得點擊的元素座標
       var dialog = $('.custom-dialog') // 宣告互動視窗
-      var div = $(this).find('img') // 選告元素底下的圖片
+      var div = $(this).find('canvas') // 選告元素底下的圖片
       dialog.css('max-height', cover.height() + 'px')
       $('.diago-contnet-cover').css(
         'max-height',
@@ -1191,8 +1157,99 @@ export default {
       dialog.css('left', x + 'px')
       // end
     })
+    var el = document.querySelectorAll('.cam-canvas')
+    var sum = 0
+    el.forEach(function (el) {
+      var img = new Image()
+      var ctx = el.getContext('2d')
+      img.onload = function () {
+        el.width = this.naturalWidth
+        el.height = this.naturalHeight
+        console.log(el.width)
+        ctx.drawImage(img, 0, 0, this.width, this.height)
+      }
+      if (sum === 3) {
+        img.src = '/loadingBG.png'
+      } else {
+        img.src = '/empty.png'
+      }
+      sum++
+    })
   },
   methods: {
+    // 第三方程式方法載入
+    initScript() {
+      // 監聽滑鼠滾輪
+      var divZoom = document.getElementById('diago-tootip-photo-zoom')
+      // console.log(divZoom)
+      divZoom.addEventListener(
+        'mousewheel',
+        (e) => {
+          e = e || window.event
+          // console.log(e)
+          if (e.wheelDelta <= 0 || e.detail > 0) {
+            console.log('down')
+            this.zoom(0)
+          } else {
+            console.log('up')
+            this.zoom(1)
+          }
+        },
+        false
+      )
+      // function MouseWheel(e) {
+      //   e = e || window.event
+      //   if (e.wheelDelta <= 0 || e.detail > 0) {
+      //     this.zoom('0')
+      //   } else {
+      //     this.zoom('1')
+      //   }
+      // }
+      // 排序
+      $(function () {
+        $('#sortable').sortable({
+          placeholder: 'ui-state-highlight',
+          cursor: 'grabbing',
+          // revert: true
+        })
+        $('#sortable').disableSelection()
+      })
+      // 預覽小視窗放大縮小
+      $('.diago-tootip-img')
+        .resizable({
+          // aspectRatio: 3.8 / 3.1,
+          handles: 'all',
+          aspectRatio: 4 / 3,
+          minWidth: 380,
+          maxWidth: 1150,
+          // containment: '.cover-bg',
+        })
+        .draggable({
+          handle: '.diago-tootip-head',
+          containment: '.cover-bg',
+          // containment: '.cover-bg',
+        })
+      $('.diago-tootip-photo').customZoom({
+        cover: '.diago-tootip-photo-zoom', // 指定放大哪個元素
+      })
+      // 對話視窗
+      // $('.custom-dialog').draggable({
+      //   start: () => {
+      //     $('.custom-dialog').css('opacity', '0.9')
+      //     $('.custom-dialog').css('transition', 'all 0s')
+      //   },
+      //   stop: () => {
+      //     $('.custom-dialog').css('opacity', '1')
+      //     $('.custom-dialog').css('transition', 'all 0.1s')
+      //   },
+      //   handle: '.draggable-bar',
+      //   cursor: 'grabbing',
+      //   containment: 'parent',
+      // })
+      this.transition(1)
+      this.testdata()
+      // this.tab = 'tab-2'
+    },
     // 畫面設定
     screenseting(data, mode) {
       // 輪播
@@ -1445,24 +1502,35 @@ export default {
     },
     // 載入監視影像
     showDisplay(output) {
-      if (this.socket !== undefined) {
-        this.socket.disconnect()
+      if (this.socket.length > 0) {
+        console.log('asdasdas')
+        this.socket.forEach(function (s) {
+          s.disconnect()
+        })
       }
-      this.socket = this.$nuxtSocket({
-        name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
-      })
+      var tmpsocket = []
       this.$nextTick(function () {
         for (var z = 0; z < output.totle; z++) {
-          if (z === 3) {
-            const img = document.getElementById(`test-cramre${z}`)
-            img.src = 'loadingBG.png'
-            this.socket.on('data', (data) => {
-              img.src = 'data:image/jpeg;base64,' + data
-              img.style.transform = 'rotate(360deg)'
-            })
-            console.log(`test-cramre${z}`)
-          }
+          var socket = this.$nuxtSocket({
+            name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
+            channel: '//43ea5351-2412-45ac-ad35-f5686a594c15',
+          })
+          // if (z === 3) {
+          const canvas = document.getElementById(`test-cramre${z}`)
+          socket.on('data', (data) => {
+            var img = new Image()
+            var ctx = canvas.getContext('2d')
+            img.onload = function () {
+              canvas.width = this.naturalWidth
+              canvas.height = this.naturalHeight
+              // URL.revokeObjectURL(url)
+              ctx.drawImage(img, 0, 0, this.width, this.height)
+            }
+            img.src = 'data:image/jpeg;base64,' + data
+          })
+          tmpsocket.push(socket)
         }
+        this.socket = tmpsocket
         console.log('渲染完成')
       })
     },
@@ -1490,7 +1558,14 @@ export default {
   background: #fff;
   height: 830px;
   padding: 16px;
-  border-radius: 0px !important;
+  border-radius: 3px !important;
+}
+.cam-canvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
 }
 /* 對話視窗 */
 .diago-contnet-cover {
@@ -1529,7 +1604,7 @@ export default {
 }
 #diagoHover {
   cursor: grab;
-  margin: 0px 0px 11px 0px;
+  /* margin: 0px 0px 11px 0px; */
   /* transition: outline .3s; */
 }
 #diagoHover:hover {
@@ -1591,8 +1666,7 @@ export default {
   border: 1px #d7dbdb solid;
   border-radius: 3px;
   padding: 5px;
-  max-height: 289px;
-  overflow-y: scroll;
+  max-height: 276px;
 }
 .diago-border2 {
   border: 1px #d7dbdb solid;
@@ -1602,6 +1676,12 @@ export default {
 .diago-title {
   color: #4f5e62;
   font-weight: bold;
+}
+.custom-thead {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 999;
 }
 .diago-table-title {
   color: #4f5e62;
@@ -1625,6 +1705,11 @@ export default {
   box-shadow: 0px 0px 8px 4px rgb(108 108 108 / 27%);
   border-radius: 3px;
 }
+.alert-off-cu {
+  width: 28px !important;
+  height: 28px !important;
+  background-color: #d7dbdb;
+}
 .diago-tootip-close {
   width: 30px;
 }
@@ -1641,12 +1726,20 @@ export default {
   z-index: 99;
   cursor: all-scroll;
 }
+.alarm-btn-icon {
+  width: 28px !important;
+  height: 28px !important;
+  background-color: #f2f4f4;
+}
 .diago-tootip-title {
   font-weight: bold;
   color: #4f5e62;
 }
 .diago-tootip-photo {
   padding: 10px;
+}
+.diago-cus>div{
+  overflow-y:scroll !important;
 }
 .diago-tootip-photo > img {
   opacity: 0;
@@ -1709,7 +1802,7 @@ export default {
 }
 .diago-btn-font {
   letter-spacing: 0px;
-  color: rgb(107, 107, 107);
+  color: #fff;
 }
 /* 對話視窗 end */
 .align-items-c {
@@ -1757,6 +1850,7 @@ export default {
   color: #4f5e62;
   text-align: center;
 }
+
 .menu-top {
   /* display: flex;
   justify-content: space-between;
@@ -2096,7 +2190,8 @@ export default {
   width: 334px;
   height: 250px;
   background-color: rgb(150, 150, 150);
-  margin: 11px;
+  margin: 0px 0px 11px 0px;
+  /* margin: 11px; */
 }
 .ui-state-highlight:last-child {
   width: 1032px;
@@ -2109,6 +2204,7 @@ export default {
   width: 1032px;
   height: 764px;
   z-index: 9;
+  margin: 0px 0px 11px 4px !important;
   transform: translate(339px, -783px);
 }
 
@@ -2168,6 +2264,7 @@ export default {
   height: 403px;
 }
 .ui-state-default4 {
+  margin: 0px 0px 7px 0px !important;
   position: relative;
   width: 99%;
 }
@@ -2183,7 +2280,7 @@ export default {
 .sortable12 {
   list-style-type: none;
   margin: 0;
-  padding: 0 !important;
+  padding: 12px 0px 0px 0 !important;
   width: 100%;
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
@@ -2198,6 +2295,7 @@ export default {
   height: 258px;
 }
 .ui-state-default12 {
+  margin: 0px 0px 4px 0px;
   position: relative;
   width: 99%;
 }

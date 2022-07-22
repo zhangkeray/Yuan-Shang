@@ -3,14 +3,9 @@
     <v-row>
       <v-col cols="12" md="9">
         <v-row>
-          <v-col v-for="(item, index) in rtspLists" :key="index" cols="12">
+          <v-col v-for="(item, index) in rtspLists" :key="index" cols="4">
             <div>
-              <img
-                src="/loadingBG.png"
-                :id="'rtsp-img' + index"
-                class="rtpsimg"
-                width="100%"
-              />
+              <canvas :id="'rtsp-img' + index" class="rtpsimg" />
             </div>
           </v-col>
         </v-row>
@@ -88,7 +83,7 @@ export default {
   mounted() {
     // 渲染分格畫面
     var ar = []
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < 20; i++) {
       ar.push('0')
     }
     this.rtspLists = ar
@@ -143,7 +138,16 @@ export default {
       }
       const rtpsimg = $('.rtpsimg')
       rtpsimg.each(function () {
-        this.src = '/loadingBG.png'
+        var img = new Image()
+        var ctx = this.getContext('2d')
+        img.onload = function () {
+          this.width = this.naturalWidth
+          this.height = this.naturalHeight
+          // URL.revokeObjectURL(url)
+          ctx.drawImage(img, 0, 0, this.width, this.height)
+        }
+        // img.src = 'data:image/jpeg;base64,' + data
+        img.src = '/loadingBG.png'
       })
       // 將目前相機列表存入陣列中
       var rtspStream = []
@@ -168,8 +172,17 @@ export default {
               name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
               channel: '/' + data[i].proxy,
             })
-            const img = document.getElementById('rtsp-img' + i)
+            const canvas = document.getElementById('rtsp-img' + i)
             this.socket.on('data', function (data) {
+              // img.src = 'data:image/jpeg;base64,' + data
+              var img = new Image()
+              var ctx = canvas.getContext('2d')
+              img.onload = function () {
+                canvas.width = this.naturalWidth
+                canvas.height = this.naturalHeight
+                // URL.revokeObjectURL(url)
+                ctx.drawImage(img, 0, 0, this.width, this.height)
+              }
               img.src = 'data:image/jpeg;base64,' + data
             })
             // 將socket ID 存入arr陣列中
@@ -233,5 +246,9 @@ export default {
 #asdferg {
   width: 300px;
   height: 300px;
+}
+.rtpsimg {
+  width: 100%;
+  height: 100%;
 }
 </style>

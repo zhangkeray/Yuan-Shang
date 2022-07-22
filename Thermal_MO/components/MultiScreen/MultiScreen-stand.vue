@@ -755,10 +755,14 @@
                   src="/images/arrow-right.png"
                   width="30%"
               /></v-btn>
-              <div>相機名稱</div>
+              <div class="frame-hard-cam">
+                <div class="frame-hard-cam-status"></div>
+                相機名稱
+              </div>
               <v-select
                 v-model="selectList"
                 :items="cameraList"
+                :menu-props="{ bottom: true, offsetY: true }"
                 class="camSelect"
                 label="Solo field"
                 solo
@@ -769,95 +773,100 @@
             </div>
             <div class="frame mt-1">
               <div id="cover" class="cover">
-                <div class="d-none" id="rtsp-status"></div>
-                <div class="d-none" id="rtsp-stay"></div>
-                <img
+                <div class="cover1">
+                  <div class="d-none" id="rtsp-status"></div>
+                  <div class="d-none" id="rtsp-stay"></div>
+                  <!-- <img
                   id="image"
-                  src="https://dummyimage.com/640x480/969696/000000&text=loading...."
-                />
-                <div
-                  :style="{
-                    top: this.reference.Y + 'px',
-                    left: this.reference.X + 'px',
-                  }"
-                  id="spot"
-                  class="spot"
-                >
-                  <img src="/images/spot_1.png" />
-                  <div class="spot-span">
-                    <div>R</div>
+                  src="/loadingBG.png"
+                /> -->
+                  <canvas id="image"></canvas>
+                  <div
+                    :style="{
+                      top: this.reference.Y + 'px',
+                      left: this.reference.X + 'px',
+                    }"
+                    id="spot"
+                    class="spot"
+                  >
+                    <img src="/images/spot_1.png" />
+                    <div class="spot-span">
+                      <div>R</div>
+                    </div>
                   </div>
-                </div>
-                <!-- 點物件 -->
-                <div
-                  v-for="(item01, index) in spots"
-                  :key="'B' + index"
-                  :style="{
-                    top: item01.spot_position.Y + 'px',
-                    left: item01.spot_position.X + 'px',
-                  }"
-                  id="spot"
-                  class="spot"
-                  v-bind:data-name="item01.spot_number"
-                >
-                  <img src="/images/spot_1.png" />
-                  <div class="spot-span">
-                    <div>{{ item01.spot_number }}</div>
+                  <!-- 點物件 -->
+                  <div
+                    v-for="(item01, index) in spots"
+                    :key="'B' + index"
+                    :style="{
+                      top: item01.spot_position.Y + 'px',
+                      left: item01.spot_position.X + 'px',
+                    }"
+                    id="spot"
+                    class="spot"
+                    v-bind:data-name="item01.spot_number"
+                  >
+                    <img src="/images/spot_1.png" />
+                    <div class="spot-span">
+                      <div>{{ item01.spot_number }}</div>
+                    </div>
                   </div>
-                </div>
-                <!-- 範圍物件 -->
-                <div
-                  v-for="(item02, index) in scopes"
-                  :key="'A' + index"
-                  :style="{
-                    top: item02.scope_position_point_LT.Y + 'px',
-                    left: item02.scope_position_point_LT.X + 'px',
-                    width: item02.scope_position_point_BR.X + 'px',
-                    height: item02.scope_position_point_BR.Y + 'px',
-                  }"
-                  id="scope"
-                  class="scope"
-                  v-bind:data-name="item02.scope_number"
-                >
-                  <div class="scope-span">
-                    <div>{{ item02.scope_number }}</div>
-                  </div>
-                  <!-- <span class="scope-test-xy-TL">X:Y:</span
+                  <!-- 範圍物件 -->
+                  <div
+                    v-for="(item02, index) in scopes"
+                    :key="'A' + index"
+                    :style="{
+                      top: item02.scope_position_point_LT.Y + 'px',
+                      left: item02.scope_position_point_LT.X + 'px',
+                      width: item02.scope_position_point_BR.X + 'px',
+                      height: item02.scope_position_point_BR.Y + 'px',
+                    }"
+                    id="scope"
+                    class="scope"
+                    v-bind:data-name="item02.scope_number"
+                  >
+                    <div class="scope-span">
+                      <div>{{ item02.scope_number }}</div>
+                    </div>
+                    <!-- <span class="scope-test-xy-TL">X:Y:</span
                   ><span class="scope-test-xy-BR">X:Y:</span> -->
-                </div>
-                <!-- 線物件 -->
-                <div
-                  v-for="(item, index) in lines"
-                  :key="'point1' + index"
-                  :style="{
-                    top: item.line_position_point_A.Y + 'px',
-                    left: item.line_position_point_A.X + 'px',
-                  }"
-                  id="pointA"
-                  :class="'point-totle ' + 'point' + (index + 1)"
-                  v-bind:data-name="item.line_number"
-                >
-                  <div class="line-span">
-                    <div>{{ item.line_number }}</div>
                   </div>
+                  <!-- 線物件 -->
+                  <div
+                    v-for="(item, index) in lines"
+                    :key="'point1' + index"
+                    :style="{
+                      top: item.line_position_point_A.Y + 'px',
+                      left: item.line_position_point_A.X + 'px',
+                    }"
+                    id="pointA"
+                    :class="'point-totle ' + 'point' + (index + 1)"
+                    v-bind:data-name="item.line_number"
+                  >
+                    <div class="line-span">
+                      <div>{{ item.line_number }}</div>
+                    </div>
+                  </div>
+                  <div
+                    v-for="(item, index) in lines"
+                    :key="'point2' + index"
+                    :style="{
+                      top: item.line_position_point_B.Y + 'px',
+                      left: item.line_position_point_B.X + 'px',
+                    }"
+                    id="pointB"
+                    :class="
+                      'point' + (index + 1) + ' point_hover' + (index + 1)
+                    "
+                    v-bind:data-name="item.line_number"
+                  ></div>
+                  <div
+                    v-for="(item, index) in lines"
+                    :key="'line' + index"
+                    :class="'line' + (index + 1)"
+                    id="line"
+                  ></div>
                 </div>
-                <div
-                  v-for="(item, index) in lines"
-                  :key="'point2' + index"
-                  :style="{
-                    top: item.line_position_point_B.Y + 'px',
-                    left: item.line_position_point_B.X + 'px',
-                  }"
-                  id="pointB"
-                  :class="'point' + (index + 1) + ' point_hover' + (index + 1)"
-                  v-bind:data-name="item.line_number"
-                ></div>
-                <div
-                  v-for="(item, index) in lines"
-                  :key="'line' + index"
-                  :class="'line' + (index + 1)"
-                  id="line"
-                ></div>
               </div>
             </div>
             <div class="frame-footer">
@@ -928,20 +937,21 @@
         <v-row :column="$vuetify.breakpoint.mdAndDown">
           <v-col cols="12" lg="5" class="pb-0">
             <v-card class="mt-3" rounded="md" elevation="6">
-              <h4 class="cardtitle ml-3">警報設置</h4>
+              <div class="cardtitle1 ml-3">警報設置</div>
               <v-simple-table
                 id="style-3"
                 fixed-header
-                height="260px"
+                height="265px"
                 class="mx-2"
+                small
               >
                 <template #default>
                   <thead>
                     <tr>
-                      <th class="text-center">項目</th>
-                      <th class="text-center">監測溫度</th>
-                      <th class="text-center">設定警報</th>
-                      <th class="text-center">刪除</th>
+                      <th class="text-center" style="height:25px;">項目</th>
+                      <th class="text-center" style="height:25px;">監測溫度</th>
+                      <th class="text-center" style="height:25px;">設定警報</th>
+                      <th class="text-center" style="height:25px;">刪除</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -951,7 +961,7 @@
                           content="R"
                           overlap
                           color="#828C8F"
-                          class="my-4"
+                          class="my-0"
                           bordered
                           ><v-btn icon class="right-btn"
                             ><img
@@ -977,7 +987,7 @@
                           :content="item.spot_number"
                           overlap
                           color="#828C8F"
-                          class="my-4"
+                          class="my-0"
                           bordered
                           ><v-btn icon class="right-btn"
                             ><img
@@ -1050,7 +1060,7 @@
                           :content="item.scope_number"
                           overlap
                           color="#828C8F"
-                          class="my-4"
+                          class="my-0"
                           bordered
                           ><v-btn icon class="right-btn"
                             ><img
@@ -1123,7 +1133,7 @@
                           :content="item.line_number"
                           overlap
                           color="#828C8F"
-                          class="my-4"
+                          class="my-0"
                           bordered
                           ><v-btn icon class="right-btn"
                             ><img
@@ -1272,16 +1282,16 @@
             <!-- <v-col cols="12" lg="6" style="border: 1px solid red"> -->
 
             <v-card class="mt-3 mr-6" rounded="md" elevation="6">
-              <h4 class="cardtitle ml-3">警報紀錄</h4>
-              <v-simple-table fixed-header height="260px" class="mx-2 table2">
+              <h4 class="cardtitle1 ml-3">警報紀錄</h4>
+              <v-simple-table fixed-header height="265px" class="mx-2 table2">
                 <template #default>
                   <thead>
                     <tr>
-                      <th class="text-center alarmLogth">項目</th>
-                      <th class="text-center alarmLogth" style="">觸發時間</th>
-                      <th class="text-center alarmLogth" style="">監測溫度</th>
-                      <th class="text-center alarmLogth" style="">警報溫度</th>
-                      <th class="text-center alarmLogth" style="">開始時間</th>
+                      <th class="text-center alarmLogth" style="height:25px;">項目</th>
+                      <th class="text-center alarmLogth" style="height:25px;">觸發時間</th>
+                      <th class="text-center alarmLogth" style="height:25px;">監測溫度</th>
+                      <th class="text-center alarmLogth" style="height:25px;">警報溫度</th>
+                      <th class="text-center alarmLogth" style="height:25px;">開始時間</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1299,7 +1309,7 @@
                             :content="item.objcet.number"
                             overlap
                             color="#828C8F"
-                            class="badge my-4"
+                            class="badge my-0"
                             bordered
                           >
                             <v-btn icon class="right-btn">
@@ -1376,7 +1386,7 @@
                             :content="item.objcet.number"
                             overlap
                             color="#828C8F"
-                            class="badge my-4"
+                            class="badge my-0"
                             bordered
                           >
                             <v-btn icon class="right-btn">
@@ -1639,20 +1649,20 @@ export default {
     title: '即時監控',
     link: [
       // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-      { rel: 'stylesheet', href: '/css/jquery-ui.css' },
-      { rel: 'stylesheet', href: '/css/object.css' },
-      { rel: 'stylesheet', href: '/css/card3.css' },
-      { rel: 'stylesheet', href: 'css/details.css' },
+      // { rel: 'stylesheet', href: '/css/jquery-ui.css' },
+      // { rel: 'stylesheet', href: '/css/object.css' },
+      // { rel: 'stylesheet', href: '/css/card3.css' },
+      // { rel: 'stylesheet', href: 'css/details.css' },
     ],
     script: [
-      {
-        src: '/js/jquery-ui.js',
-        type: 'text/javascript',
-      },
-      {
-        src: '/js/jquery-collision.js',
-        type: 'text/javascript',
-      },
+      // {
+      //   src: '/js/jquery-ui.js',
+      //   type: 'text/javascript',
+      // },
+      // {
+      //   src: '/js/jquery-collision.js',
+      //   type: 'text/javascript',
+      // },
       // {
       //   src: '/js/object.js',
       //   type: 'text/javascript',
@@ -1763,14 +1773,22 @@ export default {
     // use "main" socket defined in nuxt.config.js
     vm.socket = this.$nuxtSocket({
       name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
+      channel: '//43ea5351-2412-45ac-ad35-f5686a594c15',
     })
     const img = document.getElementById('image')
     const rtspstatus = document.getElementById('rtsp-status')
     const rtspstay = document.getElementById('rtsp-stay')
 
-    // connect()
-    // function connect() {
-    //   console.log(200)
+    var img1 = new Image()
+    var ctx = img.getContext('2d')
+    img1.onload = function () {
+      img.width = this.naturalWidth
+      img.height = this.naturalHeight
+      // URL.revokeObjectURL(url)
+      ctx.drawImage(img1, 0, 0, this.width, this.height)
+    }
+    img1.src = '/loadingBG.png'
+
     var stay = 0
     vm.socket.on('connect', () => {
       // rtspstatus.innerHTML = '伺服器已回應，連線已恢復正常，正在重啟程式!'
@@ -1778,8 +1796,13 @@ export default {
       vm.socket.on('data', (data) => {
         stay = 0
         rtspstatus.classList.add('d-none')
-        img.src = 'data:image/jpeg;base64,' + data
-        img.style.transform = 'rotate(360deg)'
+        img1.onload = function () {
+          img.width = this.naturalWidth
+          img.height = this.naturalHeight
+          // URL.revokeObjectURL(url)
+          ctx.drawImage(img1, 0, 0, this.width, this.height)
+        }
+        img1.src = 'data:image/jpeg;base64,' + data
       })
     })
     this.timeOutRefresh02 = setInterval(() => {
@@ -1814,7 +1837,7 @@ export default {
         //   count = 0
         // }
       }, 1000)
-      img.src = 'https://dummyimage.com/640x480/969696/000000&text=loading....'
+      img.src = '/loadingBG.png'
       rtspstatus.classList.remove('d-none')
     })
 
@@ -1891,7 +1914,7 @@ export default {
           show: true,
           selectedMode: 'multiple', // 設定顯示單一圖例的圖形，點選可切換
           right: 5,
-          top:5,
+          top: 5,
           textStyle: {
             color: '#666',
             fontSize: 9,
@@ -1901,13 +1924,13 @@ export default {
         },
         series: [
           {
-            name:'spot',
+            name: 'spot',
             data: [500, 732, 801, 134, 1590, 1130, 1020],
             type: 'line',
             smooth: true,
           },
           {
-            name:'line',
+            name: 'line',
             data: [820, 932, 901, 934, 1290, 1330, 1320],
             type: 'line',
             smooth: true,
@@ -2811,7 +2834,7 @@ export default {
   font-size: 17px;
   color: #80898c;
   display: grid;
-  grid-template-columns: 42px 69px 306px 383px;
+  grid-template-columns: 46px 93px 306px 383px;
 }
 
 .frame {
@@ -2826,19 +2849,47 @@ export default {
   justify-content: center;
 }
 .cover {
+  /* position: relative;
+  max-width: 100%;
+  width: 100%;
+  display: inline-block;
+  isolation: isolate; */
   position: relative;
   max-width: 100%;
   width: 100%;
   display: inline-block;
   isolation: isolate;
+  height: 0;
+  padding-bottom: 74.8%;
+}
+.cover1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 #image {
   width: 100%;
+  height: 100%;
   /* width: 70.5em; */
   pointer-events: none;
   /* margin-left: 2.1em; */
   /* margin-top: 2em; */
   isolation: isolate;
+}
+.frame-hard-cam {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  /* width: 106px; */
+  justify-content: space-between;
+}
+.frame-hard-cam-status {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: #8ab284;
 }
 .arrow {
   height: 23px;
@@ -2919,7 +2970,16 @@ export default {
   font-weight: 900;
   color: #505f62;
 }
-
+.cardtitle1 {
+  font-weight: 900;
+  color: #505f62;
+  padding-top: 8px;
+}
+.alarm-btn-icon{
+  width: 28px;
+    height: 28px;
+    background-color: #f2f4f4;
+}
 .text-color >>> .v-text-field__slot input {
   color: #9ba3a5;
 }
@@ -2994,5 +3054,222 @@ export default {
 }
 .date-picker th {
   padding: 0px 0px !important;
+}
+</style>
+<style>
+.scope {
+  width: 150px;
+  height: 150px;
+  /* padding: 0.5em; */
+  outline: 1px solid #000;
+  border: 1px solid rgb(255, 255, 255);
+  box-shadow: inset 0px 0px 2px 1px rgb(0 0 0);
+  position: absolute;
+  /* top: 0; */
+  /* left: 0; */
+  cursor: grab;
+  z-index: 1;
+}
+
+#rtsp-status {
+  /* color: rgb(255, 0, 0);
+  font-size: 1.5em;
+  font-weight: 900; */
+  position: absolute;
+  right: 5px;
+  bottom: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  background-color: red;
+  z-index: 999;
+}
+
+.scope-span {
+  position: absolute;
+  left: 100%;
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #000;
+  bottom: 100%;
+  border-radius: 4px;
+  padding: 0px 4px;
+  box-shadow: 1px 1px 5px #4c4c4c;
+  pointer-events: none;
+  transition: 0.3s;
+  width: 17px;
+  height: 17px;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.scope-span > div {
+  position: absolute;
+  top: 53%;
+  left: 46%;
+  transform: translate(-50%, -50%);
+}
+
+.scope-span.hover {
+  font-size: 18px;
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+}
+
+.scope-test-xy-TL {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 700;
+  z-index: 100;
+  color: rgb(255, 255, 255);
+}
+
+.scope-test-xy-BR {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: right;
+  font-size: 16px;
+  font-weight: 700;
+  color: rgb(255, 255, 255);
+}
+
+.wrapper {
+  width: 100%;
+  height: 180px;
+  position: relative;
+  border: 1px solid #aaa;
+  background-color: #eee;
+}
+
+#pointA {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  background-color: #051a1f;
+  border: 0.5px solid rgb(255, 255, 255);
+  /* box-shadow: 1px 1px 5px #4c4c4c; */
+  cursor: pointer;
+  border-radius: 20px;
+  z-index: 2;
+}
+
+#pointB {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  background-color: #051a1f;
+  border: 0.5px solid rgb(255, 255, 255);
+  /* box-shadow: 1px 1px 5px #4c4c4c; */
+  cursor: pointer;
+  border-radius: 20px;
+  z-index: 2;
+}
+
+.line-span {
+  position: absolute;
+  bottom: 100%;
+  left: 100%;
+  color: #000;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 0px 4px;
+  box-shadow: 1px 1px 5px #4c4c4c;
+  pointer-events: none;
+  width: 17px;
+  height: 17px;
+  text-align: center;
+  font-size: 6px;
+  border-radius: 20px;
+  border: 1px solid #000;
+  transition: 0.3s;
+  line-height: 1.5;
+}
+
+.line-span > div {
+  position: absolute;
+  top: 53%;
+  left: 46%;
+  transform: translate(-50%, -50%);
+}
+
+.line-span.hover {
+  font-size: 18px;
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+}
+
+#line {
+  position: absolute;
+  height: 2px;
+  outline: 1px solid #000;
+  border: 1px solid rgb(255, 255, 255);
+  /* border: 0.1px solid rgb(0, 0, 0); */
+  /* box-shadow: 1px 1px 5px #4c4c4c; */
+  transform-origin: left;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.spot {
+  /* top: 295px; */
+  /* left: 225px; */
+  position: absolute;
+  cursor: grab;
+  width: 50px;
+  z-index: 2;
+}
+
+.spot > img {
+  max-width: 100%;
+}
+
+.spot-span {
+  position: absolute;
+  bottom: 70%;
+  left: 70%;
+  color: #000;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 0px 4px;
+  box-shadow: 1px 1px 5px #4c4c4c;
+  pointer-events: none;
+  width: 17px;
+  height: 17px;
+  text-align: center;
+  font-size: 6px;
+  border-radius: 20px;
+  border: 1px solid #000;
+  transition: 0.3s;
+  line-height: 1.5;
+}
+
+.spot-span > div {
+  position: absolute;
+  top: 53%;
+  left: 46%;
+  transform: translate(-50%, -50%);
+}
+
+.spot-span.hover {
+  font-size: 18px;
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+}
+
+.tooltip_content {
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+  background-color: rgb(224, 231, 120);
+}
+
+.point-hover {
+  background-color: #37484c !important;
 }
 </style>
