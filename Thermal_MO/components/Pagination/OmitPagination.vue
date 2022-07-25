@@ -1,12 +1,8 @@
 <template>
-  <div
-    class="custom-pagination"
-    :class="pagClass"
-    v-bind:style="`width:${width}`"
-  >
-    <!-- <button :class="prev" @click="pagination('first', '0')">
+  <div class="custom-pagination" :class="pag_class" :style="`width:${width}`">
+    <button :class="prev" @click="pagination('first', '0')">
       <span>第一頁</span>
-    </button> -->
+    </button>
     <button :class="prev" @click="pagination('Prev', '0')">
       <span>上一頁</span>
     </button>
@@ -14,7 +10,7 @@
       v-for="(z, index) in page"
       :key="index"
       class="custom-pagination-btn-number"
-      v-bind:class="[
+      :class="[
         z[1] === 1
           ? 'ustom-pagination-btn-foucs'
           : z[1] === 2
@@ -25,17 +21,19 @@
     >
       <span>{{ z[0] }}</span>
     </button>
-    <button @click="pagination('next', '0')" :class="next">
+    <button :class="next" @click="pagination('next', '0')">
       <span>下一頁</span>
     </button>
-    <!-- <button @click="pagination('last', '0')" :class="next">
+    <button @click="pagination('last', '0')" :class="next">
       <span>最後一頁</span>
-    </button> -->
+    </button>
   </div>
 </template>
 
 <script>
 export default {
+  props: ['totle', 'width', 'pag_class'],
+
   data: () => ({
     // 分頁
     // pagaTotle: 20,
@@ -46,7 +44,11 @@ export default {
     next: '', // 下一頁的class
     serinv: null,
   }),
-  props: ['totle', 'width', 'pagClass'],
+  watch: {
+    npage(data) {
+      this.pageSet(data)
+    },
+  },
   mounted() {
     if (this.serinv !== null) {
       clearInterval(this.serinv)
@@ -56,11 +58,6 @@ export default {
       this.pagination('setPage', [this.npage])
     }, 1000)
     this.pagination('setPage', [this.npage]) // 初始化選擇第一頁
-  },
-  watch: {
-    npage(data) {
-      this.pageSet(data)
-    },
   },
   methods: {
     refreshComponent() {

@@ -1701,32 +1701,6 @@ export default {
   fieldset {
   color: rgba(0, 0, 0, 0.1);
 }
-// 顯示筆數
-.item_per_page .v-input__slot {
-  min-height: 36px !important;
-  // width: 5.3em !important;
-  width: 100px !important;
-  font-size: 13px;
-}
-
-.item_per_page input {
-  color: #4f5e62 !important;
-}
-.item_per_page .v-input__slot .v-icon {
-  font-size: 20px;
-}
-
-.item_per_page .v-input__slot .v-label {
-  font-size: 14px;
-  // padding: 0px 0px 0px 0px;
-}
-
-.item_per_page.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state)
-  > .v-input__control
-  > .v-input__slot
-  fieldset {
-  color: rgba(0, 0, 0, 0.1);
-}
 
 // table
 // .v-data-table > .v-data-table__wrapper > table > tbody > tr > td, .v-data-table > .v-data-table__wrapper > table > tbody > tr > th, .v-data-table > .v-data-table__wrapper > table > thead > tr > td, .v-data-table > .v-data-table__wrapper > table > thead > tr > th, .v-data-table > .v-data-table__wrapper > table > tfoot > tr > td, .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
@@ -1811,57 +1785,3 @@ export default {
 .usage_cir .v-progress-circular__underlay {
   stroke: #fff;
 }
-</style>
-
-<style>
-.edit_pagination.custom-pagination {
-  /* display: grid;
-  padding: 0 0 0 4px;
-  grid-template-columns: 60px 60px 40px 40px 40px 40px 40px 60px 69px; */
-  display: flex;
-  justify-content: end !important;
-  margin-right: 10px;
-  margin-bottom: 5px;
-}
-.edit_pagination.custom-pagination span {
-  user-select: none;
-  pointer-events: none;
-}
-.edit_pagination.custom-pagination > button {
-  color: #4f5e62;
-  outline: 1px rgba(0, 0, 0, 0.12) solid;
-  font-size: 12px;
-  margin: 0px 3px;
-  margin-top: 5.8px;
-  text-align: center;
-  padding: 0px 8.5px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  line-height: 2px;
-  /* width: 35px; */
-  height: 34.4px;
-}
-.edit_pagination.custom-pagination > button:hover {
-  background-color: #dadada;
-}
-.edit_pagination.custom-pagination > button:active {
-  background-color: #aaaaaa;
-}
-.edit_pagination.custom-pagination > button.custom-pagination-btn-disable {
-  cursor: no-drop;
-  background-color: unset !important;
-  pointer-events: none;
-  opacity: 0.5;
-}
-.edit_pagination.ustom-pagination-btn-foucs {
-  background-color: #f0f2f3;
-  color: #4f5e62;
-  outline: 1px #4f5e62 solid !important;
-  pointer-events: none;
-}
-.edit_pagination.custom-pagination-btn-number {
-  padding: 8px 0px !important;
-  width: 38px;
-}
-</style>

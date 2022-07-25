@@ -9,16 +9,16 @@
           <form>
             <div class="switch-field py-0 my-0 px-1">
               <input
-                type="radio"
                 id="radio-one-email-notice"
+                type="radio"
                 name="switch-one"
                 value="yes"
                 checked
               />
               <label for="radio-one-email-notice">ON</label>
               <input
-                type="radio"
                 id="radio-two-email-notice"
+                type="radio"
                 name="switch-one"
                 value="no"
               />
@@ -37,6 +37,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-text-field
+                    v-model="smtpHost"
                     class="setup_input"
                     dense
                     outlined
@@ -44,7 +45,6 @@
                     required
                     append-icon="mdi-pencil"
                     :rules="smtpHostRules"
-                    v-model="smtpHost"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -86,6 +86,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-text-field
+                    v-model="smtpPost"
                     class="setup_input"
                     dense
                     outlined
@@ -93,7 +94,6 @@
                     required
                     append-icon="mdi-pencil"
                     :rules="smtpPostRules"
-                    v-model="smtpPost"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -105,6 +105,7 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-select
+                    v-model="repeatTransmission"
                     class="setup_input"
                     dense
                     outlined
@@ -113,7 +114,6 @@
                     placeholder="請選擇"
                     required
                     :menu-props="{ bottom: true, offsetY: true }"
-                    v-model="repeatTransmission"
                   ></v-select>
                 </v-col>
               </v-row>
@@ -127,15 +127,14 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-text-field
+                    v-model="senderAccount"
                     class="setup_input"
                     dense
                     outlined
-                    ref=""
                     placeholder="smpt.gmail.com"
                     required
                     append-icon="mdi-pencil"
                     :rules="senderAccountRules"
-                    v-model="senderAccount"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -147,15 +146,14 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-select
+                    v-model="frequency"
                     class="setup_input"
                     dense
                     outlined
-                    ref=""
                     :rules="[() => !!frequency || '表格尚未選擇']"
                     :items="frequencyItems"
                     placeholder="請選擇"
                     required
-                    v-model="frequency"
                     :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
                 </v-col>
@@ -170,15 +168,14 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-text-field
+                    v-model="senderPassword"
                     class="setup_input"
                     dense
                     outlined
-                    ref=""
                     placeholder="smpt.gmail.com"
                     required
                     append-icon="mdi-pencil"
                     :rules="senderPasswordRules"
-                    v-model="senderPassword"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -192,15 +189,14 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-select
+                    v-model="alertPics"
                     class="setup_input"
                     dense
                     outlined
-                    ref=""
                     :rules="[() => !!alertPics || '表格尚未選擇']"
                     :items="alertPicsItems"
                     placeholder="請選擇"
                     required
-                    v-model="alertPics"
                     :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
                 </v-col>
@@ -215,15 +211,14 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-text-field
+                    v-model="receiverAccount"
                     class="setup_input"
                     dense
                     outlined
-                    ref=""
                     placeholder="smpt.gmail.com"
                     required
                     append-icon="mdi-pencil"
                     :rules="receiverAccountRules"
-                    v-model="receiverAccount"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -237,15 +232,14 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-text-field
+                    v-model="emailTheme"
                     class="setup_input"
                     dense
                     outlined
-                    ref=""
                     placeholder="警報發送000"
                     required
                     append-icon="mdi-pencil"
                     :rules="emailThemeRules"
-                    v-model="emailTheme"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -259,14 +253,13 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-select
+                    v-model="userType"
                     class="setup_input"
                     dense
                     outlined
-                    ref=""
                     :rules="[() => !!userType || '表格尚未選擇']"
                     :items="userTypeItems"
                     placeholder="請選擇"
-                    v-model="userType"
                     required
                     :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
@@ -282,14 +275,13 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-select
+                    v-model="verify"
                     class="setup_input"
                     dense
                     outlined
-                    ref=""
                     :rules="[() => !!verify || '表格尚未選擇']"
                     :items="verifyItems"
                     placeholder="請選擇"
-                    v-model="verify"
                     required
                     :menu-props="{ bottom: true, offsetY: true }"
                   ></v-select>
@@ -301,8 +293,8 @@
         <!-- 儲存 含對話框  -->
         <v-card-actions class="footer pl-8 pb-1">
           <v-spacer></v-spacer>
-          <v-dialog large persistent v-model="dialog" max-width="290">
-            <template v-slot:activator="{ on, attrs }">
+          <v-dialog v-model="dialog" large persistent max-width="290">
+            <template #activator="{ on, attrs }">
               <v-btn color="#4f5e62" outlined text v-bind="attrs" v-on="on">
                 儲存
               </v-btn>
@@ -316,6 +308,7 @@
                   small
                   color="#4f5e62"
                   dark
+                  depressed
                   @click="
                     dialog = false
                     cancel()
@@ -371,16 +364,16 @@
           <form>
             <div class="switch-field py-0 my-0 px-1">
               <input
-                type="radio"
                 id="radio-one-line-notice"
+                type="radio"
                 name="switch-one"
                 value="yes"
                 checked
               />
               <label for="radio-one-line-notice">ON</label>
               <input
-                type="radio"
                 id="radio-two-line-notice"
+                type="radio"
                 name="switch-one"
                 value="no"
               />
@@ -397,19 +390,18 @@
                   <v-subheader class="py-0 pl-12 pb-1">LINE Token</v-subheader>
                 </v-col>
                 <v-col cols="12" md="7">
-                  <v-form ref="form" v-model="valid" lazy-validation>
-                    <v-text-field
-                      class="setup_input"
-                      dense
-                      outlined
-                      ref=""
-                      placeholder="smtp.gmail.com"
-                      required
-                      append-icon="mdi-pencil"
-                      v-model="lineToken"
-                      :rules="lineTokenRules"
-                    ></v-text-field>
-                  </v-form>
+                  <!-- <v-form ref="form" v-model="valid"   lazy-validation> -->
+                  <v-text-field
+                    v-model="lineToken"
+                    class="setup_input"
+                    dense
+                    outlined
+                    placeholder="smtp.gmail.com"
+                    required
+                    append-icon="mdi-pencil"
+                    :rules="lineTokenRules"
+                  ></v-text-field>
+                  <!-- </v-form> -->
                 </v-col>
               </v-row>
             </v-col>
@@ -450,13 +442,12 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-select
+                    v-model="repeatTransmission2"
                     class="setup_input"
                     dense
                     outlined
-                    ref=""
                     :rules="[() => !!repeatTransmission2 || '表格尚未選擇']"
                     :items="repeatTransmissionItems2"
-                    v-model="repeatTransmission2"
                     placeholder="請選擇"
                     required
                     :menu-props="{ bottom: true, offsetY: true }"
@@ -474,12 +465,11 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-select
+                    v-model="frequency2"
                     class="setup_input"
                     dense
                     outlined
-                    ref=""
                     :rules="[() => !!frequency2 || '表格尚未選擇']"
-                    v-model="frequency2"
                     :items="frequencyItems2"
                     placeholder="請選擇"
                     required
@@ -500,12 +490,11 @@
                 </v-col>
                 <v-col cols="12" md="7">
                   <v-select
+                    v-model="alertPics2"
                     class="setup_input"
                     dense
                     outlined
-                    ref=""
                     :rules="[() => !!alertPics2 || '表格尚未選擇']"
-                    v-model="alertPics2"
                     :items="alertPicsItems2"
                     placeholder="請選擇"
                     required
@@ -519,8 +508,8 @@
         <!-- 儲存 含對話框  -->
         <v-card-actions class="footer pl-8 pb-1">
           <v-spacer></v-spacer>
-          <v-dialog large persistent v-model="dialog" max-width="290">
-            <template v-slot:activator="{ on, attrs }">
+          <v-dialog v-model="dialog" large persistent max-width="290">
+            <template #activator="{ on, attrs }">
               <v-btn
                 color="#4f5e62"
                 outlined
@@ -541,6 +530,7 @@
                   small
                   color="#4f5e62"
                   dark
+                  depressed
                   @click="
                     dialog = false
                     cancel()
@@ -562,8 +552,8 @@
                   >確定</v-btn
                 >
                 <v-dialog
-                  :disabled="!valid"
                   v-model="dialogForConfirm"
+                  :disabled="!valid"
                   hide-overlay
                   persistent
                   width="300"
@@ -597,7 +587,7 @@
           <div style="margin-left: 4px; padding-top: 3px">{{ snackText }}</div>
         </div>
 
-        <template v-slot:action="{ attrs }">
+        <template #action="{ attrs }">
           <v-btn v-bind="attrs" small icon @click="snack = false">
             <v-icon small dark>mdi-close</v-icon>
           </v-btn>
@@ -675,9 +665,11 @@ export default {
     alertPics2: null,
     alertPicsItems2: ['YES', 'NO'],
 
+    radio: '',
     snack: false,
     snackColor: '',
     snackText: '',
+    snackIcon: '',
     dialog: false,
     dialogForConfirm: false,
   }),
