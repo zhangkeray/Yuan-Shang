@@ -367,6 +367,10 @@
                               :id="`test-cramre${index01}`"
                               width="100%"
                             /> -->
+                            <div
+                              class="ui-skeleton-loaders"
+                              :id="`sleleton-loaders-custom${index01}`"
+                            ></div>
                             <canvas
                               class="test-cramre cam-canvas"
                               :id="`test-cramre${index01}`"
@@ -390,6 +394,26 @@
                                   src="/images/alarm-200.png"
                                 />
                               </div>
+                            </div>
+                          </div>
+                        </template>
+                        <template v-else-if="index01 === 1">
+                          <div class="ui-state-cover ui-empty">
+                            <!-- <img
+                              src="empty.png"
+                              class="test-cramre"
+                              :id="`test-cramre${index01}`"
+                              width="100%"
+                            /> -->
+                            <canvas
+                              class="test-cramre cam-canvas"
+                              :id="`test-cramre${index01}`"
+                            ></canvas>
+                            <div class="ui-state-default-footer">
+                              <div class="ui-state-default-point1"></div>
+                              <span
+                                >Cam-s1-55 A棟CS-01配電盤({{ index01 }})</span
+                              >
                             </div>
                           </div>
                         </template>
@@ -896,6 +920,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import MultiScreenstand from '../components/MultiScreen/MultiScreen-stand.vue'
 export default {
   name: 'MultiScreenPage',
@@ -1169,7 +1194,9 @@ export default {
         ctx.drawImage(img, 0, 0, this.width, this.height)
       }
       if (sum === 3) {
-        img.src = '/loadingBG.png'
+        // img.src = '/loadingBG.png'
+      } else if (sum === 1) {
+        img.src = '/NOSIGNAL.jpg'
       } else {
         img.src = '/empty.png'
       }
@@ -1510,28 +1537,52 @@ export default {
       }
       var tmpsocket = []
       this.$nextTick(function () {
-        for (var z = 0; z < output.totle; z++) {
-          var socket = this.$nuxtSocket({
-            name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
-            channel: '//43ea5351-2412-45ac-ad35-f5686a594c15',
-          })
-          // if (z === 3) {
-          const canvas = document.getElementById(`test-cramre${z}`)
-          socket.on('data', (data) => {
-            var img = new Image()
-            var ctx = canvas.getContext('2d')
-            img.onload = function () {
-              canvas.width = this.naturalWidth
-              canvas.height = this.naturalHeight
-              // URL.revokeObjectURL(url)
-              ctx.drawImage(img, 0, 0, this.width, this.height)
+        // 將目前相機列表存入陣列中
+        var rtspStream = []
+
+        rtspStream.push({
+          id: 1,
+          proxy: '/test',
+          rtsp: 'rtsp://192.168.0.177:9554/live?channel=0&subtype=0',
+        })
+        // 宣告目前要直播的內容
+        axios({
+          method: 'post',
+          url: 'http://192.168.0.173:6148/stream',
+          data: rtspStream,
+        }).then((params) => {
+          for (var z = 0; z < output.totle; z++) {
+            var socket = this.$nuxtSocket({
+              name: 'main', // select "main" socket from nuxt.config.js - we could also skip this because "main" is the default socket
+              channel: '//test',
+            })
+            if (z === 3) {
+              const canvas = document.getElementById(`test-cramre${z}`)
+              socket.on('data', (data) => {
+                var img = new Image()
+                var ctx = canvas.getContext('2d')
+                img.onload = function () {
+                  canvas.width = this.naturalWidth
+                  canvas.height = this.naturalHeight
+                  // URL.revokeObjectURL(url)
+                  ctx.drawImage(img, 0, 0, this.width, this.height)
+                }
+                img.src = 'data:image/jpeg;base64,' + data
+              })
+              tmpsocket.push(socket)
+              var loaders = document.getElementById(
+                `sleleton-loaders-custom${z}`
+              )
+              console.log(`sleleton-loaders-custom${z}`)
+              console.log(loaders)
+              setTimeout(() => {
+                loaders.style.display = 'none'
+              }, 2000)
             }
-            img.src = 'data:image/jpeg;base64,' + data
-          })
-          tmpsocket.push(socket)
-        }
-        this.socket = tmpsocket
-        console.log('渲染完成')
+          }
+          this.socket = tmpsocket
+          console.log('渲染完成')
+        })
       })
     },
     // 標籤標題隱藏
@@ -1681,7 +1732,7 @@ export default {
   position: sticky;
   top: 0;
   background-color: #fff;
-  z-index: 999;
+  z-index: 1;
 }
 .diago-table-title {
   color: #4f5e62;
@@ -1738,8 +1789,8 @@ export default {
 .diago-tootip-photo {
   padding: 10px;
 }
-.diago-cus>div{
-  overflow-y:scroll !important;
+.diago-cus > div {
+  overflow-y: scroll !important;
 }
 .diago-tootip-photo > img {
   opacity: 0;
@@ -2111,6 +2162,13 @@ export default {
   border-radius: 10px;
   margin: 0px 10px;
 }
+.ui-state-default-point1 {
+  background-color: #de8788;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  margin: 0px 10px;
+}
 .ui-state-default-alarm {
   position: absolute;
   width: 100%;
@@ -2346,5 +2404,28 @@ export default {
 }
 #custom-tab-items {
   background-color: #fff0 !important;
+}
+/* 自訂載入框架 */
+.ui-skeleton-loaders {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgb(44, 44, 44);
+  /* background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%); */
+  background: linear-gradient(102deg, #d7d7d7 11%, #f3f3f3 28%, #d7d7d7 33%);
+  background-size: 200% 100%;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  animation: 1s shine linear infinite;
+  pointer-events: none;
+}
+.ui-skeleton-loaders.loaders-disabled {
+  display: none;
+}
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
 }
 </style>
