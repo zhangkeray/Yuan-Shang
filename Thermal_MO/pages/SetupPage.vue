@@ -44,7 +44,7 @@
 
             <v-tab-item value="tab-2">
               <client-only>
-                <HardwareDistribution />
+                <HardwareDistribution2 />
               </client-only>
             </v-tab-item>
 
@@ -68,7 +68,7 @@
 
 <script>
 import SettingAlert from '../components/Setup/SettingAlert.vue'
-import HardwareDistribution from '../components/Setup/HardwareDistribution.vue'
+import HardwareDistribution2 from '../components/Setup/HardwareDistribution2.vue'
 import ServerManagement from '../components/Setup/ServerManagement.vue'
 import CamaraManagement from '../components/Setup/CamaraManagement.vue'
 
@@ -76,7 +76,7 @@ export default {
   name: 'SetupPage',
   components: {
     SettingAlert,
-    HardwareDistribution,
+    HardwareDistribution2,
     ServerManagement,
     CamaraManagement,
   },
