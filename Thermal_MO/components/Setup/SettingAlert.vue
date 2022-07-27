@@ -291,7 +291,7 @@
           </v-row>
         </v-card-text>
         <!-- 儲存 含對話框  -->
-        <v-card-actions class="footer pl-8 pb-1">
+        <v-card-actions class="footer pl-4">
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" large persistent max-width="290">
             <template #activator="{ on, attrs }">
@@ -506,7 +506,7 @@
           </v-row>
         </v-card-text>
         <!-- 儲存 含對話框  -->
-        <v-card-actions class="footer pl-8 pb-1">
+        <v-card-actions  class="footer pl-4">
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" large persistent max-width="290">
             <template #activator="{ on, attrs }">

@@ -71,135 +71,168 @@
         </v-col>
 
         <v-col cols="12" md="12">
-          <v-row :column="$vuetify.breakpoint.mdAndDown" justify="center">
+          <v-row>
             <v-col cols="12" lg="3">
-              <v-row
-                class="ml-2 mt-2"
-                style="border: 3px solid #f1f1f1; border-radius: 10px"
-              >
-                <h4 class="cardtitle ml-3" style="">監測項目超溫次數統計</h4>
-                <v-spacer />
-                <date-picker
-                  v-model="value1"
-                  type="datetime"
-                  range
-                  placeholder="Select datetime range"
-                  style="width: 200px"
-                ></date-picker>
+              <v-card flat outlined class="ml-3 mt-3" style="width: 600px">
+                <v-card-title class="d-flex py-0 px-1">
+                  <h6 class="cardtitle ml-3" style="color: #4f5e62">
+                    監測項目超溫次數統計
+                  </h6>
+                  <v-spacer />
+                  <date-picker
+                    v-model="value1"
+                    type="datetime"
+                    range
+                    placeholder="Select datetime range"
+                    style="width: 150px"
+                  ></date-picker>
+                  <v-dialog
+                    v-model="dialog"
+                    width="500"
+                    hide-overlay
+                    style="z-index: 99999999999"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn icon color="#e89595" v-bind="attrs" v-on="on">
+                        <v-icon>mdi-alert-circle-outline</v-icon>
+                      </v-btn>
+                    </template>
 
-                <!-- ------------------------------------- -->
-                <!-- <v-tooltip right class="tips">
-                  <template v-slot:activator="{ on, attrs }"> -->
-                <v-dialog
-                  v-model="dialog"
-                  width="500"
-                  hide-overlay
-                  style="z-index: 99999999999"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon color="#e89595" v-bind="attrs" v-on="on">
-                      <v-icon>mdi-alert-circle-outline</v-icon>
-                    </v-btn>
-                  </template>
+                    <v-card>
+                      <v-card-text>
+                        <v-data-table
+                          :headers="firstHeadersForNotice"
+                          :items="firstBodysForNotice"
+                          :expanded="expanded"
+                          item-key="name"
+                          show-expand
+                          @click:row="clicked"
+                          hide-default-footer
+                          disable-sort
+                          :search="search"
+                          width="900px"
+                          :loading="loading ? '#4f5e62' : null"
+                          loading-text="資料加載中... 請稍後"
+                          style="color: #4f5e62"
+                          v-model="selected"
+                          show-select
+                          :page.sync="page"
+                          @page-count="pageCount = $event"
+                          :items-per-page="itemsPerPage"
+                          fixed-header
+                          class="mx-4"
+                          color="#4f5e62"
+                          checkbox-color="#4f5e62"
+                        >
+                          <template v-slot:expanded-item="{ headers }">
+                            <td
+                              :colspan="headers.length"
+                              hide-default-footer
+                              class="elevation-0 tablefont"
+                              dense
+                              disable-sort
+                              style="background-color: transparent"
+                            >
+                              <v-row>
+                                <v-col cols="6">
+                                  <h5>before</h5>
+                                </v-col>
+                                <v-col cols="6">
+                                  <h5>after</h5>
+                                </v-col>
+                              </v-row>
 
-                  <v-card>
-                    <v-card-text>
-                      <v-data-table
-                        :headers="firstHeadersForNotice"
-                        :items="firstBodysForNotice"
-                        :expanded="expanded"
-                        item-key="name"
-                        show-expand
-                        class="elevation-0"
-                        @click:row="clicked"
-                        hide-default-footer
-                        disable-sort
-                        style="position: relative"
-                      >
-                        <template v-slot:expanded-item="{ headers }">
-                          <td
+                              <v-row>
+                                <v-col cols="6" class="py-0">
+                                  <v-img
+                                    justify="center"
+                                    src="/xzoom/images/20220510_v1.jpg"
+                                    width="200"
+                                    style="display: block; margin: auto"
+                                  />
+                                </v-col>
+                                <v-col cols="6" class="py-0">
+                                  <v-img
+                                    justify="center"
+                                    src="/xzoom/images/20220510_after.png"
+                                    width="200"
+                                    style="display: block; margin: auto"
+                                  />
+                                </v-col>
+                              </v-row>
+                            </td>
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                          </template>
+                        </v-data-table>
+                      </v-card-text>
+
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="#505f62" text @click="dialog = false">
+                          關閉
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </v-card-title>
+                <v-card-text class="px-1">
+                  <v-col cols="12" md="12" class="px-0">
+                    <v-img
+                      justify="center"
+                      src="/xzoom/images/20220510_v1.jpg"
+                      width="280"
+                      style="display: block; margin: auto"
+                    />
+
+                    <v-data-table
+                      :headers="firstHeaders"
+                      :items="firstBodys"
+                      :expanded.sync="expanded"
+                      item-key="name"
+                      show-expand
+                      dense
+                      hide-default-footer
+                      height="195px"
+                      :search="search"
+                      :loading="loading ? '#4f5e62' : null"
+                      loading-text="資料加載中... 請稍後"
+                      style="color: #4f5e62"
+                      color="#4f5e62"
+                      class="mx-2"
+                      disable-sort
+                    >
+                      <template v-slot:expanded-item="{ headers }">
+                      
+                        <td
+                          :colspan="headers.length"
+                          hide-default-footer
+                          class="tablefont"
+                          dense
+                          disable-sort
+                          style="background-color: transparent"
+                        >
+                          <v-data-table
                             :colspan="headers.length"
+                            :headers="secondHeaders"
+                            :items="secondBodys"
                             hide-default-footer
-                            class="elevation-0 tablefont"
+                            class="ablefont"
                             dense
                             disable-sort
                             style="background-color: transparent"
-                          >
-                            <v-row>
-                              <v-col cols="6">
-                                <h5>before</h5>
-                              </v-col>
-                              <v-col cols="6">
-                                <h5>after</h5>
-                              </v-col>
-                            </v-row>
-
-                            <v-row>
-                              <v-col cols="6" class="py-0">
-                                <v-img
-                                  justify="center"
-                                  src="/xzoom/images/20220510_v1.jpg"
-                                  width="200"
-                                  style="display: block; margin: auto"
-                                />
-                              </v-col>
-                              <v-col cols="6" class="py-0">
-                                <v-img
-                                  justify="center"
-                                  src="/xzoom/images/20220510_after.png"
-                                  width="200"
-                                  style="display: block; margin: auto"
-                                />
-                              </v-col>
-                            </v-row>
-                          </td>
-                          <br />
-                          <br />
-                          <br />
-                          <br />
-                          <br />
-                          <br />
-                          <br />
-                          <br />
-                          <br />
-                        </template>
-                      </v-data-table>
-                    </v-card-text>
-
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn color="#505f62" text @click="dialog = false">
-                        關閉
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-                <!-- </template>
-                  <span>監測項目變動</span>
-                </v-tooltip> -->
-
-                <!-- ------------------------------------- -->
-
-                <v-col cols="12" md="12">
-                  <v-img
-                    justify="center"
-                    src="/xzoom/images/20220510_v1.jpg"
-                    width="280"
-                    style="display: block; margin: auto"
-                  />
-                  <v-data-table
-                    :headers="firstHeaders"
-                    :items="firstBodys"
-                    :expanded="expanded"
-                    item-key="name"
-                    show-expand
-                    class="elevation-0"
-                    @click:row="clicked"
-                    hide-default-footer
-                    disable-sort
-                    style="position: relative"
-                    height="200px"
-                  >
+                          ></v-data-table>
+                        </td>
+                      </template>
+                    </v-data-table>
+                    <!-- 
                     <template v-slot:expanded-item="{ headers }">
                       <td
                         :colspan="headers.length"
@@ -224,9 +257,10 @@
                         ></v-data-table>
                       </td>
                     </template>
-                  </v-data-table>
-                </v-col>
-              </v-row>
+ -->
+                  </v-col>
+                </v-card-text>
+              </v-card>
             </v-col>
 
             <v-col cols="12" lg="9">
@@ -377,22 +411,82 @@ export default {
       '2022/03/08 03:08:57 - 2022/05/17 08:22:09',
     ],
 
-    // 巢狀表格
+    // 監測項目超溫次數統計 巢狀表格
     expanded: [],
     singleExpand: false,
     firstHeaders: [
       {
         text: '項目',
-        align: 'start',
+        sortable: false,
+        value: 'name',
+        align: 'center',
+        class: 'my-header-style',
+      },
+      {
+        text: '開始紀錄時間',
+        sortable: false,
+        value: 'calories',
+        align: 'center',
+        class: 'my-header-style',
+      },
+      {
+        text: '超溫占比',
+        sortable: false,
+        value: 'carbs',
+        align: 'center',
+        class: 'my-header-style',
+      },
+      {
+        text: '超溫總數',
+        sortable: false,
+        value: 'protein',
+        align: 'center',
+        class: 'my-header-style',
+      },
+      {
+        text: '',
+        sortable: false,
+        value: 'data-table-expand',
+        align: 'center',
+        class: 'my-header-style ma-0',
+      },
+    ],
+
+    secondHeaders: [
+      {
+        text: '',
+        align: 'center',
+        class: 'my-header-style mx-0',
         sortable: false,
         value: 'name',
       },
-      { text: '開始紀錄時間', value: 'calories' },
-      // { text: '停止紀錄時間', value: 'fat' },
-      { text: '超溫占比', value: 'carbs' },
-      { text: '超溫總數', value: 'protein' },
-      { text: '', value: 'data-table-expand' },
+      {
+        text: '超溫開始時間',
+        value: 'calories',
+        align: 'center',
+        class: 'my-header-style  mx-0',
+      },
+      {
+        text: '持續時間',
+        value: 'carbs',
+        align: 'center',
+        class: 'my-header-style  mx-0',
+      },
+      {
+        text: '最高溫度',
+        value: 'protein',
+        align: 'center',
+        class: 'my-header-style  mx-0',
+      },
+      {
+        text: '警報溫度',
+        value: 'iron',
+        align: 'center',
+        class: 'my-header-style  mx-0',
+      },
     ],
+
+    // 紅色通知 巢狀表格
 
     firstHeadersForNotice: [
       {
@@ -405,18 +499,6 @@ export default {
       { text: '狀況', value: 'fat' },
     ],
 
-    secondHeaders: [
-      {
-        text: '',
-        align: 'start',
-        sortable: false,
-        value: 'name',
-      },
-      { text: '超溫開始時間', value: 'calories' },
-      { text: '持續時間', value: 'carbs' },
-      { text: '最高溫度', value: 'protein' },
-      { text: '警報溫度', value: 'iron' },
-    ],
     secondHeadersForNotice: [
       {
         text: '',
@@ -990,8 +1072,7 @@ export default {
         date.getFullYear() +
         ('0' + (date.getMonth() + 1)).slice(-2) +
         ('0' + date.getDate()).slice(-2)
-      var YM = date.getFullYear() +
-        ('0' + (date.getMonth() + 1)).slice(-2)
+      var YM = date.getFullYear() + ('0' + (date.getMonth() + 1)).slice(-2)
       var HMS =
         ('0' + date.getHours()).slice(-2) +
         ('0' + date.getMinutes()).slice(-2) +

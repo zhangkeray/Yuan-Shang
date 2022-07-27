@@ -59,7 +59,7 @@
                 </div>
                 <!-- 新增伺服器主機對話框 -->
                 <v-dialog
-                  v-model="dialogForAddCam"
+                  v-model="dialogForAddServer"
                   max-width="500px"
                   persistent
                 >
@@ -91,7 +91,7 @@
                                   <v-text-field
                                     outlined
                                     hide-details
-                                    v-model="this.server_ip"
+                                    placeholder="192.168.0.000"
                                     dense
                                     color="#4f5e62"
                                     style="color: #4f5e62"
@@ -113,12 +113,14 @@
                                   <v-text-field
                                     outlined
                                     hide-details
-                                    v-model="editedItem.server_system_number"
+                                    v-model="server_main_position"
+                                    placeholder="server-00"
                                     dense
                                     color="#4f5e62"
                                     style="color: #4f5e62; margin-right: 25px"
                                     class="tiny_input"
                                     disabled
+                                    background-color="rgba(0, 0, 0,0.05)"
                                   ></v-text-field>
                                 </div>
                               </v-col>
@@ -130,12 +132,11 @@
                                   <v-text-field
                                     outlined
                                     hide-details
-                                    v-model="editedItem.server_name"
+                                    placeholder="svr-s1-14"
                                     dense
                                     color="#4f5e62"
                                     style="color: #4f5e62; margin-right: 24px"
                                     class="tiny_input"
-                                    disabled
                                   ></v-text-field>
                                 </div>
                               </v-col>
@@ -144,16 +145,6 @@
                                 <h7 class="mb-1 pb-0 pl-3 font">型號</h7>
                                 <v-spacer class="font mb-1" />
                                 <div cols="12" class="d-flex pb-0">
-                                  <!-- <v-text-field
-                                    outlined
-                                    hide-details
-                                    v-model="editedItem.server_type"
-                                    value=""
-                                    dense
-                                    color="#4f5e62"
-                                    style="color: #4f5e62"
-                                    class="tiny_input"
-                                  ></v-text-field> -->
                                   <v-select
                                     class="tiny_input_select"
                                     dense
@@ -254,6 +245,7 @@
                                     style="color: #4f5e62; margin-right: 25px"
                                     class="tiny_input pb-0"
                                     disabled
+                                    background-color="rgba(0, 0, 0,0.05)"
                                   ></v-text-field>
                                 </div>
                               </v-col>
@@ -272,6 +264,7 @@
                                     style="color: #4f5e62; margin-right: 25px"
                                     class="tiny_input"
                                     disabled
+                                    background-color="rgba(0, 0, 0,0.05)"
                                   ></v-text-field>
                                 </div>
                               </v-col>
@@ -290,6 +283,7 @@
                                     style="color: #4f5e62; margin-right: 25px"
                                     class="tiny_input"
                                     disabled
+                                    background-color="rgba(0, 0, 0, 0.05)"
                                   ></v-text-field>
                                 </div>
                               </v-col>
@@ -307,6 +301,7 @@
                                     style="color: #4f5e62; margin-right: 25px"
                                     class="tiny_input"
                                     disabled
+                                    background-color="rgba(0, 0, 0, 0.05)"
                                   ></v-text-field>
                                 </div>
                               </v-col>
@@ -320,10 +315,11 @@
                                     hide-details
                                     value="00:40:7F:04:F7:23"
                                     dense
-                                    color="#4f5e62"
-                                    style="color: #4f5e62; margin-right: 25px"
+                                    color=""
+                                    style="color: green; margin-right: 25px"
                                     class="tiny_input"
                                     disabled
+                                    background-color="rgba(0, 0, 0, 0.05)"
                                   ></v-text-field>
                                 </div>
                               </v-col>
@@ -344,7 +340,6 @@
                           <v-btn
                             dark
                             color="#4f5e62"
-                            small
                             class="mb-4"
                             depressed
                             v-bind="attrs"
@@ -372,35 +367,24 @@
                               text
                               small
                               @click="
-                                dialogForAddCam = false
+                                dialogForAddServer = false
                                 cancel()
                               "
-                              @cancel="cancel"
                               >確定</v-btn
                             >
                           </v-card-actions>
                         </v-card>
                       </v-dialog>
 
-                      <!-- <v-btn
-                        dark
-                        color="#4f5e62"
-                        @click="dialogForAddCam = false"
-                        small
-                        class="mr-2 mb-4"
-                      >
-                        確定
-                      </v-btn> -->
                       <v-btn
                         color="#4f5e62"
                         outlined
                         text
                         class="mr-2 mb-4"
-                        small
                         :loading="dialogForConfirm"
                         @click="
                           dialogForConfirm = true
-                          dialogForAddCam = false
+                          dialogForAddServer = false
                         "
                         >確定</v-btn
                       >
@@ -425,123 +409,73 @@
                   </v-card>
                 </v-dialog>
                 <!-- 詳細資訊對話框 -->
-                <v-dialog v-model="dialog" max-width="1000px">
-                  <!-- <template v-slot:activator="{ on }">
-                    <v-btn v-on="on" outlined text color="#4f5e62">
-                      <v-icon left>mdi-plus-circle-outline</v-icon>
-                      <h5>新增相機</h5>
-                    </v-btn>
-                  </template> -->
-
+                <v-dialog v-model="dialog" max-width="950px" persistent>
                   <v-card>
-                    <!-- <v-btn
-                      x-small
-                      color=""
-                      icon
-                      @click="showEditDialog()"
-                      style="
-                        color: #4f5e62;
-                        margin-top: 5px;
-                        margin-left: 5px;
-                        border: 1px solid rgba(0, 0, 0, 0.1);
-                      "
-                      ><v-icon small>mdi-close</v-icon></v-btn
-                    > -->
                     <v-card-title class="">
                       <h5>伺服器主機詳細資訊</h5>
                       <v-spacer />
-                      <!-- 移動位置的對話框 -->
-                      <v-menu
-                        v-model="menu"
-                        :close-on-content-click="false"
-                        :nudge-width="100"
-                        offset-x
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn
-                            outlined
-                            small
-                            text
-                            v-bind="attrs"
-                            v-on="on"
-                            color="#4f5e62"
-                            class="mr-3"
-                          >
-                            <v-icon left> mdi-monitor-edit </v-icon>
-                            移動位置
-                          </v-btn>
-                        </template>
-
-                        <v-card>
-                          <v-card-title class="font py-0">移動至</v-card-title>
-                          <v-card-text class="d-flex">
-                            <div class="d-flex">
-                              <v-select
-                                class="most_tiny_input_select2"
-                                dense
-                                outlined
-                                ref=""
-                                hide-details
-                                :menu-props="{
-                                  bottom: true,
-                                  offsetY: true,
-                                }"
-                              ></v-select>
-                              <h7 class="font">&nbsp;棟/&nbsp;</h7>
-                              <v-select
-                                class="most_tiny_input_select2"
-                                dense
-                                outlined
-                                ref=""
-                                hide-details
-                                :menu-props="{
-                                  bottom: true,
-                                  offsetY: true,
-                                }"
-                              ></v-select>
-                              <h7 class="font" style="color: #4f5e62"
-                                >&nbsp;區</h7
-                              >
-                            </div>
-                          </v-card-text>
-                          <v-card-actions class="pt-0">
-                            <v-spacer></v-spacer>
-
-                            <v-btn
-                              color="primary"
-                              x-small
-                              depressed
-                              @click="menu = false"
-                            >
-                              取消
-                            </v-btn>
-                            <v-btn
-                              color="#4f5e62"
-                              outlined
-                              text
-                              x-small
-                              @click="menu = false"
-                            >
-                              確定
-                            </v-btn>
-                          </v-card-actions>
-                        </v-card>
-                      </v-menu>
-
-                      <!-- ------ -->
-
                       <v-btn outlined small text color="#4f5e62">
                         <v-icon left> mdi-lightning-bolt-circle </v-icon>
-                        連線
+                        連線 ON
                       </v-btn>
                     </v-card-title>
                     <v-card-text>
                       <v-row>
                         <v-col cols="12" md="4" class="ma-0">
-                          <v-card ref="form" class="my-0 ma-0 pa-0" flat>
+                          <v-card class="my-0 ma-0 pa-0" flat>
                             <v-row>
-                              <v-col cols="12" class="d-flex pb-0">
-                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
+                              <v-card
+                                class="card ml-3 pr-2 px-0 mb-2 mt-3"
+                                flat
+                                outlined
+                              >
+                                <v-col cols="12" class="d-flex pb-0">
+                                  <h7 class="mb-1 pb-0 pl-3 font">名稱</h7>
+                                  <!-- <v-spacer class="font mb-1" /> -->
+                                  <div cols="12" class="d-flex pb-0 pl-15">
+                                    <v-text-field
+                                      outlined
+                                      hide-details
+                                      placeholder="svr-s1-14"
+                                      dense
+                                      color="#4f5e62"
+                                      style="color: #4f5e62; margin-right: 24px"
+                                      class="tiny_input"
+                                    ></v-text-field>
+                                  </div>
+                                </v-col>
+
+                                <v-col cols="12" class="d-flex py-0">
+                                  <h7 class="mb-3 pb-0 pl-3 font">位置</h7>
+                                  <!-- <v-spacer class="font mb-1" /> -->
+                                  <div class="d-flex pl-15">
+                                    <v-select
+                                      class="most_tiny_input_select"
+                                      dense
+                                      outlined
+                                      ref=""
+                                      hide-details
+                                      :menu-props="{
+                                        bottom: true,
+                                        offsetY: true,
+                                      }"
+                                    ></v-select>
+                                    <v-select
+                                      class="most_tiny_input_select"
+                                      dense
+                                      outlined
+                                      ref=""
+                                      hide-details
+                                      :menu-props="{
+                                        bottom: true,
+                                        offsetY: true,
+                                      }"
+                                    ></v-select>
+                                  </div>
+                                </v-col>
+                              </v-card>
+                              <v-col cols="12" class="d-flex py-0">
+                                <h7 class="mb-1 pl-6 pb-0 font_bg_color"
                                   >系統編號</h7
                                 >
                                 <v-spacer class="font_bg_color mb-1 mx-0" />
@@ -572,19 +506,7 @@
                               </v-col>
 
                               <v-col cols="12" class="d-flex py-0">
-                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
-                                  >名稱</h7
-                                >
-                                <v-spacer class="font_bg_color mb-1" />
-                                <h7 class="mb-1 pr-7 pb-0 font_bg_color"
-                                  >{{
-                                    editedItem.server_name
-                                  }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h7
-                                >
-                              </v-col>
-
-                              <v-col cols="12" class="d-flex py-0">
-                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
+                                <h7 class="mb-1 pl-6 pb-0 font_bg_color"
                                   >型號</h7
                                 >
                                 <v-spacer class="font_bg_color mb-1" />
@@ -596,19 +518,7 @@
                               </v-col>
 
                               <v-col cols="12" class="d-flex py-0">
-                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
-                                  >位置</h7
-                                >
-                                <v-spacer class="font_bg_color mb-1" />
-                                <h7 class="mb-1 pr-7 pb-0 font_bg_color"
-                                  >{{ editedItem.server_main_position }}棟/{{
-                                    editedItem.server_secondary_position
-                                  }}區&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h7
-                                >
-                              </v-col>
-
-                              <v-col cols="12" class="d-flex py-0">
-                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
+                                <h7 class="mb-1 pl-6 pb-0 font_bg_color"
                                   >IP位址</h7
                                 >
                                 <v-spacer class="font_bg_color mb-1" />
@@ -620,7 +530,7 @@
                               </v-col>
 
                               <v-col cols="12" class="d-flex py-0">
-                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
+                                <h7 class="mb-1 pl-6 pb-0 font_bg_color"
                                   >MAC位址</h7
                                 >
                                 <v-spacer class="font_bg_color mb-1" />
@@ -646,7 +556,7 @@
                                       class="pa-0 expan_header"
                                     >
                                       <v-col cols="12" class="d-flex py-0 pt-1">
-                                        <h7 class="pl-0 font_bg_color"
+                                        <h7 class="pl-3 font_bg_color"
                                           >硬碟使用量</h7
                                         >
                                         <v-spacer class="font_bg_color mb-1" />
@@ -755,7 +665,7 @@
                                       class="pa-0 ma-0 expan_header"
                                     >
                                       <v-col cols="12" class="d-flex py-0 pt-1">
-                                        <h7 class="mb-1 pl-0 pb-0 font_bg_color"
+                                        <h7 class="mb-1 pl-3 pb-0 font_bg_color"
                                           >狀態</h7
                                         >
                                         <v-spacer class="font_bg_color mb-1" />
@@ -789,21 +699,21 @@
                                       <v-row>
                                         <v-col cols="12" class="pt-6 pb-3">
                                           <v-row>
-                                            <v-col cols="6" class="d-flex pb-0">
+                                            <v-col cols="4" class="d-flex pb-0">
                                               <h7 class="my-0 py-0"
                                                 >傳輸速率</h7
                                               >
                                             </v-col>
                                             <v-col cols="6" class="d-flex pb-0">
                                               <!-- <v-spacer /> -->
-                                              <h7 class="my-0 py-0"
+                                              <h7 class="my-0 py-0 pr-3"
                                                 >{{
                                                   editedItem.server_usage_spare_capacity
                                                 }}GB</h7
                                               >
                                             </v-col>
 
-                                            <v-col cols="6" class="d-flex py-0">
+                                            <v-col cols="4" class="d-flex py-0">
                                               <h7 class="my-0 py-0">已接收</h7>
                                               <!-- <v-spacer /> -->
                                             </v-col>
@@ -815,7 +725,7 @@
                                               >
                                             </v-col>
 
-                                            <v-col cols="6" class="d-flex py-0">
+                                            <v-col cols="4" class="d-flex py-0">
                                               <h7 class="my-0 py-0">已傳輸</h7>
                                               <!-- <v-spacer /> -->
                                             </v-col>
@@ -827,7 +737,7 @@
                                               >
                                             </v-col>
 
-                                            <v-col cols="6" class="d-flex py-0">
+                                            <v-col cols="4" class="d-flex py-0">
                                               <h7 class="my-0 py-0"
                                                 >錯誤/中斷</h7
                                               >
@@ -851,7 +761,7 @@
                               </v-col>
 
                               <v-col cols="12" class="d-flex py-0">
-                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
+                                <h7 class="mb-1 pl-6 pb-0 font_bg_color"
                                   >更新時間</h7
                                 >
                                 <v-spacer class="font_bg_color mb-1" />
@@ -861,7 +771,7 @@
                               </v-col>
 
                               <v-col cols="12" class="d-flex py-0 mb-2">
-                                <h7 class="mb-1 pl-3 pb-0 font_bg_color"
+                                <h7 class="mb-1 pl-6 pb-0 font_bg_color"
                                   >建立時間</h7
                                 >
                                 <v-spacer class="font_bg_color mb-1" />
@@ -914,7 +824,7 @@
                               dense
                               disable-pagination
                               hide-default-footer
-                              height="407px"
+                              height="437px"
                             >
                               <!-- 相機狀態 -->
                               <template v-slot:[`item.cam_status`]="ssts">
@@ -960,11 +870,90 @@
                                 </v-btn>
                               </template>
                             </v-data-table>
-                            <!-- ----- -->
                           </v-card>
                         </v-col>
                       </v-row>
                     </v-card-text>
+                    <!-- 伺服器主機詳細資訊 取消/確定 -->
+                    <v-card-actions class="pt-0">
+                      <v-spacer></v-spacer>
+                      <v-dialog
+                        large
+                        persistent
+                        max-width="290"
+                        v-model="dialogForTurnBack"
+                      >
+                        <template #activator="{ on, attrs }">
+                          <v-btn
+                            dark
+                            color="#4f5e62"
+                            class="mb-4"
+                            depressed
+                            v-bind="attrs"
+                            v-on="on"
+                          >
+                            取消
+                          </v-btn>
+                        </template>
+                        <v-card flat>
+                          <v-card-title><h5>確定取消?</h5></v-card-title>
+                          <v-card-text></v-card-text>
+                          <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                              small
+                              color="#4f5e62"
+                              dark
+                              depressed
+                              @click="dialogForTurnBack = false"
+                              >取消</v-btn
+                            >
+                            <v-btn
+                              color="#4f5e62"
+                              outlined
+                              text
+                              small
+                              @click="
+                                dialog = false
+                                dialogForTurnBack = false
+                                cancel()
+                              "
+                              >確定</v-btn
+                            >
+                          </v-card-actions>
+                        </v-card>
+                      </v-dialog>
+
+                      <v-btn
+                        color="#4f5e62"
+                        outlined
+                        text
+                        class="mr-2 mb-4"
+                        :loading="dialogForConfirmServerDetailInfo"
+                        @click="
+                          dialogForConfirmServerDetailInfo = true
+                          dialog = false
+                        "
+                        >確定</v-btn
+                      >
+                      <v-dialog
+                        v-model="dialogForConfirmServerDetailInfo"
+                        hide-overlay
+                        persistent
+                        width="300"
+                      >
+                        <v-card color="primary" dark>
+                          <v-card-text>
+                            資料儲存中...請稍後
+                            <v-progress-linear
+                              indeterminate
+                              color="white"
+                              class="mb-0"
+                            ></v-progress-linear>
+                          </v-card-text>
+                        </v-card>
+                      </v-dialog>
+                    </v-card-actions>
                   </v-card>
                 </v-dialog>
               </div>
@@ -1160,7 +1149,6 @@
 </template>
 <script>
 import axios from 'axios'
-// import TheTab2 from '../components/Permission/TheTab2.vue'
 import Pagination from '../Pagination/OmitPagination.vue'
 
 const apiToken = 'keywVOqtjDGyPhH76'
@@ -1334,7 +1322,8 @@ export default {
       status: ['enable', 'disable'],
       itemsSelect: ['user', 'viewer', 'admin'],
       dialog: false,
-      dialogForAddCam: false,
+      dialogForAddServer: false,
+      // dialogForServerDetailInfo: false,
       editedItem: {},
       radio: '',
       snack: false,
@@ -1342,9 +1331,12 @@ export default {
       snackText: '',
       snackIcon: '',
       dialogForConfirm: false,
+      dialogForConfirmServerDetailInfo: false,
+
       radioGroup: 1,
       dialogForTurnBack: false,
       menu: false,
+      panel: [0, 1],
 
       // 分頁
     }
@@ -1373,6 +1365,14 @@ export default {
     dialogForConfirm(val) {
       if (!val) return
       setTimeout(() => (this.dialogForConfirm = false), 4000)
+
+      // setTimeout(() => this.save(), 4000)
+      setTimeout(() => this.error(), 4000)
+    },
+
+    dialogForConfirmServerDetailInfo(val) {
+      if (!val) return
+      setTimeout(() => (this.dialogForConfirmServerDetailInfo = false), 4000)
 
       // setTimeout(() => this.save(), 4000)
       setTimeout(() => this.error(), 4000)
@@ -1423,10 +1423,6 @@ export default {
       this.dialog = !this.dialog
     },
 
-    showEditDialogForAddCam(item) {
-      this.editedItem = item || {}
-      this.dialogForAddCam = !this.dialogForAddCam
-    },
     // sever's api
     loadItems() {
       this.loading = true
@@ -1648,7 +1644,7 @@ export default {
 }
 
 .tiny_input input {
-  color: #4f5e62 !important;
+  // color: #4f5e62 ;
 }
 
 .tiny_input_select .v-input__slot {

@@ -149,6 +149,13 @@ export default {
           to: 'ForTesting13',
           permission: this.$auth.hasScope('ray'),
         },
+        {
+          icon: 'mdi-account-group-outline',
+          title: 'line',
+          // to: '5',
+          to: 'ForTesting9-6',
+          permission: this.$auth.hasScope('ray'),
+        },
         // {
         //   icon: 'mdi-chart-bubble',
         //   title: 'Inspire',

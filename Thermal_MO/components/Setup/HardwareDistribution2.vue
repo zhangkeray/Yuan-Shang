@@ -63,42 +63,47 @@
               <div></div>
             </v-col>
           </v-row>
-          <v-divider color="#4f5e62"></v-divider>
+          <v-divider ></v-divider>
           <v-row class="pa-1">
             <v-col cols="3">
-              <div class="py-1">
-                <button class="server-add-btn" test>
-                  <img src="/images/HardwareDistribution/add.png" />新增棟
-                </button>
+              <div class="py-2">
+                <v-btn v-on="on" outlined text color="#4f5e62" class="mt-1">
+                  <v-icon left>mdi-plus-circle-outline</v-icon>
+                  <h5>新增棟</h5>
+                </v-btn>
                 <!-- <v-btn color="#9ba3a5" outlined>新增主分類</v-btn> -->
               </div>
               <div class="py-1 server-primary">
                 <v-text-field
-                  class="mr-4"
+                  class="search mr-4"
                   value="S-A 棟"
                   readonly
                   dense
                   hide-details
                   outlined
                 ></v-text-field>
-                <div class="server-primary-btn">
-                  <img src="/images/HardwareDistribution/pen.png" />
-                </div>
-                <div class="server-primary-btn">
-                  <img src="/images/HardwareDistribution/trash-1.png" />
-                </div>
+                <v-btn v-on="on" small icon color="rgba(0, 0, 0, 0.1)">
+                  <v-icon small>mdi-pencil</v-icon>
+                </v-btn>
+                <v-btn v-on="on" small icon color="rgba(0, 0, 0, 0.1)">
+                  <v-icon small>mdi-delete</v-icon>
+                </v-btn>
               </div>
             </v-col>
             <v-col cols="9" class="px-0">
-              <div class="py-1 camera-pages">
-                <button class="server-add-btn">
-                  <img src="/images/HardwareDistribution/add.png" />新增區
-                </button>
+              <div class="py-2 camera-pages d-flex">
+                <v-btn v-on="on" outlined text color="#4f5e62" class="mt-1">
+                  <v-icon left>mdi-plus-circle-outline</v-icon>
+                  <h5>新增區</h5>
+                </v-btn>
+
                 <Pagination
                   :totle="pagaTotle"
-                  width="477px"
-                  pag_class="asdas"
+                  width="500px"
                   @toggle="setPage"
+                  pagClass="asdas"
+                  class="edit_pagination py-0 my-0"
+                  style="padding-bottom:5px"
                 />
                 <!-- 
                   1.totle=總分頁數 
@@ -110,19 +115,19 @@
               <div class="server-primary-flex">
                 <div v-for="j in 30" :key="j" class="py-1 server-primary mr-11">
                   <v-text-field
-                    class="mr-4"
+                    class="search mr-4"
                     :value="'S-A-' + j + '棟'"
                     readonly
                     dense
                     hide-details
                     outlined
                   ></v-text-field>
-                  <div class="server-primary-btn">
-                    <img src="/images/HardwareDistribution/pen.png" />
-                  </div>
-                  <div class="server-primary-btn">
-                    <img src="/images/HardwareDistribution/trash-1.png" />
-                  </div>
+                  <v-btn v-on="on" small icon color="rgba(0, 0, 0, 0.1)">
+                    <v-icon small>mdi-pencil</v-icon>
+                  </v-btn>
+                  <v-btn v-on="on" small icon color="rgba(0, 0, 0, 0.1)">
+                    <v-icon small>mdi-delete</v-icon>
+                  </v-btn>
                 </div>
               </div>
             </v-col>
@@ -162,46 +167,80 @@
         <v-divider class="mx-4"></v-divider>
         <v-card-text class="pt-2 px-4">
           <v-row class="pa-1">
-            <v-col cols="3">主位置</v-col>
-            <v-col cols="9">次位置</v-col>
+            <v-col cols="4">主位置</v-col>
+            <v-col cols="8"
+              >次位置
+              <div>
+                <!-- <v-btn
+                  icon
+                  @click="buttonCallback"
+                  style="
+                    color: #4f5e62;
+                    margin-right: 8px;
+                    margin-top: 5px;
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                  "
+                >
+                  <v-icon style="padding-left: 1.6px">mdi-reload</v-icon>
+                </v-btn>
+                <v-btn
+                  icon
+                  @click="buttonCallback"
+                  outlined
+                  style="
+                    color: #4f5e62;
+                    margin-right: 8px;
+                    margin-top: 5px;
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                  "
+                >
+                  <v-icon>mdi-lightning-bolt-circle</v-icon>
+                </v-btn> -->
+              </div>
+              <div></div>
+            </v-col>
           </v-row>
-          <v-divider color="#4f5e62"></v-divider>
+          <v-divider ></v-divider>
           <v-row class="pa-1">
             <v-col cols="3">
-              <div class="py-1">
-                <button class="server-add-btn">
-                  <img src="/images/HardwareDistribution/add.png" />新增棟
-                </button>
+              <div class="py-2">
+                <v-btn v-on="on" outlined text color="#4f5e62" class="mt-1" @click="addNew">
+                  <v-icon left>mdi-plus-circle-outline</v-icon>
+                  <h5>新增棟</h5>
+                </v-btn>
                 <!-- <v-btn color="#9ba3a5" outlined>新增主分類</v-btn> -->
               </div>
-              <!-- <div class="py-1 server-primary" v-for="i in 10" :key="i"> -->
               <div class="py-1 server-primary">
                 <v-text-field
-                  class="mr-4"
+                  class="search mr-4"
                   value="C-A 棟"
                   readonly
                   dense
                   hide-details
                   outlined
                 ></v-text-field>
-                <div class="server-primary-btn">
-                  <img src="/images/HardwareDistribution/pen.png" />
-                </div>
-                <div class="server-primary-btn">
-                  <img src="/images/HardwareDistribution/trash-1.png" />
-                </div>
+                <v-btn v-on="on" small icon color="rgba(0, 0, 0, 0.1)">
+                  <v-icon small>mdi-pencil</v-icon>
+                </v-btn>
+                <v-btn v-on="on" small icon color="rgba(0, 0, 0, 0.1)">
+                  <v-icon small>mdi-delete</v-icon>
+                </v-btn>
               </div>
             </v-col>
             <v-col cols="9" class="px-0">
-              <div class="py-1 camera-pages">
-                <button class="server-add-btn">
-                  <img src="/images/HardwareDistribution/add.png" />新增區
-                </button>
+              <div class="py-2 camera-pages d-flex">
+                <v-btn v-on="on" outlined text color="#4f5e62" class="mt-1">
+                  <v-icon left>mdi-plus-circle-outline</v-icon>
+                  <h5>新增區</h5>
+                </v-btn>
+
                 <Pagination
                   :totle="pagaTotle"
-                  width="477px"
-                  pag_class="asdas"
+                  width="500px"
                   @toggle="setPage"
+                  pagClass="asdas"
+                  class="edit_pagination py-0 my-0"
+                  style="padding-bottom:5px"
                 />
                 <!-- 
                   1.totle=總分頁數 
@@ -213,19 +252,19 @@
               <div class="server-primary-flex">
                 <div v-for="j in 30" :key="j" class="py-1 server-primary mr-11">
                   <v-text-field
-                    class="mr-4"
+                    class="search mr-4"
                     :value="'C-A-' + j + '棟'"
                     readonly
                     dense
                     hide-details
                     outlined
                   ></v-text-field>
-                  <div class="server-primary-btn">
-                    <img src="/images/HardwareDistribution/pen.png" />
-                  </div>
-                  <div class="server-primary-btn">
-                    <img src="/images/HardwareDistribution/trash-1.png" />
-                  </div>
+                  <v-btn v-on="on" small icon color="rgba(0, 0, 0, 0.1)">
+                    <v-icon small>mdi-pencil</v-icon>
+                  </v-btn>
+                  <v-btn v-on="on" small icon color="rgba(0, 0, 0, 0.1)">
+                    <v-icon small>mdi-delete</v-icon>
+                  </v-btn>
                 </div>
               </div>
             </v-col>
@@ -248,7 +287,7 @@ export default {
     server: ['A 棟', 'B 棟', 'C 棟', 'D 棟', 'E 棟', 'F 棟'],
     search: null,
     // 分頁
-    pagaTotle: 10,
+    pagaTotle: 2,
   }),
 
   methods: {
@@ -301,10 +340,10 @@ export default {
   align-content: flex-start;
 }
 /* 相機管理 */
-.camera-pages {
+/* .camera-pages {
   display: flex;
   height: 47px;
-}
+} */
 
 /* 左側浮動按鈕 */
 .drawer {

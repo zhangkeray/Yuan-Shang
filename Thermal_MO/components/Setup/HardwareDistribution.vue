@@ -29,108 +29,104 @@
         </v-card-title>
         <v-divider class="mx-4"></v-divider>
         <v-card-text class="pt-2 px-4">
-          <v-row class="pa-1">
-            <v-col cols="4">主位置</v-col>
-            <v-col cols="8"
-              >次位置
-              <div>
-                <!-- <v-btn
-                  icon
-                  @click="buttonCallback"
-                  style="
-                    color: #4f5e62;
-                    margin-right: 8px;
-                    margin-top: 5px;
-                    border: 1px solid rgba(0, 0, 0, 0.1);
-                  "
-                >
-                  <v-icon style="padding-left: 1.6px">mdi-reload</v-icon>
-                </v-btn>
-                <v-btn
-                  icon
-                  @click="buttonCallback"
-                  outlined
-                  style="
-                    color: #4f5e62;
-                    margin-right: 8px;
-                    margin-top: 5px;
-                    border: 1px solid rgba(0, 0, 0, 0.1);
-                  "
-                >
-                  <v-icon>mdi-lightning-bolt-circle</v-icon>
-                </v-btn> -->
-              </div>
-              <div></div>
-            </v-col>
+          <v-row>
+            <v-col cols="4" class="py-0"
+              ><v-card-title class="font px-0"
+                ><h5>主位置</h5></v-card-title
+              ></v-col
+            >
+            <v-col cols="8" class="py-0"
+              ><v-card-title class="font px-0"
+                ><h5>次位置</h5></v-card-title
+              ></v-col
+            >
           </v-row>
-          <v-divider ></v-divider>
+          <v-divider></v-divider>
           <v-row class="pa-1">
             <v-col cols="3">
-              <div class="py-2">
-                <v-btn v-on="on" outlined text color="#4f5e62" class="mt-1">
-                  <v-icon left>mdi-plus-circle-outline</v-icon>
-                  <h5>新增棟</h5>
-                </v-btn>
-                <!-- <v-btn color="#9ba3a5" outlined>新增主分類</v-btn> -->
-              </div>
-              <div class="py-1 server-primary">
-                <v-text-field
-                  class="search mr-4"
-                  value="S-A 棟"
-                  readonly
-                  dense
-                  hide-details
-                  outlined
-                ></v-text-field>
-                <v-btn v-on="on" small icon color="rgba(0, 0, 0, 0.1)">
-                  <v-icon small>mdi-pencil</v-icon>
-                </v-btn>
-                <v-btn v-on="on" small icon color="rgba(0, 0, 0, 0.1)">
-                  <v-icon small>mdi-delete</v-icon>
-                </v-btn>
-              </div>
-            </v-col>
-            <v-col cols="9" class="px-0">
-              <div class="py-2 camera-pages d-flex">
-                <v-btn v-on="on" outlined text color="#4f5e62" class="mt-1">
-                  <v-icon left>mdi-plus-circle-outline</v-icon>
-                  <h5>新增區</h5>
-                </v-btn>
-
-                <Pagination
-                  :totle="pagaTotle"
-                  width="500px"
-                  @toggle="setPage"
-                  pagClass="asdas"
-                  class="edit_pagination py-0 my-0"
-                  style="padding-bottom:5px"
-                />
-                <!-- 
-                  1.totle=總分頁數 
-                  2.@toggle=回傳目前選擇的分頁 
-                  3.width=總寬度 
-                  4.pag_class = 如果要覆蓋分頁按鈕style，請自行使用此參數，加上自訂class
-                -->
-              </div>
-              <div class="server-primary-flex">
-                <div v-for="j in 30" :key="j" class="py-1 server-primary mr-11">
+              <v-data-table
+                class="hardhare_table"
+                :headers="headers"
+                :items="desserts"
+                :search="search"
+                fixed-header
+                height="490px"
+                hide-default-footer
+                hide-default-header
+                max-width="600"
+              >
+                <v-divider inset></v-divider>
+                <template v-slot:top>
+                  <v-btn
+                    v-on="on"
+                    outlined
+                    text
+                    color="#4f5e62"
+                    class="mt-1"
+                    @click="addNew"
+                  >
+                    <v-icon left>mdi-plus-circle-outline</v-icon>
+                    <h5>新增棟</h5>
+                  </v-btn>
+                </template>
+                <template v-slot:[`item.name`]="{ item }">
                   <v-text-field
-                    class="search mr-4"
-                    :value="'S-A-' + j + '棟'"
-                    readonly
+                    v-model="editedItem.name"
+                    :hide-details="true"
                     dense
-                    hide-details
+                    single-line
+                    :autofocus="true"
+                    v-if="item.id === editedItem.id"
+                    class="hardware_text"
                     outlined
                   ></v-text-field>
-                  <v-btn v-on="on" small icon color="rgba(0, 0, 0, 0.1)">
-                    <v-icon small>mdi-pencil</v-icon>
-                  </v-btn>
-                  <v-btn v-on="on" small icon color="rgba(0, 0, 0, 0.1)">
-                    <v-icon small>mdi-delete</v-icon>
-                  </v-btn>
-                </div>
-              </div>
+                  <v-text-field
+                    :hide-details="true"
+                    dense
+                    single-line
+                    :autofocus="true"
+                    v-else
+                    class="hardware_text"
+                    disabled
+                    outlined
+                    v-model="item.name"
+                  ></v-text-field>
+                </template>
+                <template v-slot:[`item.calories`]="{ item }">
+                  <v-text-field
+                    v-model="editedItem.calories"
+                    :hide-details="true"
+                    dense
+                    single-line
+                    v-if="item.id === editedItem.id"
+                  ></v-text-field>
+                  <span v-else>{{ item.calories }}</span>
+                </template>
+                <template v-slot:[`item.actions`]="{ item }">
+                  <div v-if="item.id === editedItem.id" class="pr-3">
+                    <v-btn x-small icon plain @click="close">
+                      <v-icon small class=""> mdi-window-close </v-icon>
+                    </v-btn>
+                    <v-btn x-small icon plain @click="save">
+                      <v-icon small> mdi-content-save </v-icon>
+                    </v-btn>
+                  </div>
+                  <div v-else class="pr-3">
+                    <v-btn x-small icon plain @click="editItem(item)">
+                      <v-icon small> mdi-pencil </v-icon>
+                    </v-btn>
+                    <v-btn x-small icon plain @click="deleteItem(item)">
+                      <v-icon small> mdi-delete </v-icon>
+                    </v-btn>
+                  </div>
+                </template>
+                <template v-slot:no-data>
+                  <v-btn color="primary" @click="initialize">Reset</v-btn>
+                </template>
+              </v-data-table>
+              <!-- --- -->
             </v-col>
+            
           </v-row>
         </v-card-text>
 
@@ -200,11 +196,18 @@
               <div></div>
             </v-col>
           </v-row>
-          <v-divider ></v-divider>
+          <v-divider></v-divider>
           <v-row class="pa-1">
             <v-col cols="3">
               <div class="py-2">
-                <v-btn v-on="on" outlined text color="#4f5e62" class="mt-1">
+                <v-btn
+                  v-on="on"
+                  outlined
+                  text
+                  color="#4f5e62"
+                  class="mt-1"
+                  @click="addNew"
+                >
                   <v-icon left>mdi-plus-circle-outline</v-icon>
                   <h5>新增棟</h5>
                 </v-btn>
@@ -240,7 +243,7 @@
                   @toggle="setPage"
                   pagClass="asdas"
                   class="edit_pagination py-0 my-0"
-                  style="padding-bottom:5px"
+                  style="padding-bottom: 5px"
                 />
                 <!-- 
                   1.totle=總分頁數 
@@ -288,12 +291,74 @@ export default {
     search: null,
     // 分頁
     pagaTotle: 2,
+
+    headers: [
+      {
+        text: 'Dessert (100g serving)',
+        value: 'name',
+        sortable: false,
+      },
+      { text: 'Actions', value: 'actions', sortable: false, width: '100px' },
+    ],
+    desserts: [],
+    editedIndex: -1,
+    editedItem: {
+      id: 0,
+      name: '',
+      calories: 0,
+    },
+    defaultItem: {
+      id: 0,
+      name: 'A',
+      calories: 0,
+    },
   }),
+  created() {
+    this.initialize()
+  },
 
   methods: {
     // 分頁控制
     setPage(data) {
       console.log('選取:' + data)
+    },
+    initialize() {
+      this.desserts = [
+        {
+          id: 1,
+          name: 'A',
+        },
+      ]
+    },
+
+    editItem(item) {
+      this.editedIndex = this.desserts.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+    },
+
+    deleteItem(item) {
+      const index = this.desserts.indexOf(item)
+      confirm('Are you sure you want to delete this item?') &&
+        this.desserts.splice(index, 1)
+    },
+
+    close() {
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      }, 300)
+    },
+    addNew() {
+      const addObj = Object.assign({}, this.defaultItem)
+      addObj.id = this.desserts.length + 1
+      this.desserts.unshift(addObj)
+      this.editItem(addObj)
+    },
+    save() {
+      if (this.editedIndex > -1) {
+        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+      }
+      this.close()
     },
   },
 }
@@ -537,6 +602,39 @@ export default {
   > .v-input__slot
   fieldset {
   color: rgba(0, 0, 0, 0.1);
+}
+
+.hardware_text .v-input__slot {
+  min-height: 36px !important;
+  width: 80px !important;
+  font-size: 13px;
+}
+
+.hardware_text input {
+  color: #4f5e62 !important;
+}
+.hardware_text .v-input__slot .v-icon {
+  font-size: 20px;
+}
+
+.hardware_text .v-input__slot .v-label {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.1);
+
+  // padding: 0px 0px 0px 0px;
+}
+
+.theme--light.hardware_text.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state)
+  > .v-input__control
+  > .v-input__slot
+  fieldset {
+  color: rgba(0, 0, 0, 0.1);
+}
+
+.hardhare_table tbody {
+  tr:hover {
+    background-color: transparent !important;
+  }
 }
 </style>
 <style>
