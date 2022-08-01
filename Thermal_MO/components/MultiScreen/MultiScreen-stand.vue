@@ -770,6 +770,48 @@
                 hide-details
               ></v-select>
               <div>上次更新時間：2022/05/22 19:30:00</div>
+              <div class="w-100 text-right">
+                <v-menu
+                  :close-on-content-click="false"
+                  offset-y
+                  min-width="350px"
+                  nudge-bottom="8px"
+                  nudge-left="317px"
+                  max-height="300px"
+                >
+                  <!-- <v-tooltip top> -->
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-tooltip left>
+                      <template v-slot:activator="{ on: tooltip }">
+                        <v-btn
+                          class="btu-setting"
+                          fab
+                          x-small
+                          v-bind="attrs"
+                          v-on="{ ...tooltip, ...on }"
+                        >
+                          <img
+                            class=""
+                            alt="line"
+                            src="/images/story-icon.png"
+                            width="70%"
+                          />
+                        </v-btn>
+                      </template>
+                      <span>歷史ROI編輯項目</span>
+                    </v-tooltip>
+                  </template>
+                  <!-- </v-tooltip> -->
+
+                  <v-card class="pa-3" color="rgb(255 255 255 / 50%)">
+                    <div class="frame-hard-cam-log">
+                      <div class="mt-1 mr-2 px-4" v-for="ie in 100" :key="ie">
+                        2022/07/27 03:01 新增區域6
+                      </div>
+                    </div>
+                  </v-card>
+                </v-menu>
+              </div>
             </div>
             <div class="frame mt-1">
               <div id="cover" class="cover">
@@ -948,10 +990,10 @@
                 <template #default>
                   <thead>
                     <tr>
-                      <th class="text-center" style="height:25px;">項目</th>
-                      <th class="text-center" style="height:25px;">監測溫度</th>
-                      <th class="text-center" style="height:25px;">設定警報</th>
-                      <th class="text-center" style="height:25px;">刪除</th>
+                      <th class="text-center" style="height: 25px">項目</th>
+                      <th class="text-center" style="height: 25px">監測溫度</th>
+                      <th class="text-center" style="height: 25px">設定警報</th>
+                      <th class="text-center" style="height: 25px">刪除</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1287,11 +1329,21 @@
                 <template #default>
                   <thead>
                     <tr>
-                      <th class="text-center alarmLogth" style="height:25px;">項目</th>
-                      <th class="text-center alarmLogth" style="height:25px;">觸發時間</th>
-                      <th class="text-center alarmLogth" style="height:25px;">監測溫度</th>
-                      <th class="text-center alarmLogth" style="height:25px;">警報溫度</th>
-                      <th class="text-center alarmLogth" style="height:25px;">開始時間</th>
+                      <th class="text-center alarmLogth" style="height: 25px">
+                        項目
+                      </th>
+                      <th class="text-center alarmLogth" style="height: 25px">
+                        觸發時間
+                      </th>
+                      <th class="text-center alarmLogth" style="height: 25px">
+                        監測溫度
+                      </th>
+                      <th class="text-center alarmLogth" style="height: 25px">
+                        警報溫度
+                      </th>
+                      <th class="text-center alarmLogth" style="height: 25px">
+                        開始時間
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -2834,7 +2886,7 @@ export default {
   font-size: 17px;
   color: #80898c;
   display: grid;
-  grid-template-columns: 46px 93px 306px 383px;
+  grid-template-columns: 46px 93px 306px 383px 95px;
 }
 
 .frame {
@@ -2890,6 +2942,15 @@ export default {
   height: 15px;
   border-radius: 15px;
   background-color: #8ab284;
+}
+.frame-hard-cam-log {
+  max-height: 268px;
+  overflow-y: scroll;
+}
+.frame-hard-cam-log > div{
+  background-color: #F0F2F3;
+  font-size: 14px;
+  color: #4f5e62;
 }
 .arrow {
   height: 23px;
@@ -2975,10 +3036,10 @@ export default {
   color: #505f62;
   padding-top: 8px;
 }
-.alarm-btn-icon{
+.alarm-btn-icon {
   width: 28px;
-    height: 28px;
-    background-color: #f2f4f4;
+  height: 28px;
+  background-color: #f2f4f4;
 }
 .text-color >>> .v-text-field__slot input {
   color: #9ba3a5;

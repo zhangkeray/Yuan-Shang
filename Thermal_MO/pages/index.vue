@@ -508,20 +508,25 @@
                           <v-menu :close-on-content-click="false" offset-y>
                             <!-- <v-tooltip top> -->
                             <template v-slot:activator="{ on, attrs }">
-                              <v-btn
-                                class="btu-setting"
-                                fab
-                                x-small
-                                v-bind="attrs"
-                                v-on="on"
-                              >
-                                <img
-                                  class=""
-                                  alt="line"
-                                  src="/images/setting.png"
-                                  width="70%"
-                                />
-                              </v-btn>
+                              <v-tooltip top>
+                                <template v-slot:activator="{ on: tooltip }">
+                                  <v-btn
+                                    class="btu-setting"
+                                    fab
+                                    x-small
+                                    v-bind="attrs"
+                                    v-on="{ ...tooltip, ...on }"
+                                  >
+                                    <img
+                                      class=""
+                                      alt="line"
+                                      src="/images/setting.png"
+                                      width="70%"
+                                    />
+                                  </v-btn>
+                                </template>
+                                <span>畫面設定</span>
+                              </v-tooltip>
                             </template>
                             <!-- </v-tooltip> -->
 
@@ -736,22 +741,26 @@
                               <v-tab v-bind="attrs" v-on="on"
                                 ><img
                                   class="tab-icon"
-                                  src="/images/exclamation.png"
+                                  src="/images/wifi.png"
                                 />{{ tabcontent[1] }}</v-tab
                               >
                             </template>
-                            <span>通知</span>
+                            <span>連線項目</span>
                           </v-tooltip>
                           <v-tooltip top>
                             <template v-slot:activator="{ on, attrs }">
                               <v-tab v-bind="attrs" v-on="on"
                                 ><img
                                   class="tab-icon"
-                                  src="/images/wifi.png"
+                                  src="/images/wifi-1.png"
+                                  style="
+                                    width: 34px !important;
+                                    margin-top: 6px;
+                                  "
                                 />{{ tabcontent[2] }}</v-tab
                               >
                             </template>
-                            <span>連線項目</span>
+                            <span>連線歷史</span>
                           </v-tooltip>
                           <v-tooltip top>
                             <template v-slot:activator="{ on, attrs }">
@@ -767,7 +776,7 @@
                           <!-- 超溫警報 -->
                           <v-tab-item>
                             <div class="Overtemperature-Alert">
-                              <div class="py-2">
+                              <div class="pt-2">
                                 <strong class="Alert-title"
                                   >超溫項目警報</strong
                                 >
@@ -805,70 +814,221 @@
                               </div>
                             </div>
                           </v-tab-item>
-                          <!-- 通知 -->
+                          <!-- 連線項目 -->
                           <v-tab-item>
-                            <div class="mags-cover py-3">
-                              <strong class="Alert-title">操作通知</strong>
+                            <div class="mags-cover py-0 px-3">
+                              <v-tabs centered class="custom-tabs">
+                                <v-tab
+                                  ><div class="d-flex mx-5">
+                                    <div class="mags-point _8ab284"></div>
+                                    連線
+                                  </div></v-tab
+                                >
+                                <v-tab
+                                  ><div class="d-flex mx-5">
+                                    <div class="mags-point _de8788"></div>
+                                    異常
+                                  </div></v-tab
+                                >
+                                <v-tab
+                                  ><div class="d-flex mx-5">
+                                    <div class="mags-point _d7dbdb"></div>
+                                    離線
+                                  </div></v-tab
+                                >
+                                <v-tab-item
+                                  ><div class="connect-cover">
+                                    <div>
+                                      <div class="mt-3">
+                                        <strong class="Alert-title"
+                                          >相機</strong
+                                        >
+                                      </div>
+                                      <v-data-table
+                                        :headers="connectHeaders"
+                                        :items="connectDesserts"
+                                        disable-pagination
+                                        hide-default-footer
+                                        height="250px"
+                                        class=""
+                                      >
+                                        <template
+                                          v-slot:[`item.status`]="{ item }"
+                                        >
+                                          <div class="connect-icon">
+                                            <img :src="item.status" />
+                                          </div>
+                                        </template>
+                                      </v-data-table>
+                                    </div>
+                                    <div>
+                                      <div>
+                                        <div class="mt-3">
+                                          <strong class="Alert-title"
+                                            >其他裝置</strong
+                                          >
+                                        </div>
+                                        <v-data-table
+                                          :headers="otherDevicesHeaders"
+                                          :items="otherDevicesDesserts"
+                                          disable-pagination
+                                          hide-default-footer
+                                          height="240px"
+                                          class=""
+                                        >
+                                          <template
+                                            v-slot:[`item.status`]="{ item }"
+                                          >
+                                            <div class="connect-icon">
+                                              <div
+                                                v-if="item.status === 0"
+                                                class="status-open"
+                                              ></div>
+                                              <div
+                                                v-else
+                                                class="status-off"
+                                              ></div>
+                                            </div>
+                                          </template>
+                                        </v-data-table>
+                                      </div>
+                                    </div></div
+                                ></v-tab-item>
+                                <v-tab-item
+                                  ><div class="connect-cover">
+                                    <div>
+                                      <div class="mt-3">
+                                        <strong class="Alert-title"
+                                          >相機</strong
+                                        >
+                                      </div>
+                                      <v-data-table
+                                        :headers="connectHeaders"
+                                        :items="connectDesserts"
+                                        disable-pagination
+                                        hide-default-footer
+                                        height="250px"
+                                        class=""
+                                      >
+                                        <template
+                                          v-slot:[`item.status`]="{ item }"
+                                        >
+                                          <div class="connect-icon">
+                                            <img :src="item.status" />
+                                          </div>
+                                        </template>
+                                      </v-data-table>
+                                    </div>
+                                    <div>
+                                      <div>
+                                        <div class="mt-3">
+                                          <strong class="Alert-title"
+                                            >其他裝置</strong
+                                          >
+                                        </div>
+                                        <v-data-table
+                                          :headers="otherDevicesHeaders"
+                                          :items="otherDevicesDesserts"
+                                          disable-pagination
+                                          hide-default-footer
+                                          height="240px"
+                                          class=""
+                                        >
+                                          <template
+                                            v-slot:[`item.status`]="{ item }"
+                                          >
+                                            <div class="connect-icon">
+                                              <div
+                                                v-if="item.status === 0"
+                                                class="status-open"
+                                              ></div>
+                                              <div
+                                                v-else
+                                                class="status-off"
+                                              ></div>
+                                            </div>
+                                          </template>
+                                        </v-data-table>
+                                      </div>
+                                    </div></div
+                                ></v-tab-item>
+                                <v-tab-item
+                                  ><div class="connect-cover">
+                                    <div>
+                                      <div class="mt-3">
+                                        <strong class="Alert-title"
+                                          >相機</strong
+                                        >
+                                      </div>
+                                      <v-data-table
+                                        :headers="connectHeaders"
+                                        :items="connectDesserts"
+                                        disable-pagination
+                                        hide-default-footer
+                                        height="250px"
+                                        class=""
+                                      >
+                                        <template
+                                          v-slot:[`item.status`]="{ item }"
+                                        >
+                                          <div class="connect-icon">
+                                            <img :src="item.status" />
+                                          </div>
+                                        </template>
+                                      </v-data-table>
+                                    </div>
+                                    <div>
+                                      <div>
+                                        <div class="mt-3">
+                                          <strong class="Alert-title"
+                                            >其他裝置</strong
+                                          >
+                                        </div>
+                                        <v-data-table
+                                          :headers="otherDevicesHeaders"
+                                          :items="otherDevicesDesserts"
+                                          disable-pagination
+                                          hide-default-footer
+                                          height="240px"
+                                          class=""
+                                        >
+                                          <template
+                                            v-slot:[`item.status`]="{ item }"
+                                          >
+                                            <div class="connect-icon">
+                                              <div
+                                                v-if="item.status === 0"
+                                                class="status-open"
+                                              ></div>
+                                              <div
+                                                v-else
+                                                class="status-off"
+                                              ></div>
+                                            </div>
+                                          </template>
+                                        </v-data-table>
+                                      </div>
+                                    </div></div
+                                ></v-tab-item>
+                              </v-tabs>
+                            </div>
+                          </v-tab-item>
+                          <!-- 連線歷史 -->
+                          <v-tab-item>
+                            <div class="mags-cover py-0">
+                              <div class="mt-3">
+                                <strong class="Alert-title">相機</strong>
+                              </div>
                               <div class="Alert-txt2 py-3">
                                 <div v-for="iee in 100" :key="iee" class="my-1">
                                   <div class="Alert-background">
                                     <span class="Alert-font px-5"
-                                      >2022/07/27 03:11 Cam-s1-58 區域{{
-                                        iee
+                                      >2022/07/27 03:11 Cam-s1-58
+                                      {{
+                                        iee % 2 == 0 ? '斷線' : '重新連線'
                                       }}</span
                                     >
                                   </div>
-                                </div>
-                              </div>
-                            </div>
-                          </v-tab-item>
-                          <!-- 連線項目 -->
-                          <v-tab-item>
-                            <div class="connect-cover">
-                              <div>
-                                <div class="my-3">
-                                  <strong class="Alert-title">相機</strong>
-                                </div>
-                                <v-data-table
-                                  :headers="connectHeaders"
-                                  :items="connectDesserts"
-                                  disable-pagination
-                                  hide-default-footer
-                                  height="250px"
-                                  class=""
-                                >
-                                  <template v-slot:[`item.status`]="{ item }">
-                                    <div class="connect-icon">
-                                      <img :src="item.status" />
-                                    </div>
-                                  </template>
-                                </v-data-table>
-                              </div>
-                              <div>
-                                <div>
-                                  <div class="my-3">
-                                    <strong class="Alert-title"
-                                      >其他裝置</strong
-                                    >
-                                  </div>
-                                  <v-data-table
-                                    :headers="otherDevicesHeaders"
-                                    :items="otherDevicesDesserts"
-                                    disable-pagination
-                                    hide-default-footer
-                                    height="240px"
-                                    class=""
-                                  >
-                                    <template v-slot:[`item.status`]="{ item }">
-                                      <div class="connect-icon">
-                                        <div
-                                          v-if="item.status === 0"
-                                          class="status-open"
-                                        ></div>
-                                        <div v-else class="status-off"></div>
-                                      </div>
-                                    </template>
-                                  </v-data-table>
                                 </div>
                               </div>
                             </div>
@@ -1590,9 +1750,9 @@ export default {
       if (data === 0) {
         this.tabcontent = ['超溫警報', '', '', '']
       } else if (data === 1) {
-        this.tabcontent = ['', '通知', '', '']
+        this.tabcontent = ['', '連線項目', '', '']
       } else if (data === 2) {
-        this.tabcontent = ['', '', '連線項目', '']
+        this.tabcontent = ['', '', '連線歷史', '']
       } else if (data === 3) {
         this.tabcontent = ['', '', '', '書籤']
       }
@@ -2005,7 +2165,7 @@ export default {
 }
 
 .Alert-title {
-  font-size: 14px;
+  font-size: 17px;
   color: #4f5e62;
   letter-spacing: 1.4px;
 }
@@ -2036,7 +2196,21 @@ export default {
 .mags-cover {
   height: 585px;
 }
-
+._8ab284 {
+  background-color: #8ab284;
+}
+._de8788 {
+  background-color: #de8788;
+}
+._d7dbdb {
+  background-color: #d7dbdb;
+}
+.mags-point {
+  width: 12px;
+  height: 12px;
+  border-radius: 12px;
+  margin: 5px 9px 0 0px;
+}
 .connect-cover {
   display: grid;
   grid-template-rows: 295px 295px;
