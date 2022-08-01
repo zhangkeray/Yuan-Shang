@@ -417,6 +417,26 @@
                             </div>
                           </div>
                         </template>
+                        <template v-else-if="index01 === 0">
+                          <div class="ui-state-cover ui-empty">
+                            <!-- <img
+                              src="empty.png"
+                              class="test-cramre"
+                              :id="`test-cramre${index01}`"
+                              width="100%"
+                            /> -->
+                            <canvas
+                              class="test-cramre cam-canvas"
+                              :id="`test-cramre${index01}`"
+                            ></canvas>
+                            <div class="ui-state-default-footer">
+                              <div class="ui-state-default-point2"></div>
+                              <span
+                                >Cam-s1-55 A棟CS-01配電盤({{ index01 }})</span
+                              >
+                            </div>
+                          </div>
+                        </template>
                         <template v-else>
                           <div class="ui-state-cover ui-empty">
                             <!-- <img
@@ -1356,9 +1376,11 @@ export default {
       if (sum === 3) {
         // img.src = '/loadingBG.png'
       } else if (sum === 1) {
-        img.src = '/NOSIGNAL.jpg'
+        img.src = '/NOSIGNALv1.png'
+      } else if (sum === 0) {
+        img.src = '/DISABLEDv1.png'
       } else {
-        img.src = '/empty.png'
+        img.src = '/EMPTYv1.png'
       }
       sum++
     })
@@ -2338,6 +2360,13 @@ export default {
 }
 .ui-state-default-point1 {
   background-color: #de8788;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  margin: 0px 10px;
+}
+.ui-state-default-point2 {
+  background-color: #E5E7E7;
   width: 10px;
   height: 10px;
   border-radius: 10px;
