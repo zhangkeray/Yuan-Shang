@@ -897,17 +897,13 @@
                                           class=""
                                         >
                                           <template
-                                            v-slot:[`item.status`]="{ item }"
+                                            v-slot:[`item.status`]=""
                                           >
                                             <div class="connect-icon">
-                                              <div
-                                                v-if="item.status === 0"
-                                                class="status-open"
-                                              ></div>
-                                              <div
-                                                v-else
-                                                class="status-off"
-                                              ></div>
+                                              <img
+                                                src="/images/SERVERICON.png"
+                                                class="pa-1"
+                                              />
                                             </div>
                                           </template>
                                         </v-data-table>
@@ -2366,7 +2362,7 @@ export default {
   margin: 0px 10px;
 }
 .ui-state-default-point2 {
-  background-color: #E5E7E7;
+  background-color: #e5e7e7;
   width: 10px;
   height: 10px;
   border-radius: 10px;
